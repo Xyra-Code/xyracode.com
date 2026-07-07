@@ -1,0 +1,208 @@
+/**
+ * Contenido editable de la landing en un solo lugar.
+ * Para actualizar proyectos, métricas, servicios o datos de contacto,
+ * editá este archivo — no hace falta tocar los componentes.
+ */
+import {
+  ChartColumn,
+  Globe,
+  LayoutDashboard,
+  Map,
+  Palette,
+  ShoppingBag,
+  Smartphone,
+  Wrench,
+  Zap,
+  type LucideIcon,
+} from "lucide-react";
+import {
+  GitHubIcon,
+  InstagramIcon,
+  LinkedInIcon,
+  type BrandIcon,
+} from "@/components/ui/BrandIcons";
+
+// ---------- Contacto ----------
+
+export const CONTACT = {
+  email: "contacto@xyracode.com",
+  /** Solo dígitos con indicativo de país, formato wa.me. */
+  whatsapp: "573106790518",
+  /** Mensaje precargado al abrir el chat de WhatsApp. */
+  whatsappMessage:
+    "¡Hola XyraCode! Me gustaría contarles sobre un proyecto y pedir una cotización.",
+  location: "Villavicencio, Colombia",
+  /** Agenda pública de Cal.com; si se pone en null, el botón cae al mailto. */
+  calLink: "https://cal.com/xyracode/30min" as string | null,
+} as const;
+
+// ---------- Hero ----------
+
+export type Stat = { value: string; label: string };
+
+// PLACEHOLDER: métricas de ejemplo — reemplazar con datos reales (handoff §9).
+export const STATS: Stat[] = [
+  { value: "100%", label: "Código propio, sin plantillas" },
+  { value: "1:1", label: "Comunicación directa con el dev" },
+  { value: "48h", label: "Primera propuesta" },
+];
+
+// ---------- Trust strip ----------
+
+export const STACK = [
+  "React",
+  "Next.js",
+  "Node",
+  "TypeScript",
+  "Tailwind",
+  "PostgreSQL",
+] as const;
+
+// ---------- Servicios ----------
+
+export type Service = { icon: LucideIcon; title: string; desc: string };
+
+export const SERVICES: Service[] = [
+  {
+    icon: Globe,
+    title: "Sitios web",
+    desc: "Landing, corporativos y e-commerce rápidos, medibles y a medida.",
+  },
+  {
+    icon: LayoutDashboard,
+    title: "Web apps",
+    desc: "Plataformas y dashboards con foco en producto, datos y escala.",
+  },
+  {
+    icon: Smartphone,
+    title: "Apps móviles",
+    desc: "Apps iOS/Android con una base de código, listas para crecer.",
+  },
+  {
+    icon: Palette,
+    title: "Diseño UI/UX",
+    desc: "Interfaces claras y accesibles, del wireframe al sistema de diseño.",
+  },
+  {
+    icon: Zap,
+    title: "Performance",
+    desc: "Optimización de velocidad, SEO técnico y Core Web Vitals.",
+  },
+  {
+    icon: Wrench,
+    title: "Mantenimiento",
+    desc: "Soporte continuo, mejoras y monitoreo para que nada se caiga.",
+  },
+];
+
+// ---------- Proceso ----------
+
+export type Step = { title: string; desc: string };
+
+export const STEPS: Step[] = [
+  {
+    title: "Descubrimiento",
+    desc: "Entendemos tu negocio, objetivos y usuarios.",
+  },
+  { title: "Diseño", desc: "Prototipamos la solución y validamos contigo." },
+  {
+    title: "Desarrollo",
+    desc: "Construimos con código limpio y entregas por sprint.",
+  },
+  { title: "Lanzamiento", desc: "Deploy, medición y soporte post-launch." },
+];
+
+// ---------- Portfolio ----------
+
+export type Project = {
+  title: string;
+  type: string;
+  icon: LucideIcon; // ChartColumn = glifo "bar-chart-3" del handoff (renombrado en lucide 1.x)
+  bg: string;
+  tags: string[];
+  /** URL del caso/sitio. Si se omite, la tarjeta no es clickeable. */
+  href?: string;
+};
+
+// PLACEHOLDER: proyectos de ejemplo — reemplazar con casos reales (handoff §9).
+export const PROJECTS: Project[] = [
+  {
+    title: "Vuelo Carmesi",
+    type: "Landing, Reservas, E-commerce",
+    icon: ShoppingBag,
+    bg: "bg-[linear-gradient(150deg,#0F766E,#134E48)]",
+    tags: ["Next.js", "Stripe"],
+    href: "https://vuelocarmesi.com",
+  },
+  {
+    title: "Pulse Analytics",
+    type: "Web app · Dashboard",
+    icon: ChartColumn,
+    bg: "bg-[linear-gradient(150deg,#10B981,#059669)]",
+    tags: ["React", "Node"],
+  },
+  {
+    title: "Rumbo App",
+    type: "App móvil",
+    icon: Map,
+    bg: "bg-[linear-gradient(150deg,#14B8A6,#0d5f56)]",
+    tags: ["React Native"],
+  },
+];
+
+// ---------- Redes ----------
+
+export type Social = { label: string; href: string; icon: BrandIcon };
+
+// PLACEHOLDER: reemplazar con las URLs reales de cada perfil.
+export const SOCIALS: Social[] = [
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/company/xyra-code",
+    icon: LinkedInIcon,
+  },
+  { label: "GitHub", href: "https://github.com/Xyra-Code", icon: GitHubIcon },
+  {
+    label: "Instagram",
+    href: "https://instagram.com/xyracode",
+    icon: InstagramIcon,
+  },
+];
+
+// ---------- Footer ----------
+
+export type FooterLink = { label: string; href?: string; external?: boolean };
+export type FooterColumn = { title: string; items: FooterLink[] };
+
+export const FOOTER_COLUMNS: FooterColumn[] = [
+  {
+    title: "Servicios",
+    items: [
+      { label: "Sitios web", href: "#servicios" },
+      { label: "Apps a medida", href: "#servicios" },
+      { label: "Mantenimiento", href: "#servicios" },
+    ],
+  },
+  {
+    title: "Empresa",
+    items: [
+      { label: "Nosotros" },
+      { label: "Portfolio", href: "#portfolio" },
+      { label: "Contacto", href: "#contacto" },
+    ],
+  },
+  {
+    title: "Contacto",
+    items: [
+      { label: CONTACT.email, href: `mailto:${CONTACT.email}` },
+      {
+        label: "WhatsApp",
+        href: `https://wa.me/${CONTACT.whatsapp}?text=${encodeURIComponent(
+          CONTACT.whatsappMessage,
+        )}`,
+        external: true,
+      },
+      { label: CONTACT.location },
+    ],
+  },
+];

@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/dualtherapist-design-system-149c5f08-6c58-49aa-8e1a-fa4f71a41f2d/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/dualtherapist-design-system-149c5f08-6c58-49aa-8e1a-fa4f71a41f2d/tokens/colors.css">
+  <link rel="stylesheet" href="_ds/dualtherapist-design-system-149c5f08-6c58-49aa-8e1a-fa4f71a41f2d/tokens/typography.css">
+  <link rel="stylesheet" href="_ds/dualtherapist-design-system-149c5f08-6c58-49aa-8e1a-fa4f71a41f2d/tokens/spacing.css">
+  <link rel="stylesheet" href="_ds/dualtherapist-design-system-149c5f08-6c58-49aa-8e1a-fa4f71a41f2d/tokens/effects.css">
+  <link rel="stylesheet" href="_ds/dualtherapist-design-system-149c5f08-6c58-49aa-8e1a-fa4f71a41f2d/styles.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap">
+  <style>
+    * { box-sizing: border-box; }
+    .m-page { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; --teal:#0F766E; --teal2:#10B981; --ink:#0B1F1C; }
+    .eyebrow { font-size: 10px; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; }
+    .panel { border-radius: 20px; overflow:hidden; border:1px solid rgba(15,23,42,0.06); box-shadow: 0 20px 48px -30px rgba(11,31,28,0.4); background:#fff; }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+    h2.sec { font-weight:800; letter-spacing:-0.02em; font-size:13px; text-transform:uppercase; letter-spacing:0.16em; color:#0F766E; margin:0; }
+  </style>
+</helmet>
+<div class="m-page" style="width:100%; background:#F6FBFA; color:var(--ink);">
+
+  <!-- ============ HERO ============ -->
+  <div style="position:relative; overflow:hidden; background:linear-gradient(155deg,#0B1F1C 0%,#0d2b26 60%,#0F3D34 100%); padding:80px 56px 72px; color:#fff;">
+    <div style="position:absolute; top:-140px; right:-100px; width:460px; height:460px; border-radius:9999px; background:#10B981; opacity:0.20; filter:blur(120px);"></div>
+    <div style="position:absolute; bottom:-160px; left:-120px; width:460px; height:460px; border-radius:9999px; background:#14B8A6; opacity:0.16; filter:blur(120px);"></div>
+    <div style="position:relative; max-width:1100px; margin:0 auto; text-align:center;">
+      <div class="eyebrow" style="color:#5EEAD4; margin-bottom:26px;">Manual de marca · Xyra Code</div>
+      <img src="assets/xc-teal-mark-bright.png" alt="XyraCode" style="width:230px; height:auto; margin:0 auto 30px; display:block;">
+      <h1 style="font-weight:800; letter-spacing:-0.03em; font-size:60px; line-height:0.98; margin:0 0 18px;">Teal Esmeralda</h1>
+      <p style="font-size:18px; color:rgba(226,247,242,0.82); max-width:600px; margin:0 auto; line-height:1.55;">Sistema de identidad completo: logo en claro y oscuro, versiones, paleta extendida, tipografía y aplicación en la web.</p>
+    </div>
+  </div>
+
+  <div style="max-width:1160px; margin:0 auto; padding:64px 56px 90px;">
+
+    <!-- ============ LOGO PRINCIPAL ============ -->
+    <div style="display:flex; align-items:center; gap:14px; margin-bottom:24px;">
+      <h2 class="sec">01 · Logo principal</h2>
+      <div style="flex:1; height:1px; background:rgba(15,23,42,0.1);"></div>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-bottom:24px;">
+      <div class="panel">
+        <div style="height:280px; display:flex; align-items:center; justify-content:center; background:#fff;">
+          <img src="assets/xc-teal-light.png" alt="logo claro" style="width:78%; height:auto;">
+        </div>
+        <div style="padding:16px 22px; border-top:1px solid rgba(15,23,42,0.06);"><div class="eyebrow" style="color:#0F766E;">Sobre fondo claro</div><div style="font-size:12.5px; color:#64748B; margin-top:5px;">Uso preferente. Fondo blanco o #F6FBFA.</div></div>
+      </div>
+      <div class="panel" style="border-color:rgba(255,255,255,0.08);">
+        <div style="height:280px; display:flex; align-items:center; justify-content:center; background:#08110F;">
+          <img src="assets/xc-teal-dark.png" alt="logo oscuro" style="width:78%; height:auto;">
+        </div>
+        <div style="padding:16px 22px; background:#08110F; border-top:1px solid rgba(255,255,255,0.08);"><div class="eyebrow" style="color:#5EEAD4;">Sobre fondo oscuro</div><div style="font-size:12.5px; color:rgba(255,255,255,0.55); margin-top:5px;">Teal brillante para contraste sobre negro/ink.</div></div>
+      </div>
+    </div>
+
+    <!-- ============ ISOTIPO ============ -->
+    <div style="display:flex; align-items:center; gap:14px; margin:40px 0 24px;">
+      <h2 class="sec">02 · Isotipo (marca sola)</h2>
+      <div style="flex:1; height:1px; background:rgba(15,23,42,0.1);"></div>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:24px; margin-bottom:24px;">
+      <div class="panel"><div style="height:170px; display:flex; align-items:center; justify-content:center; background:#fff;"><img src="assets/xc-teal-mark.png" style="width:72%;"></div><div style="padding:13px 18px;"><div class="eyebrow" style="color:#0F766E;">Color</div></div></div>
+      <div class="panel" style="border-color:rgba(255,255,255,0.08);"><div style="height:170px; display:flex; align-items:center; justify-content:center; background:#08110F;"><img src="assets/xc-teal-mark-bright.png" style="width:72%;"></div><div style="padding:13px 18px; background:#08110F;"><div class="eyebrow" style="color:#5EEAD4;">Color / oscuro</div></div></div>
+      <div class="panel"><div style="height:170px; display:flex; align-items:center; justify-content:center; background:#0F766E;"><img src="assets/xc-teal-mark-white.png" style="width:72%;"></div><div style="padding:13px 18px;"><div class="eyebrow" style="color:#0F766E;">Blanco / reverso</div></div></div>
+      <div class="panel"><div style="height:170px; display:flex; align-items:center; justify-content:center; background:#fff; gap:14px;">
+        <div style="width:60px; height:60px; border-radius:15px; background:#0F766E; display:flex; align-items:center; justify-content:center;"><img src="assets/xc-teal-mark-white.png" style="width:66%;"></div>
+        <div style="width:38px; height:38px; border-radius:10px; background:#0F766E; display:flex; align-items:center; justify-content:center;"><img src="assets/xc-teal-mark-white.png" style="width:66%;"></div>
+      </div><div style="padding:13px 18px;"><div class="eyebrow" style="color:#0F766E;">Favicon / app</div></div></div>
+    </div>
+
+    <!-- ============ PALETA ============ -->
+    <div style="display:flex; align-items:center; gap:14px; margin:40px 0 24px;">
+      <h2 class="sec">03 · Paleta de color</h2>
+      <div style="flex:1; height:1px; background:rgba(15,23,42,0.1);"></div>
+    </div>
+
+    <!-- primary ramp -->
+    <div class="eyebrow" style="color:#64748B; margin-bottom:12px;">Primario · Teal</div>
+    <div style="display:grid; grid-template-columns:repeat(5,1fr); gap:10px; margin-bottom:22px;">
+      <sc-for list="{{ tealRamp }}" as="c" hint-placeholder-count="5">
+        <div>
+          <div style="height:78px; border-radius:12px; background: {{ c.hex }}; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05);"></div>
+          <div style="font-size:12px; font-weight:700; color:var(--ink); margin-top:8px;">{{ c.name }}</div>
+          <div class="mono" style="font-size:11px; color:#64748B;">{{ c.hex }}</div>
+        </div>
+      </sc-for>
+    </div>
+
+    <!-- secondary ramp -->
+    <div class="eyebrow" style="color:#64748B; margin-bottom:12px;">Secundario · Esmeralda</div>
+    <div style="display:grid; grid-template-columns:repeat(5,1fr); gap:10px; margin-bottom:22px;">
+      <sc-for list="{{ emeraldRamp }}" as="c" hint-placeholder-count="5">
+        <div>
+          <div style="height:78px; border-radius:12px; background: {{ c.hex }}; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05);"></div>
+          <div style="font-size:12px; font-weight:700; color:var(--ink); margin-top:8px;">{{ c.name }}</div>
+          <div class="mono" style="font-size:11px; color:#64748B;">{{ c.hex }}</div>
+        </div>
+      </sc-for>
+    </div>
+
+    <!-- neutrals -->
+    <div class="eyebrow" style="color:#64748B; margin-bottom:12px;">Neutros · Ink & Slate</div>
+    <div style="display:grid; grid-template-columns:repeat(6,1fr); gap:10px; margin-bottom:22px;">
+      <sc-for list="{{ neutrals }}" as="c" hint-placeholder-count="6">
+        <div>
+          <div style="height:66px; border-radius:12px; background: {{ c.hex }}; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08);"></div>
+          <div style="font-size:11.5px; font-weight:700; color:var(--ink); margin-top:8px;">{{ c.name }}</div>
+          <div class="mono" style="font-size:10.5px; color:#64748B;">{{ c.hex }}</div>
+        </div>
+      </sc-for>
+    </div>
+
+    <!-- accent + semantic -->
+    <div style="display:grid; grid-template-columns:1fr 2fr; gap:24px;">
+      <div>
+        <div class="eyebrow" style="color:#64748B; margin-bottom:12px;">Acento</div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+          <div><div style="height:66px; border-radius:12px; background:#F59E0B;"></div><div style="font-size:11.5px; font-weight:700; margin-top:8px;">Amber</div><div class="mono" style="font-size:10.5px; color:#64748B;">#F59E0B</div></div>
+          <div><div style="height:66px; border-radius:12px; background:#84CC16;"></div><div style="font-size:11.5px; font-weight:700; margin-top:8px;">Lima</div><div class="mono" style="font-size:10.5px; color:#64748B;">#84CC16</div></div>
+        </div>
+      </div>
+      <div>
+        <div class="eyebrow" style="color:#64748B; margin-bottom:12px;">Semánticos (estados)</div>
+        <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:10px;">
+          <div><div style="height:66px; border-radius:12px; background:#10B981;"></div><div style="font-size:11.5px; font-weight:700; margin-top:8px;">Éxito</div><div class="mono" style="font-size:10.5px; color:#64748B;">#10B981</div></div>
+          <div><div style="height:66px; border-radius:12px; background:#F59E0B;"></div><div style="font-size:11.5px; font-weight:700; margin-top:8px;">Alerta</div><div class="mono" style="font-size:10.5px; color:#64748B;">#F59E0B</div></div>
+          <div><div style="height:66px; border-radius:12px; background:#EF4444;"></div><div style="font-size:11.5px; font-weight:700; margin-top:8px;">Error</div><div class="mono" style="font-size:10.5px; color:#64748B;">#EF4444</div></div>
+          <div><div style="height:66px; border-radius:12px; background:#14B8A6;"></div><div style="font-size:11.5px; font-weight:700; margin-top:8px;">Info</div><div class="mono" style="font-size:10.5px; color:#64748B;">#14B8A6</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ TIPOGRAFIA ============ -->
+    <div style="display:flex; align-items:center; gap:14px; margin:44px 0 24px;">
+      <h2 class="sec">04 · Tipografía</h2>
+      <div style="flex:1; height:1px; background:rgba(15,23,42,0.1);"></div>
+    </div>
+    <div class="panel" style="padding:36px 40px;">
+      <div style="display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:12px; border-bottom:1px solid rgba(15,23,42,0.08); padding-bottom:20px; margin-bottom:24px;">
+        <div style="font-weight:800; font-size:40px; letter-spacing:-0.02em;">Plus Jakarta Sans</div>
+        <div class="mono" style="font-size:13px; color:#64748B;">300 · 400 · 500 · 700 · 800</div>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:34px;">
+        <div>
+          <div class="eyebrow" style="color:#0F766E; margin-bottom:8px;">Titular · Extrabold 800</div>
+          <div style="font-weight:800; font-size:40px; letter-spacing:-0.03em; line-height:1; color:var(--ink);">Construimos tu producto digital</div>
+          <div class="eyebrow" style="color:#0F766E; margin:26px 0 8px;">Subtítulo · Bold 700</div>
+          <div style="font-weight:700; font-size:22px; letter-spacing:-0.01em; color:#1E293B;">Desarrollo web, apps y a medida</div>
+        </div>
+        <div>
+          <div class="eyebrow" style="color:#0F766E; margin-bottom:8px;">Cuerpo · Regular 400 / Medium 500</div>
+          <div style="font-size:15px; line-height:1.6; color:#334155;">Diseñamos y programamos soluciones a medida para que tu negocio escale. Del prototipo a producción, con foco en performance y calidad de código.</div>
+          <div class="eyebrow" style="color:#0F766E; margin:22px 0 8px;">Etiqueta · Caps 800</div>
+          <div class="eyebrow" style="color:#64748B; font-size:12px;">Servicios · Portfolio · Contacto</div>
+          <div class="eyebrow" style="color:#0F766E; margin:22px 0 8px;">Código · JetBrains Mono</div>
+          <div class="mono" style="font-size:14px; color:#0F766E; background:#ECFDF5; padding:10px 14px; border-radius:8px;">const build = () =&gt; ship();</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ WEB ============ -->
+    <div style="display:flex; align-items:center; gap:14px; margin:44px 0 24px;">
+      <h2 class="sec">05 · En la web</h2>
+      <div style="flex:1; height:1px; background:rgba(15,23,42,0.1);"></div>
+    </div>
+
+    <!-- browser dark hero -->
+    <div class="panel" style="margin-bottom:24px; box-shadow:0 26px 60px -30px rgba(11,31,28,0.5);">
+      <div style="display:flex; align-items:center; gap:10px; padding:11px 16px; background:#0d1b18;">
+        <div style="display:flex; gap:6px;"><span style="width:11px;height:11px;border-radius:50%;background:#ff5f57;"></span><span style="width:11px;height:11px;border-radius:50%;background:#febc2e;"></span><span style="width:11px;height:11px;border-radius:50%;background:#28c840;"></span></div>
+        <div style="margin-left:10px; background:rgba(255,255,255,0.08); border-radius:7px; padding:6px 14px; font-size:12px; color:rgba(255,255,255,0.55);">xyracode.dev</div>
+      </div>
+      <div style="position:relative; overflow:hidden; background:linear-gradient(150deg,#08110F 0%,#0d2b26 100%); padding:26px 40px 56px;">
+        <div style="position:absolute; top:-80px; right:-40px; width:320px; height:320px; border-radius:9999px; background:#10B981; opacity:0.18; filter:blur(90px);"></div>
+        <!-- nav -->
+        <div style="position:relative; display:flex; align-items:center; justify-content:space-between; padding:8px 0 44px;">
+          <img src="assets/xc-teal-mark-bright.png" style="height:34px;">
+          <div style="display:flex; align-items:center; gap:26px;">
+            <span class="eyebrow" style="color:rgba(255,255,255,0.7); font-size:11px;">Servicios</span>
+            <span class="eyebrow" style="color:rgba(255,255,255,0.7); font-size:11px;">Portfolio</span>
+            <span class="eyebrow" style="color:rgba(255,255,255,0.7); font-size:11px;">Nosotros</span>
+            <span style="font-size:13px; font-weight:700; color:#08110F; background:#10B981; padding:9px 18px; border-radius:9px;">Cotizar</span>
+          </div>
+        </div>
+        <!-- hero content -->
+        <div style="position:relative; display:grid; grid-template-columns:1.1fr 0.9fr; gap:40px; align-items:center;">
+          <div>
+            <div class="eyebrow" style="color:#5EEAD4; margin-bottom:16px;">Agencia de desarrollo web</div>
+            <div style="font-weight:800; font-size:44px; line-height:1.02; letter-spacing:-0.03em; color:#fff; margin-bottom:18px;">Código que <span style="color:#5EEAD4;">impulsa</span> tu negocio</div>
+            <div style="font-size:15px; line-height:1.6; color:rgba(226,247,242,0.75); max-width:400px; margin-bottom:26px;">Sitios, apps y plataformas a medida. Del diseño a producción, rápido y sin fricción.</div>
+            <div style="display:flex; gap:12px;">
+              <span style="font-size:14px; font-weight:700; color:#08110F; background:#10B981; padding:12px 22px; border-radius:10px;">Empezar proyecto</span>
+              <span style="font-size:14px; font-weight:600; color:#fff; border:1px solid rgba(255,255,255,0.2); padding:12px 22px; border-radius:10px;">Ver portfolio</span>
+            </div>
+          </div>
+          <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(94,234,212,0.2); border-radius:14px; padding:20px; backdrop-filter:blur(8px);">
+            <div class="mono" style="font-size:12.5px; line-height:1.9;">
+              <div style="color:#5EEAD4;">$ xyra build</div>
+              <div style="color:rgba(255,255,255,0.5);">→ compilando…</div>
+              <div style="color:#34D399;">✓ deploy listo</div>
+              <div style="color:rgba(255,255,255,0.5);">→ https://tuapp.com</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- browser light section -->
+    <div class="panel">
+      <div style="display:flex; align-items:center; gap:10px; padding:11px 16px; background:#eef4f2;">
+        <div style="display:flex; gap:6px;"><span style="width:11px;height:11px;border-radius:50%;background:#ff5f57;"></span><span style="width:11px;height:11px;border-radius:50%;background:#febc2e;"></span><span style="width:11px;height:11px;border-radius:50%;background:#28c840;"></span></div>
+        <div style="margin-left:10px; background:#fff; border-radius:7px; padding:6px 14px; font-size:12px; color:#64748B;">🔒 xyracode.dev/servicios</div>
+      </div>
+      <div style="background:#F6FBFA; padding:38px 40px;">
+        <div style="display:flex; align-items:center; justify-content:space-between; padding-bottom:34px;">
+          <img src="assets/xc-teal-light.png" style="height:38px;">
+          <div style="display:flex; gap:24px; align-items:center;">
+            <span class="eyebrow" style="color:#64748B; font-size:11px;">Servicios</span>
+            <span class="eyebrow" style="color:#64748B; font-size:11px;">Portfolio</span>
+            <span style="font-size:13px; font-weight:700; color:#fff; background:#0F766E; padding:9px 18px; border-radius:9px;">Cotizar</span>
+          </div>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:18px;">
+          <sc-for list="{{ services }}" as="s" hint-placeholder-count="3">
+            <div style="background:#fff; border:1px solid rgba(15,23,42,0.06); border-radius:14px; padding:22px;">
+              <div style="width:44px; height:44px; border-radius:12px; background:#ECFDF5; display:flex; align-items:center; justify-content:center; margin-bottom:14px;">
+                <div style="width:18px; height:18px; border-radius:5px; background:#0F766E;"></div>
+              </div>
+              <div style="font-weight:700; font-size:16px; color:var(--ink); margin-bottom:6px;">{{ s.title }}</div>
+              <div style="font-size:13px; color:#64748B; line-height:1.5;">{{ s.desc }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      tealRamp: [
+        { name:'Teal 100', hex:'#CCFBF1' },
+        { name:'Teal 300', hex:'#5EEAD4' },
+        { name:'Teal 500', hex:'#14B8A6' },
+        { name:'Teal 700 · primario', hex:'#0F766E' },
+        { name:'Teal 900', hex:'#134E48' },
+      ],
+      emeraldRamp: [
+        { name:'Emerald 100', hex:'#D1FAE5' },
+        { name:'Emerald 400', hex:'#34D399' },
+        { name:'Emerald 500 · sec.', hex:'#10B981' },
+        { name:'Emerald 600', hex:'#059669' },
+        { name:'Emerald 800', hex:'#065F46' },
+      ],
+      neutrals: [
+        { name:'Ink', hex:'#0B1F1C' },
+        { name:'Slate 800', hex:'#1E293B' },
+        { name:'Slate 500', hex:'#64748B' },
+        { name:'Slate 300', hex:'#CBD5E1' },
+        { name:'Slate 100', hex:'#E9EEF2' },
+        { name:'Off-white', hex:'#F6FBFA' },
+      ],
+      services: [
+        { title:'Sitios web', desc:'Landing, corporativos y e-commerce rápidos y a medida.' },
+        { title:'Apps a medida', desc:'Web apps y móviles con foco en producto y escala.' },
+        { title:'Mantenimiento', desc:'Soporte, mejoras continuas y performance.' },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

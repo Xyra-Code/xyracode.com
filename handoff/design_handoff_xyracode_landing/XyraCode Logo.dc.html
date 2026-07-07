@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/dualtherapist-design-system-149c5f08-6c58-49aa-8e1a-fa4f71a41f2d/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/dualtherapist-design-system-149c5f08-6c58-49aa-8e1a-fa4f71a41f2d/tokens/colors.css">
+  <link rel="stylesheet" href="_ds/dualtherapist-design-system-149c5f08-6c58-49aa-8e1a-fa4f71a41f2d/tokens/typography.css">
+  <link rel="stylesheet" href="_ds/dualtherapist-design-system-149c5f08-6c58-49aa-8e1a-fa4f71a41f2d/tokens/spacing.css">
+  <link rel="stylesheet" href="_ds/dualtherapist-design-system-149c5f08-6c58-49aa-8e1a-fa4f71a41f2d/tokens/effects.css">
+  <link rel="stylesheet" href="_ds/dualtherapist-design-system-149c5f08-6c58-49aa-8e1a-fa4f71a41f2d/styles.css">
+  <style>
+    * { box-sizing: border-box; }
+    .xy-page { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; }
+    .xy-eyebrow { font-size: 10px; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; }
+    .xy-card { border-radius: 16px; box-shadow: 0 14px 34px -22px rgba(15,23,42,0.35); overflow:hidden; border:1px solid var(--border-subtle); }
+    .xy-logo { width:100%; height:150px; object-fit:contain; display:block; }
+    .xy-swatch { width:26px; height:26px; border-radius:7px; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08); }
+  </style>
+</helmet>
+<div class="xy-page" style="position:relative; min-height:100%; width:100%; background:var(--color-bg-therapist); overflow:hidden; padding:60px 48px 80px;">
+
+  <div style="position:absolute; top:-160px; right:-120px; width:500px; height:500px; border-radius:9999px; background:var(--navy-600); opacity:0.07; filter:blur(120px); pointer-events:none;"></div>
+  <div style="position:absolute; bottom:-180px; left:-140px; width:540px; height:540px; border-radius:9999px; background:var(--mint-500); opacity:0.09; filter:blur(120px); pointer-events:none;"></div>
+
+  <div style="position:relative; max-width:1160px; margin:0 auto;">
+
+    <div style="text-align:center; margin-bottom:44px;">
+      <div class="xy-eyebrow" style="color:var(--navy-500); margin-bottom:14px;">Tu logo · cada opción con su paleta</div>
+      <h1 style="font-weight:800; letter-spacing:-0.03em; font-size:46px; color:var(--text-strong); margin:0 0 12px;">XyraCode — Colores + paleta</h1>
+      <p style="font-size:16px; color:var(--text-muted); max-width:600px; margin:0 auto; line-height:1.5;">Cada versión es <strong style="color:var(--text-body);">tu misma imagen</strong> recoloreada, y debajo su <strong style="color:var(--text-body);">paleta sugerida</strong> (primario · secundario · fondo) para usar en la marca completa.</p>
+    </div>
+
+    <sc-for list="{{ groups }}" as="grp" hint-placeholder-count="4">
+      <div style="display:flex; align-items:center; gap:14px; margin:12px 0 20px;">
+        <div class="xy-eyebrow" style="color:var(--navy-500); white-space:nowrap;">{{ grp.title }}</div>
+        <div style="flex:1; height:1px; background:var(--border-default);"></div>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-bottom:34px;">
+        <sc-for list="{{ grp.items }}" as="v" hint-placeholder-count="6">
+          <div class="xy-card" style="background: {{ v.card }};">
+            <img class="xy-logo" src="{{ v.src }}" alt="{{ v.name }}">
+            <div style="padding:14px 18px 16px; border-top:1px solid {{ v.line }}; background: {{ v.card }};">
+              <div class="xy-eyebrow" style="color: {{ v.label }}; margin-bottom:11px;">{{ v.name }}</div>
+              <div style="display:flex; gap:8px; align-items:center;">
+                <sc-for list="{{ v.palette }}" as="chip" hint-placeholder-count="3">
+                  <div style="display:flex; flex-direction:column; align-items:center; gap:5px;">
+                    <div class="xy-swatch" style="background: {{ chip.hex }};"></div>
+                    <div style="font-size:8.5px; letter-spacing:0.04em; color: {{ v.hexLabel }};">{{ chip.hex }}</div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </sc-for>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const light = { card:'#ffffff', line:'rgba(15,23,42,0.06)', hexLabel:'#94a3b8' };
+    const dark  = { card:'#0a0a0f', line:'rgba(255,255,255,0.08)', hexLabel:'rgba(255,255,255,0.45)' };
+    // name, file, tone, labelColor, palette hex array
+    const V = (name, file, tone, label, palette) => ({
+      name, src:'assets/xc-'+file+'.png',
+      card: tone==='dark' ? dark.card : light.card,
+      line: tone==='dark' ? dark.line : light.line,
+      hexLabel: tone==='dark' ? dark.hexLabel : light.hexLabel,
+      label,
+      palette: palette.map(hex => ({ hex }))
+    });
+    return {
+      groups: [
+        { title:'Clásicas · profesionales', items:[
+          V('Azul + Cian','blue','light','#1E5AE8',['#1E5AE8','#22B8D6','#F7F7F5']),
+          V('Royal blue','royal','light','#2540B2',['#2540B2','#6084FF','#F7F7F5']),
+          V('Teal · Esmeralda','teal','light','#0E7C6B',['#0E7C6B','#16B892','#F7F7F5']),
+          V('Navy + Terracotta','terracotta','light','#C05C3A',['#1D285C','#D9734E','#F7F7F5']),
+          V('Bosque + Lima','forest','light','#166534',['#166534','#84CC16','#F7F7F5']),
+          V('Slate + Oro','slate-gold','light','#8A6D2A',['#1E293B','#CA9E4A','#F7F7F5']),
+        ]},
+        { title:'Vibrantes · atrevidas', items:[
+          V('Carmesí + Rosa','crimson','light','#9F1239',['#9F1239','#F4728C','#F7F7F5']),
+          V('Naranja + Ámbar','orange','light','#C2410C',['#C2410C','#F9A825','#F7F7F5']),
+          V('Índigo + Fucsia','indigo-pink','light','#7C3AED',['#4F46E5','#EC4899','#F7F7F5']),
+          V('Hielo azul','ice','light','#2563EB',['#3884FF','#94C5FF','#E8F0FF']),
+        ]},
+        { title:'Extremas · neón sobre negro', items:[
+          V('Cyberpunk','cyberpunk','dark','#22D3EE',['#22D3EE','#E83AC5','#08080E']),
+          V('Verde neón','neon-green','dark','#A3FF40',['#A3FF40','#38E078','#070A07']),
+          V('Eléctrico','electric','dark','#60A5FA',['#60A5FA','#F8FAFC','#0A0E22']),
+          V('Hot pink','hotpink','dark','#F43FB4',['#F43FB4','#9333EA','#0A0810']),
+          V('Oro sobre negro','gold-black','dark','#F5C542',['#F5C542','#FFFFFF','#0A0A0A']),
+          V('Lava','lava','dark','#FF7828',['#FF7828','#EF4444','#0E0808']),
+        ]},
+        { title:'Duotono · monocromo', items:[
+          V('Monocromo negro','mono-black','light','#16181D',['#16181D','#7A828F','#F7F7F5']),
+          V('Blanco sobre negro','mono-white','dark','#E5E9F0',['#FFFFFF','#B4BCC8','#0C0C12']),
+        ]},
+        { title:'Logo blanco · fondo de color', items:[
+          V('Sobre azul','on-blue','light','#1E40AF',['#1E40AF','#FFFFFF','#C9E0FF']),
+          V('Sobre terracotta','on-terra','light','#C14A2D',['#C14A2D','#FFFFFF','#FFE0D2']),
+          V('Sobre violeta','on-violet','light','#5B21B6',['#5B21B6','#FFFFFF','#DDD6FE']),
+          V('Sobre esmeralda','on-emerald','light','#065F46',['#065F46','#FFFFFF','#D1FAE5']),
+        ]},
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
