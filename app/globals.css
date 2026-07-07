@@ -1,0 +1,59 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: var(--font-jakarta);
+  --font-mono: var(--font-jetbrains);
+}
+
+/* Paleta de marca — handoff §6. Los tonos de escala (teal-300/700,
+   emerald-500, slate-500…) ya coinciden con los de Tailwind. */
+@theme {
+  --color-brand-primary: #0f766e; /* Teal 700 */
+  --color-brand-secondary: #10b981; /* Emerald 500 */
+  --color-brand-ink: #0b1f1c;
+  --color-brand-cream: #f6fbfa;
+
+  /* Fondos oscuros (hero / portfolio / nav / footer) */
+  --color-night: #08110f;
+  --color-night-mid: #0d2b26;
+  --color-night-deep: #0f3d34;
+  --color-night-footer: #050c0a;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Compensa la navbar sticky al navegar por anclas */
+  scroll-padding-top: 72px;
+}
+
+body {
+  background: var(--color-brand-cream);
+  color: var(--color-brand-ink);
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+/* Motion de entrada: fade-in + slide-up (handoff §5) */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.55s ease-out,
+    transform 0.55s ease-out;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
