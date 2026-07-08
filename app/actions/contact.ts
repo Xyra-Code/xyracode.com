@@ -40,11 +40,11 @@ export async function sendContact(
   }
 
   const errors: ContactErrors = {};
-  if (!nombre) errors.nombre = "Contanos tu nombre.";
+  if (!nombre) errors.nombre = "Cuéntanos tu nombre.";
   else if (nombre.length > 100) errors.nombre = "Máximo 100 caracteres.";
   if (!email) errors.email = "Necesitamos tu email para responderte.";
   else if (!EMAIL_RE.test(email)) errors.email = "Ese email no parece válido.";
-  if (!mensaje) errors.mensaje = "Contanos brevemente tu proyecto.";
+  if (!mensaje) errors.mensaje = "Cuéntanos brevemente tu proyecto.";
   else if (mensaje.length > 5000) errors.mensaje = "Máximo 5000 caracteres.";
 
   const values: ContactValues = { nombre, email, mensaje };
@@ -81,7 +81,7 @@ export async function sendContact(
       return {
         status: "error",
         errors: {
-          form: "No pudimos enviar tu mensaje. Probá de nuevo en un momento o escribinos por WhatsApp.",
+          form: "No pudimos enviar tu mensaje. Prueba de nuevo en un momento o escríbenos por WhatsApp.",
         },
         values,
       };

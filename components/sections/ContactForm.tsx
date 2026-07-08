@@ -29,7 +29,7 @@ export function ContactForm() {
         </div>
         <p className="text-[17px] font-bold">¡Mensaje enviado!</p>
         <p className="mt-1.5 text-sm text-slate-500">
-          Te respondemos en menos de 48 horas.
+          Te responderemos en el menor tiempo posible.
         </p>
       </div>
     );
@@ -71,7 +71,7 @@ export function ContactForm() {
           name="nombre"
           type="text"
           autoComplete="name"
-          placeholder="¿Cómo te llamás?"
+          placeholder="¿Cómo te llamas?"
           defaultValue={values.nombre}
           disabled={pending}
           aria-invalid={Boolean(errors.nombre)}
@@ -122,7 +122,7 @@ export function ContactForm() {
           id={`${id}-mensaje`}
           name="mensaje"
           rows={4}
-          placeholder="Contanos tu proyecto: qué necesitás, para cuándo…"
+          placeholder="Cuéntanos tu proyecto: qué necesitas, para cuándo…"
           defaultValue={values.mensaje}
           disabled={pending}
           aria-invalid={Boolean(errors.mensaje)}
@@ -151,7 +151,7 @@ export function ContactForm() {
       </button>
 
       <p className="mt-3 text-[11px] leading-normal text-slate-500">
-        Al enviar aceptás el tratamiento de tus datos para responder tu
+        Al enviar aceptas el tratamiento de tus datos para responder tu
         solicitud (Ley 1581 de 2012, Colombia).
       </p>
     </form>

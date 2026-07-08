@@ -36,15 +36,18 @@ export function Hero() {
           </Eyebrow>
           <h1
             id="hero-title"
-            className="mb-5.5 text-[38px] leading-none font-extrabold tracking-[-0.035em] md:text-[58px]"
+            className="mb-5.5 text-[34px] leading-[1.05] font-extrabold tracking-[-0.035em] md:text-[52px]"
           >
-            Código que <span className="text-teal-300">impulsa</span>
+            Desarrollo web y apps
+            <br />
+            a medida que{" "}
+            <span className="text-teal-300">impulsan</span>
             <br />
             tu negocio
           </h1>
           <p className="mb-8 max-w-115 text-[17px] leading-[1.6] text-[rgba(226,247,242,0.78)]">
-            Diseñamos y desarrollamos sitios, apps y plataformas a medida. Del
-            prototipo a producción — rápido, escalable y sin fricción.
+            Diseñamos sitios, apps y plataformas. Del prototipo a producción —
+            rápido, escalable y sin fricción.
           </p>
           <div className="flex flex-wrap gap-3.5">
             <Button href="#contacto">
