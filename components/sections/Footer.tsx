@@ -10,7 +10,7 @@ export function Footer() {
           <div className="max-w-70">
             <Image
               src="/assets/xc-teal-mark-bright.png"
-              alt="XyraCode"
+              alt=""
               width={51}
               height={30}
               className="mb-4 h-[30px] w-auto"
