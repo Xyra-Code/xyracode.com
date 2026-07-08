@@ -24,14 +24,14 @@ export function Navbar() {
         aria-label="Principal"
         className="mx-auto flex max-w-300 items-center justify-between px-5 py-3.5 sm:px-10"
       >
-        <Link href="/" aria-label="XyraCode — inicio">
+        <Link href="/" aria-label="XyraCode — inicio" className="flex items-center">
           <Image
-            src="/assets/xc-teal-mark-bright.png"
-            alt="XyraCode"
-            width={54}
-            height={32}
+            src="/assets/xc-teal-horizontal-trans (3).png"
+            alt=""
+            width={1883}
+            height={492}
             priority
-            className="h-8 w-auto"
+            className="h-14 w-auto"
           />
         </Link>
 

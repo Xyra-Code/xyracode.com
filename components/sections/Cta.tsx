@@ -21,7 +21,7 @@ export function Cta() {
         {/* Columna izquierda: mensaje + canales directos */}
         <div>
           <Eyebrow as="p" className="mb-4.5 text-teal-100">
-            ¿Tenés un proyecto?
+            ¿Tienes un proyecto?
           </Eyebrow>
           <h2
             id="contacto-title"
@@ -30,8 +30,8 @@ export function Cta() {
             Construyamos algo que funcione
           </h2>
           <p className="mb-8 max-w-105 text-[17px] leading-[1.55] text-[rgba(236,253,245,0.85)]">
-            Contanos tu idea y te enviamos una propuesta en 48 horas. Completá el
-            formulario o, si preferís, escribinos directo.
+            Cuéntanos tu idea y te enviamos una propuesta en 48 horas. Completa el
+            formulario o, si prefieres, escríbenos directo.
           </p>
           <div className="flex flex-wrap gap-3.5">
             <ScheduleButton />
