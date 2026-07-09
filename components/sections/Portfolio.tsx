@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { ProjectCarousel } from "@/components/sections/ProjectCarousel";
+import { Button } from "@/components/ui/Button";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Reveal } from "@/components/ui/Reveal";
 import { PROJECTS } from "@/lib/content";
@@ -33,60 +35,107 @@ export function Portfolio() {
           </div>
         </Reveal>
 
-        <ul className="grid gap-5 md:grid-cols-3">
-          {PROJECTS.map((project, i) => {
-            const card = (
-              <article className="h-full overflow-hidden rounded-2xl border border-white/8 bg-white/3 transition-all duration-[220ms] ease-out hover:-translate-y-[3px]">
-                <div
-                  className={`flex h-[170px] items-center justify-center ${project.bg}`}
-                >
-                  <project.icon
-                    size={38}
-                    className="text-white/90"
-                    aria-hidden
-                  />
-                </div>
-                <div className="px-5 py-4.5">
-                  <h3 className="mb-[5px] text-base font-bold">
-                    {project.title}
-                  </h3>
-                  <p className="mb-3 text-[12.5px] text-white/50">
-                    {project.type}
-                  </p>
-                  <ul className="flex flex-wrap gap-[7px]">
-                    {project.tags.map((tag) => (
-                      <li
-                        key={tag}
-                        className="rounded-md bg-teal-300/10 px-2.25 py-1 font-mono text-[10.5px] text-teal-300"
-                      >
-                        {tag}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </article>
-            );
-
-            return (
-              <li key={project.title}>
-                <Reveal delay={i * 60} className="h-full">
-                  {project.href ? (
-                    <a
-                      href={project.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`Ver proyecto: ${project.title}`}
-                      className="block h-full rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-teal-300"
-                    >
-                      {card}
-                    </a>
+        <ul className="grid gap-5 md:grid-cols-3 md:items-start">
+          {PROJECTS.map((project, i) => (
+            <li key={project.title}>
+              <Reveal delay={i * 60} className="h-full">
+                <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-white/8 bg-white/3 transition-all duration-[220ms] ease-out hover:-translate-y-[3px]">
+                  {project.images?.length ? (
+                    <ProjectCarousel
+                      images={project.images}
+                      className="aspect-11/5"
+                    />
                   ) : (
-                    card
+                    <div
+                      className={`flex aspect-11/5 items-center justify-center ${project.bg}`}
+                    >
+                      <project.icon
+                        size={38}
+                        className="text-white/90"
+                        aria-hidden
+                      />
+                    </div>
                   )}
-                </Reveal>
-              </li>
-            );
-          })}
+
+                  <div className="flex flex-1 flex-col px-5 py-5">
+                    <div className="mb-1.5 flex items-start justify-between gap-3">
+                      <h3 className="text-base font-bold">{project.title}</h3>
+                      {project.status ? (
+                        <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-teal-300/10 px-2.5 py-1 text-[10.5px] font-medium text-teal-300">
+                          <span
+                            className="size-1.5 rounded-full bg-teal-300"
+                            aria-hidden
+                          />
+                          {project.status}
+                        </span>
+                      ) : null}
+                    </div>
+
+                    {project.description ? (
+                      <p className="mb-2.5 text-[13px] leading-[1.5] text-white/65">
+                        {project.description}
+                      </p>
+                    ) : null}
+
+                    <p className="text-[12px] text-white/45">{project.type}</p>
+                    {project.role ? (
+                      <p className="mt-0.5 text-[12px] text-white/45">
+                        {project.role}
+                      </p>
+                    ) : null}
+
+                    <ul className="mt-3.5 flex flex-wrap gap-[7px]">
+                      {project.tags.map((tag) => (
+                        <li
+                          key={tag}
+                          className="rounded-md bg-teal-300/10 px-2.25 py-1 font-mono text-[10.5px] text-teal-300"
+                        >
+                          {tag}
+                        </li>
+                      ))}
+                    </ul>
+
+                    {project.features?.length ? (
+                      <ul className="mt-4 space-y-1.5">
+                        {project.features.map((feature) => (
+                          <li
+                            key={feature}
+                            className="flex gap-2 text-[12px] leading-[1.45] text-white/60"
+                          >
+                            <span
+                              className="mt-[7px] size-1 shrink-0 rounded-full bg-teal-300"
+                              aria-hidden
+                            />
+                            {feature}
+                          </li>
+                        ))}
+                      </ul>
+                    ) : null}
+
+                    {project.href || project.caseStudyHref ? (
+                      <div className="mt-auto flex flex-wrap gap-2.5 pt-5">
+                        {project.href ? (
+                          <Button href={project.href} target="_blank" size="sm">
+                            Ver sitio
+                          </Button>
+                        ) : null}
+                        {project.caseStudyHref ? (
+                          <Button
+                            href={project.caseStudyHref}
+                            variant="ghost"
+                            size="sm"
+                            className="border-white/20"
+                          >
+                            Caso de estudio
+                          </Button>
+                        ) : null}
+                      </div>
+                    ) : null}
+                  </div>
+                </article>
+              </Reveal>
+            </li>
+          ))}
         </ul>
       </div>
     </section>
