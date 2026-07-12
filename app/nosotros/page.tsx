@@ -1,6 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
+import type { ReactNode } from "react";
 import { Footer } from "@/components/sections/Footer";
 import { Navbar } from "@/components/sections/Navbar";
 import { WhatsAppIcon } from "@/components/ui/BrandIcons";
@@ -17,7 +18,7 @@ import {
 } from "@/lib/content";
 
 export const metadata: Metadata = {
-  title: "Nosotros — El desarrollador detrás de XyraCode",
+  title: { absolute: "Nosotros — El desarrollador detrás de XyraCode" },
   description:
     "XyraCode es una agencia unipersonal de desarrollo web en Villavicencio, Colombia. Más de 10 años entendiendo clientes antes de programar: trato directo, un solo responsable y código propio.",
   alternates: {
@@ -27,7 +28,7 @@ export const metadata: Metadata = {
     url: "/nosotros",
     title: "Nosotros — El desarrollador detrás de XyraCode",
     description:
-      "Agencia unipersonal de desarrollo web en Villavicencio, Colombia. Más de 10 años entendiendo clientes antes de programar.",
+      "Agencia de desarrollo web en Villavicencio, Colombia. Más de 10 años entendiendo clientes antes de programar.",
   },
 };
 
@@ -44,6 +45,7 @@ const jsonLd = {
       name: FOUNDER.name,
       jobTitle: "Fundador & desarrollador full-stack",
       url: `${SITE_URL}/nosotros`,
+      ...(FOUNDER.photo && { image: `${SITE_URL}${FOUNDER.photo}` }),
       email: CONTACT.email,
       address: {
         "@type": "PostalAddress",
@@ -65,6 +67,7 @@ const jsonLd = {
           name: "Desarrollador Full-Stack",
           credentialCategory: "certificate",
           recognizedBy: { "@type": "EducationalOrganization", name: "Henry" },
+          url: "https://certs.soyhenry.com/certificates/7e403f3b-af18-4064-872c-9b43356ff023/2ddfa6c9-e142-4b74-ae7c-74383b67df2c/certificate.pdf",
         },
         {
           "@type": "EducationalOccupationalCredential",
@@ -84,6 +87,22 @@ const jsonLd = {
 const whatsappHref = `https://wa.me/${CONTACT.whatsapp}?text=${encodeURIComponent(
   CONTACT.whatsappMessage,
 )}`;
+
+function TerminalCard({ label, children }: { label: string; children: ReactNode }) {
+  return (
+    <div className="h-full overflow-hidden rounded-[20px] border border-[rgba(94,234,212,0.2)] bg-white/3">
+      <div className="flex items-center gap-2.5 border-b border-[rgba(94,234,212,0.12)] px-6 py-4">
+        <span aria-hidden className="h-3 w-3 rounded-full bg-[#D9734E]" />
+        <span aria-hidden className="h-3 w-3 rounded-full bg-[#F29C50]" />
+        <span aria-hidden className="h-3 w-3 rounded-full bg-brand-secondary" />
+        <span className="ml-3 font-mono text-[13px] text-[rgba(226,247,242,0.5)]">
+          {label}
+        </span>
+      </div>
+      {children}
+    </div>
+  );
+}
 
 export default function Nosotros() {
   return (
@@ -124,15 +143,43 @@ export default function Nosotros() {
                 id="nosotros-title"
                 className="max-w-205 text-[40px] leading-[1.02] font-extrabold tracking-[-0.03em] md:text-[62px]"
               >
-                El desarrollador detrás de XyraCode
+                El desarrollador detrás de{" "}
+                <Image
+                  src="/assets/xyracode-wordmark-trim.png"
+                  alt="XyraCode"
+                  width={648}
+                  height={58}
+                  priority
+                  className="inline-block h-[0.56em] w-auto align-baseline"
+                />
               </h1>
-              <p className="max-w-150 text-[19px] leading-[1.65] text-[rgba(226,247,242,0.72)]">
-                Soy <strong className="font-bold text-white">{FOUNDER.name}</strong>.
-                Antes de escribir código pasé más de 10 años del lado del
-                cliente, vendiendo servicios de telecomunicaciones. XyraCode es
-                una agencia de una persona: yo diseño, yo programo, yo
-                respondo. Hablas siempre con quien construye tu producto.
-              </p>
+            </div>
+            <div className="grid w-full gap-6 text-left md:grid-cols-2">
+              <TerminalCard label="whoami.txt">
+                <p className="px-6 py-6 text-[17px] leading-[1.75] text-[rgba(226,247,242,0.7)] md:px-8 md:py-7">
+                  Soy{" "}
+                  <strong className="font-bold text-white">{FOUNDER.name}</strong>.
+                  Antes de escribir código pasé más de 10 años del lado del
+                  cliente, vendiendo servicios de telecomunicaciones.
+                  <br />
+                  <br />
+                  XyraCode
+                  es una agencia que nace desde la necesidad de ayudar a los
+                  emprendedores a llevar sus ideas al mercado.
+                </p>
+              </TerminalCard>
+              <TerminalCard label="logout.log">
+                <div className="flex flex-col gap-4 px-6 py-6 md:px-8 md:py-7">
+                  {PERSONAL.paragraphs.map((p) => (
+                    <p
+                      key={p}
+                      className="text-[17px] leading-[1.75] text-[rgba(226,247,242,0.7)]"
+                    >
+                      {p}
+                    </p>
+                  ))}
+                </div>
+              </TerminalCard>
             </div>
             <div className="flex flex-wrap justify-center gap-4">
               <Button href="/#contacto">
@@ -147,16 +194,8 @@ export default function Nosotros() {
 
         {/* Tarjeta terminal sobre-mi.sh */}
         <section aria-label="Sobre mí" className="px-6 pb-22 md:px-16">
-          <Reveal delay={120} className="mx-auto max-w-205">
-            <div className="overflow-hidden rounded-[20px] border border-[rgba(94,234,212,0.2)] bg-white/3">
-              <div className="flex items-center gap-2.5 border-b border-[rgba(94,234,212,0.12)] px-6 py-4">
-                <span aria-hidden className="h-3 w-3 rounded-full bg-[#D9734E]" />
-                <span aria-hidden className="h-3 w-3 rounded-full bg-[#F29C50]" />
-                <span aria-hidden className="h-3 w-3 rounded-full bg-brand-secondary" />
-                <span className="ml-3 font-mono text-[13px] text-[rgba(226,247,242,0.5)]">
-                  sobre-mi.sh
-                </span>
-              </div>
+          <Reveal delay={120} className="mx-auto max-w-160">
+            <TerminalCard label="sobre-mi.sh">
               <dl className="px-6 py-7 font-mono text-[15px] leading-[2.2] text-emerald-200 md:px-10 md:py-8">
                 {ABOUT_TERMINAL.map((line) => (
                   <div key={line.key} className="flex flex-wrap gap-x-2">
@@ -165,7 +204,7 @@ export default function Nosotros() {
                   </div>
                 ))}
               </dl>
-            </div>
+            </TerminalCard>
           </Reveal>
         </section>
 
@@ -241,8 +280,8 @@ export default function Nosotros() {
                         <Image
                           src={cred.image}
                           alt={`Certificado: ${cred.title}${cred.issuer ? ` — ${cred.issuer}` : ""}`}
-                          width={1200}
-                          height={850}
+                          width={1400}
+                          height={792}
                           className="h-auto w-full"
                         />
                       </div>
@@ -315,46 +354,6 @@ export default function Nosotros() {
                 </div>
               </Reveal>
             ))}
-          </div>
-        </section>
-
-        {/* Lado humano "Cuando cierro la laptop" */}
-        <section aria-labelledby="humano-title" className="px-6 py-25 md:px-16">
-          <div className="mx-auto grid max-w-225 items-center gap-12 md:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] md:gap-16">
-            <Reveal className="overflow-hidden rounded-[24px] border border-white/10 shadow-[0_30px_70px_-30px_rgba(16,185,129,0.35)]">
-              {PERSONAL.photo ? (
-                <Image
-                  src={PERSONAL.photo}
-                  alt={`${FOUNDER.name} en Villavicencio, fuera del trabajo`}
-                  width={900}
-                  height={900}
-                  className="h-auto w-full object-cover"
-                />
-              ) : (
-                <div className="flex aspect-square w-full items-center justify-center bg-white/4 font-mono text-[13px] text-white/40">
-                  [foto natural]
-                </div>
-              )}
-            </Reveal>
-            <Reveal delay={120} className="flex flex-col gap-5">
-              <p aria-hidden className="font-mono text-[15px] text-teal-300">
-                $ logout
-              </p>
-              <h2
-                id="humano-title"
-                className="text-[32px] leading-[1.05] font-extrabold tracking-[-0.03em] md:text-[40px]"
-              >
-                Cuando cierro la laptop
-              </h2>
-              {PERSONAL.paragraphs.map((p) => (
-                <p
-                  key={p}
-                  className="text-[17px] leading-[1.75] text-[rgba(226,247,242,0.7)]"
-                >
-                  {p}
-                </p>
-              ))}
-            </Reveal>
           </div>
         </section>
 
