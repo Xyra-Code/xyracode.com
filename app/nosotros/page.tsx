@@ -19,7 +19,7 @@ import {
 export const metadata: Metadata = {
   title: "Nosotros — El desarrollador detrás de XyraCode",
   description:
-    "XyraCode es una agencia unipersonal de desarrollo web en Villavicencio, Colombia. Conoce al fundador: trato directo, un solo responsable y código propio.",
+    "XyraCode es una agencia unipersonal de desarrollo web en Villavicencio, Colombia. Más de 10 años entendiendo clientes antes de programar: trato directo, un solo responsable y código propio.",
   alternates: {
     canonical: "/nosotros",
   },
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     url: "/nosotros",
     title: "Nosotros — El desarrollador detrás de XyraCode",
     description:
-      "Agencia unipersonal de desarrollo web en Villavicencio, Colombia. Trato directo con quien construye tu producto.",
+      "Agencia unipersonal de desarrollo web en Villavicencio, Colombia. Más de 10 años entendiendo clientes antes de programar.",
   },
 };
 
@@ -53,6 +53,25 @@ const jsonLd = {
       },
       worksFor: { "@id": `${SITE_URL}/#organization` },
       knowsAbout: ["React", "Next.js", "Node", "TypeScript", "PostgreSQL"],
+      sameAs: ["https://github.com/Xyra-Code"],
+      alumniOf: {
+        "@type": "EducationalOrganization",
+        name: "Henry",
+        url: "https://www.soyhenry.com",
+      },
+      hasCredential: [
+        {
+          "@type": "EducationalOccupationalCredential",
+          name: "Desarrollador Full-Stack",
+          credentialCategory: "certificate",
+          recognizedBy: { "@type": "EducationalOrganization", name: "Henry" },
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          name: "Técnico en Sistemas",
+          credentialCategory: "certificate",
+        },
+      ],
     },
     {
       "@type": "ProfessionalService",
@@ -109,7 +128,9 @@ export default function Nosotros() {
               </h1>
               <p className="max-w-150 text-[19px] leading-[1.65] text-[rgba(226,247,242,0.72)]">
                 Soy <strong className="font-bold text-white">{FOUNDER.name}</strong>.
-                XyraCode es una agencia de una persona: yo diseño, yo programo, yo
+                Antes de escribir código pasé más de 10 años del lado del
+                cliente, vendiendo servicios de telecomunicaciones. XyraCode es
+                una agencia de una persona: yo diseño, yo programo, yo
                 respondo. Hablas siempre con quien construye tu producto.
               </p>
             </div>
