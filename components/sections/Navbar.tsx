@@ -3,20 +3,27 @@
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 
+// Anclas con "/" inicial para que funcionen también desde /nosotros.
 const NAV_LINKS = [
-  { label: "Servicios", href: "#servicios" },
-  { label: "Proceso", href: "#proceso" },
-  { label: "Portfolio", href: "#portfolio" },
+  { label: "Servicios", href: "/#servicios" },
+  { label: "Proceso", href: "/#proceso" },
+  { label: "Proyectos", href: "/#portfolio" },
+  { label: "Nosotros", href: "/nosotros" },
 ] as const;
 
-const linkClass =
-  "text-[11px] font-extrabold uppercase tracking-[0.2em] text-white/70 transition-colors duration-200 hover:text-teal-300 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-teal-300";
+const linkBase =
+  "text-[11px] font-extrabold uppercase tracking-[0.2em] transition-colors duration-200 hover:text-teal-300 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-teal-300";
 
 export function Navbar() {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const pathname = usePathname();
+
+  const linkClass = (href: string) =>
+    `${linkBase} ${pathname === href ? "text-teal-300" : "text-white/70"}`;
 
   return (
     <header className="sticky top-0 z-50 border-b border-white/6 bg-[rgba(8,17,15,0.85)] backdrop-blur-md">
@@ -38,11 +45,11 @@ export function Navbar() {
         {/* Desktop */}
         <div className="hidden items-center gap-7.5 md:flex">
           {NAV_LINKS.map((link) => (
-            <Link key={link.href} href={link.href} className={linkClass}>
+            <Link key={link.href} href={link.href} className={linkClass(link.href)}>
               {link.label}
             </Link>
           ))}
-          <Button href="#contacto" size="sm">
+          <Button href="/#contacto" size="sm">
             Cotizar
           </Button>
         </div>
@@ -69,14 +76,14 @@ export function Navbar() {
             <Link
               key={link.href}
               href={link.href}
-              className={linkClass}
+              className={linkClass(link.href)}
               onClick={() => setMobileNavOpen(false)}
             >
               {link.label}
             </Link>
           ))}
           <Button
-            href="#contacto"
+            href="/#contacto"
             size="sm"
             className="self-start"
             onClick={() => setMobileNavOpen(false)}

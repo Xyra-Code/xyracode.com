@@ -39,8 +39,8 @@ export function ProjectCarousel({ images, className = "" }: ProjectCarouselProps
           src={src}
           alt=""
           fill
-          sizes="(min-width: 768px) 33vw, 100vw"
-          className="object-cover object-top transition-opacity ease-out"
+          sizes="(min-width: 768px) 50vw, 100vw"
+          className="object-fill transition-opacity ease-out"
           style={{
             opacity: i === index ? 1 : 0,
             transitionDuration: `${FADE_MS}ms`,

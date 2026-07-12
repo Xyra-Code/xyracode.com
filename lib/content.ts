@@ -4,10 +4,8 @@
  * editá este archivo — no hace falta tocar los componentes.
  */
 import {
-  ChartColumn,
   Globe,
   LayoutDashboard,
-  Map,
   Palette,
   ShoppingBag,
   Smartphone,
@@ -117,7 +115,7 @@ export const STEPS: Step[] = [
 export type Project = {
   title: string;
   type: string;
-  icon: LucideIcon; // ChartColumn = glifo "bar-chart-3" del handoff (renombrado en lucide 1.x)
+  icon: LucideIcon;
   bg: string;
   tags: string[];
   /** URL del sitio en vivo (botón "Ver sitio"). Si se omite, no se muestra. */
@@ -160,21 +158,165 @@ export const PROJECTS: Project[] = [
       "/assets/vuelo-carmesi-3.png",
     ],
   },
+];
+
+// ---------- Nosotros ----------
+
+export const FOUNDER = {
+  name: "Yeison Enciso",
+  /** Ruta en /public de la foto; si se pone en null, se muestra un marco placeholder. */
+  photo: "/assets/founder.png" as string | null,
+  role: "fundador & desarrollador full-stack",
+  experience: "1 año construyendo productos web",
+} as const;
+
+/** Líneas de la tarjeta terminal `sobre-mi.sh` de /nosotros. */
+export const ABOUT_TERMINAL: { key: string; value: string }[] = [
+  { key: "rol", value: FOUNDER.role },
+  { key: "base", value: `${CONTACT.location} 🇨🇴` },
   {
-    title: "Pulse Analytics",
-    type: "Web app · Dashboard",
-    icon: ChartColumn,
-    bg: "bg-[linear-gradient(150deg,#10B981,#059669)]",
-    tags: ["React", "Node"],
+    key: "herramientas",
+    value:
+      "React · Next.js · Node · TypeScript · PostgreSQL ",
+  },
+  { key: "experiencia", value: FOUNDER.experience },
+  { key: "proyectos activos", value: "máximo 3 a la vez" },
+  { key: "respuesta", value: "primera propuesta en 48h ✓" },
+];
+
+/** Manifiesto "Cómo trabajo" de /nosotros. */
+export const MANIFESTO: Step[] = [
+  {
+    title: "Sin teléfono roto",
+    desc: "No hay gerente de cuenta que traduzca mal lo que pediste. Me cuentas tu idea y la misma persona la convierte en código.",
   },
   {
-    title: "Rumbo App",
-    type: "App móvil",
-    icon: Map,
-    bg: "bg-[linear-gradient(150deg,#14B8A6,#0d5f56)]",
-    tags: ["React Native"],
+    title: "Te aviso cuando algo no conviene",
+    desc: "Si tu idea se resuelve con una herramienta de $20 al mes en vez de un desarrollo a medida, te lo digo. Prefiero perder una venta que venderte algo que no necesitas.",
+  },
+  {
+    title: "Pocos proyectos, bien hechos",
+    desc: "Tomo máximo 3 proyectos en paralelo. El tuyo avanza todas las semanas, con entregas que puedes ver y probar.",
+  },
+  {
+    title: "Entregas que puedes tocar",
+    desc: "No mando reportes de avance en PDF: mando enlaces. Cada semana ves tu proyecto funcionando en una URL real, desde el celular si quieres.",
+  },
+  {
+    title: "Hablo tu idioma, no jerga",
+    desc: "Vengo de 10 años en ventas: sé explicar decisiones técnicas en términos de negocio. Nunca sales de una reunión sin entender qué se hizo y por qué.",
+  },
+  {
+    title: "El código es tuyo",
+    desc: "Todo lo que construyo te pertenece: repositorio, accesos y documentación a tu nombre desde el día uno. Si mañana quieres trabajar con otro equipo, te vas sin rehenes.",
   },
 ];
+
+// ---------- Historia (/nosotros) ----------
+
+export type CareerCommit = {
+  /** Hash decorativo estilo git, solo visual. */
+  hash: string;
+  /** Prefijo tipo conventional commit: init, feat, release. */
+  tag: string;
+  title: string;
+  desc: string;
+  /** Año o período; si se omite, no se muestra. */
+  period?: string;
+};
+
+/** Timeline `$ git log --reverse mi-carrera` de /nosotros, en orden cronológico. */
+// MOCK: años aproximados — confirmar con Yeison antes del deploy definitivo.
+export const CAREER_LOG: CareerCommit[] = [
+  {
+    hash: "a3f1c02",
+    tag: "init",
+    title: "Técnico en sistemas",
+    desc: "Donde empezó la curiosidad por entender cómo funcionan las cosas por dentro.",
+    period: "2012",
+  },
+  {
+    hash: "b7d94e1",
+    tag: "feat",
+    title: "Más de 10 años vendiendo telecomunicaciones",
+    desc: "Una década escuchando clientes, entendiendo mercados y aprendiendo qué hace que un negocio compre o no. Hoy es mi mayor ventaja: entiendo tu negocio antes de escribir la primera línea de código.",
+    period: "2015–2025",
+  },
+  {
+    hash: "c2e58a9",
+    tag: "feat",
+    title: "Certificación full-stack en Henry",
+    desc: "Formación intensiva en desarrollo web full-stack: JavaScript, React, Node y bases de datos, con proyectos reales en equipo.",
+    period: "2025–2026",
+  },
+  {
+    hash: "d915f3c",
+    tag: "feat",
+    title: "Primeros proyectos freelance",
+    desc: "Encargos reales para clientes reales. Descubrí que lo mío es construir productos de punta a punta.",
+    period: "2026",
+  },
+  {
+    hash: "e4a07bd",
+    tag: "release",
+    title: "XyraCode v1.0",
+    desc: "Lo formalicé: una agencia enfocada en construir y aportar valor a tu proyecto.",
+    period: "2026",
+  },
+];
+
+// ---------- Credenciales (/nosotros) ----------
+
+export type Credential = {
+  title: string;
+  /** Entidad emisora; si se omite, no se muestra. */
+  issuer?: string;
+  desc: string;
+  /** URL externa (verificación del certificado, perfil de GitHub…). */
+  href?: string;
+  /** Texto del enlace; requerido si hay href. */
+  linkLabel?: string;
+  /** Imagen del certificado en /public; si se omite, la tarjeta no muestra imagen. */
+  image?: string;
+  /** true = tarjeta protagonista (ancho completo en desktop). */
+  featured?: boolean;
+};
+
+export const CREDENTIALS: Credential[] = [
+  {
+    title: "Desarrollador Full-Stack",
+    issuer: "Henry",
+    desc: "Bootcamp intensivo de desarrollo web: JavaScript, React, Node y bases de datos, con proyectos reales en equipo.",
+    href: "https://certs.soyhenry.com/certificates/7e403f3b-af18-4064-872c-9b43356ff023/2ddfa6c9-e142-4b74-ae7c-74383b67df2c/certificate.pdf",
+    linkLabel: "Verificar certificado",
+    image: "/assets/certificado-henry-1400.png",
+    featured: true,
+  },
+  {
+    title: "Técnico en Sistemas",
+    // PLACEHOLDER: institución del técnico en sistemas (agregar issuer: "…").
+    desc: "La base: hardware, redes y sistemas por dentro antes de escribir software.",
+  },
+  {
+    title: "Código abierto",
+    issuer: "GitHub",
+    desc: "Mira cómo escribo código, no solo lo que digo de él.",
+    href: "https://github.com/Xyra-Code",
+    linkLabel: "Ver GitHub",
+  },
+];
+
+// ---------- Lado humano (/nosotros) ----------
+
+/** Párrafos de la card "logout.log" del hero de /nosotros. */
+export const PERSONAL = {
+  paragraphs: [
+    "Vivo y trabajo desde Villavicencio, la puerta del llano. Podría trabajar desde cualquier parte; me quedo porque desde aquí se construye igual de bien y se vive mejor.",
+    // PLACEHOLDER: hobbies concretos de Yeison — reemplazar esta línea cuando los pase.
+    "Cuando no estoy programando… (hobbies pendientes de definir).",
+    "Trabajo con clientes de cualquier parte, pero respondo como vecino: directo y sin vueltas.",
+  ],
+} as const;
 
 // ---------- Redes ----------
 
@@ -212,8 +354,8 @@ export const FOOTER_COLUMNS: FooterColumn[] = [
   {
     title: "Empresa",
     items: [
-      { label: "Nosotros" },
-      { label: "Portfolio", href: "#portfolio" },
+      { label: "Nosotros", href: "/nosotros" },
+      { label: "Proyectos", href: "#portfolio" },
       { label: "Contacto", href: "#contacto" },
     ],
   },

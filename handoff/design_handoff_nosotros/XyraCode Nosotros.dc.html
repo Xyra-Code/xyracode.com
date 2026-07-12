@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/dualtherapist-design-system-149c5f08-6c58-49aa-8e1a-fa4f71a41f2d/tokens/fonts.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap">
+  <style>
+    body { margin:0; background:#08110F; }
+    a { color:#5EEAD4; text-decoration:none; } a:hover { color:#2DD4BF; }
+  </style>
+</helmet>
+
+<div style="font-family:'Plus Jakarta Sans',system-ui,sans-serif; background:#08110F; color:#fff; min-height:100vh;">
+
+  <!-- NAV -->
+  <div style="display:flex; align-items:center; justify-content:space-between; padding:28px 64px; max-width:1200px; margin:0 auto; box-sizing:border-box;">
+    <img src="assets/xc-teal-horizontal-trans.png" alt="XyraCode" style="height:44px; width:auto;">
+    <div style="display:flex; gap:36px; font-size:14px; font-weight:600; color:rgba(226,247,242,0.7);">
+      <a href="#">Servicios</a><a href="#">Proceso</a><a href="#">Portfolio</a><a href="#" style="color:#5EEAD4;">Nosotros</a><a href="#">Cotizar</a>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div data-screen-label="Nosotros hero" style="position:relative; overflow:hidden; padding:96px 64px 110px;">
+    <div style="position:absolute; top:-220px; right:-160px; width:640px; height:640px; border-radius:9999px; background:#0F766E; opacity:0.35; filter:blur(140px);"></div>
+    <div style="position:absolute; bottom:-260px; left:-200px; width:600px; height:600px; border-radius:9999px; background:#10B981; opacity:0.14; filter:blur(140px);"></div>
+    <div style="position:relative; max-width:1100px; margin:0 auto; display:grid; grid-template-columns:minmax(0,1.2fr) minmax(0,0.8fr); gap:64px; align-items:center;">
+      <div style="min-width:0; display:flex; flex-direction:column; gap:28px;">
+        <div style="font-size:12px; font-weight:800; letter-spacing:0.22em; text-transform:uppercase; color:#5EEAD4;">Nosotros · Bueno, yo</div>
+        <h1 style="font-size:58px; font-weight:800; letter-spacing:-0.03em; line-height:1.02; margin:0;">Una agencia de una persona. Y eso es una ventaja.</h1>
+        <p style="font-size:19px; line-height:1.65; color:rgba(226,247,242,0.72); margin:0; max-width:540px;">Soy <strong style="color:#fff;">[Tu nombre]</strong>, desarrollador full-stack en Villavicencio, Colombia. Detrás de XyraCode no hay gerentes de cuenta ni intermediarios: la persona que te cotiza es la misma que diseña, escribe el código y responde tus mensajes.</p>
+        <div style="display:flex; gap:16px; margin-top:8px;">
+          <a href="#" style="background:#10B981; color:#04211A; font-size:15px; font-weight:800; padding:15px 32px; border-radius:9999px;">Hablemos de tu proyecto</a>
+          <a href="#" style="border:1px solid rgba(94,234,212,0.35); color:#5EEAD4; font-size:15px; font-weight:700; padding:15px 32px; border-radius:9999px;">Ver portfolio</a>
+        </div>
+      </div>
+      <div style="min-width:0; display:flex; flex-direction:column; gap:16px;">
+        <div style="position:relative; width:100%; min-width:0; border-radius:24px; overflow:hidden; border:1px solid rgba(94,234,212,0.25); box-shadow:0 40px 80px -50px rgba(16,185,129,0.4);">
+          <div style="width:100%; min-width:0; height:460px; overflow:hidden;">
+            <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="nosotros-retrato" shape="rect" placeholder="Arrastrá tu foto acá (retrato, buena luz)" hint-size="100%,460px" style="width:100%; height:100%; display:block;"></x-import>
+          </div>
+        </div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:13px; color:rgba(226,247,242,0.5);">// fundador &amp; dev principal — xyracode.com</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- POR QUÉ UNO SOLO -->
+  <div data-screen-label="Por qué directo" style="max-width:1100px; margin:0 auto; padding:40px 64px 90px; box-sizing:border-box;">
+    <div style="font-size:12px; font-weight:800; letter-spacing:0.22em; text-transform:uppercase; color:#5EEAD4; margin-bottom:16px;">Por qué trabajar directo con el dev</div>
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:24px;">
+      <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(94,234,212,0.15); border-radius:16px; padding:32px;">
+        <div style="font-size:34px; font-weight:800; color:#5EEAD4; letter-spacing:-0.02em;">0</div>
+        <div style="font-size:17px; font-weight:700; margin:10px 0 8px;">Intermediarios</div>
+        <div style="font-size:14.5px; line-height:1.6; color:rgba(226,247,242,0.6);">Tu feedback llega directo a quien escribe el código. Nada se pierde en el teléfono roto.</div>
+      </div>
+      <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(94,234,212,0.15); border-radius:16px; padding:32px;">
+        <div style="font-size:34px; font-weight:800; color:#5EEAD4; letter-spacing:-0.02em;">1</div>
+        <div style="font-size:17px; font-weight:700; margin:10px 0 8px;">Responsable de todo</div>
+        <div style="font-size:14.5px; line-height:1.6; color:rgba(226,247,242,0.6);">Diseño, desarrollo, deploy y soporte: una sola persona que conoce tu proyecto de punta a punta.</div>
+      </div>
+      <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(94,234,212,0.15); border-radius:16px; padding:32px;">
+        <div style="font-size:34px; font-weight:800; color:#5EEAD4; letter-spacing:-0.02em;">100%</div>
+        <div style="font-size:17px; font-weight:700; margin:10px 0 8px;">Código propio</div>
+        <div style="font-size:14.5px; line-height:1.6; color:rgba(226,247,242,0.6);">Sin plantillas ni proyectos tercerizados. Lo que ves en el portfolio lo construí yo.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HISTORIA / CÓMO TRABAJO -->
+  <div data-screen-label="Cómo trabajo" style="background:#0B1F1C; padding:90px 64px;">
+    <div style="max-width:1100px; margin:0 auto; display:grid; grid-template-columns:minmax(0,0.9fr) minmax(0,1.1fr); gap:64px;">
+      <div style="display:flex; flex-direction:column; gap:20px;">
+        <div style="font-size:12px; font-weight:800; letter-spacing:0.22em; text-transform:uppercase; color:#5EEAD4;">Mi historia, corta</div>
+        <h2 style="font-size:36px; font-weight:800; letter-spacing:-0.03em; line-height:1.1; margin:0;">De freelance a agencia, sin perder lo bueno de ser freelance</h2>
+        <p style="font-size:16px; line-height:1.7; color:rgba(226,247,242,0.68); margin:0;">[Acá va tu historia real en 3-4 líneas: cuántos años llevás programando, qué te llevó a crear XyraCode, y qué tipo de proyectos disfrutás más. Concreto y en primera persona.]</p>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:13px; color:#5EEAD4; margin-top:8px;">React · Next.js · Node · TypeScript · PostgreSQL</div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:0;">
+        <div style="display:flex; gap:24px; padding:22px 0; border-bottom:1px solid rgba(94,234,212,0.12);">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:14px; color:#5EEAD4; min-width:44px;">01</div>
+          <div><div style="font-size:16px; font-weight:700;">Respondo yo, no un bot</div><div style="font-size:14px; color:rgba(226,247,242,0.6); margin-top:4px; line-height:1.6;">WhatsApp o correo, primera propuesta en 48 horas.</div></div>
+        </div>
+        <div style="display:flex; gap:24px; padding:22px 0; border-bottom:1px solid rgba(94,234,212,0.12);">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:14px; color:#5EEAD4; min-width:44px;">02</div>
+          <div><div style="font-size:16px; font-weight:700;">Pocos proyectos a la vez</div><div style="font-size:14px; color:rgba(226,247,242,0.6); margin-top:4px; line-height:1.6;">Tomo máximo 2-3 proyectos en paralelo para que el tuyo avance en serio cada semana.</div></div>
+        </div>
+        <div style="display:flex; gap:24px; padding:22px 0; border-bottom:1px solid rgba(94,234,212,0.12);">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:14px; color:#5EEAD4; min-width:44px;">03</div>
+          <div><div style="font-size:16px; font-weight:700;">Entregas por sprint</div><div style="font-size:14px; color:rgba(226,247,242,0.6); margin-top:4px; line-height:1.6;">Ves avances funcionando cada 1-2 semanas, no una sorpresa al final.</div></div>
+        </div>
+        <div style="display:flex; gap:24px; padding:22px 0;">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:14px; color:#5EEAD4; min-width:44px;">04</div>
+          <div><div style="font-size:16px; font-weight:700;">Red de aliados cuando hace falta</div><div style="font-size:14px; color:rgba(226,247,242,0.6); margin-top:4px; line-height:1.6;">Para ilustración, contenido o proyectos grandes sumo colaboradores de confianza — siempre con un solo punto de contacto: yo.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div data-screen-label="Nosotros CTA" style="position:relative; overflow:hidden; padding:100px 64px; text-align:center;">
+    <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:700px; height:700px; border-radius:9999px; background:#0F766E; opacity:0.25; filter:blur(150px);"></div>
+    <div style="position:relative; display:flex; flex-direction:column; align-items:center; gap:24px;">
+      <h2 style="font-size:44px; font-weight:800; letter-spacing:-0.03em; margin:0; line-height:1.05;">¿Trabajamos juntos?</h2>
+      <p style="font-size:17px; color:rgba(226,247,242,0.68); margin:0; max-width:480px; line-height:1.6;">Contame tu idea y en 48 horas tenés una propuesta. Sin compromiso.</p>
+      <a href="#" style="background:#10B981; color:#04211A; font-size:16px; font-weight:800; padding:17px 40px; border-radius:9999px; margin-top:8px;">Escribime por WhatsApp →</a>
+      <div style="font-family:'JetBrains Mono',monospace; font-size:13px; color:rgba(226,247,242,0.45);">contacto@xyracode.com · Villavicencio, Colombia</div>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>
