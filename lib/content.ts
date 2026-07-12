@@ -166,7 +166,7 @@ export const FOUNDER = {
   name: "Yeison Enciso",
   /** Ruta en /public de la foto; si se pone en null, se muestra un marco placeholder. */
   photo: "/assets/founder.png" as string | null,
-  role: "fundador & desarrollador full-stack — construyo tu web completa, del diseño a la base de datos",
+  role: "fundador & desarrollador full-stack",
   experience: "1 año construyendo productos web",
 } as const;
 
@@ -177,32 +177,38 @@ export const ABOUT_TERMINAL: { key: string; value: string }[] = [
   {
     key: "herramientas",
     value:
-      "React · Next.js · Node · TypeScript · PostgreSQL — tecnología moderna para que tu web cargue rápido y no se quede vieja",
+      "React · Next.js · Node · TypeScript · PostgreSQL ",
   },
   { key: "experiencia", value: FOUNDER.experience },
-  {
-    key: "trayectoria",
-    value:
-      "10+ años en ventas de telecomunicaciones antes del código — entiendo tu negocio, no solo tu web",
-  },
   { key: "proyectos activos", value: "máximo 3 a la vez" },
   { key: "respuesta", value: "primera propuesta en 48h ✓" },
 ];
 
 /** Manifiesto "Cómo trabajo" de /nosotros. */
-export const MANIFESTO: Step[] 
-= [
+export const MANIFESTO: Step[] = [
   {
     title: "Sin teléfono roto",
     desc: "No hay gerente de cuenta que traduzca mal lo que pediste. Me cuentas tu idea y la misma persona la convierte en código.",
+  },
+  {
+    title: "Te aviso cuando algo no conviene",
+    desc: "Si tu idea se resuelve con una herramienta de $20 al mes en vez de un desarrollo a medida, te lo digo. Prefiero perder una venta que venderte algo que no necesitas.",
   },
   {
     title: "Pocos proyectos, bien hechos",
     desc: "Tomo máximo 3 proyectos en paralelo. El tuyo avanza todas las semanas, con entregas que puedes ver y probar.",
   },
   {
-    title: "Aliados cuando el proyecto lo pide",
-    desc: "Para ilustración, contenido o proyectos grandes sumo colaboradores de confianza. El punto de contacto siempre soy yo.",
+    title: "Entregas que puedes tocar",
+    desc: "No mando reportes de avance en PDF: mando enlaces. Cada semana ves tu proyecto funcionando en una URL real, desde el celular si quieres.",
+  },
+  {
+    title: "Hablo tu idioma, no jerga",
+    desc: "Vengo de 10 años en ventas: sé explicar decisiones técnicas en términos de negocio. Nunca sales de una reunión sin entender qué se hizo y por qué.",
+  },
+  {
+    title: "El código es tuyo",
+    desc: "Todo lo que construyo te pertenece: repositorio, accesos y documentación a tu nombre desde el día uno. Si mañana quieres trabajar con otro equipo, te vas sin rehenes.",
   },
 ];
 
@@ -220,41 +226,42 @@ export type CareerCommit = {
 };
 
 /** Timeline `$ git log --reverse mi-carrera` de /nosotros, en orden cronológico. */
+// MOCK: años aproximados — confirmar con Yeison antes del deploy definitivo.
 export const CAREER_LOG: CareerCommit[] = [
   {
     hash: "a3f1c02",
     tag: "init",
     title: "Técnico en sistemas",
     desc: "Donde empezó la curiosidad por entender cómo funcionan las cosas por dentro.",
-    // PLACEHOLDER: año del técnico en sistemas (agregar period: "20XX").
+    period: "2012",
   },
   {
     hash: "b7d94e1",
     tag: "feat",
     title: "Más de 10 años vendiendo telecomunicaciones",
     desc: "Una década escuchando clientes, entendiendo mercados y aprendiendo qué hace que un negocio compre o no. Hoy es mi mayor ventaja: entiendo tu negocio antes de escribir la primera línea de código.",
-    // PLACEHOLDER: período de la etapa en ventas (agregar period: "20XX–20XX").
+    period: "2015–2025",
   },
   {
     hash: "c2e58a9",
     tag: "feat",
     title: "Certificación full-stack en Henry",
     desc: "Formación intensiva en desarrollo web full-stack: JavaScript, React, Node y bases de datos, con proyectos reales en equipo.",
-    // PLACEHOLDER: año de la certificación de Henry (agregar period: "20XX").
+    period: "2025–2026",
   },
   {
     hash: "d915f3c",
     tag: "feat",
     title: "Primeros proyectos freelance",
     desc: "Encargos reales para clientes reales. Descubrí que lo mío es construir productos de punta a punta.",
-    // PLACEHOLDER: año de inicio del freelance (agregar period: "20XX").
+    period: "2026",
   },
   {
     hash: "e4a07bd",
     tag: "release",
     title: "XyraCode v1.0",
-    desc: "Lo formalicé: una agencia de una persona donde hablas siempre con quien construye tu producto.",
-    // PLACEHOLDER: año de fundación de XyraCode (agregar period: "20XX").
+    desc: "Lo formalicé: una agencia enfocada en construir y aportar valor a tu proyecto.",
+    period: "2026",
   },
 ];
 
@@ -280,9 +287,9 @@ export const CREDENTIALS: Credential[] = [
     title: "Desarrollador Full-Stack",
     issuer: "Henry",
     desc: "Bootcamp intensivo de desarrollo web: JavaScript, React, Node y bases de datos, con proyectos reales en equipo.",
-    // PLACEHOLDER: URL de verificación del certificado de Henry (agregar href: "…").
+    href: "https://certs.soyhenry.com/certificates/7e403f3b-af18-4064-872c-9b43356ff023/2ddfa6c9-e142-4b74-ae7c-74383b67df2c/certificate.pdf",
     linkLabel: "Verificar certificado",
-    // PLACEHOLDER: imagen del certificado en /public/assets (agregar image: "/assets/…").
+    image: "/assets/certificado-henry-1400.png",
     featured: true,
   },
   {
@@ -301,10 +308,8 @@ export const CREDENTIALS: Credential[] = [
 
 // ---------- Lado humano (/nosotros) ----------
 
-/** Bloque "Cuando cierro la laptop" de /nosotros. */
+/** Párrafos de la card "logout.log" del hero de /nosotros. */
 export const PERSONAL = {
-  /** Foto natural en /public; si se pone en null, se muestra un marco placeholder. */
-  photo: "/assets/foto-nosotros-natural-900.png" as string | null,
   paragraphs: [
     "Vivo y trabajo desde Villavicencio, la puerta del llano. Podría trabajar desde cualquier parte; me quedo porque desde aquí se construye igual de bien y se vive mejor.",
     // PLACEHOLDER: hobbies concretos de Yeison — reemplazar esta línea cuando los pase.
