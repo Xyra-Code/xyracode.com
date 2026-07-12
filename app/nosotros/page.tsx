@@ -13,6 +13,7 @@ import {
   CREDENTIALS,
   FOUNDER,
   MANIFESTO,
+  PERSONAL,
 } from "@/lib/content";
 
 export const metadata: Metadata = {
@@ -293,6 +294,46 @@ export default function Nosotros() {
                 </div>
               </Reveal>
             ))}
+          </div>
+        </section>
+
+        {/* Lado humano "Cuando cierro la laptop" */}
+        <section aria-labelledby="humano-title" className="px-6 py-25 md:px-16">
+          <div className="mx-auto grid max-w-225 items-center gap-12 md:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] md:gap-16">
+            <Reveal className="overflow-hidden rounded-[24px] border border-white/10 shadow-[0_30px_70px_-30px_rgba(16,185,129,0.35)]">
+              {PERSONAL.photo ? (
+                <Image
+                  src={PERSONAL.photo}
+                  alt={`${FOUNDER.name} en Villavicencio, fuera del trabajo`}
+                  width={900}
+                  height={900}
+                  className="h-auto w-full object-cover"
+                />
+              ) : (
+                <div className="flex aspect-square w-full items-center justify-center bg-white/4 font-mono text-[13px] text-white/40">
+                  [foto natural]
+                </div>
+              )}
+            </Reveal>
+            <Reveal delay={120} className="flex flex-col gap-5">
+              <p aria-hidden className="font-mono text-[15px] text-teal-300">
+                $ logout
+              </p>
+              <h2
+                id="humano-title"
+                className="text-[32px] leading-[1.05] font-extrabold tracking-[-0.03em] md:text-[40px]"
+              >
+                Cuando cierro la laptop
+              </h2>
+              {PERSONAL.paragraphs.map((p) => (
+                <p
+                  key={p}
+                  className="text-[17px] leading-[1.75] text-[rgba(226,247,242,0.7)]"
+                >
+                  {p}
+                </p>
+              ))}
+            </Reveal>
           </div>
         </section>
 
