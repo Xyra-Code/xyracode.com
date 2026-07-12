@@ -180,6 +180,11 @@ export const ABOUT_TERMINAL: { key: string; value: string }[] = [
       "React · Next.js · Node · TypeScript · PostgreSQL — tecnología moderna para que tu web cargue rápido y no se quede vieja",
   },
   { key: "experiencia", value: FOUNDER.experience },
+  {
+    key: "trayectoria",
+    value:
+      "10+ años en ventas de telecomunicaciones antes del código — entiendo tu negocio, no solo tu web",
+  },
   { key: "proyectos activos", value: "máximo 3 a la vez" },
   { key: "respuesta", value: "primera propuesta en 48h ✓" },
 ];
@@ -200,6 +205,113 @@ export const MANIFESTO: Step[]
     desc: "Para ilustración, contenido o proyectos grandes sumo colaboradores de confianza. El punto de contacto siempre soy yo.",
   },
 ];
+
+// ---------- Historia (/nosotros) ----------
+
+export type CareerCommit = {
+  /** Hash decorativo estilo git, solo visual. */
+  hash: string;
+  /** Prefijo tipo conventional commit: init, feat, release. */
+  tag: string;
+  title: string;
+  desc: string;
+  /** Año o período; si se omite, no se muestra. */
+  period?: string;
+};
+
+/** Timeline `$ git log --reverse mi-carrera` de /nosotros, en orden cronológico. */
+export const CAREER_LOG: CareerCommit[] = [
+  {
+    hash: "a3f1c02",
+    tag: "init",
+    title: "Técnico en sistemas",
+    desc: "Donde empezó la curiosidad por entender cómo funcionan las cosas por dentro.",
+    // PLACEHOLDER: año del técnico en sistemas (agregar period: "20XX").
+  },
+  {
+    hash: "b7d94e1",
+    tag: "feat",
+    title: "Más de 10 años vendiendo telecomunicaciones",
+    desc: "Una década escuchando clientes, entendiendo mercados y aprendiendo qué hace que un negocio compre o no. Hoy es mi mayor ventaja: entiendo tu negocio antes de escribir la primera línea de código.",
+    // PLACEHOLDER: período de la etapa en ventas (agregar period: "20XX–20XX").
+  },
+  {
+    hash: "c2e58a9",
+    tag: "feat",
+    title: "Certificación full-stack en Henry",
+    desc: "Formación intensiva en desarrollo web full-stack: JavaScript, React, Node y bases de datos, con proyectos reales en equipo.",
+    // PLACEHOLDER: año de la certificación de Henry (agregar period: "20XX").
+  },
+  {
+    hash: "d915f3c",
+    tag: "feat",
+    title: "Primeros proyectos freelance",
+    desc: "Encargos reales para clientes reales. Descubrí que lo mío es construir productos de punta a punta.",
+    // PLACEHOLDER: año de inicio del freelance (agregar period: "20XX").
+  },
+  {
+    hash: "e4a07bd",
+    tag: "release",
+    title: "XyraCode v1.0",
+    desc: "Lo formalicé: una agencia de una persona donde hablas siempre con quien construye tu producto.",
+    // PLACEHOLDER: año de fundación de XyraCode (agregar period: "20XX").
+  },
+];
+
+// ---------- Credenciales (/nosotros) ----------
+
+export type Credential = {
+  title: string;
+  /** Entidad emisora; si se omite, no se muestra. */
+  issuer?: string;
+  desc: string;
+  /** URL externa (verificación del certificado, perfil de GitHub…). */
+  href?: string;
+  /** Texto del enlace; requerido si hay href. */
+  linkLabel?: string;
+  /** Imagen del certificado en /public; si se omite, la tarjeta no muestra imagen. */
+  image?: string;
+  /** true = tarjeta protagonista (ancho completo en desktop). */
+  featured?: boolean;
+};
+
+export const CREDENTIALS: Credential[] = [
+  {
+    title: "Desarrollador Full-Stack",
+    issuer: "Henry",
+    desc: "Bootcamp intensivo de desarrollo web: JavaScript, React, Node y bases de datos, con proyectos reales en equipo.",
+    // PLACEHOLDER: URL de verificación del certificado de Henry (agregar href: "…").
+    linkLabel: "Verificar certificado",
+    // PLACEHOLDER: imagen del certificado en /public/assets (agregar image: "/assets/…").
+    featured: true,
+  },
+  {
+    title: "Técnico en Sistemas",
+    // PLACEHOLDER: institución del técnico en sistemas (agregar issuer: "…").
+    desc: "La base: hardware, redes y sistemas por dentro antes de escribir software.",
+  },
+  {
+    title: "Código abierto",
+    issuer: "GitHub",
+    desc: "Mira cómo escribo código, no solo lo que digo de él.",
+    href: "https://github.com/Xyra-Code",
+    linkLabel: "Ver GitHub",
+  },
+];
+
+// ---------- Lado humano (/nosotros) ----------
+
+/** Bloque "Cuando cierro la laptop" de /nosotros. */
+export const PERSONAL = {
+  /** Foto natural en /public; si se pone en null, se muestra un marco placeholder. */
+  photo: "/assets/foto-nosotros-natural-900.png" as string | null,
+  paragraphs: [
+    "Vivo y trabajo desde Villavicencio, la puerta del llano. Podría trabajar desde cualquier parte; me quedo porque desde aquí se construye igual de bien y se vive mejor.",
+    // PLACEHOLDER: hobbies concretos de Yeison — reemplazar esta línea cuando los pase.
+    "Cuando no estoy programando… (hobbies pendientes de definir).",
+    "Trabajo con clientes de cualquier parte, pero respondo como vecino: directo y sin vueltas.",
+  ],
+} as const;
 
 // ---------- Redes ----------
 
