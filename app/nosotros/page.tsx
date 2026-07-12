@@ -10,6 +10,7 @@ import {
   ABOUT_TERMINAL,
   CAREER_LOG,
   CONTACT,
+  CREDENTIALS,
   FOUNDER,
   MANIFESTO,
 } from "@/lib/content";
@@ -185,6 +186,74 @@ export default function Nosotros() {
                 </li>
               ))}
             </ol>
+          </div>
+        </section>
+
+        {/* Credenciales verificables */}
+        <section
+          aria-labelledby="credenciales-title"
+          className="px-6 pb-25 md:px-16"
+        >
+          <div className="mx-auto flex max-w-225 flex-col gap-10">
+            <Reveal>
+              <p aria-hidden className="mb-3 font-mono text-[15px] text-teal-300">
+                $ ls certificados/
+              </p>
+              <h2
+                id="credenciales-title"
+                className="text-[32px] leading-[1.05] font-extrabold tracking-[-0.03em] md:text-[40px]"
+              >
+                Credenciales verificables
+              </h2>
+            </Reveal>
+            <div className="grid gap-6 md:grid-cols-2">
+              {CREDENTIALS.map((cred, i) => (
+                <Reveal
+                  key={cred.title}
+                  delay={i * 100}
+                  className={`h-full ${cred.featured ? "md:col-span-2" : ""}`}
+                >
+                  <article className="flex h-full flex-col gap-4 rounded-[20px] border border-[rgba(94,234,212,0.2)] bg-white/3 p-7 md:p-9">
+                    {cred.image && (
+                      <div className="overflow-hidden rounded-xl border border-white/10">
+                        <Image
+                          src={cred.image}
+                          alt={`Certificado: ${cred.title}${cred.issuer ? ` — ${cred.issuer}` : ""}`}
+                          width={1200}
+                          height={850}
+                          className="h-auto w-full"
+                        />
+                      </div>
+                    )}
+                    <div className="flex flex-col gap-1.5">
+                      <h3 className="text-[20px] font-extrabold tracking-[-0.02em]">
+                        {cred.title}
+                      </h3>
+                      {cred.issuer && (
+                        <p className="font-mono text-[13px] text-teal-300">
+                          {cred.issuer}
+                        </p>
+                      )}
+                    </div>
+                    <p className="text-[15px] leading-[1.7] text-[rgba(226,247,242,0.65)]">
+                      {cred.desc}
+                    </p>
+                    {cred.href && cred.linkLabel && (
+                      <div className="mt-auto pt-2">
+                        <Button
+                          href={cred.href}
+                          target="_blank"
+                          variant="ghost"
+                          className="border-white/22"
+                        >
+                          {cred.linkLabel} <ArrowRight size={18} aria-hidden />
+                        </Button>
+                      </div>
+                    )}
+                  </article>
+                </Reveal>
+              ))}
+            </div>
           </div>
         </section>
 
