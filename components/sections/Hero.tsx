@@ -54,7 +54,7 @@ export function Hero() {
               Empezar proyecto <ArrowRight size={20} aria-hidden />
             </Button>
             <Button href="#portfolio" variant="ghost" className="border-white/22">
-              Ver portfolio
+              Ver proyectos
             </Button>
           </div>
 

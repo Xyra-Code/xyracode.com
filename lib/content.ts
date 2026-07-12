@@ -4,10 +4,8 @@
  * editá este archivo — no hace falta tocar los componentes.
  */
 import {
-  ChartColumn,
   Globe,
   LayoutDashboard,
-  Map,
   Palette,
   ShoppingBag,
   Smartphone,
@@ -117,7 +115,7 @@ export const STEPS: Step[] = [
 export type Project = {
   title: string;
   type: string;
-  icon: LucideIcon; // ChartColumn = glifo "bar-chart-3" del handoff (renombrado en lucide 1.x)
+  icon: LucideIcon;
   bg: string;
   tags: string[];
   /** URL del sitio en vivo (botón "Ver sitio"). Si se omite, no se muestra. */
@@ -160,19 +158,46 @@ export const PROJECTS: Project[] = [
       "/assets/vuelo-carmesi-3.png",
     ],
   },
+];
+
+// ---------- Nosotros ----------
+
+export const FOUNDER = {
+  name: "Yeison Enciso",
+  /** Ruta en /public de la foto; si se pone en null, se muestra un marco placeholder. */
+  photo: "/assets/founder.png" as string | null,
+  role: "fundador & desarrollador full-stack — construyo tu web completa, del diseño a la base de datos",
+  experience: "1 año construyendo productos web",
+} as const;
+
+/** Líneas de la tarjeta terminal `sobre-mi.sh` de /nosotros. */
+export const ABOUT_TERMINAL: { key: string; value: string }[] = [
+  { key: "rol", value: FOUNDER.role },
+  { key: "base", value: `${CONTACT.location} 🇨🇴` },
   {
-    title: "Pulse Analytics",
-    type: "Web app · Dashboard",
-    icon: ChartColumn,
-    bg: "bg-[linear-gradient(150deg,#10B981,#059669)]",
-    tags: ["React", "Node"],
+    key: "herramientas",
+    value:
+      "React · Next.js · Node · TypeScript · PostgreSQL — tecnología moderna para que tu web cargue rápido y no se quede vieja",
+  },
+  { key: "experiencia", value: FOUNDER.experience },
+  { key: "proyectos activos", value: "máximo 3 a la vez" },
+  { key: "respuesta", value: "primera propuesta en 48h ✓" },
+];
+
+/** Manifiesto "Cómo trabajo" de /nosotros. */
+export const MANIFESTO: Step[] 
+= [
+  {
+    title: "Sin teléfono roto",
+    desc: "No hay gerente de cuenta que traduzca mal lo que pediste. Me cuentas tu idea y la misma persona la convierte en código.",
   },
   {
-    title: "Rumbo App",
-    type: "App móvil",
-    icon: Map,
-    bg: "bg-[linear-gradient(150deg,#14B8A6,#0d5f56)]",
-    tags: ["React Native"],
+    title: "Pocos proyectos, bien hechos",
+    desc: "Tomo máximo 3 proyectos en paralelo. El tuyo avanza todas las semanas, con entregas que puedes ver y probar.",
+  },
+  {
+    title: "Aliados cuando el proyecto lo pide",
+    desc: "Para ilustración, contenido o proyectos grandes sumo colaboradores de confianza. El punto de contacto siempre soy yo.",
   },
 ];
 
@@ -212,8 +237,8 @@ export const FOOTER_COLUMNS: FooterColumn[] = [
   {
     title: "Empresa",
     items: [
-      { label: "Nosotros" },
-      { label: "Portfolio", href: "#portfolio" },
+      { label: "Nosotros", href: "/nosotros" },
+      { label: "Proyectos", href: "#portfolio" },
       { label: "Contacto", href: "#contacto" },
     ],
   },
