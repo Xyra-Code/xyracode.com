@@ -6,7 +6,13 @@ import { Navbar } from "@/components/sections/Navbar";
 import { WhatsAppIcon } from "@/components/ui/BrandIcons";
 import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/ui/Reveal";
-import { ABOUT_TERMINAL, CONTACT, FOUNDER, MANIFESTO } from "@/lib/content";
+import {
+  ABOUT_TERMINAL,
+  CAREER_LOG,
+  CONTACT,
+  FOUNDER,
+  MANIFESTO,
+} from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Nosotros — El desarrollador detrás de XyraCode",
@@ -138,6 +144,48 @@ export default function Nosotros() {
               </dl>
             </div>
           </Reveal>
+        </section>
+
+        {/* Timeline "Mi historia" */}
+        <section aria-labelledby="historia-title" className="px-6 pb-25 md:px-16">
+          <div className="mx-auto flex max-w-205 flex-col gap-12">
+            <Reveal>
+              <p aria-hidden className="mb-3 font-mono text-[15px] text-teal-300">
+                $ git log --reverse mi-carrera
+              </p>
+              <h2
+                id="historia-title"
+                className="text-[32px] leading-[1.05] font-extrabold tracking-[-0.03em] md:text-[40px]"
+              >
+                Mi historia
+              </h2>
+            </Reveal>
+            <ol className="ml-1.5 flex flex-col gap-11 border-l border-[rgba(94,234,212,0.22)]">
+              {CAREER_LOG.map((commit, i) => (
+                <li key={commit.hash} className="relative pl-8 md:pl-12">
+                  <span
+                    aria-hidden
+                    className="absolute top-1.5 -left-[7px] h-3.5 w-3.5 rounded-full border-2 border-teal-300 bg-night"
+                  />
+                  <Reveal delay={i * 90} className="flex flex-col gap-2.5">
+                    <p className="font-mono text-[13px] text-[rgba(226,247,242,0.45)]">
+                      <span aria-hidden className="text-teal-300">
+                        {commit.hash}
+                      </span>{" "}
+                      <span className="text-emerald-200">{commit.tag}</span>
+                      {commit.period && <span> · {commit.period}</span>}
+                    </p>
+                    <h3 className="text-[22px] font-extrabold tracking-[-0.02em] md:text-[26px]">
+                      {commit.title}
+                    </h3>
+                    <p className="max-w-150 text-base leading-[1.7] text-[rgba(226,247,242,0.65)]">
+                      {commit.desc}
+                    </p>
+                  </Reveal>
+                </li>
+              ))}
+            </ol>
+          </div>
         </section>
 
         {/* Manifiesto "Cómo trabajo" */}
