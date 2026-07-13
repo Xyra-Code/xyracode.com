@@ -457,7 +457,7 @@ export const SOCIALS: Social[] = [
   { label: "GitHub", href: "https://github.com/Xyra-Code", icon: GitHubIcon },
   {
     label: "Instagram",
-    href: "https://instagram.com/xyracode",
+    href: "https://instagram.com/xyra_code",
     icon: InstagramIcon,
   },
 ];
