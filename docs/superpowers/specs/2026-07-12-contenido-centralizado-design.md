@@ -39,12 +39,12 @@ Consumidores: `app/layout.tsx`, `app/manifest.ts`, `app/opengraph-image.tsx`, `a
 
 El JSON-LD de `/nosotros` deja de tener strings propios:
 
-- `jobTitle` ← `FOUNDER.role` (o un campo corto nuevo si el role largo no aplica; decidir en el plan).
+- `jobTitle` ← `FOUNDER.jobTitle` (campo corto nuevo: "Fundador & desarrollador full-stack"; `FOUNDER.role` sigue siendo la versión larga para la terminal `sobre-mi.sh`).
 - `hasCredential` ← se mapea desde `CREDENTIALS` (title, y `url` cuando exista `href`).
 - `alumniOf` ← `SEO.henry`.
 - `address` ← `SEO.address`.
 - `sameAs` ← `FOUNDER.github` (campo nuevo, ver abajo).
-- `knowsAbout` del Person ← constante compartida (hoy lista suelta "React, Next.js, Node, TypeScript, PostgreSQL" que coincide con `STACK` menos Tailwind; decidir en el plan si se deriva de `STACK` o queda como lista propia en `seo.ts`).
+- `knowsAbout` del Person ← lista propia `SEO.knowsAboutPerson` en `seo.ts` (no se deriva de `STACK`: la franja de marketing y lo declarado a Google pueden evolucionar por separado).
 
 ### `content.ts`: campo `FOUNDER.github` + bloques `UI` y `CONTACT_FORM`
 
