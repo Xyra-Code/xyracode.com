@@ -166,6 +166,10 @@ export const FOUNDER = {
   name: "Yeison Enciso",
   /** Ruta en /public de la foto; si se pone en null, se muestra un marco placeholder. */
   photo: "/assets/founder.png" as string | null,
+  /** Título corto para JSON-LD (jobTitle). La versión larga vive en ABOUT_TERMINAL. */
+  jobTitle: "Fundador & desarrollador full-stack",
+  /** Perfil personal de GitHub (fuente única: credenciales + sameAs del JSON-LD). */
+  github: "https://github.com/YEENDJ",
   role: "fundador & desarrollador full-stack",
   experience: "1 año construyendo productos web",
 } as const;
@@ -310,7 +314,7 @@ export const CREDENTIALS: Credential[] = [
     issuer: "GitHub",
     desc: "Mira cómo escribo código, no solo lo que digo de él: mi perfil personal y la organización de XyraCode, verificada con el dominio xyracode.com.",
     links: [
-      { href: "https://github.com/YEENDJ", label: "Ver perfil" },
+      { href: FOUNDER.github, label: "Ver perfil" },
       { href: "https://github.com/Xyra-Code", label: "Ver organización" },
     ],
   },
@@ -322,10 +326,121 @@ export const CREDENTIALS: Credential[] = [
 export const PERSONAL = {
   paragraphs: [
     "Vivo y trabajo desde Villavicencio, la puerta del llano. Podría trabajar desde cualquier parte; me quedo porque desde aquí se construye igual de bien y se vive mejor.",
-    // PLACEHOLDER: hobbies concretos de Yeison — reemplazar esta línea cuando los pase.
-    "Desde aquí podemos construir y mejorar tus necesidades, puedes mejorar la ventas y desde un click, podemos reunirnos y plantear las mejores ideas",
-    "Trabajo con clientes de cualquier parte, pero siempre tendras la atención directa de quien construye tu proyecto.",
+    "Desde aquí construimos lo que tu negocio necesita: mejorar tus ventas, ordenar tus procesos y, a un clic de distancia, reunirnos para plantear las mejores ideas.",
+    "Trabajo con clientes de cualquier parte, pero siempre tendrás la atención directa de quien construye tu proyecto.",
   ],
+} as const;
+
+// ---------- Textos de UI ----------
+
+/** Copys visibles de la landing y de /nosotros (lo temático/decorativo vive en los componentes). */
+export const UI = {
+  nav: {
+    // Anclas con "/" inicial para que funcionen también desde /nosotros.
+    links: [
+      { label: "Servicios", href: "/#servicios" },
+      { label: "Proceso", href: "/#proceso" },
+      { label: "Proyectos", href: "/#portfolio" },
+      { label: "Nosotros", href: "/nosotros" },
+    ],
+    cta: "Cotizar",
+    homeAria: "XyraCode — inicio",
+    navAria: "Principal",
+    openMenu: "Abrir menú",
+    closeMenu: "Cerrar menú",
+  },
+  hero: {
+    eyebrow: "Agencia de desarrollo web",
+    paragraph:
+      "Diseñamos sitios, apps y plataformas. Del prototipo a producción — rápido, escalable y sin fricción.",
+    ctaPrimary: "Empezar proyecto",
+    ctaSecondary: "Ver proyectos",
+  },
+  trust: { label: "Stack", aria: "Stack tecnológico" },
+  services: {
+    eyebrow: "Qué hacemos",
+    title: "Servicios a medida",
+    subtitle: "Todo el ciclo de tu producto digital, con un solo equipo.",
+  },
+  process: { eyebrow: "Cómo trabajamos", title: "Proceso en 4 pasos" },
+  portfolio: {
+    eyebrow: "Proyecto destacado",
+    title: "Nuestro trabajo",
+    liveSite: "Ver sitio",
+    caseStudy: "Caso de estudio",
+  },
+  cta: {
+    eyebrow: "¿Tienes un proyecto?",
+    title: "Construyamos algo que funcione",
+    paragraph:
+      "Cuéntanos tu idea y te enviamos una propuesta en 48 horas. Completa el formulario o, si prefieres, escríbenos directo.",
+    whatsapp: "WhatsApp",
+    emailPrefix: "O por correo a",
+    schedule: "Agendar llamada",
+  },
+  footer: {
+    tagline:
+      "Agencia de desarrollo web. Diseño y código a medida para que tu negocio escale.",
+    copyright: "© 2026 XyraCode. Todos los derechos reservados.",
+    madeWith: "hecho con </> en Colombia",
+  },
+  nosotros: {
+    headingPrefix: "El desarrollador detrás de",
+    wordmarkAlt: "XyraCode",
+    photoAlt: `Retrato de ${FOUNDER.name}, fundador de XyraCode`,
+    photoPlaceholder: "[tu foto]",
+    /** Párrafos de la card whoami.txt (tras "Soy {name}."). */
+    whoami: [
+      "Antes de escribir código pasé más de 10 años del lado del cliente, vendiendo servicios de telecomunicaciones y viendo de primera mano lo que un negocio necesita para estar a la vanguardia.",
+      "XyraCode es una agencia que nace desde la necesidad de ayudar a los emprendedores a llevar sus ideas al mercado.",
+    ],
+    heroCtaPrimary: "Hablemos",
+    heroCtaSecondary: "Ver proyectos",
+    historyTitle: "Mi historia",
+    credentialsTitle: "Credenciales verificables",
+    manifestoTitle: "Cómo trabajo",
+    finalCtaTitle: "¿Trabajamos juntos?",
+    whatsappCta: "Escríbeme por WhatsApp",
+    sobreMiAria: "Sobre mí",
+  },
+} as const;
+
+// ---------- Formulario de contacto ----------
+
+/** Copys del formulario, validaciones y plantilla de email (consumidos por
+ *  ContactForm.tsx y app/actions/contact.ts). */
+export const CONTACT_FORM = {
+  aria: "Formulario de contacto",
+  labels: { nombre: "Nombre", email: "Email", mensaje: "Mensaje" },
+  placeholders: {
+    nombre: "¿Cómo te llamas?",
+    email: "nombre@empresa.com",
+    mensaje: "Cuéntanos tu proyecto: qué necesitas, para cuándo…",
+  },
+  submit: "Enviar mensaje",
+  submitting: "Enviando…",
+  legal:
+    "Al enviar aceptas el tratamiento de tus datos para responder tu solicitud (Ley 1581 de 2012, Colombia).",
+  success: {
+    title: "¡Mensaje enviado!",
+    body: "Te responderemos en el menor tiempo posible.",
+  },
+  validation: {
+    nombreRequired: "Cuéntanos tu nombre.",
+    nombreMax: "Máximo 100 caracteres.",
+    emailRequired: "Necesitamos tu email para responderte.",
+    emailInvalid: "Ese email no parece válido.",
+    mensajeRequired: "Cuéntanos brevemente tu proyecto.",
+    mensajeMax: "Máximo 5000 caracteres.",
+  },
+  sendError:
+    "No pudimos enviar tu mensaje. Prueba de nuevo en un momento o escríbenos por WhatsApp.",
+  email: {
+    fromFallback: "XyraCode Web <web@xyracode.com>",
+    subject: (nombre: string) => `Nuevo contacto desde la web: ${nombre}`,
+    body: (nombre: string, email: string, mensaje: string) =>
+      `Nombre: ${nombre}\nEmail: ${email}\n\n${mensaje}`,
+  },
 } as const;
 
 // ---------- Redes ----------
