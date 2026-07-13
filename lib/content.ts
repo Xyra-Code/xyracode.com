@@ -181,7 +181,7 @@ export const ABOUT_TERMINAL: { key: string; value: string }[] = [
   },
   { key: "experiencia", value: FOUNDER.experience },
   { key: "proyectos activos", value: "máximo 3 a la vez" },
-  { key: "respuesta", value: "primera propuesta en 48h ✓" },
+  { key: "respuesta", value: "primera propuesta en menos de 48h ✓" },
 ];
 
 /** Manifiesto "Cómo trabajo" de /nosotros. */
@@ -267,15 +267,15 @@ export const CAREER_LOG: CareerCommit[] = [
 
 // ---------- Credenciales (/nosotros) ----------
 
+export type CredentialLink = { href: string; label: string };
+
 export type Credential = {
   title: string;
   /** Entidad emisora; si se omite, no se muestra. */
   issuer?: string;
   desc: string;
-  /** URL externa (verificación del certificado, perfil de GitHub…). */
-  href?: string;
-  /** Texto del enlace; requerido si hay href. */
-  linkLabel?: string;
+  /** Enlaces externos; la tarjeta renderiza un botón por cada uno. */
+  links?: CredentialLink[];
   /** Imagen del certificado en /public; si se omite, la tarjeta no muestra imagen. */
   image?: string;
   /** true = tarjeta protagonista (ancho completo en desktop). */
@@ -287,22 +287,32 @@ export const CREDENTIALS: Credential[] = [
     title: "Desarrollador Full-Stack",
     issuer: "Henry",
     desc: "Bootcamp intensivo de desarrollo web: JavaScript, React, Node y bases de datos, con proyectos reales en equipo.",
-    href: "https://certs.soyhenry.com/certificates/7e403f3b-af18-4064-872c-9b43356ff023/2ddfa6c9-e142-4b74-ae7c-74383b67df2c/certificate.pdf",
-    linkLabel: "Verificar certificado",
+    links: [
+      {
+        href: "https://certs.soyhenry.com/certificates/7e403f3b-af18-4064-872c-9b43356ff023/2ddfa6c9-e142-4b74-ae7c-74383b67df2c/certificate.pdf",
+        label: "Verificar certificado",
+      },
+    ],
     image: "/assets/certificado-henry-1400.png",
     featured: true,
   },
   {
     title: "Técnico en Sistemas",
-    // PLACEHOLDER: institución del técnico en sistemas (agregar issuer: "…").
-    desc: "La base: hardware, redes y sistemas por dentro antes de escribir software.",
+    issuer: "SENA",
+    // OJO: page.tsx reemplaza este desc por un párrafo JSX con link a certificados.sena.edu.co.
+    desc: "La base: hardware, redes y sistemas por dentro antes de escribir software. Título firmado digitalmente, verificable en certificados.sena.edu.co.",
+    links: [
+      { href: "/assets/certificado-tecnico-sena.pdf", label: "Ver certificado" },
+    ],
   },
   {
     title: "Código abierto",
     issuer: "GitHub",
-    desc: "Mira cómo escribo código, no solo lo que digo de él.",
-    href: "https://github.com/Xyra-Code",
-    linkLabel: "Ver GitHub",
+    desc: "Mira cómo escribo código, no solo lo que digo de él: mi perfil personal y la organización de XyraCode, verificada con el dominio xyracode.com.",
+    links: [
+      { href: "https://github.com/YEENDJ", label: "Ver perfil" },
+      { href: "https://github.com/Xyra-Code", label: "Ver organización" },
+    ],
   },
 ];
 
@@ -313,8 +323,8 @@ export const PERSONAL = {
   paragraphs: [
     "Vivo y trabajo desde Villavicencio, la puerta del llano. Podría trabajar desde cualquier parte; me quedo porque desde aquí se construye igual de bien y se vive mejor.",
     // PLACEHOLDER: hobbies concretos de Yeison — reemplazar esta línea cuando los pase.
-    "Cuando no estoy programando… (hobbies pendientes de definir).",
-    "Trabajo con clientes de cualquier parte, pero respondo como vecino: directo y sin vueltas.",
+    "Desde aquí podemos construir y mejorar tus necesidades, puedes mejorar la ventas y desde un click, podemos reunirnos y plantear las mejores ideas",
+    "Trabajo con clientes de cualquier parte, pero siempre tendras la atención directa de quien construye tu proyecto.",
   ],
 } as const;
 

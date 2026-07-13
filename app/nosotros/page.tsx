@@ -55,12 +55,22 @@ const jsonLd = {
       },
       worksFor: { "@id": `${SITE_URL}/#organization` },
       knowsAbout: ["React", "Next.js", "Node", "TypeScript", "PostgreSQL"],
-      sameAs: ["https://github.com/Xyra-Code"],
-      alumniOf: {
-        "@type": "EducationalOrganization",
-        name: "Henry",
-        url: "https://www.soyhenry.com",
-      },
+      sameAs: [
+        "https://github.com/YEENDJ",
+        "https://github.com/Xyra-Code",
+      ],
+      alumniOf: [
+        {
+          "@type": "EducationalOrganization",
+          name: "Henry",
+          url: "https://www.soyhenry.com",
+        },
+        {
+          "@type": "EducationalOrganization",
+          name: "SENA",
+          url: "https://www.sena.edu.co",
+        },
+      ],
       hasCredential: [
         {
           "@type": "EducationalOccupationalCredential",
@@ -73,6 +83,8 @@ const jsonLd = {
           "@type": "EducationalOccupationalCredential",
           name: "Técnico en Sistemas",
           credentialCategory: "certificate",
+          recognizedBy: { "@type": "EducationalOrganization", name: "SENA" },
+          url: `${SITE_URL}/assets/certificado-tecnico-sena.pdf`,
         },
       ],
     },
@@ -160,11 +172,11 @@ export default function Nosotros() {
                   Soy{" "}
                   <strong className="font-bold text-white">{FOUNDER.name}</strong>.
                   Antes de escribir código pasé más de 10 años del lado del
-                  cliente, vendiendo servicios de telecomunicaciones.
+                  cliente,Vendiendo servicios de telecomunicaciones y desde 
+                  aquí evidenciar la necesidad de que los clientes estén a la vanguardia.
                   <br />
                   <br />
-                  XyraCode
-                  es una agencia que nace desde la necesidad de ayudar a los
+                  XyraCode es una agencia que nace desde la necesidad de ayudar a los
                   emprendedores a llevar sus ideas al mercado.
                 </p>
               </TerminalCard>
@@ -297,18 +309,39 @@ export default function Nosotros() {
                       )}
                     </div>
                     <p className="text-[15px] leading-[1.7] text-[rgba(226,247,242,0.65)]">
-                      {cred.desc}
+                      {/* Excepción al patrón content.ts: este párrafo lleva un link inline. */}
+                      {cred.title === "Técnico en Sistemas" ? (
+                        <>
+                          La base: hardware, redes y sistemas por dentro antes
+                          de escribir software. Título firmado digitalmente,
+                          verificable en{" "}
+                          <a
+                            href="https://certificados.sena.edu.co"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-teal-300 underline underline-offset-4 transition-colors hover:text-teal-200"
+                          >
+                            certificados.sena.edu.co
+                          </a>
+                          .
+                        </>
+                      ) : (
+                        cred.desc
+                      )}
                     </p>
-                    {cred.href && cred.linkLabel && (
-                      <div className="mt-auto pt-2">
-                        <Button
-                          href={cred.href}
-                          target="_blank"
-                          variant="ghost"
-                          className="border-white/22"
-                        >
-                          {cred.linkLabel} <ArrowRight size={18} aria-hidden />
-                        </Button>
+                    {cred.links && cred.links.length > 0 && (
+                      <div className="mt-auto flex flex-wrap gap-3 pt-2">
+                        {cred.links.map((link) => (
+                          <Button
+                            key={link.href}
+                            href={link.href}
+                            target="_blank"
+                            variant="ghost"
+                            className="border-white/22"
+                          >
+                            {link.label} <ArrowRight size={18} aria-hidden />
+                          </Button>
+                        ))}
                       </div>
                     )}
                   </article>
