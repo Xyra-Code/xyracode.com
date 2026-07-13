@@ -1,15 +1,15 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { ImageResponse } from "next/og";
+import { SEO } from "@/lib/seo";
 
-export const alt =
-  "XyraCode — Agencia de desarrollo web y apps a medida en Latinoamérica";
+export const alt = SEO.ogImage.home.alt;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 export default async function Image() {
   const logo = await readFile(
-    join(process.cwd(), "public/assets/xc-teal-horizontal-trans.png"),
+    join(process.cwd(), "public/assets/brand/logo-horizontal.png"),
     "base64",
   );
   const logoSrc = `data:image/png;base64,${logo}`;
@@ -59,7 +59,7 @@ export default async function Image() {
               marginBottom: 22,
             }}
           >
-            Agencia de desarrollo web
+            {SEO.ogImage.home.eyebrow}
           </div>
           <div
             style={{
@@ -90,10 +90,10 @@ export default async function Image() {
           }}
         >
           <span style={{ color: "rgba(226,247,242,0.72)" }}>
-            Sitios · Apps · Plataformas a medida
+            {SEO.ogImage.home.footerLeft}
           </span>
           <span style={{ color: "#5eead4", fontWeight: 700 }}>
-            xyracode.com
+            {SEO.ogImage.footerRight}
           </span>
         </div>
       </div>

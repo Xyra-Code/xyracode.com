@@ -1,18 +1,19 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { ImageResponse } from "next/og";
+import { SEO } from "@/lib/seo";
 
-export const alt = "Yeison Enciso — El desarrollador detrás de XyraCode";
+export const alt = SEO.ogImage.nosotros.alt;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 export default async function Image() {
   const [logo, founder] = await Promise.all([
     readFile(
-      join(process.cwd(), "public/assets/xc-teal-horizontal-trans.png"),
+      join(process.cwd(), "public/assets/brand/logo-horizontal.png"),
       "base64",
     ),
-    readFile(join(process.cwd(), "public/assets/founder.png"), "base64"),
+    readFile(join(process.cwd(), "public/assets/team/founder.png"), "base64"),
   ]);
   const logoSrc = `data:image/png;base64,${logo}`;
   const founderSrc = `data:image/png;base64,${founder}`;
@@ -70,7 +71,7 @@ export default async function Image() {
                 marginBottom: 22,
               }}
             >
-              Nosotros
+              {SEO.ogImage.nosotros.eyebrow}
             </div>
             <div
               style={{
@@ -109,10 +110,10 @@ export default async function Image() {
           }}
         >
           <span style={{ color: "rgba(226,247,242,0.72)" }}>
-            Yeison Enciso · Villavicencio, Colombia
+            {SEO.ogImage.nosotros.footerLeft}
           </span>
           <span style={{ color: "#5eead4", fontWeight: 700 }}>
-            xyracode.com
+            {SEO.ogImage.footerRight}
           </span>
         </div>
       </div>
