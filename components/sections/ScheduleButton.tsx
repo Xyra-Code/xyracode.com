@@ -5,7 +5,7 @@ import { Calendar } from "lucide-react";
 import Link from "next/link";
 import { useEffect } from "react";
 import { buttonClasses } from "@/components/ui/Button";
-import { CONTACT } from "@/lib/content";
+import { CONTACT, UI } from "@/lib/content";
 
 const NAMESPACE = "agendar";
 
@@ -51,7 +51,7 @@ export function ScheduleButton() {
         href={`mailto:${CONTACT.email}?subject=Agendar%20llamada`}
         className={className}
       >
-        Agendar llamada <Calendar size={20} aria-hidden />
+        {UI.cta.schedule} <Calendar size={20} aria-hidden />
       </Link>
     );
   }
@@ -64,7 +64,7 @@ export function ScheduleButton() {
       data-cal-config={`{"layout":"month_view"}`}
       className={className}
     >
-      Agendar llamada <Calendar size={20} aria-hidden />
+      {UI.cta.schedule} <Calendar size={20} aria-hidden />
     </button>
   );
 }

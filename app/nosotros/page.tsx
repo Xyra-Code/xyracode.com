@@ -1,7 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
-import type { ReactNode } from "react";
+import { Fragment, type ReactNode } from "react";
 import { Footer } from "@/components/sections/Footer";
 import { Navbar } from "@/components/sections/Navbar";
 import { WhatsAppIcon } from "@/components/ui/BrandIcons";
@@ -15,24 +15,27 @@ import {
   FOUNDER,
   MANIFESTO,
   PERSONAL,
+  UI,
 } from "@/lib/content";
+import { SEO } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: { absolute: "Nosotros — El desarrollador detrás de XyraCode" },
-  description:
-    "XyraCode es una agencia unipersonal de desarrollo web en Villavicencio, Colombia. Más de 10 años entendiendo clientes antes de programar: trato directo, un solo responsable y código propio.",
+  title: { absolute: SEO.nosotros.title },
+  description: SEO.nosotros.description,
   alternates: {
     canonical: "/nosotros",
   },
   openGraph: {
     url: "/nosotros",
-    title: "Nosotros — El desarrollador detrás de XyraCode",
-    description:
-      "Agencia de desarrollo web en Villavicencio, Colombia. Más de 10 años entendiendo clientes antes de programar.",
+    title: SEO.nosotros.title,
+    description: SEO.nosotros.ogDescription,
   },
 };
 
-const SITE_URL = "https://xyracode.com";
+const SITE_URL = SEO.siteUrl;
+
+const henryCred = CREDENTIALS.find((c) => c.issuer === "Henry");
+const senaCred = CREDENTIALS.find((c) => c.issuer === "SENA");
 
 // Person enlazada a la Organization del layout (mismo @id) para E-E-A-T:
 // Google une "fundador" y "empresa" como entidades relacionadas.
@@ -43,36 +46,55 @@ const jsonLd = {
       "@type": "Person",
       "@id": `${SITE_URL}/nosotros#person`,
       name: FOUNDER.name,
-      jobTitle: "Fundador & desarrollador full-stack",
+      jobTitle: FOUNDER.jobTitle,
       url: `${SITE_URL}/nosotros`,
       ...(FOUNDER.photo && { image: `${SITE_URL}${FOUNDER.photo}` }),
       email: CONTACT.email,
       address: {
         "@type": "PostalAddress",
-        addressLocality: "Villavicencio",
-        addressRegion: "Meta",
-        addressCountry: "CO",
+        addressLocality: SEO.address.locality,
+        addressRegion: SEO.address.region,
+        addressCountry: SEO.address.countryCode,
       },
       worksFor: { "@id": `${SITE_URL}/#organization` },
-      knowsAbout: ["React", "Next.js", "Node", "TypeScript", "PostgreSQL"],
-      sameAs: ["https://github.com/Xyra-Code"],
-      alumniOf: {
-        "@type": "EducationalOrganization",
-        name: "Henry",
-        url: "https://www.soyhenry.com",
-      },
+      knowsAbout: [...SEO.person.knowsAbout],
+      sameAs: [FOUNDER.github, "https://github.com/Xyra-Code"],
+      alumniOf: [
+        {
+          "@type": "EducationalOrganization",
+          name: SEO.person.henry.name,
+          url: SEO.person.henry.url,
+        },
+        {
+          "@type": "EducationalOrganization",
+          name: SEO.person.sena.name,
+          url: SEO.person.sena.url,
+        },
+      ],
       hasCredential: [
         {
           "@type": "EducationalOccupationalCredential",
           name: "Desarrollador Full-Stack",
           credentialCategory: "certificate",
-          recognizedBy: { "@type": "EducationalOrganization", name: "Henry" },
-          url: "https://certs.soyhenry.com/certificates/7e403f3b-af18-4064-872c-9b43356ff023/2ddfa6c9-e142-4b74-ae7c-74383b67df2c/certificate.pdf",
+          recognizedBy: {
+            "@type": "EducationalOrganization",
+            name: SEO.person.henry.name,
+          },
+          ...(henryCred?.links?.[0]?.href && {
+            url: henryCred.links[0].href,
+          }),
         },
         {
           "@type": "EducationalOccupationalCredential",
           name: "Técnico en Sistemas",
           credentialCategory: "certificate",
+          recognizedBy: {
+            "@type": "EducationalOrganization",
+            name: SEO.person.sena.name,
+          },
+          ...(senaCred?.links?.[0]?.href && {
+            url: `${SITE_URL}${senaCred.links[0].href}`,
+          }),
         },
       ],
     },
@@ -123,7 +145,7 @@ export default function Nosotros() {
               {FOUNDER.photo ? (
                 <Image
                   src={FOUNDER.photo}
-                  alt={`Retrato de ${FOUNDER.name}, fundador de XyraCode`}
+                  alt={UI.nosotros.photoAlt}
                   width={360}
                   height={360}
                   priority
@@ -131,7 +153,7 @@ export default function Nosotros() {
                 />
               ) : (
                 <div className="flex h-full w-full items-center justify-center bg-white/4 font-mono text-[13px] text-white/40">
-                  [tu foto]
+                  {UI.nosotros.photoPlaceholder}
                 </div>
               )}
             </div>
@@ -143,10 +165,10 @@ export default function Nosotros() {
                 id="nosotros-title"
                 className="max-w-205 text-[40px] leading-[1.02] font-extrabold tracking-[-0.03em] md:text-[62px]"
               >
-                El desarrollador detrás de{" "}
+                {UI.nosotros.headingPrefix}{" "}
                 <Image
-                  src="/assets/xyracode-wordmark-trim.png"
-                  alt="XyraCode"
+                  src="/assets/brand/wordmark.png"
+                  alt={UI.nosotros.wordmarkAlt}
                   width={648}
                   height={58}
                   priority
@@ -158,14 +180,18 @@ export default function Nosotros() {
               <TerminalCard label="whoami.txt">
                 <p className="px-6 py-6 text-[17px] leading-[1.75] text-[rgba(226,247,242,0.7)] md:px-8 md:py-7">
                   Soy{" "}
-                  <strong className="font-bold text-white">{FOUNDER.name}</strong>.
-                  Antes de escribir código pasé más de 10 años del lado del
-                  cliente, vendiendo servicios de telecomunicaciones.
-                  <br />
-                  <br />
-                  XyraCode
-                  es una agencia que nace desde la necesidad de ayudar a los
-                  emprendedores a llevar sus ideas al mercado.
+                  <strong className="font-bold text-white">{FOUNDER.name}</strong>.{" "}
+                  {UI.nosotros.whoami.map((para, i) => (
+                    <Fragment key={para}>
+                      {i > 0 && (
+                        <>
+                          <br />
+                          <br />
+                        </>
+                      )}
+                      {para}
+                    </Fragment>
+                  ))}
                 </p>
               </TerminalCard>
               <TerminalCard label="logout.log">
@@ -183,17 +209,17 @@ export default function Nosotros() {
             </div>
             <div className="flex flex-wrap justify-center gap-4">
               <Button href="/#contacto">
-                Hablemos <ArrowRight size={20} aria-hidden />
+                {UI.nosotros.heroCtaPrimary} <ArrowRight size={20} aria-hidden />
               </Button>
               <Button href="/#portfolio" variant="ghost" className="border-white/22">
-                Ver proyectos
+                {UI.nosotros.heroCtaSecondary}
               </Button>
             </div>
           </Reveal>
         </section>
 
         {/* Tarjeta terminal sobre-mi.sh */}
-        <section aria-label="Sobre mí" className="px-6 pb-22 md:px-16">
+        <section aria-label={UI.nosotros.sobreMiAria} className="px-6 pb-22 md:px-16">
           <Reveal delay={120} className="mx-auto max-w-160">
             <TerminalCard label="sobre-mi.sh">
               <dl className="px-6 py-7 font-mono text-[15px] leading-[2.2] text-emerald-200 md:px-10 md:py-8">
@@ -219,7 +245,7 @@ export default function Nosotros() {
                 id="historia-title"
                 className="text-[32px] leading-[1.05] font-extrabold tracking-[-0.03em] md:text-[40px]"
               >
-                Mi historia
+                {UI.nosotros.historyTitle}
               </h2>
             </Reveal>
             <ol className="ml-1.5 flex flex-col gap-11 border-l border-[rgba(94,234,212,0.22)]">
@@ -264,7 +290,7 @@ export default function Nosotros() {
                 id="credenciales-title"
                 className="text-[32px] leading-[1.05] font-extrabold tracking-[-0.03em] md:text-[40px]"
               >
-                Credenciales verificables
+                {UI.nosotros.credentialsTitle}
               </h2>
             </Reveal>
             <div className="grid gap-6 md:grid-cols-2">
@@ -297,18 +323,39 @@ export default function Nosotros() {
                       )}
                     </div>
                     <p className="text-[15px] leading-[1.7] text-[rgba(226,247,242,0.65)]">
-                      {cred.desc}
+                      {/* Excepción al patrón content.ts: este párrafo lleva un link inline. */}
+                      {cred.title === "Técnico en Sistemas" ? (
+                        <>
+                          La base: hardware, redes y sistemas por dentro antes
+                          de escribir software. Título firmado digitalmente,
+                          verificable en{" "}
+                          <a
+                            href="https://certificados.sena.edu.co"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-teal-300 underline underline-offset-4 transition-colors hover:text-teal-200"
+                          >
+                            certificados.sena.edu.co
+                          </a>
+                          .
+                        </>
+                      ) : (
+                        cred.desc
+                      )}
                     </p>
-                    {cred.href && cred.linkLabel && (
-                      <div className="mt-auto pt-2">
-                        <Button
-                          href={cred.href}
-                          target="_blank"
-                          variant="ghost"
-                          className="border-white/22"
-                        >
-                          {cred.linkLabel} <ArrowRight size={18} aria-hidden />
-                        </Button>
+                    {cred.links && cred.links.length > 0 && (
+                      <div className="mt-auto flex flex-wrap gap-3 pt-2">
+                        {cred.links.map((link) => (
+                          <Button
+                            key={link.href}
+                            href={link.href}
+                            target="_blank"
+                            variant="ghost"
+                            className="border-white/22"
+                          >
+                            {link.label} <ArrowRight size={18} aria-hidden />
+                          </Button>
+                        ))}
                       </div>
                     )}
                   </article>
@@ -329,7 +376,7 @@ export default function Nosotros() {
                 id="como-trabajo-title"
                 className="text-xs font-extrabold tracking-[0.22em] text-teal-300 uppercase"
               >
-                Cómo trabajo
+                {UI.nosotros.manifestoTitle}
               </h2>
             </Reveal>
             {MANIFESTO.map((item, i) => (
@@ -374,10 +421,10 @@ export default function Nosotros() {
               id="nosotros-cta-title"
               className="text-[32px] leading-[1.05] font-extrabold tracking-[-0.03em] md:text-[44px]"
             >
-              ¿Trabajamos juntos?
+              {UI.nosotros.finalCtaTitle}
             </h2>
             <Button href={whatsappHref} target="_blank" className="mt-2">
-              <WhatsAppIcon /> Escríbeme por WhatsApp{" "}
+              <WhatsAppIcon /> {UI.nosotros.whatsappCta}{" "}
               <ArrowRight size={20} aria-hidden />
             </Button>
             <p className="font-mono text-[13px] text-[rgba(226,247,242,0.45)]">

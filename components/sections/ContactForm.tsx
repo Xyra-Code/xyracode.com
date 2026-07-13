@@ -3,6 +3,7 @@
 import { Check } from "lucide-react";
 import { useActionState, useId } from "react";
 import { sendContact, type ContactFormState } from "@/app/actions/contact";
+import { CONTACT_FORM } from "@/lib/content";
 
 const initialState: ContactFormState = { status: "idle" };
 
@@ -27,9 +28,9 @@ export function ContactForm() {
         <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-emerald-50">
           <Check size={24} className="text-brand-secondary" aria-hidden />
         </div>
-        <p className="text-[17px] font-bold">¡Mensaje enviado!</p>
+        <p className="text-[17px] font-bold">{CONTACT_FORM.success.title}</p>
         <p className="mt-1.5 text-sm text-slate-500">
-          Te responderemos en el menor tiempo posible.
+          {CONTACT_FORM.success.body}
         </p>
       </div>
     );
@@ -45,7 +46,7 @@ export function ContactForm() {
     <form
       action={formAction}
       noValidate
-      aria-label="Formulario de contacto"
+      aria-label={CONTACT_FORM.aria}
       aria-busy={pending}
       className="w-full rounded-2xl bg-white p-6 text-left text-brand-ink shadow-[0_22px_44px_-26px_rgba(11,31,28,0.38)] sm:p-7"
     >
@@ -64,14 +65,14 @@ export function ContactForm() {
           htmlFor={`${id}-nombre`}
           className="mb-1.5 block text-[13px] font-bold"
         >
-          Nombre
+          {CONTACT_FORM.labels.nombre}
         </label>
         <input
           id={`${id}-nombre`}
           name="nombre"
           type="text"
           autoComplete="name"
-          placeholder="¿Cómo te llamas?"
+          placeholder={CONTACT_FORM.placeholders.nombre}
           defaultValue={values.nombre}
           disabled={pending}
           aria-invalid={Boolean(errors.nombre)}
@@ -90,14 +91,14 @@ export function ContactForm() {
           htmlFor={`${id}-email`}
           className="mb-1.5 block text-[13px] font-bold"
         >
-          Email
+          {CONTACT_FORM.labels.email}
         </label>
         <input
           id={`${id}-email`}
           name="email"
           type="email"
           autoComplete="email"
-          placeholder="nombre@empresa.com"
+          placeholder={CONTACT_FORM.placeholders.email}
           defaultValue={values.email}
           disabled={pending}
           aria-invalid={Boolean(errors.email)}
@@ -116,13 +117,13 @@ export function ContactForm() {
           htmlFor={`${id}-mensaje`}
           className="mb-1.5 block text-[13px] font-bold"
         >
-          Mensaje
+          {CONTACT_FORM.labels.mensaje}
         </label>
         <textarea
           id={`${id}-mensaje`}
           name="mensaje"
           rows={4}
-          placeholder="Cuéntanos tu proyecto: qué necesitas, para cuándo…"
+          placeholder={CONTACT_FORM.placeholders.mensaje}
           defaultValue={values.mensaje}
           disabled={pending}
           aria-invalid={Boolean(errors.mensaje)}
@@ -147,12 +148,11 @@ export function ContactForm() {
         disabled={pending}
         className="w-full rounded-[10px] bg-brand-secondary px-[22px] py-3 text-sm font-bold text-night transition-all duration-200 ease-out hover:-translate-y-px hover:bg-emerald-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary disabled:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60  cursor-pointer"
       >
-        {pending ? "Enviando…" : "Enviar mensaje"}
+        {pending ? CONTACT_FORM.submitting : CONTACT_FORM.submit}
       </button>
 
       <p className="mt-3 text-[11px] leading-normal text-slate-500">
-        Al enviar aceptas el tratamiento de tus datos para responder tu
-        solicitud (Ley 1581 de 2012, Colombia).
+        {CONTACT_FORM.legal}
       </p>
     </form>
   );

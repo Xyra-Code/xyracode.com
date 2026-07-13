@@ -3,7 +3,7 @@ import { Fragment } from "react";
 import { Button } from "@/components/ui/Button";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Reveal } from "@/components/ui/Reveal";
-import { STATS } from "@/lib/content";
+import { STATS, UI } from "@/lib/content";
 
 const TERMINAL_LINES = [
   { text: "$ xyra build --prod", className: "text-teal-300" },
@@ -32,7 +32,7 @@ export function Hero() {
       <div className="relative mx-auto grid max-w-300 items-center gap-13 md:grid-cols-[1.08fr_0.92fr]">
         <Reveal>
           <Eyebrow as="p" className="mb-5 text-teal-300">
-            Agencia de desarrollo web
+            {UI.hero.eyebrow}
           </Eyebrow>
           <h1
             id="hero-title"
@@ -46,15 +46,14 @@ export function Hero() {
             tu negocio
           </h1>
           <p className="mb-8 max-w-115 text-[17px] leading-[1.6] text-[rgba(226,247,242,0.78)]">
-            Diseñamos sitios, apps y plataformas. Del prototipo a producción —
-            rápido, escalable y sin fricción.
+            {UI.hero.paragraph}
           </p>
           <div className="flex flex-wrap gap-3.5">
             <Button href="#contacto">
-              Empezar proyecto <ArrowRight size={20} aria-hidden />
+              {UI.hero.ctaPrimary} <ArrowRight size={20} aria-hidden />
             </Button>
             <Button href="#portfolio" variant="ghost" className="border-white/22">
-              Ver proyectos
+              {UI.hero.ctaSecondary}
             </Button>
           </div>
 

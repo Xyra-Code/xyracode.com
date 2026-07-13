@@ -1,7 +1,7 @@
 import { Card } from "@/components/ui/Card";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { SERVICES } from "@/lib/content";
+import { SERVICES, UI } from "@/lib/content";
 
 export function Services() {
   return (
@@ -10,9 +10,9 @@ export function Services() {
         <Reveal>
           <SectionHeading
             id="servicios-title"
-            eyebrow="Qué hacemos"
-            title="Servicios a medida"
-            subtitle="Todo el ciclo de tu producto digital, con un solo equipo."
+            eyebrow={UI.services.eyebrow}
+            title={UI.services.title}
+            subtitle={UI.services.subtitle}
             className="mb-13"
           />
         </Reveal>

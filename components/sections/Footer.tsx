@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Eyebrow } from "@/components/ui/Eyebrow";
-import { FOOTER_COLUMNS, SOCIALS } from "@/lib/content";
+import { FOOTER_COLUMNS, SOCIALS, UI } from "@/lib/content";
 
 export function Footer() {
   return (
@@ -9,15 +9,14 @@ export function Footer() {
         <div className="flex flex-wrap justify-between gap-8 border-b border-white/8 pb-8.5">
           <div className="max-w-70">
             <Image
-              src="/assets/xc-teal-mark-bright.png"
+              src="/assets/brand/mark.png"
               alt=""
               width={51}
               height={30}
               className="mb-4 h-[30px] w-auto"
             />
             <p className="text-[13px] leading-[1.6] text-white/50">
-              Agencia de desarrollo web. Diseño y código a medida para que tu
-              negocio escale.
+              {UI.footer.tagline}
             </p>
             <ul className="mt-4 flex gap-4">
               {SOCIALS.map((social) => (
@@ -65,8 +64,8 @@ export function Footer() {
           </div>
         </div>
         <div className="flex flex-wrap justify-between gap-2.5 pt-5.5 text-xs text-white/40">
-          <span>© 2026 XyraCode. Todos los derechos reservados.</span>
-          <span className="font-mono">hecho con &lt;/&gt; en Colombia</span>
+          <span>{UI.footer.copyright}</span>
+          <span className="font-mono">{UI.footer.madeWith}</span>
         </div>
       </div>
     </footer>

@@ -2,7 +2,7 @@ import { ProjectCarousel } from "@/components/sections/ProjectCarousel";
 import { Button } from "@/components/ui/Button";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Reveal } from "@/components/ui/Reveal";
-import { PROJECTS } from "@/lib/content";
+import { PROJECTS, UI } from "@/lib/content";
 
 export function Portfolio() {
   return (
@@ -15,13 +15,13 @@ export function Portfolio() {
         <Reveal>
           <div className="mb-11">
             <Eyebrow as="p" className="mb-3.5 text-teal-300">
-              Proyecto destacado
+              {UI.portfolio.eyebrow}
             </Eyebrow>
             <h2
               id="portfolio-title"
               className="text-[32px] font-extrabold tracking-[-0.03em] md:text-[40px]"
             >
-              Nuestro trabajo
+              {UI.portfolio.title}
             </h2>
           </div>
         </Reveal>
@@ -112,7 +112,7 @@ export function Portfolio() {
                       <div className="mt-auto flex flex-wrap gap-2.5 pt-5">
                         {project.href ? (
                           <Button href={project.href} target="_blank" size="sm">
-                            Ver sitio
+                            {UI.portfolio.liveSite}
                           </Button>
                         ) : null}
                         {project.caseStudyHref ? (
@@ -122,7 +122,7 @@ export function Portfolio() {
                             size="sm"
                             className="border-white/20"
                           >
-                            Caso de estudio
+                            {UI.portfolio.caseStudy}
                           </Button>
                         ) : null}
                       </div>

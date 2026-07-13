@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import { CONTACT, SOCIALS } from "@/lib/content";
+import { SEO } from "@/lib/seo";
 import "./globals.css";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -14,33 +15,30 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://xyracode.com"),
+  metadataBase: new URL(SEO.siteUrl),
   title: {
-    default: "Desarrollo web y apps a medida en Colombia | XyraCode",
-    template: "%s | XyraCode",
+    default: SEO.home.title,
+    template: SEO.home.titleTemplate,
   },
-  description:
-    "Agencia en Colombia de desarrollo web y apps a medida. Diseñamos sitios, apps y plataformas del prototipo a producción: rápido, escalable y sin fricción.",
+  description: SEO.home.description,
   alternates: {
     canonical: "/",
   },
   verification: {
-    google: "ITqkICxkV3qOBZsTgvQ59vLZFmcKKcMPCshPMO9vLlE",
+    google: SEO.googleVerification,
   },
   openGraph: {
     type: "website",
-    locale: "es_CO",
+    locale: SEO.locale,
     url: "/",
-    siteName: "XyraCode",
-    title: "Desarrollo web y apps a medida en Colombia | XyraCode",
-    description:
-      "Agencia en Colombia de desarrollo web y apps a medida. Del prototipo a producción: rápido, escalable y sin fricción.",
+    siteName: SEO.siteName,
+    title: SEO.home.title,
+    description: SEO.home.shortDescription,
   },
   twitter: {
     card: "summary_large_image",
-    title: "Desarrollo web y apps a medida en Colombia | XyraCode",
-    description:
-      "Agencia en Colombia de desarrollo web y apps a medida. Del prototipo a producción: rápido, escalable y sin fricción.",
+    title: SEO.home.title,
+    description: SEO.home.shortDescription,
   },
 };
 
@@ -51,7 +49,7 @@ export const viewport: Viewport = {
   colorScheme: "light",
 };
 
-const SITE_URL = "https://xyracode.com";
+const SITE_URL = SEO.siteUrl;
 
 // @graph con @id enlazados: el WebSite declara a la empresa como su publisher,
 // para que Google entienda "sitio" y "organización" como entidades relacionadas.
@@ -62,19 +60,17 @@ const jsonLd = {
       "@type": "WebSite",
       "@id": `${SITE_URL}/#website`,
       url: SITE_URL,
-      name: "XyraCode",
-      description:
-        "Agencia en Colombia de desarrollo web y apps a medida. Del prototipo a producción: rápido, escalable y sin fricción.",
+      name: SEO.siteName,
+      description: SEO.home.shortDescription,
       publisher: { "@id": `${SITE_URL}/#organization` },
-      inLanguage: "es-CO",
+      inLanguage: SEO.localeBcp47,
     },
     {
       "@type": "ProfessionalService",
       "@id": `${SITE_URL}/#organization`,
-      name: "XyraCode",
+      name: SEO.siteName,
       url: SITE_URL,
-      description:
-        "Agencia de desarrollo web y apps a medida. Sitios, apps y plataformas del prototipo a producción.",
+      description: SEO.home.orgDescription,
       image: `${SITE_URL}/opengraph-image`,
       // Derivados de CONTACT (lib/content.ts) para que el NAP nunca se desincronice.
       telephone: `+${CONTACT.whatsapp}`,
@@ -82,19 +78,15 @@ const jsonLd = {
       priceRange: "$$",
       address: {
         "@type": "PostalAddress",
-        addressLocality: "Villavicencio",
-        addressRegion: "Meta",
-        addressCountry: "CO",
+        addressLocality: SEO.address.locality,
+        addressRegion: SEO.address.region,
+        addressCountry: SEO.address.countryCode,
       },
       areaServed: {
         "@type": "Country",
-        name: "Colombia",
+        name: SEO.address.country,
       },
-      knowsAbout: [
-        "Desarrollo web",
-        "Desarrollo de aplicaciones móviles",
-        "Diseño de software a medida",
-      ],
+      knowsAbout: [...SEO.org.knowsAbout],
       sameAs: SOCIALS.map((social) => social.href),
     },
   ],
