@@ -1,7 +1,7 @@
 "use server";
 
 import { Resend } from "resend";
-import { CONTACT } from "@/lib/content";
+import { CONTACT, CONTACT_FORM } from "@/lib/content";
 
 export type ContactValues = {
   nombre: string;
@@ -40,12 +40,13 @@ export async function sendContact(
   }
 
   const errors: ContactErrors = {};
-  if (!nombre) errors.nombre = "Cuéntanos tu nombre.";
-  else if (nombre.length > 100) errors.nombre = "Máximo 100 caracteres.";
-  if (!email) errors.email = "Necesitamos tu email para responderte.";
-  else if (!EMAIL_RE.test(email)) errors.email = "Ese email no parece válido.";
-  if (!mensaje) errors.mensaje = "Cuéntanos brevemente tu proyecto.";
-  else if (mensaje.length > 5000) errors.mensaje = "Máximo 5000 caracteres.";
+  const v = CONTACT_FORM.validation;
+  if (!nombre) errors.nombre = v.nombreRequired;
+  else if (nombre.length > 100) errors.nombre = v.nombreMax;
+  if (!email) errors.email = v.emailRequired;
+  else if (!EMAIL_RE.test(email)) errors.email = v.emailInvalid;
+  if (!mensaje) errors.mensaje = v.mensajeRequired;
+  else if (mensaje.length > 5000) errors.mensaje = v.mensajeMax;
 
   const values: ContactValues = { nombre, email, mensaje };
   if (Object.keys(errors).length > 0) {
@@ -55,7 +56,7 @@ export async function sendContact(
   const apiKey = process.env.RESEND_API_KEY;
   // Remitente: debe ser una dirección de un dominio verificado en Resend.
   // Antes de verificar el dominio se puede usar "onboarding@resend.dev".
-  const from = process.env.CONTACT_FROM ?? "XyraCode Web <web@xyracode.com>";
+  const from = process.env.CONTACT_FROM ?? CONTACT_FORM.email.fromFallback;
 
   // Fallback de desarrollo: sin API key el form sigue siendo usable y el
   // lead queda en la consola del servidor.
@@ -73,16 +74,14 @@ export async function sendContact(
       from,
       to: CONTACT.email,
       replyTo: `${nombre} <${email}>`,
-      subject: `Nuevo contacto desde la web: ${nombre}`,
-      text: `Nombre: ${nombre}\nEmail: ${email}\n\n${mensaje}`,
+      subject: CONTACT_FORM.email.subject(nombre),
+      text: CONTACT_FORM.email.body(nombre, email, mensaje),
     });
     if (error) {
       console.error("[contacto] Resend devolvió error:", error);
       return {
         status: "error",
-        errors: {
-          form: "No pudimos enviar tu mensaje. Prueba de nuevo en un momento o escríbenos por WhatsApp.",
-        },
+        errors: { form: CONTACT_FORM.sendError },
         values,
       };
     }
@@ -91,9 +90,7 @@ export async function sendContact(
     console.error("[contacto] error enviando email:", err);
     return {
       status: "error",
-      errors: {
-        form: "No pudimos enviar tu mensaje. Probá de nuevo en un momento o escribinos por WhatsApp.",
-      },
+      errors: { form: CONTACT_FORM.sendError },
       values,
     };
   }
