@@ -153,9 +153,9 @@ export const PROJECTS: Project[] = [
     ],
     href: "https://vuelocarmesi.com",
     images: [
-      "/assets/vuelo-carmesi.png",
-      "/assets/vuelo-carmesi-2.png",
-      "/assets/vuelo-carmesi-3.png",
+      "/assets/projects/vuelo-carmesi/1.png",
+      "/assets/projects/vuelo-carmesi/2.png",
+      "/assets/projects/vuelo-carmesi/3.png",
     ],
   },
 ];
@@ -165,7 +165,7 @@ export const PROJECTS: Project[] = [
 export const FOUNDER = {
   name: "Yeison Enciso",
   /** Ruta en /public de la foto; si se pone en null, se muestra un marco placeholder. */
-  photo: "/assets/founder.png" as string | null,
+  photo: "/assets/team/founder.png" as string | null,
   /** Título corto para JSON-LD (jobTitle). La versión larga vive en ABOUT_TERMINAL. */
   jobTitle: "Fundador & desarrollador full-stack",
   /** Perfil personal de GitHub (fuente única: credenciales + sameAs del JSON-LD). */
@@ -297,7 +297,7 @@ export const CREDENTIALS: Credential[] = [
         label: "Verificar certificado",
       },
     ],
-    image: "/assets/certificado-henry-1400.png",
+    image: "/assets/certificates/henry.png",
     featured: true,
   },
   {
@@ -306,7 +306,7 @@ export const CREDENTIALS: Credential[] = [
     // OJO: page.tsx reemplaza este desc por un párrafo JSX con link a certificados.sena.edu.co.
     desc: "La base: hardware, redes y sistemas por dentro antes de escribir software. Título firmado digitalmente, verificable en certificados.sena.edu.co.",
     links: [
-      { href: "/assets/certificado-tecnico-sena.pdf", label: "Ver certificado" },
+      { href: "/assets/certificates/sena.pdf", label: "Ver certificado" },
     ],
   },
   {
