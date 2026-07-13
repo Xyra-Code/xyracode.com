@@ -376,7 +376,7 @@ export const UI = {
       "Cuéntanos tu idea y te enviamos una propuesta en 48 horas. Completa el formulario o, si prefieres, escríbenos directo.",
     whatsapp: "WhatsApp",
     emailPrefix: "O por correo a",
-    schedule: "Agendar llamada",
+    schedule: "Agendar Reunión",
   },
   footer: {
     tagline:

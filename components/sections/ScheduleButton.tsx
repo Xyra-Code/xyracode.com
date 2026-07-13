@@ -64,7 +64,7 @@ export function ScheduleButton() {
       data-cal-config={`{"layout":"month_view"}`}
       className={className}
     >
-      Agendar llamada <Calendar size={20} aria-hidden />
+      {UI.cta.schedule} <Calendar size={20} aria-hidden />
     </button>
   );
 }
