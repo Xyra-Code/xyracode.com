@@ -1,7 +1,7 @@
 import { Card } from "@/components/ui/Card";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { STEPS } from "@/lib/content";
+import { STEPS, UI } from "@/lib/content";
 
 export function Process() {
   return (
@@ -10,8 +10,8 @@ export function Process() {
         <Reveal>
           <SectionHeading
             id="proceso-title"
-            eyebrow="Cómo trabajamos"
-            title="Proceso en 4 pasos"
+            eyebrow={UI.process.eyebrow}
+            title={UI.process.title}
             className="mb-13"
           />
         </Reveal>

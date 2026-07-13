@@ -6,14 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
-
-// Anclas con "/" inicial para que funcionen también desde /nosotros.
-const NAV_LINKS = [
-  { label: "Servicios", href: "/#servicios" },
-  { label: "Proceso", href: "/#proceso" },
-  { label: "Proyectos", href: "/#portfolio" },
-  { label: "Nosotros", href: "/nosotros" },
-] as const;
+import { UI } from "@/lib/content";
 
 const linkBase =
   "text-[11px] font-extrabold uppercase tracking-[0.2em] transition-colors duration-200 hover:text-teal-300 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-teal-300";
@@ -28,12 +21,12 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-white/6 bg-[rgba(8,17,15,0.85)] backdrop-blur-md">
       <nav
-        aria-label="Principal"
+        aria-label={UI.nav.navAria}
         className="mx-auto flex max-w-300 items-center justify-between px-5 py-3.5 sm:px-10"
       >
-        <Link href="/" aria-label="XyraCode — inicio" className="flex items-center">
+        <Link href="/" aria-label={UI.nav.homeAria} className="flex items-center">
           <Image
-            src="/assets/xc-teal-horizontal-trans (3).png"
+            src="/assets/brand/logo-nav.png"
             alt=""
             width={1883}
             height={492}
@@ -44,13 +37,13 @@ export function Navbar() {
 
         {/* Desktop */}
         <div className="hidden items-center gap-7.5 md:flex">
-          {NAV_LINKS.map((link) => (
+          {UI.nav.links.map((link) => (
             <Link key={link.href} href={link.href} className={linkClass(link.href)}>
               {link.label}
             </Link>
           ))}
           <Button href="/#contacto" size="sm">
-            Cotizar
+            {UI.nav.cta}
           </Button>
         </div>
 
@@ -60,7 +53,7 @@ export function Navbar() {
           className="text-white md:hidden"
           aria-expanded={mobileNavOpen}
           aria-controls="mobile-nav"
-          aria-label={mobileNavOpen ? "Cerrar menú" : "Abrir menú"}
+          aria-label={mobileNavOpen ? UI.nav.closeMenu : UI.nav.openMenu}
           onClick={() => setMobileNavOpen((open) => !open)}
         >
           {mobileNavOpen ? <X aria-hidden /> : <Menu aria-hidden />}
@@ -72,7 +65,7 @@ export function Navbar() {
           id="mobile-nav"
           className="flex flex-col gap-5 border-t border-white/6 px-5 pt-4 pb-6 md:hidden"
         >
-          {NAV_LINKS.map((link) => (
+          {UI.nav.links.map((link) => (
             <Link
               key={link.href}
               href={link.href}
@@ -88,7 +81,7 @@ export function Navbar() {
             className="self-start"
             onClick={() => setMobileNavOpen(false)}
           >
-            Cotizar
+            {UI.nav.cta}
           </Button>
         </div>
       )}
