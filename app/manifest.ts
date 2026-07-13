@@ -1,16 +1,16 @@
 import type { MetadataRoute } from "next";
+import { SEO } from "@/lib/seo";
 
 // Next.js sirve esto como /manifest.webmanifest. Los colores salen de la
 // paleta de marca (globals.css): fondo crema, chrome oscuro como el navbar.
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "XyraCode — Desarrollo web y apps a medida",
-    short_name: "XyraCode",
-    description:
-      "Agencia en Colombia de desarrollo web y apps a medida. Del prototipo a producción: rápido, escalable y sin fricción.",
+    name: SEO.manifest.name,
+    short_name: SEO.manifest.shortName,
+    description: SEO.home.shortDescription,
     start_url: "/",
     display: "standalone",
-    lang: "es-CO",
+    lang: SEO.localeBcp47,
     background_color: "#f6fbfa",
     theme_color: "#08110f",
     icons: [
