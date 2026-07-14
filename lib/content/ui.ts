@@ -9,7 +9,7 @@ export const UI = {
     links: [
       { label: "Servicios", href: "/servicios" },
       { label: "Proceso", href: "/#proceso" },
-      { label: "Proyectos", href: "/#portfolio" },
+      { label: "Proyectos", href: "/proyectos" },
       { label: "Nosotros", href: "/nosotros" },
     ],
     cta: "Cotizar",
