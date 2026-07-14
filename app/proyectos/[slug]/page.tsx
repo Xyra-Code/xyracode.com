@@ -61,6 +61,7 @@ export default async function CasoPage({
         description: study.seo.description,
         url: `${SITE_URL}${path}`,
         image: `${SITE_URL}${study.cover.src}`,
+        datePublished: study.lastModified,
         dateModified: study.lastModified,
         author: { "@id": `${SITE_URL}/nosotros#person` },
         publisher: { "@id": `${SITE_URL}/#organization` },
@@ -151,14 +152,16 @@ export default async function CasoPage({
                   </dd>
                 </div>
                 {study.meta.siteHref && (
-                  <a
-                    href={study.meta.siteHref}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 text-teal-300 hover:text-teal-200"
-                  >
-                    Visitar sitio <ArrowUpRight size={16} aria-hidden />
-                  </a>
+                  <div>
+                    <a
+                      href={study.meta.siteHref}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 text-teal-300 hover:text-teal-200"
+                    >
+                      Visitar sitio <ArrowUpRight size={16} aria-hidden />
+                    </a>
+                  </div>
                 )}
               </dl>
             </aside>

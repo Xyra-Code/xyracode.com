@@ -99,7 +99,6 @@ export const CASE_STUDIES: CaseStudy[] = [
           "[DATO REAL PENDIENTE: pasarela de pagos usada, servicio de emails, hosting/infraestructura, si son públicos.]",
         ],
       },
-      { kind: "h2", text: "Resultado" },
       {
         kind: "p",
         text: "[DATO REAL PENDIENTE: párrafo de cierre que resuma el impacto real del proyecto para el cliente, una vez confirmadas las cifras. Sin exagerar ni inventar.]",
