@@ -10,3 +10,4 @@ export * from "./projects";
 export * from "./team";
 export * from "./ui";
 export * from "./social";
+export * from "./blocks";
