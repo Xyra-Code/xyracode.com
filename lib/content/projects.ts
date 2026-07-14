@@ -41,6 +41,7 @@ export const PROJECTS: Project[] = [
       "Emails transaccionales y carga de imágenes en la nube",
     ],
     href: "https://vuelocarmesi.com",
+    caseStudyHref: "/proyectos/vuelo-carmesi",
     images: [
       "/assets/projects/vuelo-carmesi/1.png",
       "/assets/projects/vuelo-carmesi/2.png",

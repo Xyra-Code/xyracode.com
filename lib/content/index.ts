@@ -12,3 +12,4 @@ export * from "./team";
 export * from "./ui";
 export * from "./social";
 export * from "./blocks";
+export * from "./case-studies";
