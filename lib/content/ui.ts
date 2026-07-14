@@ -7,7 +7,7 @@ export const UI = {
   nav: {
     // Anclas con "/" inicial para que funcionen también desde /nosotros.
     links: [
-      { label: "Servicios", href: "/#servicios" },
+      { label: "Servicios", href: "/servicios" },
       { label: "Proceso", href: "/#proceso" },
       { label: "Proyectos", href: "/#portfolio" },
       { label: "Nosotros", href: "/nosotros" },

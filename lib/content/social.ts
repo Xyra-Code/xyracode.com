@@ -34,9 +34,10 @@ export const FOOTER_COLUMNS: FooterColumn[] = [
   {
     title: "Servicios",
     items: [
-      { label: "Sitios web", href: "#servicios" },
-      { label: "Apps a medida", href: "#servicios" },
-      { label: "Mantenimiento", href: "#servicios" },
+      { label: "Desarrollo web", href: "/servicios/desarrollo-web" },
+      { label: "Apps a medida", href: "/servicios/apps-a-medida" },
+      { label: "E-commerce", href: "/servicios/ecommerce" },
+      { label: "Ver todos los servicios", href: "/servicios" },
     ],
   },
   {

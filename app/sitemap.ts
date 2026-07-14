@@ -1,26 +1,45 @@
 import type { MetadataRoute } from "next";
+import { SERVICE_PAGES } from "@/lib/content";
 
-// Fecha real del último cambio de contenido de cada ruta (ISO 8601).
-// Actualizar a mano cuando cambie el contenido de la página — NO usar new Date():
-// eso le diría a Google que todo el sitio cambió en cada build/despliegue.
+// Fecha real del último cambio de contenido de cada ruta fija (ISO 8601).
+// Actualizar a mano — NO usar new Date() (le diría a Google que todo el
+// sitio cambió en cada build). Las rutas de servicio derivan su fecha del
+// campo lastModified de cada ServicePage.
 const LAST_MODIFIED = {
   home: "2026-07-13",
+  serviciosHub: "2026-07-13",
   nosotros: "2026-07-13",
 } as const;
 
+const BASE = "https://xyracode.com";
+
 export default function sitemap(): MetadataRoute.Sitemap {
+  const servicePages: MetadataRoute.Sitemap = SERVICE_PAGES.map((page) => ({
+    url: `${BASE}/servicios/${page.slug}`,
+    lastModified: page.lastModified,
+    changeFrequency: "monthly",
+    priority: 0.8,
+  }));
+
   return [
     {
-      url: "https://xyracode.com",
+      url: BASE,
       lastModified: LAST_MODIFIED.home,
       changeFrequency: "monthly",
       priority: 1,
     },
     {
-      url: "https://xyracode.com/nosotros",
+      url: `${BASE}/servicios`,
+      lastModified: LAST_MODIFIED.serviciosHub,
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+    ...servicePages,
+    {
+      url: `${BASE}/nosotros`,
       lastModified: LAST_MODIFIED.nosotros,
       changeFrequency: "monthly",
-      priority: 0.8,
+      priority: 0.7,
     },
   ];
 }
