@@ -6,6 +6,7 @@
 export * from "./contact";
 export * from "./home";
 export * from "./services";
+export * from "./service-pages";
 export * from "./projects";
 export * from "./team";
 export * from "./ui";
