@@ -82,6 +82,11 @@ const jsonLd = {
         addressRegion: SEO.address.region,
         addressCountry: SEO.address.countryCode,
       },
+      geo: {
+        "@type": "GeoCoordinates",
+        latitude: SEO.address.geo.lat,
+        longitude: SEO.address.geo.lng,
+      },
       areaServed: {
         "@type": "Country",
         name: SEO.address.country,

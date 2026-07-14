@@ -44,6 +44,8 @@ export const SEO = {
     region: "Meta",
     countryCode: "CO",
     country: "Colombia",
+    /** Centro de Villavicencio; alimenta GeoCoordinates (SEO local). */
+    geo: { lat: 4.142, lng: -73.626 },
   },
 
   org: {
@@ -64,7 +66,7 @@ export const SEO = {
   ogImage: {
     footerRight: "xyracode.com",
     home: {
-      alt: "XyraCode — Agencia de desarrollo web y apps a medida en Latinoamérica",
+      alt: "XyraCode — Agencia de desarrollo web y apps a medida en Colombia",
       eyebrow: "Agencia de desarrollo web",
       footerLeft: "Sitios · Apps · Plataformas a medida",
     },

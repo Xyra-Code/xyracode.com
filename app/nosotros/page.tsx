@@ -17,6 +17,7 @@ import {
   PERSONAL,
   UI,
 } from "@/lib/content";
+import { breadcrumbLd } from "@/lib/jsonld";
 import { SEO } from "@/lib/seo";
 
 export const metadata: Metadata = {
@@ -103,24 +104,7 @@ const jsonLd = {
       "@id": `${SITE_URL}/#organization`,
       founder: { "@id": `${SITE_URL}/nosotros#person` },
     },
-    {
-      "@type": "BreadcrumbList",
-      "@id": `${SITE_URL}/nosotros#breadcrumb`,
-      itemListElement: [
-        {
-          "@type": "ListItem",
-          position: 1,
-          name: "Inicio",
-          item: `${SITE_URL}/`,
-        },
-        {
-          "@type": "ListItem",
-          position: 2,
-          name: "Nosotros",
-          item: `${SITE_URL}/nosotros`,
-        },
-      ],
-    },
+    breadcrumbLd("/nosotros", [{ name: "Nosotros", path: "/nosotros" }]),
   ],
 };
 
