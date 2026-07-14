@@ -1,6 +1,6 @@
 ---
 ruta: /servicios/apps-a-medida
-seo_title: Desarrollo de Apps a Medida en Colombia | Xyra Code
+seo_title: Desarrollo de Apps a Medida en Colombia | XyraCode
 seo_description: Web apps, plataformas y dashboards a medida para tu negocio. Código propio, foco en producto y datos, primera propuesta en 48h. Cotiza sin compromiso.
 h1: Apps y plataformas a medida que ordenan tu negocio
 ---
@@ -9,7 +9,7 @@ h1: Apps y plataformas a medida que ordenan tu negocio
 
 Una app a medida es software construido específicamente para cómo funciona tu negocio: una plataforma, un panel de administración, un sistema de reservas, un dashboard de datos o una herramienta interna que automatiza lo que hoy haces a mano en hojas de cálculo y mensajes de WhatsApp.
 
-A diferencia de un sitio web, que existe sobre todo para informar y captar, una app existe para operar: gestiona información, ejecuta procesos, conecta usuarios y crece con tu negocio. En Xyra Code construimos aplicaciones web con foco en producto, datos y escala, usando el mismo stack con el que se construyen productos modernos: React, Next.js, Node, NestJS, TypeScript y PostgreSQL.
+A diferencia de un sitio web, que existe sobre todo para informar y captar, una app existe para operar: gestiona información, ejecuta procesos, conecta usuarios y crece con tu negocio. En XyraCode construimos aplicaciones web con foco en producto, datos y escala, usando el mismo stack con el que se construyen productos modernos: React, Next.js, Node, NestJS, TypeScript y PostgreSQL.
 
 No toda idea necesita una app a medida. Si tu problema se resuelve con una herramienta existente, te lo decimos. El desarrollo a medida tiene sentido cuando ninguna herramienta del mercado encaja con tu proceso, cuando pagas varias suscripciones que no se hablan entre sí, o cuando tu operación crece más rápido de lo que tus hojas de cálculo aguantan.
 

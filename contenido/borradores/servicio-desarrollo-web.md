@@ -1,13 +1,13 @@
 ---
 ruta: /servicios/desarrollo-web
-seo_title: Desarrollo Web a Medida en Colombia | Xyra Code
+seo_title: Desarrollo Web a Medida en Colombia | XyraCode
 seo_description: Sitios web rápidos, medibles y a medida, sin plantillas. Código propio, comunicación directa con el dev y primera propuesta en 48h. Cotiza tu proyecto.
 h1: Desarrollo web a medida para negocios que quieren vender más
 ---
 
 ## Qué es el desarrollo web a medida
 
-Desarrollo web a medida significa construir tu sitio desde cero, con código propio, pensado para tu negocio y no para el molde de una plantilla. En Xyra Code no partimos de un tema comprado que hay que "acomodar": partimos de tus objetivos, tus usuarios y la acción que quieres que la gente haga cuando entra a tu web.
+Desarrollo web a medida significa construir tu sitio desde cero, con código propio, pensado para tu negocio y no para el molde de una plantilla. En XyraCode no partimos de un tema comprado que hay que "acomodar": partimos de tus objetivos, tus usuarios y la acción que quieres que la gente haga cuando entra a tu web.
 
 La diferencia se nota en tres cosas: velocidad, control y crecimiento. Un sitio a medida carga en segundos, hace exactamente lo que necesitas (ni una función de más que te haga lento) y se puede ampliar cuando tu negocio crece, sin tener que empezar de nuevo. Trabajamos con el mismo stack que usan los productos modernos: React, Next.js, Node, TypeScript, Tailwind y PostgreSQL.
 

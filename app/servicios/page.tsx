@@ -62,7 +62,7 @@ export default function ServiciosHub() {
               id="servicios-title"
               className="text-[40px] leading-[1.05] font-extrabold tracking-[-0.03em] md:text-[52px]"
             >
-              Lo que construimos para ti
+              Servicios de desarrollo web y software a medida
             </h1>
             <p className="max-w-150 text-[19px] leading-[1.6] text-[rgba(226,247,242,0.72)]">
               Desarrollo web, apps a medida y e-commerce. Elige por dónde

@@ -1,6 +1,6 @@
 ---
 ruta: /servicios/ecommerce
-seo_title: Desarrollo de Tiendas Online (E-commerce) | Xyra Code Colombia
+seo_title: Desarrollo de Tiendas Online (E-commerce) | XyraCode Colombia
 seo_description: Tiendas online a medida en Colombia: rápidas, con pagos, inventario y panel propio. Código tuyo y primera propuesta en 48h. Empieza a vender en línea.
 h1: Tiendas online a medida para vender sin fricción
 ---
@@ -9,7 +9,7 @@ h1: Tiendas online a medida para vender sin fricción
 
 Una tienda online (o e-commerce) es tu negocio abierto 24/7: un sitio donde tus clientes ven productos, agregan al carrito, pagan y reciben confirmación, mientras tú gestionas pedidos, inventario y clientes desde un panel propio. Hacerla a medida significa que no te amoldas a las limitaciones de una plantilla: la tienda se ajusta a tu catálogo, tus formas de pago y tu manera de despachar.
 
-En Xyra Code construimos e-commerce rápido, medible y a medida, con el mismo stack de productos modernos: React, Next.js, Node, PostgreSQL y las pasarelas de pago que usan los negocios en Colombia. La velocidad importa el doble en una tienda: cada segundo de más en cargar es gente que abandona el carrito antes de pagar.
+En XyraCode construimos e-commerce rápido, medible y a medida, con el mismo stack de productos modernos: React, Next.js, Node, PostgreSQL y las pasarelas de pago que usan los negocios en Colombia. La velocidad importa el doble en una tienda: cada segundo de más en cargar es gente que abandona el carrito antes de pagar.
 
 Ahora, seamos honestos: no todo negocio necesita una tienda a medida desde el día uno. Si estás validando si tus productos se venden en línea, a veces conviene empezar con una plataforma existente y migrar a medida cuando el volumen lo justifique. Te lo decimos de frente. El desarrollo a medida rinde cuando tienes catálogo propio, márgenes que sostienen la inversión, o necesidades que las plataformas cerradas no cubren.
 

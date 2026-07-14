@@ -29,7 +29,7 @@ export const SERVICE_PAGES: ServicePage[] = [
   {
     slug: "desarrollo-web",
     seo: {
-      title: "Desarrollo Web a Medida en Colombia | Xyra Code",
+      title: "Desarrollo Web a Medida en Colombia | XyraCode",
       description:
         "Sitios web rápidos, medibles y a medida, sin plantillas. Código propio, comunicación directa con el dev y primera propuesta en 48h. Cotiza tu proyecto.",
     },
@@ -61,7 +61,7 @@ export const SERVICE_PAGES: ServicePage[] = [
       { kind: "h2", text: "Qué es el desarrollo web a medida" },
       {
         kind: "p",
-        text: 'Desarrollo web a medida significa construir tu sitio desde cero, con código propio, pensado para tu negocio y no para el molde de una plantilla. En Xyra Code no partimos de un tema comprado que hay que "acomodar": partimos de tus objetivos, tus usuarios y la acción que quieres que la gente haga cuando entra a tu web.',
+        text: 'Desarrollo web a medida significa construir tu sitio desde cero, con código propio, pensado para tu negocio y no para el molde de una plantilla. En XyraCode no partimos de un tema comprado que hay que "acomodar": partimos de tus objetivos, tus usuarios y la acción que quieres que la gente haga cuando entra a tu web.',
       },
       {
         kind: "p",
@@ -189,7 +189,7 @@ export const SERVICE_PAGES: ServicePage[] = [
   {
     slug: "apps-a-medida",
     seo: {
-      title: "Desarrollo de Apps a Medida en Colombia | Xyra Code",
+      title: "Desarrollo de Apps a Medida en Colombia | XyraCode",
       description:
         "Web apps, plataformas y dashboards a medida para tu negocio. Código propio, foco en producto y datos, primera propuesta en 48h. Cotiza sin compromiso.",
     },
@@ -225,7 +225,7 @@ export const SERVICE_PAGES: ServicePage[] = [
       },
       {
         kind: "p",
-        text: "A diferencia de un sitio web, que existe sobre todo para informar y captar, una app existe para operar: gestiona información, ejecuta procesos, conecta usuarios y crece con tu negocio. En Xyra Code construimos aplicaciones web con foco en producto, datos y escala, usando el mismo stack con el que se construyen productos modernos: React, Next.js, Node, NestJS, TypeScript y PostgreSQL.",
+        text: "A diferencia de un sitio web, que existe sobre todo para informar y captar, una app existe para operar: gestiona información, ejecuta procesos, conecta usuarios y crece con tu negocio. En XyraCode construimos aplicaciones web con foco en producto, datos y escala, usando el mismo stack con el que se construyen productos modernos: React, Next.js, Node, NestJS, TypeScript y PostgreSQL.",
       },
       {
         kind: "p",
@@ -342,7 +342,7 @@ export const SERVICE_PAGES: ServicePage[] = [
   {
     slug: "ecommerce",
     seo: {
-      title: "Desarrollo de Tiendas Online (E-commerce) | Xyra Code Colombia",
+      title: "Desarrollo de Tiendas Online (E-commerce) | XyraCode Colombia",
       description:
         "Tiendas online a medida en Colombia: rápidas, con pagos, inventario y panel propio. Código tuyo y primera propuesta en 48h. Empieza a vender en línea.",
     },
@@ -378,7 +378,7 @@ export const SERVICE_PAGES: ServicePage[] = [
       },
       {
         kind: "p",
-        text: "En Xyra Code construimos e-commerce rápido, medible y a medida, con el mismo stack de productos modernos: React, Next.js, Node, PostgreSQL y las pasarelas de pago que usan los negocios en Colombia. La velocidad importa el doble en una tienda: cada segundo de más en cargar es gente que abandona el carrito antes de pagar.",
+        text: "En XyraCode construimos e-commerce rápido, medible y a medida, con el mismo stack de productos modernos: React, Next.js, Node, PostgreSQL y las pasarelas de pago que usan los negocios en Colombia. La velocidad importa el doble en una tienda: cada segundo de más en cargar es gente que abandona el carrito antes de pagar.",
       },
       {
         kind: "p",
@@ -491,7 +491,7 @@ export const SERVICE_PAGES: ServicePage[] = [
   {
     slug: "desarrollo-web-villavicencio",
     seo: {
-      title: "Desarrollo Web en Villavicencio | Xyra Code",
+      title: "Desarrollo Web en Villavicencio | XyraCode",
       description:
         "Agencia de desarrollo web en Villavicencio. Sitios, tiendas y apps a medida, con atención directa del dev y propuesta en 48h. Cotiza tu proyecto local.",
     },
@@ -523,7 +523,7 @@ export const SERVICE_PAGES: ServicePage[] = [
       { kind: "h2", text: "Una agencia de desarrollo web con base en Villavicencio" },
       {
         kind: "p",
-        text: "Xyra Code es un estudio de desarrollo web y software con base en Villavicencio, la puerta del llano. Construimos sitios web, tiendas online y aplicaciones a medida para negocios de la región y de toda Colombia, con código propio y sin plantillas.",
+        text: "XyraCode es un estudio de desarrollo web y software con base en Villavicencio, la puerta del llano. Construimos sitios web, tiendas online y aplicaciones a medida para negocios de la región y de toda Colombia, con código propio y sin plantillas.",
       },
       {
         kind: "p",

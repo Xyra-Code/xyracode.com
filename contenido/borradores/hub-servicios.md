@@ -1,13 +1,13 @@
 ---
 ruta: /servicios
-seo_title: Servicios de Desarrollo Web y Software | Xyra Code Colombia
+seo_title: Servicios de Desarrollo Web y Software | XyraCode Colombia
 seo_description: Sitios web, apps a medida y tiendas online construidos con código propio. Atención directa del dev y propuesta en 48h. Descubre nuestros servicios.
 h1: Servicios de desarrollo web y software a medida
 ---
 
 ## Todo el ciclo de tu producto digital, con un solo equipo
 
-En Xyra Code diseñamos y construimos sitios web, aplicaciones y tiendas online a medida, con código propio y sin plantillas. Del prototipo a producción: rápido, escalable y sin fricción.
+En XyraCode diseñamos y construimos sitios web, aplicaciones y tiendas online a medida, con código propio y sin plantillas. Del prototipo a producción: rápido, escalable y sin fricción.
 
 La idea es simple: hablas directamente con quien construye tu proyecto, ves avances reales cada semana y el código queda a tu nombre desde el día uno. Vengo de más de 10 años en ventas, así que explico cada decisión técnica en términos de negocio; nunca sales de una reunión sin entender qué se hizo y por qué.
 

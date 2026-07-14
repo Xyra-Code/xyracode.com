@@ -1,6 +1,6 @@
 ---
 ruta: /proyectos/vuelo-carmesi
-seo_title: Caso de Estudio: Vuelo Carmesí | Xyra Code
+seo_title: Caso de Estudio: Vuelo Carmesí | XyraCode
 seo_description: [DATO REAL PENDIENTE: descripción de 150-160 caracteres con la palabra clave del caso y un resultado concreto verificable. Ej: reservas + tienda para finca de cacao.]
 h1: Vuelo Carmesí: plataforma de reservas y tienda para una finca de cacao agroecológico
 ---
@@ -19,13 +19,13 @@ stack, rol, año/estado, href, features y descripción corta.
 - **Cliente:** [DATO REAL PENDIENTE: nombre público del cliente/marca autorizado para publicarse, o "Vuelo Carmesí" si ese es el nombre comercial de cara al público.]
 - **Tipo:** Web App · Reservas · E-commerce
 - **Año:** 2026 · En producción
-- **Rol de Xyra Code:** Diseño + Desarrollo full-stack
+- **Rol de XyraCode:** Diseño + Desarrollo full-stack
 - **Stack:** Next.js 16 · NestJS · PostgreSQL · Prisma · Cloudinary
 - **Sitio en vivo:** https://vuelocarmesi.com
 
 ## Introducción (hero)
 
-Vuelo Carmesí es una finca de cacao agroecológico que necesitaba llevar su experiencia y sus productos a internet: recibir reservas de visitantes y vender su cacao en línea, todo desde una sola plataforma. Xyra Code diseñó y construyó la solución full-stack, de punta a punta.
+Vuelo Carmesí es una finca de cacao agroecológico que necesitaba llevar su experiencia y sus productos a internet: recibir reservas de visitantes y vender su cacao en línea, todo desde una sola plataforma. XyraCode diseñó y construyó la solución full-stack, de punta a punta.
 
 > [DATO REAL PENDIENTE: definir en 1-2 frases el reto central del proyecto en palabras del cliente o del negocio. Ej: qué hacían antes (¿reservas por WhatsApp?, ¿ventas presenciales?) y por qué necesitaban la plataforma.]
 

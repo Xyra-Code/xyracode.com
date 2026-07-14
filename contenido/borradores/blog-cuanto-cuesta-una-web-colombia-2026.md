@@ -91,4 +91,4 @@ Sí, al menos el SEO técnico de base. Construir sin él significa rehacer traba
 
 ## ¿Quieres una cotización clara para tu caso?
 
-En Xyra Code te damos una propuesta con alcance, tiempos y precio en menos de 48 horas, sin jerga y sin venderte lo que no necesitas. Cuéntanos tu idea y te decimos con honestidad cuál es el mejor camino para tu presupuesto.
+En XyraCode te damos una propuesta con alcance, tiempos y precio en menos de 48 horas, sin jerga y sin venderte lo que no necesitas. Cuéntanos tu idea y te decimos con honestidad cuál es el mejor camino para tu presupuesto.

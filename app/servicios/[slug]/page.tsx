@@ -115,15 +115,15 @@ export default async function ServicioPage({
           </Reveal>
         </section>
 
-        {/* Qué incluye */}
-        <section aria-labelledby="incluye-title" className="px-6 pb-22 md:px-16">
+        {/* Lo esencial */}
+        <section aria-labelledby="esencial-title" className="px-6 pb-22 md:px-16">
           <div className="mx-auto flex max-w-225 flex-col gap-10">
             <Reveal>
               <h2
-                id="incluye-title"
+                id="esencial-title"
                 className="text-[32px] font-extrabold tracking-[-0.03em] md:text-[40px]"
               >
-                Qué incluye
+                Lo esencial
               </h2>
             </Reveal>
             <div className="grid gap-6 md:grid-cols-3">
