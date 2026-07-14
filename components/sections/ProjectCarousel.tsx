@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 
 type ProjectCarouselProps = {
   images: string[];
+  /** Texto base del alt de cada captura (descriptivo, por SEO e accesibilidad). */
+  alt: string;
   className?: string;
 };
 
@@ -17,7 +19,11 @@ const FADE_MS = 700;
  * Con una sola imagen se muestra fija. Respeta `prefers-reduced-motion`:
  * si el usuario prefiere menos animación, no cicla (deja la primera).
  */
-export function ProjectCarousel({ images, className = "" }: ProjectCarouselProps) {
+export function ProjectCarousel({
+  images,
+  alt,
+  className = "",
+}: ProjectCarouselProps) {
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
@@ -37,7 +43,11 @@ export function ProjectCarousel({ images, className = "" }: ProjectCarouselProps
         <Image
           key={src}
           src={src}
-          alt=""
+          alt={
+            images.length > 1
+              ? `${alt} (captura ${i + 1} de ${images.length})`
+              : alt
+          }
           fill
           sizes="(min-width: 768px) 50vw, 100vw"
           className="object-fill transition-opacity ease-out"

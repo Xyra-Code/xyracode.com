@@ -26,7 +26,7 @@ export const SEO = {
   },
 
   nosotros: {
-    title: "Nosotros — El desarrollador detrás de XyraCode",
+    title: "Desarrollador web en Villavicencio, Colombia | XyraCode",
     description:
       "XyraCode es una agencia unipersonal de desarrollo web en Villavicencio, Colombia. Más de 10 años entendiendo clientes antes de programar: trato directo, un solo responsable y código propio.",
     ogDescription:

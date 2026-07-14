@@ -40,7 +40,7 @@ export function ContactForm() {
   const values =
     state.status === "error"
       ? state.values
-      : { nombre: "", email: "", mensaje: "" };
+      : { nombre: "", email: "", mensaje: "", celular: "" };
 
   return (
     <form
@@ -60,30 +60,58 @@ export function ContactForm() {
         className="hidden"
       />
 
-      <div className="mb-4">
-        <label
-          htmlFor={`${id}-nombre`}
-          className="mb-1.5 block text-[13px] font-bold"
-        >
-          {CONTACT_FORM.labels.nombre}
-        </label>
-        <input
-          id={`${id}-nombre`}
-          name="nombre"
-          type="text"
-          autoComplete="name"
-          placeholder={CONTACT_FORM.placeholders.nombre}
-          defaultValue={values.nombre}
-          disabled={pending}
-          aria-invalid={Boolean(errors.nombre)}
-          aria-describedby={errors.nombre ? `${id}-nombre-error` : undefined}
-          className={inputClass}
-        />
-        {errors.nombre && (
-          <p id={`${id}-nombre-error`} className={errorClass}>
-            {errors.nombre}
-          </p>
-        )}
+      <div className="mb-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div>
+          <label
+            htmlFor={`${id}-nombre`}
+            className="mb-1.5 block text-[13px] font-bold"
+          >
+            {CONTACT_FORM.labels.nombre}
+          </label>
+          <input
+            id={`${id}-nombre`}
+            name="nombre"
+            type="text"
+            autoComplete="name"
+            placeholder={CONTACT_FORM.placeholders.nombre}
+            defaultValue={values.nombre}
+            disabled={pending}
+            aria-invalid={Boolean(errors.nombre)}
+            aria-describedby={errors.nombre ? `${id}-nombre-error` : undefined}
+            className={inputClass}
+          />
+          {errors.nombre && (
+            <p id={`${id}-nombre-error`} className={errorClass}>
+              {errors.nombre}
+            </p>
+          )}
+        </div>
+
+        <div>
+          <label
+            htmlFor={`${id}-celular`}
+            className="mb-1.5 block text-[13px] font-bold"
+          >
+            {CONTACT_FORM.labels.celular}
+          </label>
+          <input
+            id={`${id}-celular`}
+            name="celular"
+            type="tel"
+            autoComplete="tel"
+            placeholder={CONTACT_FORM.placeholders.celular}
+            defaultValue={values.celular}
+            disabled={pending}
+            aria-invalid={Boolean(errors.celular)}
+            aria-describedby={errors.celular ? `${id}-celular-error` : undefined}
+            className={inputClass}
+          />
+          {errors.celular && (
+            <p id={`${id}-celular-error`} className={errorClass}>
+              {errors.celular}
+            </p>
+          )}
+        </div>
       </div>
 
       <div className="mb-4">

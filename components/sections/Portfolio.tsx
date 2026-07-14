@@ -37,6 +37,7 @@ export function Portfolio() {
                     // alto) recortando el sobrante de los costados.
                     <ProjectCarousel
                       images={project.images}
+                      alt={`${project.title} — ${project.description ?? project.type}`}
                       className="aspect-1898/865 w-full md:order-2 md:aspect-auto md:h-full md:min-h-80"
                     />
                   ) : (

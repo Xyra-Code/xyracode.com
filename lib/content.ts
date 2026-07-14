@@ -38,7 +38,7 @@ export const CONTACT = {
 
 export type Stat = { value: string; label: string };
 
-// PLACEHOLDER: métricas de ejemplo — reemplazar con datos reales (handoff §9).
+
 export const STATS: Stat[] = [
   { value: "100%", label: "Código propio, sin plantillas" },
   { value: "1:1", label: "Comunicación directa con el dev" },
@@ -134,7 +134,6 @@ export type Project = {
   features?: string[];
 };
 
-// PLACEHOLDER: proyectos de ejemplo — reemplazar con casos reales (handoff §9).
 export const PROJECTS: Project[] = [
   {
     title: "Vuelo Carmesí",
@@ -230,7 +229,6 @@ export type CareerCommit = {
 };
 
 /** Timeline `$ git log --reverse mi-carrera` de /nosotros, en orden cronológico. */
-// MOCK: años aproximados — confirmar con Yeison antes del deploy definitivo.
 export const CAREER_LOG: CareerCommit[] = [
   {
     hash: "a3f1c02",
@@ -411,10 +409,16 @@ export const UI = {
  *  ContactForm.tsx y app/actions/contact.ts). */
 export const CONTACT_FORM = {
   aria: "Formulario de contacto",
-  labels: { nombre: "Nombre", email: "Email", mensaje: "Mensaje" },
+  labels: {
+    nombre: "Nombre",
+    email: "Email",
+    celular: "Celular",
+    mensaje: "Mensaje",
+  },
   placeholders: {
     nombre: "¿Cómo te llamas?",
     email: "nombre@empresa.com",
+    celular: "¿Cuál es tu número de teléfono?",
     mensaje: "Cuéntanos tu proyecto: qué necesitas, para cuándo…",
   },
   submit: "Enviar mensaje",
@@ -430,6 +434,8 @@ export const CONTACT_FORM = {
     nombreMax: "Máximo 100 caracteres.",
     emailRequired: "Necesitamos tu email para responderte.",
     emailInvalid: "Ese email no parece válido.",
+    celularRequired: "Déjanos un número para contactarte.",
+    celularMax: "Máximo 20 caracteres.",
     mensajeRequired: "Cuéntanos brevemente tu proyecto.",
     mensajeMax: "Máximo 5000 caracteres.",
   },
@@ -438,8 +444,8 @@ export const CONTACT_FORM = {
   email: {
     fromFallback: "XyraCode Web <web@xyracode.com>",
     subject: (nombre: string) => `Nuevo contacto desde la web: ${nombre}`,
-    body: (nombre: string, email: string, mensaje: string) =>
-      `Nombre: ${nombre}\nEmail: ${email}\n\n${mensaje}`,
+    body: (nombre: string, email: string, celular: string, mensaje: string) =>
+      `Nombre: ${nombre}\nEmail: ${email}\nCelular: ${celular}\n\n${mensaje}`,
   },
 } as const;
 
@@ -447,7 +453,7 @@ export const CONTACT_FORM = {
 
 export type Social = { label: string; href: string; icon: BrandIcon };
 
-// PLACEHOLDER: reemplazar con las URLs reales de cada perfil.
+
 export const SOCIALS: Social[] = [
   {
     label: "LinkedIn",
