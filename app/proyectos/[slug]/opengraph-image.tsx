@@ -12,6 +12,8 @@ export function generateStaticParams() {
   return CASE_STUDIES.map((c) => ({ slug: c.slug }));
 }
 
+export const dynamicParams = false;
+
 export default async function Image({
   params,
 }: {
