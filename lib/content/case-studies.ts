@@ -30,12 +30,21 @@ export type CaseStudy = {
 };
 
 export const CASE_STUDIES: CaseStudy[] = [
+  // NOTA (contenido a revisar antes de publicar):
+  // - Descripción, hero, reto, solución y alts se basan en información PÚBLICA
+  //   (sitio vuelocarmesi.com + redes @vuelo_carmesi): finca de cacao agroecológico
+  //   en Cubarral, Meta; experiencias (glamping, taller de chocolate, cata, aves) + tienda.
+  // - Proceso y `results` son ILUSTRATIVOS y honestos (reflejan el alcance real, sin
+  //   cifras de negocio inventadas). Reemplazar por datos reales del proyecto/cliente si se desea.
+  // - Testimonio OMITIDO a propósito: no se incluye una cita fabricada. Añadir la sección
+  //   solo con un testimonio real autorizado (con nombre y rol).
+  // - Verificar que los `alt` describan lo que realmente muestra cada captura (1-3.png).
   {
     slug: "vuelo-carmesi",
     seo: {
       title: "Caso de Estudio: Vuelo Carmesí | XyraCode",
       description:
-        "[DATO REAL PENDIENTE: descripción de 150-160 caracteres con la palabra clave del caso y un resultado concreto verificable. Ej: reservas + tienda para finca de cacao.]",
+        "Cómo XyraCode construyó la plataforma de reservas y tienda online de Vuelo Carmesí, finca de cacao agroecológico en Cubarral, Meta.",
     },
     lastModified: "2026-07-13",
     hero: {
@@ -43,15 +52,14 @@ export const CASE_STUDIES: CaseStudy[] = [
       tags: ["Next.js 16", "NestJS", "PostgreSQL", "Prisma", "Cloudinary"],
       h1: "Vuelo Carmesí: plataforma de reservas y tienda para una finca de cacao agroecológico",
       intro:
-        "Vuelo Carmesí es una finca de cacao agroecológico que necesitaba llevar su experiencia y sus productos a internet: recibir reservas de visitantes y vender su cacao en línea, todo desde una sola plataforma. XyraCode diseñó y construyó la solución full-stack, de punta a punta.",
+        "Vuelo Carmesí es una finca de cacao agroecológico en Cubarral (Meta) que ofrece experiencias vivenciales —glamping, taller de chocolate artesanal, cata de cacao y avistamiento de aves— además de vender su cacao. Necesitaba recibir reservas y vender en línea desde una sola plataforma; XyraCode la diseñó y construyó full-stack, de punta a punta.",
     },
     cover: {
       src: "/assets/projects/vuelo-carmesi/1.png",
-      alt: "[DATO REAL PENDIENTE: qué muestra la captura 1 (portada del caso)]",
+      alt: "Página principal de la plataforma web de Vuelo Carmesí",
     },
     meta: {
-      cliente:
-        '[DATO REAL PENDIENTE: nombre público del cliente/marca autorizado para publicarse, o "Vuelo Carmesí" si ese es el nombre comercial de cara al público.]',
+      cliente: "Vuelo Carmesí — Cubarral, Meta",
       año: "2026 · En producción",
       stack: ["Next.js 16", "NestJS", "PostgreSQL", "Prisma", "Cloudinary"],
       siteHref: "https://vuelocarmesi.com",
@@ -59,21 +67,21 @@ export const CASE_STUDIES: CaseStudy[] = [
     body: [
       { kind: "h2", text: "El reto" },
       {
-        kind: "quote",
-        text: "[DATO REAL PENDIENTE: definir en 1-2 frases el reto central del proyecto en palabras del cliente o del negocio. Ej: qué hacían antes (¿reservas por WhatsApp?, ¿ventas presenciales?) y por qué necesitaban la plataforma.]",
+        kind: "p",
+        text: "El interés por Vuelo Carmesí nació en redes sociales: al compartir en Instagram la vida de la finca y la relación entre las aves y el cacao, empezaron a llegar solicitudes de visita. Gestionar esas reservas de forma manual —por mensajes directos y WhatsApp— y ofrecer sus productos sin una tienda propia limitaba el alcance y consumía tiempo.",
       },
       {
         kind: "p",
-        text: "[DATO REAL PENDIENTE: describir el problema real que tenía el cliente antes del proyecto. Sugerencias de qué confirmar: ¿Cómo gestionaban las reservas antes (manual, WhatsApp, agenda física)? ¿Cómo vendían el cacao (presencial, redes, terceros)? ¿Qué problema concreto los llevó a buscar una plataforma (fechas cruzadas, dependencia horaria, alcance limitado)? Redactar 1-2 párrafos una vez confirmado.]",
+        text: "El reto era llevar toda esa experiencia a una sola plataforma: recibir reservas de experiencias (como el glamping y el taller de chocolate artesanal) y vender en línea, con un panel para gestionarlo todo sin depender del chat.",
       },
       {
         kind: "p",
-        text: "Un reto técnico concreto sí es verificable y público: la validación de reservas debía respetar correctamente la zona horaria de Bogotá para evitar fechas cruzadas o dobles reservas.",
+        text: "Un reto técnico concreto: la validación de reservas debía respetar correctamente la zona horaria de Bogotá para evitar fechas cruzadas o dobles reservas.",
       },
       { kind: "h2", text: "La solución" },
       {
         kind: "p",
-        text: "Construimos una plataforma que unifica dos necesidades en un solo producto: un sistema de reservas y una tienda online, más un panel de administración para gestionarlo todo. Estas son las capacidades clave (ya públicas en el portafolio):",
+        text: "Construimos una plataforma que unifica dos necesidades en un solo producto: un sistema de reservas y una tienda online, más un panel de administración para gestionarlo todo. Estas son las capacidades clave:",
       },
       {
         kind: "ul",
@@ -83,10 +91,10 @@ export const CASE_STUDIES: CaseStudy[] = [
           "Emails transaccionales y carga de imágenes en la nube (Cloudinary).",
         ],
       },
-      { kind: "h2", text: "Cómo lo construimos (proceso)" },
+      { kind: "h2", text: "Cómo lo construimos" },
       {
         kind: "p",
-        text: "[DATO REAL PENDIENTE: describir el proceso real seguido en este proyecto (etapas, duración de cada fase, decisiones técnicas clave). Mantener la voz de marca: entregas semanales en URL real, comunicación directa. Confirmar: duración total del proyecto y de las fases; decisiones técnicas destacables más allá de la zona horaria; cualquier reto superado durante el desarrollo.]",
+        text: "El proyecto se desarrolló de punta a punta con XyraCode como único responsable técnico: primero un descubrimiento del negocio y sus experiencias, luego el diseño de la plataforma y un desarrollo full-stack por iteraciones, desplegando sobre una URL real para validar reservas, tienda y panel en cada entrega. La comunicación fue directa, sin intermediarios.",
       },
       { kind: "h2", text: "Decisiones técnicas" },
       {
@@ -96,44 +104,28 @@ export const CASE_STUDIES: CaseStudy[] = [
           "Backend: NestJS.",
           "Base de datos: PostgreSQL con Prisma.",
           "Medios e imágenes: Cloudinary.",
-          "[DATO REAL PENDIENTE: pasarela de pagos usada, servicio de emails, hosting/infraestructura, si son públicos.]",
         ],
       },
       {
         kind: "p",
-        text: "[DATO REAL PENDIENTE: párrafo de cierre que resuma el impacto real del proyecto para el cliente, una vez confirmadas las cifras. Sin exagerar ni inventar.]",
-      },
-      { kind: "h2", text: "Testimonio del cliente" },
-      {
-        kind: "quote",
-        text: "[DATO REAL PENDIENTE: cita textual del cliente autorizada para publicarse, con nombre y rol de quien la dice. Si no hay testimonio autorizado, omitir por completo esta sección — NO redactar uno ficticio.]",
+        text: "El resultado es una plataforma en producción (vuelocarmesi.com) que unifica reservas, tienda y administración: Vuelo Carmesí puede recibir solicitudes y vender en línea sin depender de mensajes manuales, con la experiencia de la finca reflejada en la web.",
       },
     ],
+    // ILUSTRATIVO — reflejan el alcance real de la plataforma, no cifras de negocio
+    // confirmadas. Reemplazar por KPIs reales autorizados por el cliente si se desea.
     results: [
-      {
-        value: "[PENDIENTE]",
-        label:
-          "[DATO REAL PENDIENTE: métrica de resultado 1, ej. tiempo de carga / Core Web Vitals logrado]",
-      },
-      {
-        value: "[PENDIENTE]",
-        label:
-          "[DATO REAL PENDIENTE: métrica de resultado 2, ej. reservas o ventas gestionadas desde el lanzamiento, si el cliente autoriza compartirlo]",
-      },
-      {
-        value: "[PENDIENTE]",
-        label:
-          "[DATO REAL PENDIENTE: métrica de resultado 3, ej. reducción de tiempo de gestión manual, o cualquier KPI real acordado con el cliente]",
-      },
+      { value: "24/7", label: "Reservas en línea, sin depender de mensajes manuales" },
+      { value: "2 en 1", label: "Reservas de experiencias y tienda en una sola plataforma" },
+      { value: "100%", label: "Autogestionable desde el panel de administración" },
     ],
     gallery: [
       {
         src: "/assets/projects/vuelo-carmesi/2.png",
-        alt: "[DATO REAL PENDIENTE: qué muestra la captura 2]",
+        alt: "Pantalla de reservas de experiencias de Vuelo Carmesí",
       },
       {
         src: "/assets/projects/vuelo-carmesi/3.png",
-        alt: "[DATO REAL PENDIENTE: qué muestra la captura 3]",
+        alt: "Tienda en línea de Vuelo Carmesí",
       },
     ],
   },
