@@ -15,7 +15,7 @@ export function ArticleBody({
   className?: string;
 }) {
   return (
-    <div className={`prose-xyra ${className}`}>
+    <div className={`prose-xyra ${className}`.trim()}>
       <BlockRenderer blocks={blocks} />
     </div>
   );

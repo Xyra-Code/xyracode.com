@@ -12,6 +12,8 @@ export function generateStaticParams() {
   return SERVICE_PAGES.map((page) => ({ slug: page.slug }));
 }
 
+export const dynamicParams = false;
+
 export default async function Image({
   params,
 }: {

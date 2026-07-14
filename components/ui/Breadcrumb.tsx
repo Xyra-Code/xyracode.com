@@ -11,7 +11,7 @@ export function Breadcrumb({ items }: { items: Crumb[] }) {
     >
       <ol className="flex flex-wrap items-center gap-2">
         {items.map((item, i) => (
-          <li key={item.label} className="flex items-center gap-2">
+          <li key={`${item.label}-${i}`} className="flex items-center gap-2">
             {item.href ? (
               <Link
                 href={item.href}
