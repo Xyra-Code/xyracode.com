@@ -6,7 +6,7 @@ import { BlockRenderer } from "./BlockRenderer";
 // next/image necesita infra de Next; en jsdom lo sustituimos por un <img> simple.
 vi.mock("next/image", () => ({
   default: (props: { src: string; alt: string }) => (
-    // eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text
+    // eslint-disable-next-line @next/next/no-img-element
     <img src={props.src} alt={props.alt} />
   ),
 }));
