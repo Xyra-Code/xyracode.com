@@ -57,3 +57,53 @@ body {
     transition: none;
   }
 }
+
+/* Cuerpo de lectura largo (servicios, casos, artículos). El BlockRenderer
+   emite HTML semántico sin clases; esta capa le da la tipografía del handoff. */
+.prose-xyra > * + * {
+  margin-top: 1.4em;
+}
+.prose-xyra h2 {
+  margin-top: 1.8em;
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+}
+.prose-xyra p {
+  font-size: 17.5px;
+  line-height: 1.75;
+  color: rgba(226, 247, 242, 0.78);
+}
+.prose-xyra ul {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-left: 1.4em;
+  list-style: disc;
+  font-size: 17.5px;
+  line-height: 1.6;
+  color: rgba(226, 247, 242, 0.78);
+}
+.prose-xyra figure {
+  margin-top: 1.8em;
+}
+.prose-xyra figure img {
+  width: 100%;
+  height: auto;
+  border-radius: 16px;
+}
+.prose-xyra figcaption {
+  margin-top: 10px;
+  font-size: 13px;
+  text-align: center;
+  color: rgba(226, 247, 242, 0.5);
+}
+.prose-xyra blockquote {
+  padding-left: 20px;
+  border-left: 3px solid #5eead4;
+  font-size: 22px;
+  font-weight: 600;
+  color: #ffffff;
+}
