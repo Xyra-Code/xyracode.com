@@ -5,22 +5,18 @@ import { Footer } from "@/components/sections/Footer";
 import { Navbar } from "@/components/sections/Navbar";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Reveal } from "@/components/ui/Reveal";
-import { SERVICE_PAGES } from "@/lib/content";
+import { SERVICE_PAGES, SERVICE_PAGES_SEO } from "@/lib/content";
 import { breadcrumbLd } from "@/lib/jsonld";
 import { SEO } from "@/lib/seo";
 
-const HUB_TITLE = "Servicios de desarrollo web y software a medida | XyraCode";
-const HUB_DESCRIPTION =
-  "Desarrollo web, apps a medida y e-commerce en Colombia. Elige el servicio que necesitas: del prototipo a producción, con un solo responsable.";
-
 export const metadata: Metadata = {
-  title: { absolute: HUB_TITLE },
-  description: HUB_DESCRIPTION,
+  title: { absolute: SERVICE_PAGES_SEO.title },
+  description: SERVICE_PAGES_SEO.description,
   alternates: { canonical: "/servicios" },
   openGraph: {
     url: "/servicios",
-    title: HUB_TITLE,
-    description: HUB_DESCRIPTION,
+    title: SERVICE_PAGES_SEO.title,
+    description: SERVICE_PAGES_SEO.description,
   },
 };
 

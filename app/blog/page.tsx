@@ -6,19 +6,19 @@ import { Footer } from "@/components/sections/Footer";
 import { Navbar } from "@/components/sections/Navbar";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Reveal } from "@/components/ui/Reveal";
-import { BLOG_POSTS } from "@/lib/content";
+import { BLOG_POSTS, BLOG_SEO } from "@/lib/content";
 import { breadcrumbLd } from "@/lib/jsonld";
 import { SEO } from "@/lib/seo";
 
-const TITLE = "Blog de desarrollo web y software | XyraCode";
-const DESCRIPTION =
-  "Guías y comparativas sobre desarrollo web, apps y e-commerce en Colombia: precios, tecnologías y decisiones que importan para tu proyecto.";
-
 export const metadata: Metadata = {
-  title: { absolute: TITLE },
-  description: DESCRIPTION,
+  title: { absolute: BLOG_SEO.title },
+  description: BLOG_SEO.description,
   alternates: { canonical: "/blog" },
-  openGraph: { url: "/blog", title: TITLE, description: DESCRIPTION },
+  openGraph: {
+    url: "/blog",
+    title: BLOG_SEO.title,
+    description: BLOG_SEO.description,
+  },
 };
 
 const SITE_URL = SEO.siteUrl;
@@ -86,7 +86,7 @@ export default function BlogIndex() {
               Guías para decidir mejor
             </h1>
             <p className="max-w-160 text-[19px] leading-[1.6] text-[rgba(226,247,242,0.72)]">
-              {DESCRIPTION}
+              {BLOG_SEO.description}
             </p>
           </Reveal>
         </section>

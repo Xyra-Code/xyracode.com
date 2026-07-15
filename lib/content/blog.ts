@@ -23,6 +23,13 @@ export type BlogPost = {
   body: Block[];
 };
 
+/** SEO de la página de listado /blog. */
+export const BLOG_SEO = {
+  title: "Blog de desarrollo web y software | XyraCode",
+  description:
+    "Guías y comparativas sobre desarrollo web, apps y e-commerce en Colombia: precios, tecnologías y decisiones que importan para tu proyecto.",
+} as const;
+
 export const BLOG_POSTS: BlogPost[] = [
   {
     slug: "cuanto-cuesta-una-web-colombia-2026",

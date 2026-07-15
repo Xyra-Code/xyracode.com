@@ -25,6 +25,13 @@ export type ServicePage = {
   cta: { title: string; subtitle: string };
 };
 
+/** SEO de la página de listado /servicios. */
+export const SERVICE_PAGES_SEO = {
+  title: "Servicios de desarrollo web y software a medida | XyraCode",
+  description:
+    "Desarrollo web, apps a medida y e-commerce en Colombia. Elige el servicio que necesitas: del prototipo a producción, con un solo responsable.",
+} as const;
+
 export const SERVICE_PAGES: ServicePage[] = [
   {
     slug: "desarrollo-web",
