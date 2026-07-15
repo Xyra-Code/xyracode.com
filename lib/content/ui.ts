@@ -8,7 +8,6 @@ export const UI = {
     // Anclas con "/" inicial para que funcionen también desde /nosotros.
     links: [
       { label: "Servicios", href: "/servicios" },
-      { label: "Proceso", href: "/#proceso" },
       { label: "Proyectos", href: "/proyectos" },
       { label: "Blog", href: "/blog" },
       { label: "Nosotros", href: "/nosotros" },
