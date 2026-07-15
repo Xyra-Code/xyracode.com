@@ -2,6 +2,8 @@ import {
   GitHubIcon,
   InstagramIcon,
   LinkedInIcon,
+  FacebookIcon,
+  TikTokIcon,
   type BrandIcon,
 } from "@/components/ui/BrandIcons";
 import { CONTACT } from "./contact";
@@ -23,6 +25,14 @@ export const SOCIALS: Social[] = [
     href: "https://instagram.com/xyra_code",
     icon: InstagramIcon,
   },
+  { label: "Facebook",
+    href: "https://web.facebook.com/profile.php?id=61592017525680#",
+    icon: FacebookIcon,
+  },
+  { label: "TikTok",
+    href: "https://www.tiktok.com/@xyra.code",
+    icon: TikTokIcon,
+  }
 ];
 
 // ---------- Footer ----------

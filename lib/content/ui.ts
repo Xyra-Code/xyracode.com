@@ -47,11 +47,16 @@ export const UI = {
     emailPrefix: "O por correo a",
     schedule: "Agendar Reunión",
   },
+  floatingWhatsApp: {
+    eyebrow: "WhatsApp",
+    label: "Hablemos de tu proyecto",
+    aria: "Escríbenos por WhatsApp",
+  },
   footer: {
     tagline:
       "Agencia de desarrollo web. Diseño y código a medida para que tu negocio escale.",
     copyright: "© 2026 XyraCode. Todos los derechos reservados.",
-    madeWith: "hecho con </> en Colombia",
+    madeWith: "diseñado y programado con </> en Colombia",
   },
   nosotros: {
     headingPrefix: "El desarrollador detrás de",

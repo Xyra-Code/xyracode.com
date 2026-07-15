@@ -32,6 +32,78 @@ body {
   font-family: var(--font-sans), system-ui, sans-serif;
 }
 
+/* Botón flotante de WhatsApp (FloatingWhatsApp.tsx) — handoff design_handoff_whatsapp.
+   Keyframes custom que Tailwind no expresa inline. */
+@keyframes xcFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes xcFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+@keyframes xcHalo {
+  0% {
+    transform: scale(0.7);
+    opacity: 0.55;
+  }
+  70%,
+  100% {
+    transform: scale(1.9);
+    opacity: 0;
+  }
+}
+@keyframes xcWiggle {
+  0%,
+  88%,
+  100% {
+    transform: rotate(0deg);
+  }
+  91% {
+    transform: rotate(-11deg);
+  }
+  94% {
+    transform: rotate(9deg);
+  }
+  97% {
+    transform: rotate(-5deg);
+  }
+}
+
+/* Entrada del FAB (one-shot). */
+.wa-fab {
+  animation: xcFadeUp 0.5s ease-out both;
+}
+/* En hover se pausa la flotación y el ícono sube/crece un poco. */
+.wa-fab:hover .wa-core {
+  transform: translateY(-2px) scale(1.05);
+  animation-play-state: paused;
+}
+
+/* Animaciones infinitas (flotación, halo, saludo) solo sin reduced-motion. */
+@media (prefers-reduced-motion: no-preference) {
+  .wa-core {
+    animation: xcFloat 3.4s ease-in-out infinite;
+  }
+  .wa-halo {
+    animation: xcHalo 2.8s ease-out infinite;
+  }
+  .wa-glyph {
+    animation: xcWiggle 5s ease-in-out infinite;
+  }
+}
+
 /* Motion de entrada: fade-in + slide-up (handoff §5) */
 .reveal {
   opacity: 0;

@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
+import { FloatingWhatsApp } from "@/components/sections/FloatingWhatsApp";
 import { CONTACT, SOCIALS } from "@/lib/content";
 import { SEO } from "@/lib/seo";
 import "./globals.css";
@@ -114,6 +115,7 @@ export default function RootLayout({
           <style>{`.reveal { opacity: 1; transform: none; }`}</style>
         </noscript>
         {children}
+        <FloatingWhatsApp />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

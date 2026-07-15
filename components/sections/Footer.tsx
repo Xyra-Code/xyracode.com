@@ -13,7 +13,7 @@ export function Footer() {
               alt=""
               width={51}
               height={30}
-              className="mb-4 h-[30px] w-auto"
+              className="mb-4 h-7.5 w-auto"
             />
             <p className="text-[13px] leading-[1.6] text-white/50">
               {UI.footer.tagline}
