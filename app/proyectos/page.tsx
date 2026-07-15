@@ -7,19 +7,19 @@ import { Navbar } from "@/components/sections/Navbar";
 import { Chip } from "@/components/ui/Chip";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Reveal } from "@/components/ui/Reveal";
-import { PROJECTS } from "@/lib/content";
+import { PROJECTS, PROJECTS_SEO } from "@/lib/content";
 import { breadcrumbLd } from "@/lib/jsonld";
 import { SEO } from "@/lib/seo";
 
-const TITLE = "Proyectos y casos de estudio | XyraCode";
-const DESCRIPTION =
-  "Proyectos reales de desarrollo web y software a medida: plataformas, tiendas y web apps que llevamos del prototipo a producción.";
-
 export const metadata: Metadata = {
-  title: { absolute: TITLE },
-  description: DESCRIPTION,
+  title: { absolute: PROJECTS_SEO.title },
+  description: PROJECTS_SEO.description,
   alternates: { canonical: "/proyectos" },
-  openGraph: { url: "/proyectos", title: TITLE, description: DESCRIPTION },
+  openGraph: {
+    url: "/proyectos",
+    title: PROJECTS_SEO.title,
+    description: PROJECTS_SEO.description,
+  },
 };
 
 const SITE_URL = SEO.siteUrl;
@@ -39,8 +39,22 @@ const jsonLd = {
   ],
 };
 
-// Nº de "slots disponibles" atenuados para ilustrar que la grilla crece.
-const GROWTH_SLOTS = 2;
+// "Slots disponibles" con barra de progreso: ilustran que la grilla crece.
+// Cada uno dice algo distinto, en la voz del estudio (aria-hidden).
+const GROWTH_SLOTS = [
+  {
+    label: "Tu proyecto acá",
+    caption: "El siguiente caso que publiquemos podría ser el tuyo.",
+  },
+  {
+    label: "En construcción",
+    caption: "Guardamos este lugar para lo que viene.",
+  },
+  {
+    label: "Escribiendo el próximo",
+    caption: "Ya estamos trabajando en el que viene después.",
+  },
+];
 
 export default function ProyectosIndex() {
   const [featured, ...rest] = PROJECTS;
@@ -65,7 +79,7 @@ export default function ProyectosIndex() {
               Trabajo real, en producción
             </h1>
             <p className="max-w-160 text-[19px] leading-[1.6] text-[rgba(226,247,242,0.72)]">
-              {DESCRIPTION}
+              {PROJECTS_SEO.description}
             </p>
           </Reveal>
         </section>
@@ -74,15 +88,17 @@ export default function ProyectosIndex() {
         {featured && (
           <section aria-label="Proyecto destacado" className="px-6 pb-14 md:px-16">
             <Reveal className="mx-auto max-w-300">
-              <article className="overflow-hidden rounded-[20px] border border-[rgba(94,234,212,0.15)] bg-white/3 md:grid md:grid-cols-2">
-                <div className="relative aspect-16/10 md:order-2 md:h-full">
+              <article className="overflow-hidden rounded-[20px] border border-[rgba(94,234,212,0.15)] bg-white/3 md:grid md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
+                <div className="flex items-center md:order-2">
                   {featured.images?.[0] && (
                     <Image
                       src={featured.images[0]}
                       alt={`${featured.title} — ${featured.description ?? featured.type}`}
-                      fill
+                      width={1900}
+                      height={867}
                       sizes="(min-width: 768px) 50vw, 100vw"
-                      className="object-cover"
+                      className="h-auto w-full"
+                      priority
                     />
                   )}
                 </div>
@@ -157,13 +173,30 @@ export default function ProyectosIndex() {
             })}
 
             {/* Slots atenuados: comunican que el portafolio crece (no son contenido real). */}
-            {Array.from({ length: GROWTH_SLOTS }).map((_, i) => (
+            {GROWTH_SLOTS.map((slot, i) => (
               <Reveal key={`slot-${i}`} delay={(rest.length + i) * 80} className="h-full">
                 <div
                   aria-hidden
-                  className="flex h-full min-h-64 items-center justify-center rounded-[16px] border border-dashed border-[rgba(94,234,212,0.2)] bg-white/2 font-mono text-[13px] text-[rgba(226,247,242,0.4)]"
+                  className="group relative flex h-full min-h-64 flex-col justify-end overflow-hidden rounded-[16px] border border-dashed border-[rgba(94,234,212,0.22)] bg-white/2 p-6 transition duration-300 ease-out hover:-translate-y-1 hover:border-[rgba(94,234,212,0.5)] hover:bg-white/4"
                 >
-                  Próximo proyecto
+                  {/* Etiqueta de estado arriba */}
+                  <span className="mb-auto font-mono text-[12px] tracking-wide text-teal-300">
+                    {"// en camino"}
+                  </span>
+                  {/* Título + copy */}
+                  <h2 className="mb-2 text-[19px] font-extrabold tracking-[-0.02em]">
+                    {slot.label}
+                  </h2>
+                  <p className="mb-4 text-[13px] leading-[1.6] text-[rgba(226,247,242,0.5)]">
+                    {slot.caption}
+                  </p>
+                  {/* Barra "cargando" indeterminada */}
+                  <div className="xc-prog-track">
+                    <div
+                      className="xc-prog-fill"
+                      style={{ animationDelay: `${i * -0.55}s` }}
+                    />
+                  </div>
                 </div>
               </Reveal>
             ))}

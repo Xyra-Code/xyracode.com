@@ -104,6 +104,39 @@ body {
   }
 }
 
+/* Slots de crecimiento del portafolio (proyectos/page.tsx): barra "cargando"
+   indeterminada — un segmento teal que recorre la pista una y otra vez. */
+@keyframes xcProgress {
+  0% {
+    left: -40%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+.xc-prog-track {
+  position: relative;
+  height: 6px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(94, 234, 212, 0.12);
+}
+.xc-prog-fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 25%;
+  width: 40%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, #10b981 35%, #5eead4 65%, transparent);
+  box-shadow: 0 0 12px rgba(94, 234, 212, 0.5);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .xc-prog-fill {
+    animation: xcProgress 1.7s ease-in-out infinite;
+  }
+}
+
 /* Motion de entrada: fade-in + slide-up (handoff §5) */
 .reveal {
   opacity: 0;
