@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/dualtherapist-design-system-149c5f08-6c58-49aa-8e1a-fa4f71a41f2d/tokens/fonts.css">
+  <style>
+    body { margin:0; background:#08110F; }
+    @keyframes xcPulse { 0% { box-shadow:0 0 0 0 rgba(16,185,129,0.45); } 70% { box-shadow:0 0 0 18px rgba(16,185,129,0); } 100% { box-shadow:0 0 0 0 rgba(16,185,129,0); } }
+    @keyframes xcFadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes xcFloat { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-6px); } }
+    @keyframes xcHalo { 0% { transform:scale(0.7); opacity:0.55; } 70% { transform:scale(1.9); opacity:0; } 100% { transform:scale(1.9); opacity:0; } }
+    @keyframes xcWiggle { 0%,88%,100% { transform:rotate(0deg); } 91% { transform:rotate(-11deg); } 94% { transform:rotate(9deg); } 97% { transform:rotate(-5deg); } }
+    .wa-fab:hover .wa-label { max-width:280px !important; opacity:1 !important; margin-right:14px !important; }
+    .wa-fab:hover .wa-core { transform:translateY(-2px) scale(1.05); animation-play-state:paused; }
+  </style>
+</helmet>
+
+<div style="font-family:'Plus Jakarta Sans',system-ui,sans-serif; min-height:100vh; position:relative; overflow:hidden; background:radial-gradient(1200px 700px at 80% 10%, #0d2b26 0%, #08110F 60%);">
+
+  <!-- contexto: encabezado del sitio para mostrar el botón en su ambiente -->
+  <div style="position:absolute; inset:0; opacity:0.5; pointer-events:none;">
+    <div style="position:absolute; top:-180px; left:-120px; width:520px; height:520px; border-radius:9999px; background:#0F766E; opacity:0.35; filter:blur(140px);"></div>
+    <div style="position:absolute; bottom:-220px; right:60px; width:560px; height:560px; border-radius:9999px; background:#10B981; opacity:0.14; filter:blur(150px);"></div>
+  </div>
+
+  <div style="position:relative; padding:72px 80px; display:flex; flex-direction:column; gap:14px;">
+    <div style="font-size:12px; font-weight:800; letter-spacing:0.22em; text-transform:uppercase; color:#5EEAD4;">Componente · Botón flotante de WhatsApp</div>
+    <div style="font-size:44px; font-weight:800; letter-spacing:-0.03em; color:#fff; line-height:1;">Siempre a un toque de escribirte</div>
+    <div style="font-size:16px; color:rgba(226,247,242,0.6); max-width:640px; line-height:1.6;">Fijo abajo a la derecha. Reposado muestra solo el ícono con un pulso sutil; al pasar el cursor revela la invitación. Pensado para vivir sobre el fondo ink de xyracode.com.</div>
+
+    <!-- estados de referencia -->
+    <div style="display:flex; gap:56px; align-items:flex-end; margin-top:56px; flex-wrap:wrap;">
+      <div style="display:flex; flex-direction:column; gap:16px; align-items:flex-start;">
+        <div style="font-size:12px; font-weight:800; letter-spacing:0.2em; text-transform:uppercase; color:rgba(226,247,242,0.45);">Reposo</div>
+        <div style="display:flex; align-items:center;">
+          <div class="wa-core" style="display:flex; align-items:center; justify-content:center; transition:transform 0.25s ease;">
+            <svg viewBox="0 0 32 32" width="58" height="58" fill="#5EEAD4" style="filter:drop-shadow(0 8px 20px rgba(16,185,129,0.45));" xmlns="http://www.w3.org/2000/svg"><path d="M16.001 3.2C8.94 3.2 3.2 8.94 3.2 16c0 2.26.6 4.46 1.73 6.4L3.09 28.8l6.56-1.72a12.74 12.74 0 006.35 1.62h.01c7.06 0 12.8-5.74 12.8-12.8 0-3.42-1.33-6.63-3.75-9.05A12.7 12.7 0 0016 3.2zm0 2.13a10.6 10.6 0 017.54 3.13 10.6 10.6 0 013.13 7.54c0 5.88-4.79 10.67-10.67 10.67a10.6 10.6 0 01-5.4-1.48l-.39-.23-4.02 1.05 1.07-3.92-.25-.4a10.55 10.55 0 01-1.62-5.69c0-5.88 4.78-10.67 10.66-10.67zm-4.02 5.35c-.19 0-.5.07-.76.36-.26.29-1 .98-1 2.39s1.02 2.77 1.17 2.96c.14.19 2 3.06 4.86 4.29.68.29 1.2.46 1.62.59.68.22 1.3.19 1.79.12.55-.08 1.68-.69 1.92-1.35.24-.66.24-1.23.17-1.35-.07-.12-.26-.19-.55-.34-.29-.14-1.68-.83-1.94-.92-.26-.1-.45-.14-.64.15-.19.29-.73.92-.9 1.11-.16.19-.33.22-.62.07-.29-.14-1.2-.44-2.29-1.41-.85-.76-1.42-1.69-1.58-1.98-.16-.29-.02-.45.13-.59.13-.13.29-.34.43-.5.15-.17.19-.29.29-.48.1-.19.05-.36-.02-.5-.07-.15-.64-1.56-.9-2.13-.24-.56-.48-.48-.64-.49l-.55-.01z"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:16px; align-items:flex-start;">
+        <div style="font-size:12px; font-weight:800; letter-spacing:0.2em; text-transform:uppercase; color:rgba(226,247,242,0.45);">Hover / expandido</div>
+        <div style="display:flex; align-items:center;">
+          <div style="display:flex; align-items:center; background:rgba(255,255,255,0.05); border:1px solid rgba(94,234,212,0.25); border-radius:9999px; padding:8px 8px 8px 20px; backdrop-filter:blur(12px);">
+            <div style="display:flex; flex-direction:column; margin-right:14px;">
+              <span style="font-size:11px; font-weight:800; letter-spacing:0.14em; text-transform:uppercase; color:#5EEAD4;">WhatsApp</span>
+              <span style="font-size:15px; font-weight:700; color:#fff; letter-spacing:-0.01em;">Hablemos de tu proyecto</span>
+            </div>
+            <div style="display:flex; align-items:center; justify-content:center; flex-shrink:0; padding:0 4px;">
+              <svg viewBox="0 0 32 32" width="50" height="50" fill="#5EEAD4" style="filter:drop-shadow(0 8px 20px rgba(16,185,129,0.4));" xmlns="http://www.w3.org/2000/svg"><path d="M16.001 3.2C8.94 3.2 3.2 8.94 3.2 16c0 2.26.6 4.46 1.73 6.4L3.09 28.8l6.56-1.72a12.74 12.74 0 006.35 1.62h.01c7.06 0 12.8-5.74 12.8-12.8 0-3.42-1.33-6.63-3.75-9.05A12.7 12.7 0 0016 3.2zm0 2.13a10.6 10.6 0 017.54 3.13 10.6 10.6 0 013.13 7.54c0 5.88-4.79 10.67-10.67 10.67a10.6 10.6 0 01-5.4-1.48l-.39-.23-4.02 1.05 1.07-3.92-.25-.4a10.55 10.55 0 01-1.62-5.69c0-5.88 4.78-10.67 10.66-10.67zm-4.02 5.35c-.19 0-.5.07-.76.36-.26.29-1 .98-1 2.39s1.02 2.77 1.17 2.96c.14.19 2 3.06 4.86 4.29.68.29 1.2.46 1.62.59.68.22 1.3.19 1.79.12.55-.08 1.68-.69 1.92-1.35.24-.66.24-1.23.17-1.35-.07-.12-.26-.19-.55-.34-.29-.14-1.68-.83-1.94-.92-.26-.1-.45-.14-.64.15-.19.29-.73.92-.9 1.11-.16.19-.33.22-.62.07-.29-.14-1.2-.44-2.29-1.41-.85-.76-1.42-1.69-1.58-1.98-.16-.29-.02-.45.13-.59.13-.13.29-.34.43-.5.15-.17.19-.29.29-.48.1-.19.05-.36-.02-.5-.07-.15-.64-1.56-.9-2.13-.24-.56-.48-.48-.64-.49l-.55-.01z"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- botón flotante REAL, funcional, fijo -->
+  <a href="https://wa.me/573000000000?text=Hola%20Xyra%20Code%2C%20quiero%20cotizar%20un%20proyecto" target="_blank" rel="noopener"
+     class="wa-fab" aria-label="Escríbenos por WhatsApp"
+     style="position:fixed; right:28px; bottom:28px; z-index:9999; display:flex; align-items:center; text-decoration:none; animation:xcFadeUp 0.5s ease-out both;">
+    <div class="wa-label" style="max-width:0; opacity:0; overflow:hidden; white-space:nowrap; transition:max-width 0.35s ease, opacity 0.25s ease, margin 0.35s ease; margin-right:0;">
+      <div style="display:flex; flex-direction:column; background:rgba(11,31,28,0.85); border:1px solid rgba(94,234,212,0.28); border-radius:16px; padding:10px 18px; backdrop-filter:blur(14px); box-shadow:0 18px 40px -22px rgba(0,0,0,0.8);">
+        <span style="font-size:10px; font-weight:800; letter-spacing:0.16em; text-transform:uppercase; color:#5EEAD4;">WhatsApp</span>
+        <span style="font-size:14px; font-weight:700; color:#fff; letter-spacing:-0.01em;">Hablemos de tu proyecto</span>
+      </div>
+    </div>
+    <div class="wa-core" style="position:relative; display:flex; align-items:center; justify-content:center; transition:transform 0.25s ease; animation:xcFloat 3.4s ease-in-out infinite;">
+      <span class="wa-halo" style="position:absolute; width:56px; height:56px; border-radius:9999px; background:radial-gradient(circle,#10B981 0%,rgba(16,185,129,0) 70%); animation:xcHalo 2.8s ease-out infinite; pointer-events:none;"></span>
+      <svg viewBox="0 0 32 32" width="56" height="56" fill="#5EEAD4" style="position:relative; filter:drop-shadow(0 8px 22px rgba(16,185,129,0.5)); animation:xcWiggle 5s ease-in-out infinite; transform-origin:center;" xmlns="http://www.w3.org/2000/svg"><path d="M16.001 3.2C8.94 3.2 3.2 8.94 3.2 16c0 2.26.6 4.46 1.73 6.4L3.09 28.8l6.56-1.72a12.74 12.74 0 006.35 1.62h.01c7.06 0 12.8-5.74 12.8-12.8 0-3.42-1.33-6.63-3.75-9.05A12.7 12.7 0 0016 3.2zm0 2.13a10.6 10.6 0 017.54 3.13 10.6 10.6 0 013.13 7.54c0 5.88-4.79 10.67-10.67 10.67a10.6 10.6 0 01-5.4-1.48l-.39-.23-4.02 1.05 1.07-3.92-.25-.4a10.55 10.55 0 01-1.62-5.69c0-5.88 4.78-10.67 10.66-10.67zm-4.02 5.35c-.19 0-.5.07-.76.36-.26.29-1 .98-1 2.39s1.02 2.77 1.17 2.96c.14.19 2 3.06 4.86 4.29.68.29 1.2.46 1.62.59.68.22 1.3.19 1.79.12.55-.08 1.68-.69 1.92-1.35.24-.66.24-1.23.17-1.35-.07-.12-.26-.19-.55-.34-.29-.14-1.68-.83-1.94-.92-.26-.1-.45-.14-.64.15-.19.29-.73.92-.9 1.11-.16.19-.33.22-.62.07-.29-.14-1.2-.44-2.29-1.41-.85-.76-1.42-1.69-1.58-1.98-.16-.29-.02-.45.13-.59.13-.13.29-.34.43-.5.15-.17.19-.29.29-.48.1-.19.05-.36-.02-.5-.07-.15-.64-1.56-.9-2.13-.24-.56-.48-.48-.64-.49l-.55-.01z"/></svg>
+    </div>
+  </a>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  componentDidMount() {
+    const load = () => { if (window.lucide) window.lucide.createIcons(); };
+    if (window.lucide) { load(); return; }
+    const s = document.createElement('script');
+    s.src = 'https://unpkg.com/lucide@latest';
+    s.onload = load;
+    document.head.appendChild(s);
+  }
+  renderVals() { return {}; }
+  // (bare-icon variant)
+}
+</script>
+</body>
+</html>

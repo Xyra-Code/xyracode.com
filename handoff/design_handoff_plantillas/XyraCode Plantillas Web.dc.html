@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <meta name="design_doc_mode" content="canvas">
+  <link rel="stylesheet" href="_ds/dualtherapist-design-system-149c5f08-6c58-49aa-8e1a-fa4f71a41f2d/tokens/fonts.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap">
+  <style>
+    body { margin:0; background:#0A1412; }
+    a { color:#5EEAD4; text-decoration:none; } a:hover { color:#2DD4BF; }
+    .tpl { width:1440px; background:#08110F; color:#fff; font-family:'Plus Jakarta Sans',system-ui,sans-serif; border-radius:20px; overflow:hidden; box-shadow:0 40px 120px -60px rgba(0,0,0,0.9); }
+    .eyebrow { font-size:12px; font-weight:800; letter-spacing:0.22em; text-transform:uppercase; color:#5EEAD4; }
+    .nav { display:flex; align-items:center; justify-content:space-between; padding:22px 56px; border-bottom:1px solid rgba(94,234,212,0.1); }
+    .navlinks { display:flex; gap:30px; font-size:14px; font-weight:600; color:rgba(226,247,242,0.7); }
+    .foot { border-top:1px solid rgba(94,234,212,0.1); padding:36px 56px; display:flex; align-items:center; justify-content:space-between; font-size:13px; color:rgba(226,247,242,0.45); font-family:'JetBrains Mono',monospace; }
+    .badge { display:inline-flex; align-items:center; padding:6px 14px; border-radius:9999px; background:#10B981; color:#04211A; font-size:15px; font-weight:800; letter-spacing:-0.01em; }
+    .btn { display:inline-flex; align-items:center; gap:8px; background:#10B981; color:#04211A; font-size:15px; font-weight:800; padding:14px 28px; border-radius:9999px; }
+    .btn-ghost { display:inline-flex; align-items:center; gap:8px; border:1px solid rgba(94,234,212,0.35); color:#5EEAD4; font-size:15px; font-weight:700; padding:14px 28px; border-radius:9999px; }
+    .blob { position:absolute; border-radius:9999px; filter:blur(130px); pointer-events:none; }
+  </style>
+</helmet>
+
+<div style="font-family:'Plus Jakarta Sans',system-ui,sans-serif; padding:80px; display:flex; flex-direction:column; gap:80px; min-width:max-content;">
+
+  <!-- ============ INTRO ============ -->
+  <div style="max-width:1440px; display:flex; flex-direction:column; gap:14px;">
+    <div class="eyebrow">Handoff · Plantillas de UI para xyracode.com</div>
+    <div style="font-size:52px; font-weight:800; letter-spacing:-0.03em; color:#fff; line-height:1;">6 plantillas de página, listas para maquetar</div>
+    <div style="font-size:16px; color:rgba(226,247,242,0.6); max-width:820px; line-height:1.6;">Referencia visual para la parte 4A del plan (diseño de layout). Cada bloque es una plantilla dirigida por datos: mismo lenguaje que la marca XyraCode. Los recuadros punteados marcan los slots de assets raster (parte 4B) que aportás vos.</div>
+    <div style="display:flex; gap:10px; margin-top:8px; flex-wrap:wrap;">
+      <a href="#t1" style="padding:8px 16px; border-radius:9999px; border:1px solid rgba(94,234,212,0.3); font-size:13px; font-weight:700;">1 · Página de servicio</a>
+      <a href="#t2" style="padding:8px 16px; border-radius:9999px; border:1px solid rgba(94,234,212,0.3); font-size:13px; font-weight:700;">2 · Hub /servicios</a>
+      <a href="#t3" style="padding:8px 16px; border-radius:9999px; border:1px solid rgba(94,234,212,0.3); font-size:13px; font-weight:700;">3 · Índice proyectos</a>
+      <a href="#t4" style="padding:8px 16px; border-radius:9999px; border:1px solid rgba(94,234,212,0.3); font-size:13px; font-weight:700;">4 · Caso de estudio</a>
+      <a href="#t5" style="padding:8px 16px; border-radius:9999px; border:1px solid rgba(94,234,212,0.3); font-size:13px; font-weight:700;">5 · Índice blog</a>
+      <a href="#t6" style="padding:8px 16px; border-radius:9999px; border:1px solid rgba(94,234,212,0.3); font-size:13px; font-weight:700;">6 · Artículo</a>
+    </div>
+  </div>
+
+  <!-- ============ 1 · PÁGINA DE SERVICIO ============ -->
+  <div id="t1" style="display:flex; flex-direction:column; gap:16px;">
+    <div style="display:flex; align-items:baseline; gap:14px;"><div style="font-size:22px; font-weight:800; color:#fff;">1 · Página de servicio</div><div style="font-size:14px; color:rgba(226,247,242,0.5);">/servicios/[slug] — hero + beneficios + mini-caso + CTA</div></div>
+    <div class="tpl" data-screen-label="Plantilla servicio">
+      <div class="nav">
+        <img src="assets/xc-teal-horizontal-trans.png" alt="XyraCode" style="height:38px;">
+        <div class="navlinks"><span style="color:#5EEAD4;">Servicios</span><span>Proyectos</span><span>Blog</span><span>Nosotros</span><span>Contacto</span></div>
+      </div>
+      <!-- hero -->
+      <div style="position:relative; overflow:hidden; padding:72px 56px 60px;">
+        <div class="blob" style="top:-200px; right:-140px; width:560px; height:560px; background:#0F766E; opacity:0.4;"></div>
+        <div style="position:relative; max-width:920px; display:flex; flex-direction:column; gap:22px;">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:13px; color:rgba(226,247,242,0.5);">Servicios / <span style="color:#5EEAD4;">Desarrollo web a medida</span></div>
+          <div class="eyebrow">Desarrollo web a medida</div>
+          <h1 style="font-size:56px; font-weight:800; letter-spacing:-0.03em; line-height:1.02; margin:0;">Sitios rápidos, propios y hechos para tu negocio</h1>
+          <p style="font-size:19px; line-height:1.6; color:rgba(226,247,242,0.72); margin:0; max-width:680px;">Nada de plantillas genéricas. Diseño y programo cada sección según lo que tu negocio necesita vender, con código que es tuyo desde el día uno.</p>
+          <div style="display:flex; gap:14px; margin-top:6px;"><span class="btn">Cotizar este servicio →</span><span class="btn-ghost">Ver proyectos</span></div>
+        </div>
+      </div>
+      <!-- beneficios -->
+      <div style="padding:20px 56px 64px;">
+        <div class="eyebrow" style="margin-bottom:24px;">Qué incluye</div>
+        <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:20px;">
+          <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(94,234,212,0.15); border-radius:16px; padding:28px;">
+            <div style="width:52px; height:52px; border-radius:14px; background:rgba(94,234,212,0.12); display:flex; align-items:center; justify-content:center; margin-bottom:18px;"><i data-lucide="gauge" style="color:#5EEAD4; width:26px; height:26px;"></i></div>
+            <div style="font-size:18px; font-weight:700; margin-bottom:8px;">Performance de fábrica</div>
+            <div style="font-size:14.5px; line-height:1.6; color:rgba(226,247,242,0.6);">Carga en menos de 2s, optimizado para Core Web Vitals y SEO técnico.</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(94,234,212,0.15); border-radius:16px; padding:28px;">
+            <div style="width:52px; height:52px; border-radius:14px; background:rgba(94,234,212,0.12); display:flex; align-items:center; justify-content:center; margin-bottom:18px;"><i data-lucide="pen-tool" style="color:#5EEAD4; width:26px; height:26px;"></i></div>
+            <div style="font-size:18px; font-weight:700; margin-bottom:8px;">Diseño a medida</div>
+            <div style="font-size:14.5px; line-height:1.6; color:rgba(226,247,242,0.6);">Cada pantalla pensada para tu marca y tu conversión, no un tema comprado.</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(94,234,212,0.15); border-radius:16px; padding:28px;">
+            <div style="width:52px; height:52px; border-radius:14px; background:rgba(94,234,212,0.12); display:flex; align-items:center; justify-content:center; margin-bottom:18px;"><i data-lucide="code-2" style="color:#5EEAD4; width:26px; height:26px;"></i></div>
+            <div style="font-size:18px; font-weight:700; margin-bottom:8px;">Código tuyo</div>
+            <div style="font-size:14.5px; line-height:1.6; color:rgba(226,247,242,0.6);">Repositorio propio, sin dependencias raras. Podés escalar con quien quieras.</div>
+          </div>
+        </div>
+      </div>
+      <!-- mini caso (prueba) -->
+      <div style="background:#0B1F1C; padding:56px;">
+        <div class="eyebrow" style="margin-bottom:24px;">Prueba · caso real</div>
+        <div style="display:grid; grid-template-columns:1fr 1.1fr; gap:44px; align-items:center;">
+          <div style="border-radius:16px; overflow:hidden; border:1px solid rgba(94,234,212,0.2); aspect-ratio:16/10; background:repeating-linear-gradient(135deg,rgba(94,234,212,0.06) 0 12px,transparent 12px 24px); display:flex; align-items:center; justify-content:center;">
+            <div style="text-align:center; color:rgba(94,234,212,0.6); font-family:'JetBrains Mono',monospace; font-size:13px;"><div style="font-size:26px; margin-bottom:6px;">▣</div>Screenshot del proyecto<br>1200×750</div>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:16px;">
+            <div style="font-size:26px; font-weight:800; letter-spacing:-0.02em; line-height:1.15;">Vuelo Carmesí</div>
+            <p style="font-size:16px; line-height:1.65; color:rgba(226,247,242,0.68); margin:0;">"[Cita corta del cliente sobre el resultado.]" — 2 líneas de contexto sobre el problema y qué se resolvió.</p>
+            <div style="display:flex; gap:36px; margin-top:6px;">
+              <div><div style="font-size:30px; font-weight:800; color:#5EEAD4;">-58%</div><div style="font-size:13px; color:rgba(226,247,242,0.5);">tiempo de carga</div></div>
+              <div><div style="font-size:30px; font-weight:800; color:#5EEAD4;">4 sem</div><div style="font-size:13px; color:rgba(226,247,242,0.5);">de idea a producción</div></div>
+            </div>
+            <a href="#t4" style="font-size:14px; font-weight:700; margin-top:6px;">Ver caso completo →</a>
+          </div>
+        </div>
+      </div>
+      <!-- CTA -->
+      <div style="position:relative; overflow:hidden; padding:64px 56px; text-align:center;">
+        <div class="blob" style="top:50%; left:50%; transform:translate(-50%,-50%); width:640px; height:400px; background:#0F766E; opacity:0.25;"></div>
+        <div style="position:relative; display:flex; flex-direction:column; align-items:center; gap:20px;">
+          <h2 style="font-size:38px; font-weight:800; letter-spacing:-0.03em; margin:0;">¿Arrancamos tu sitio?</h2>
+          <p style="font-size:16px; color:rgba(226,247,242,0.65); margin:0;">Primera propuesta en menos de 48h. Sin compromiso.</p>
+          <span class="btn">Escribime por WhatsApp →</span>
+        </div>
+      </div>
+      <div class="foot"><span>© 2026 Xyra Code · Villavicencio, Colombia</span><span>contacto@xyracode.com</span></div>
+    </div>
+  </div>
+
+  <!-- ============ 2 · HUB SERVICIOS ============ -->
+  <div id="t2" style="display:flex; flex-direction:column; gap:16px;">
+    <div style="display:flex; align-items:baseline; gap:14px;"><div style="font-size:22px; font-weight:800; color:#fff;">2 · Hub de servicios</div><div style="font-size:14px; color:rgba(226,247,242,0.5);">/servicios — intro + grid de las 4 páginas + CTA</div></div>
+    <div class="tpl" data-screen-label="Plantilla hub servicios">
+      <div class="nav">
+        <img src="assets/xc-teal-horizontal-trans.png" alt="XyraCode" style="height:38px;">
+        <div class="navlinks"><span style="color:#5EEAD4;">Servicios</span><span>Proyectos</span><span>Blog</span><span>Nosotros</span><span>Contacto</span></div>
+      </div>
+      <div style="position:relative; overflow:hidden; padding:72px 56px 44px; text-align:center;">
+        <div class="blob" style="top:-220px; left:50%; transform:translateX(-50%); width:700px; height:500px; background:#0F766E; opacity:0.3;"></div>
+        <div style="position:relative; display:flex; flex-direction:column; align-items:center; gap:18px;">
+          <div class="eyebrow">Servicios</div>
+          <h1 style="font-size:52px; font-weight:800; letter-spacing:-0.03em; line-height:1.03; margin:0; max-width:760px;">Todo el ciclo de tu producto digital, con una sola persona a cargo</h1>
+          <p style="font-size:18px; color:rgba(226,247,242,0.7); margin:0; max-width:600px; line-height:1.6;">Elegí por dónde empezar. Cada servicio incluye diseño, desarrollo y puesta en producción.</p>
+        </div>
+      </div>
+      <div style="padding:20px 56px 64px;">
+        <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:22px;">
+          <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(94,234,212,0.15); border-radius:20px; padding:34px; display:flex; flex-direction:column; gap:16px;">
+            <div style="width:56px; height:56px; border-radius:16px; background:rgba(94,234,212,0.12); display:flex; align-items:center; justify-content:center;"><i data-lucide="globe" style="color:#5EEAD4; width:28px; height:28px;"></i></div>
+            <div style="font-size:24px; font-weight:800; letter-spacing:-0.02em;">Desarrollo web a medida</div>
+            <p style="font-size:15px; line-height:1.6; color:rgba(226,247,242,0.6); margin:0;">Sitios institucionales y landings rápidas, propias y optimizadas para vender.</p>
+            <a href="#t1" style="font-size:14px; font-weight:700; margin-top:auto;">Ver servicio →</a>
+          </div>
+          <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(94,234,212,0.15); border-radius:20px; padding:34px; display:flex; flex-direction:column; gap:16px;">
+            <div style="width:56px; height:56px; border-radius:16px; background:rgba(94,234,212,0.12); display:flex; align-items:center; justify-content:center;"><i data-lucide="layout-dashboard" style="color:#5EEAD4; width:28px; height:28px;"></i></div>
+            <div style="font-size:24px; font-weight:800; letter-spacing:-0.02em;">Apps a medida</div>
+            <p style="font-size:15px; line-height:1.6; color:rgba(226,247,242,0.6); margin:0;">Web apps, dashboards y paneles internos para automatizar tu operación.</p>
+            <a href="#t1" style="font-size:14px; font-weight:700; margin-top:auto;">Ver servicio →</a>
+          </div>
+          <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(94,234,212,0.15); border-radius:20px; padding:34px; display:flex; flex-direction:column; gap:16px;">
+            <div style="width:56px; height:56px; border-radius:16px; background:rgba(94,234,212,0.12); display:flex; align-items:center; justify-content:center;"><i data-lucide="shopping-cart" style="color:#5EEAD4; width:28px; height:28px;"></i></div>
+            <div style="font-size:24px; font-weight:800; letter-spacing:-0.02em;">E-commerce</div>
+            <p style="font-size:15px; line-height:1.6; color:rgba(226,247,242,0.6); margin:0;">Tiendas online con pasarela de pago, catálogo y panel de administración.</p>
+            <a href="#t1" style="font-size:14px; font-weight:700; margin-top:auto;">Ver servicio →</a>
+          </div>
+          <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(94,234,212,0.15); border-radius:20px; padding:34px; display:flex; flex-direction:column; gap:16px;">
+            <div style="width:56px; height:56px; border-radius:16px; background:rgba(94,234,212,0.12); display:flex; align-items:center; justify-content:center;"><i data-lucide="map-pin" style="color:#5EEAD4; width:28px; height:28px;"></i></div>
+            <div style="font-size:24px; font-weight:800; letter-spacing:-0.02em;">Desarrollo web en Villavicencio</div>
+            <p style="font-size:15px; line-height:1.6; color:rgba(226,247,242,0.6); margin:0;">Atención local, cara a cara. Tu desarrollador en la ciudad, no un call center.</p>
+            <a href="#t1" style="font-size:14px; font-weight:700; margin-top:auto;">Ver servicio →</a>
+          </div>
+        </div>
+      </div>
+      <div class="foot"><span>© 2026 Xyra Code · Villavicencio, Colombia</span><span>contacto@xyracode.com</span></div>
+    </div>
+  </div>
+
+  <!-- ============ 3 · ÍNDICE PROYECTOS ============ -->
+  <div id="t3" style="display:flex; flex-direction:column; gap:16px;">
+    <div style="display:flex; align-items:baseline; gap:14px;"><div style="font-size:22px; font-weight:800; color:#fff;">3 · Índice de proyectos</div><div style="font-size:14px; color:rgba(226,247,242,0.5);">/proyectos — crece con cada caso</div></div>
+    <div class="tpl" data-screen-label="Plantilla índice proyectos">
+      <div class="nav">
+        <img src="assets/xc-teal-horizontal-trans.png" alt="XyraCode" style="height:38px;">
+        <div class="navlinks"><span>Servicios</span><span style="color:#5EEAD4;">Proyectos</span><span>Blog</span><span>Nosotros</span><span>Contacto</span></div>
+      </div>
+      <div style="padding:64px 56px 32px;">
+        <div class="eyebrow" style="margin-bottom:16px;">Portfolio</div>
+        <h1 style="font-size:52px; font-weight:800; letter-spacing:-0.03em; line-height:1.03; margin:0 0 12px;">Proyectos que ya están en producción</h1>
+        <p style="font-size:18px; color:rgba(226,247,242,0.7); margin:0; max-width:600px; line-height:1.6;">Casos reales, con el problema, la solución y el resultado medible.</p>
+      </div>
+      <div style="padding:20px 56px 64px; display:flex; flex-direction:column; gap:22px;">
+        <!-- featured -->
+        <div style="display:grid; grid-template-columns:1.3fr 1fr; gap:0; background:rgba(255,255,255,0.03); border:1px solid rgba(94,234,212,0.15); border-radius:20px; overflow:hidden;">
+          <div style="aspect-ratio:16/10; background:repeating-linear-gradient(135deg,rgba(94,234,212,0.06) 0 12px,transparent 12px 24px); display:flex; align-items:center; justify-content:center;">
+            <div style="text-align:center; color:rgba(94,234,212,0.6); font-family:'JetBrains Mono',monospace; font-size:13px;"><div style="font-size:26px; margin-bottom:6px;">▣</div>Cover del proyecto<br>1200×750</div>
+          </div>
+          <div style="padding:40px; display:flex; flex-direction:column; gap:14px; justify-content:center;">
+            <div style="display:flex; gap:8px;"><span style="font-size:12px; font-weight:700; padding:4px 12px; border-radius:9999px; background:rgba(94,234,212,0.12); color:#5EEAD4;">Web app</span><span style="font-size:12px; font-weight:700; padding:4px 12px; border-radius:9999px; background:rgba(94,234,212,0.12); color:#5EEAD4;">Next.js</span></div>
+            <div style="font-size:30px; font-weight:800; letter-spacing:-0.02em;">Vuelo Carmesí</div>
+            <p style="font-size:15px; line-height:1.6; color:rgba(226,247,242,0.62); margin:0;">Plataforma de reservas rediseñada de cero. Del brief a producción en 4 semanas.</p>
+            <a href="#t4" style="font-size:14px; font-weight:700; margin-top:6px;">Ver caso completo →</a>
+          </div>
+        </div>
+        <!-- grid + placeholders -->
+        <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:22px;">
+          <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(94,234,212,0.12); border-radius:18px; overflow:hidden;">
+            <div style="aspect-ratio:16/10; background:repeating-linear-gradient(135deg,rgba(94,234,212,0.05) 0 12px,transparent 12px 24px); display:flex; align-items:center; justify-content:center; color:rgba(94,234,212,0.45); font-family:'JetBrains Mono',monospace; font-size:12px;">Próximo proyecto</div>
+            <div style="padding:22px;"><div style="font-size:18px; font-weight:700; margin-bottom:6px;">Título del proyecto</div><div style="font-size:13.5px; color:rgba(226,247,242,0.55); line-height:1.55;">Una línea de resumen.</div></div>
+          </div>
+          <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(94,234,212,0.12); border-radius:18px; overflow:hidden; opacity:0.55;">
+            <div style="aspect-ratio:16/10; background:repeating-linear-gradient(135deg,rgba(94,234,212,0.05) 0 12px,transparent 12px 24px);"></div>
+            <div style="padding:22px;"><div style="font-size:18px; font-weight:700; margin-bottom:6px; color:rgba(226,247,242,0.5);">Slot disponible</div><div style="font-size:13.5px; color:rgba(226,247,242,0.4); line-height:1.55;">La grilla escala sola.</div></div>
+          </div>
+          <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(94,234,212,0.12); border-radius:18px; overflow:hidden; opacity:0.35;">
+            <div style="aspect-ratio:16/10; background:repeating-linear-gradient(135deg,rgba(94,234,212,0.05) 0 12px,transparent 12px 24px);"></div>
+            <div style="padding:22px;"><div style="font-size:18px; font-weight:700; margin-bottom:6px; color:rgba(226,247,242,0.45);">Slot disponible</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="foot"><span>© 2026 Xyra Code · Villavicencio, Colombia</span><span>contacto@xyracode.com</span></div>
+    </div>
+  </div>
+
+  <!-- ============ 4 · CASO DE ESTUDIO ============ -->
+  <div id="t4" style="display:flex; flex-direction:column; gap:16px;">
+    <div style="display:flex; align-items:baseline; gap:14px;"><div style="font-size:22px; font-weight:800; color:#fff;">4 · Caso de estudio</div><div style="font-size:14px; color:rgba(226,247,242,0.5);">/proyectos/[slug] — hero + galería + bloques + stack + resultado</div></div>
+    <div class="tpl" data-screen-label="Plantilla caso de estudio">
+      <div class="nav">
+        <img src="assets/xc-teal-horizontal-trans.png" alt="XyraCode" style="height:38px;">
+        <div class="navlinks"><span>Servicios</span><span style="color:#5EEAD4;">Proyectos</span><span>Blog</span><span>Nosotros</span><span>Contacto</span></div>
+      </div>
+      <!-- hero -->
+      <div style="position:relative; overflow:hidden; padding:64px 56px 48px;">
+        <div class="blob" style="top:-180px; right:-120px; width:520px; height:520px; background:#0F766E; opacity:0.4;"></div>
+        <div style="position:relative; display:flex; flex-direction:column; gap:18px; max-width:820px;">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:13px; color:rgba(226,247,242,0.5);">Proyectos / <span style="color:#5EEAD4;">Vuelo Carmesí</span></div>
+          <div style="display:flex; gap:8px;"><span style="font-size:12px; font-weight:700; padding:4px 12px; border-radius:9999px; background:rgba(94,234,212,0.12); color:#5EEAD4;">Web app</span><span style="font-size:12px; font-weight:700; padding:4px 12px; border-radius:9999px; background:rgba(94,234,212,0.12); color:#5EEAD4;">E-commerce</span></div>
+          <h1 style="font-size:58px; font-weight:800; letter-spacing:-0.03em; line-height:1.0; margin:0;">Vuelo Carmesí</h1>
+          <p style="font-size:19px; line-height:1.6; color:rgba(226,247,242,0.72); margin:0;">Cómo rediseñamos una plataforma de reservas y la llevamos a producción en 4 semanas.</p>
+        </div>
+      </div>
+      <!-- cover grande -->
+      <div style="padding:0 56px 48px;">
+        <div style="border-radius:20px; overflow:hidden; border:1px solid rgba(94,234,212,0.2); aspect-ratio:16/8; background:repeating-linear-gradient(135deg,rgba(94,234,212,0.06) 0 14px,transparent 14px 28px); display:flex; align-items:center; justify-content:center;">
+          <div style="text-align:center; color:rgba(94,234,212,0.6); font-family:'JetBrains Mono',monospace; font-size:13px;"><div style="font-size:30px; margin-bottom:6px;">▣</div>Cover / hero shot — 1600×800</div>
+        </div>
+      </div>
+      <!-- ficha lateral + cuerpo -->
+      <div style="padding:0 56px 40px; display:grid; grid-template-columns:260px 1fr; gap:48px;">
+        <div style="display:flex; flex-direction:column; gap:24px; position:sticky; top:24px; align-self:start;">
+          <div><div class="eyebrow" style="margin-bottom:8px;">Cliente</div><div style="font-size:15px; color:rgba(226,247,242,0.8);">Vuelo Carmesí</div></div>
+          <div><div class="eyebrow" style="margin-bottom:8px;">Año</div><div style="font-size:15px; color:rgba(226,247,242,0.8);">2025</div></div>
+          <div><div class="eyebrow" style="margin-bottom:10px;">Stack</div><div style="display:flex; flex-wrap:wrap; gap:6px;"><span style="font-family:'JetBrains Mono',monospace; font-size:12px; padding:4px 10px; border-radius:8px; background:rgba(94,234,212,0.1); color:#A7F3D0;">Next.js</span><span style="font-family:'JetBrains Mono',monospace; font-size:12px; padding:4px 10px; border-radius:8px; background:rgba(94,234,212,0.1); color:#A7F3D0;">TypeScript</span><span style="font-family:'JetBrains Mono',monospace; font-size:12px; padding:4px 10px; border-radius:8px; background:rgba(94,234,212,0.1); color:#A7F3D0;">Postgres</span></div></div>
+          <a href="#" class="btn" style="justify-content:center;">Visitar sitio →</a>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:28px; max-width:680px;">
+          <div><h2 style="font-size:28px; font-weight:800; letter-spacing:-0.02em; margin:0 0 12px;">El problema</h2><p style="font-size:16.5px; line-height:1.7; color:rgba(226,247,242,0.72); margin:0;">Bloque <code style="font-family:'JetBrains Mono',monospace; color:#5EEAD4;">p</code>: párrafo de contexto. El renderer de bloques pinta h2 / p / ul / image / quote desde el array <code style="font-family:'JetBrains Mono',monospace; color:#5EEAD4;">body</code>.</p></div>
+          <ul style="margin:0; padding-left:22px; display:flex; flex-direction:column; gap:10px; font-size:16px; line-height:1.6; color:rgba(226,247,242,0.72);"><li>Bloque <code style="font-family:'JetBrains Mono',monospace; color:#5EEAD4;">ul</code> — punto clave uno</li><li>Punto clave dos</li><li>Punto clave tres</li></ul>
+          <!-- imagen inline -->
+          <div style="border-radius:16px; overflow:hidden; border:1px solid rgba(94,234,212,0.18); aspect-ratio:16/9; background:repeating-linear-gradient(135deg,rgba(94,234,212,0.05) 0 12px,transparent 12px 24px); display:flex; align-items:center; justify-content:center; color:rgba(94,234,212,0.5); font-family:'JetBrains Mono',monospace; font-size:12px;">Bloque image — 1200×675 + caption</div>
+          <!-- quote -->
+          <div style="border-left:3px solid #5EEAD4; padding:6px 0 6px 24px;"><p style="font-size:22px; font-weight:600; line-height:1.45; color:#fff; margin:0; letter-spacing:-0.01em;">"Bloque quote: cita del cliente destacada."</p></div>
+          <!-- resultado -->
+          <div style="background:#0B1F1C; border-radius:18px; padding:32px; margin-top:8px;">
+            <div class="eyebrow" style="margin-bottom:18px;">Resultado</div>
+            <div style="display:flex; gap:48px;"><div><div style="font-size:36px; font-weight:800; color:#5EEAD4;">-58%</div><div style="font-size:13px; color:rgba(226,247,242,0.55);">tiempo de carga</div></div><div><div style="font-size:36px; font-weight:800; color:#5EEAD4;">+40%</div><div style="font-size:13px; color:rgba(226,247,242,0.55);">conversión</div></div><div><div style="font-size:36px; font-weight:800; color:#5EEAD4;">4 sem</div><div style="font-size:13px; color:rgba(226,247,242,0.55);">a producción</div></div></div>
+          </div>
+        </div>
+      </div>
+      <div style="padding:0 56px 56px;"><div class="eyebrow" style="margin-bottom:18px;">Galería</div><div style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px;"><div style="aspect-ratio:4/3; border-radius:14px; border:1px solid rgba(94,234,212,0.15); background:repeating-linear-gradient(135deg,rgba(94,234,212,0.05) 0 10px,transparent 10px 20px); display:flex; align-items:center; justify-content:center; color:rgba(94,234,212,0.45); font-family:'JetBrains Mono',monospace; font-size:11px;">shot 1</div><div style="aspect-ratio:4/3; border-radius:14px; border:1px solid rgba(94,234,212,0.15); background:repeating-linear-gradient(135deg,rgba(94,234,212,0.05) 0 10px,transparent 10px 20px); display:flex; align-items:center; justify-content:center; color:rgba(94,234,212,0.45); font-family:'JetBrains Mono',monospace; font-size:11px;">shot 2</div><div style="aspect-ratio:4/3; border-radius:14px; border:1px solid rgba(94,234,212,0.15); background:repeating-linear-gradient(135deg,rgba(94,234,212,0.05) 0 10px,transparent 10px 20px); display:flex; align-items:center; justify-content:center; color:rgba(94,234,212,0.45); font-family:'JetBrains Mono',monospace; font-size:11px;">shot 3</div></div></div>
+      <div class="foot"><span>© 2026 Xyra Code · Villavicencio, Colombia</span><span>contacto@xyracode.com</span></div>
+    </div>
+  </div>
+
+  <!-- ============ 5 · ÍNDICE BLOG ============ -->
+  <div id="t5" style="display:flex; flex-direction:column; gap:16px;">
+    <div style="display:flex; align-items:baseline; gap:14px;"><div style="font-size:22px; font-weight:800; color:#fff;">5 · Índice de blog</div><div style="font-size:14px; color:rgba(226,247,242,0.5);">/blog — destacado + lista</div></div>
+    <div class="tpl" data-screen-label="Plantilla índice blog">
+      <div class="nav">
+        <img src="assets/xc-teal-horizontal-trans.png" alt="XyraCode" style="height:38px;">
+        <div class="navlinks"><span>Servicios</span><span>Proyectos</span><span style="color:#5EEAD4;">Blog</span><span>Nosotros</span><span>Contacto</span></div>
+      </div>
+      <div style="padding:64px 56px 32px;">
+        <div class="eyebrow" style="margin-bottom:16px;">Blog</div>
+        <h1 style="font-size:52px; font-weight:800; letter-spacing:-0.03em; line-height:1.03; margin:0 0 12px;">Notas de desarrollo y negocio digital</h1>
+        <p style="font-size:18px; color:rgba(226,247,242,0.7); margin:0; max-width:600px; line-height:1.6;">Respuestas claras a lo que buscan quienes van a contratar una web.</p>
+      </div>
+      <div style="padding:20px 56px 32px;">
+        <!-- destacado -->
+        <div style="display:grid; grid-template-columns:1.2fr 1fr; gap:0; background:rgba(255,255,255,0.03); border:1px solid rgba(94,234,212,0.15); border-radius:20px; overflow:hidden;">
+          <div style="aspect-ratio:16/10; background:repeating-linear-gradient(135deg,rgba(94,234,212,0.06) 0 12px,transparent 12px 24px); display:flex; align-items:center; justify-content:center; color:rgba(94,234,212,0.6); font-family:'JetBrains Mono',monospace; font-size:13px;">Portada artículo · 1200×630</div>
+          <div style="padding:40px; display:flex; flex-direction:column; gap:14px; justify-content:center;">
+            <div style="display:flex; gap:12px; align-items:center; font-size:13px; color:rgba(226,247,242,0.5); font-family:'JetBrains Mono',monospace;"><span style="color:#5EEAD4;">GUÍA</span><span>· 6 min</span></div>
+            <div style="font-size:28px; font-weight:800; letter-spacing:-0.02em; line-height:1.15;">¿Cuánto cuesta una página web en Colombia en 2026?</div>
+            <p style="font-size:15px; line-height:1.6; color:rgba(226,247,242,0.62); margin:0;">Rangos reales, qué incluye cada precio y cómo no pagar de más.</p>
+            <a href="#t6" style="font-size:14px; font-weight:700; margin-top:6px;">Leer artículo →</a>
+          </div>
+        </div>
+      </div>
+      <div style="padding:0 56px 64px;">
+        <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:22px;">
+          <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(94,234,212,0.12); border-radius:18px; overflow:hidden;">
+            <div style="aspect-ratio:16/9; background:repeating-linear-gradient(135deg,rgba(94,234,212,0.05) 0 12px,transparent 12px 24px);"></div>
+            <div style="padding:22px; display:flex; flex-direction:column; gap:8px;"><div style="font-size:12px; color:rgba(226,247,242,0.45); font-family:'JetBrains Mono',monospace;">PRÓXIMO</div><div style="font-size:17px; font-weight:700; line-height:1.3;">Título del próximo artículo</div></div>
+          </div>
+          <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(94,234,212,0.12); border-radius:18px; overflow:hidden; opacity:0.5;">
+            <div style="aspect-ratio:16/9; background:repeating-linear-gradient(135deg,rgba(94,234,212,0.05) 0 12px,transparent 12px 24px);"></div>
+            <div style="padding:22px;"><div style="font-size:17px; font-weight:700; color:rgba(226,247,242,0.5);">Slot disponible</div></div>
+          </div>
+          <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(94,234,212,0.12); border-radius:18px; overflow:hidden; opacity:0.32;">
+            <div style="aspect-ratio:16/9; background:repeating-linear-gradient(135deg,rgba(94,234,212,0.05) 0 12px,transparent 12px 24px);"></div>
+            <div style="padding:22px;"><div style="font-size:17px; font-weight:700; color:rgba(226,247,242,0.45);">Slot disponible</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="foot"><span>© 2026 Xyra Code · Villavicencio, Colombia</span><span>contacto@xyracode.com</span></div>
+    </div>
+  </div>
+
+  <!-- ============ 6 · ARTÍCULO ============ -->
+  <div id="t6" style="display:flex; flex-direction:column; gap:16px;">
+    <div style="display:flex; align-items:baseline; gap:14px;"><div style="font-size:22px; font-weight:800; color:#fff;">6 · Artículo</div><div style="font-size:14px; color:rgba(226,247,242,0.5);">/blog/[slug] — portada + cuerpo de bloques + autor</div></div>
+    <div class="tpl" data-screen-label="Plantilla artículo">
+      <div class="nav">
+        <img src="assets/xc-teal-horizontal-trans.png" alt="XyraCode" style="height:38px;">
+        <div class="navlinks"><span>Servicios</span><span>Proyectos</span><span style="color:#5EEAD4;">Blog</span><span>Nosotros</span><span>Contacto</span></div>
+      </div>
+      <!-- cabecera artículo -->
+      <div style="position:relative; overflow:hidden; padding:56px 56px 36px;">
+        <div class="blob" style="top:-180px; left:20%; width:520px; height:420px; background:#0F766E; opacity:0.3;"></div>
+        <div style="position:relative; max-width:760px; margin:0 auto; display:flex; flex-direction:column; gap:20px; text-align:center; align-items:center;">
+          <div style="display:flex; gap:12px; align-items:center; font-size:13px; color:rgba(226,247,242,0.55); font-family:'JetBrains Mono',monospace;"><span style="color:#5EEAD4;">GUÍA</span><span>· 6 min de lectura · 13 jul 2026</span></div>
+          <h1 style="font-size:52px; font-weight:800; letter-spacing:-0.03em; line-height:1.05; margin:0;">¿Cuánto cuesta una página web en Colombia en 2026?</h1>
+          <p style="font-size:19px; line-height:1.6; color:rgba(226,247,242,0.7); margin:0;">Rangos reales según el tipo de proyecto, qué incluye cada precio y las señales de que te están cobrando de más.</p>
+        </div>
+      </div>
+      <!-- portada -->
+      <div style="padding:0 56px 44px;"><div style="max-width:900px; margin:0 auto; border-radius:20px; overflow:hidden; border:1px solid rgba(94,234,212,0.2); aspect-ratio:16/8; background:repeating-linear-gradient(135deg,rgba(94,234,212,0.06) 0 14px,transparent 14px 28px); display:flex; align-items:center; justify-content:center; color:rgba(94,234,212,0.6); font-family:'JetBrains Mono',monospace; font-size:13px;">Portada del artículo — 1200×630</div></div>
+      <!-- cuerpo -->
+      <div style="padding:0 56px 40px;"><div style="max-width:720px; margin:0 auto; display:flex; flex-direction:column; gap:26px;">
+        <h2 style="font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0;">Bloque h2 — subtítulo de sección</h2>
+        <p style="font-size:17.5px; line-height:1.75; color:rgba(226,247,242,0.78); margin:0;">Bloque <code style="font-family:'JetBrains Mono',monospace; color:#5EEAD4;">p</code>: el cuerpo del artículo se arma con el mismo renderer de bloques que el caso de estudio (h2 / p / ul / image / quote). Ancho de lectura cómodo (~720px), interlineado generoso.</p>
+        <ul style="margin:0; padding-left:22px; display:flex; flex-direction:column; gap:10px; font-size:17px; line-height:1.65; color:rgba(226,247,242,0.78);"><li>Landing simple: rango A</li><li>Sitio institucional: rango B</li><li>E-commerce / web app: rango C</li></ul>
+        <div style="border-radius:16px; overflow:hidden; border:1px solid rgba(94,234,212,0.18); aspect-ratio:16/9; background:repeating-linear-gradient(135deg,rgba(94,234,212,0.05) 0 12px,transparent 12px 24px); display:flex; align-items:center; justify-content:center; color:rgba(94,234,212,0.5); font-family:'JetBrains Mono',monospace; font-size:12px;">Bloque image inline — 1200×675</div>
+        <div style="border-left:3px solid #5EEAD4; padding:6px 0 6px 24px;"><p style="font-size:22px; font-weight:600; line-height:1.45; color:#fff; margin:0; letter-spacing:-0.01em;">"Bloque quote destacada dentro del texto."</p></div>
+      </div></div>
+      <!-- autor -->
+      <div style="padding:0 56px 56px;"><div style="max-width:720px; margin:0 auto; display:flex; align-items:center; gap:20px; background:#0B1F1C; border-radius:18px; padding:28px 32px;">
+        <div style="width:72px; height:72px; border-radius:9999px; overflow:hidden; border:2px solid rgba(94,234,212,0.4); flex-shrink:0; background:repeating-linear-gradient(135deg,rgba(94,234,212,0.1) 0 8px,transparent 8px 16px); display:flex; align-items:center; justify-content:center; color:rgba(94,234,212,0.6); font-family:'JetBrains Mono',monospace; font-size:10px;">foto</div>
+        <div><div style="font-size:12px; font-weight:800; letter-spacing:0.18em; text-transform:uppercase; color:#5EEAD4; margin-bottom:6px;">Escrito por</div><div style="font-size:18px; font-weight:700;">Yeison · Xyra Code</div><div style="font-size:14px; color:rgba(226,247,242,0.6); margin-top:2px;">Fundador y desarrollador. Villavicencio, Colombia.</div></div>
+      </div></div>
+      <div class="foot"><span>© 2026 Xyra Code · Villavicencio, Colombia</span><span>contacto@xyracode.com</span></div>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  componentDidMount() {
+    const load = () => { if (window.lucide) window.lucide.createIcons(); };
+    if (window.lucide) { load(); return; }
+    const s = document.createElement('script');
+    s.src = 'https://unpkg.com/lucide@latest';
+    s.onload = load;
+    document.head.appendChild(s);
+  }
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

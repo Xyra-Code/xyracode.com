@@ -26,9 +26,9 @@ export const SEO = {
   },
 
   nosotros: {
-    title: "Nosotros — El desarrollador detrás de XyraCode",
+    title: "Desarrollador web en Villavicencio, Colombia | XyraCode",
     description:
-      "XyraCode es una agencia unipersonal de desarrollo web en Villavicencio, Colombia. Más de 10 años entendiendo clientes antes de programar: trato directo, un solo responsable y código propio.",
+      "XyraCode es una agencia de desarrollo web en Villavicencio, Colombia. Más de 10 años entendiendo clientes antes de programar: trato directo, un solo responsable y código propio.",
     ogDescription:
       "Agencia de desarrollo web en Villavicencio, Colombia. Más de 10 años entendiendo clientes antes de programar.",
   },
@@ -44,6 +44,9 @@ export const SEO = {
     region: "Meta",
     countryCode: "CO",
     country: "Colombia",
+    postalCode: "500001",
+    /** Centro de Villavicencio; alimenta GeoCoordinates (SEO local). */
+    geo: { lat: 4.142, lng: -73.626 },
   },
 
   org: {
@@ -55,7 +58,14 @@ export const SEO = {
   },
 
   person: {
-    knowsAbout: ["React", "Next.js", "Node", "TypeScript", "PostgreSQL"],
+    knowsAbout: [
+      "Desarrollo full-stack",
+      "React",
+      "Next.js",
+      "Node",
+      "TypeScript",
+      "PostgreSQL",
+    ],
     henry: { name: "Henry", url: "https://www.soyhenry.com" },
     sena: { name: "SENA", url: "https://www.sena.edu.co" },
   },
@@ -64,7 +74,7 @@ export const SEO = {
   ogImage: {
     footerRight: "xyracode.com",
     home: {
-      alt: "XyraCode — Agencia de desarrollo web y apps a medida en Latinoamérica",
+      alt: "XyraCode — Agencia de desarrollo web y apps a medida en Colombia",
       eyebrow: "Agencia de desarrollo web",
       footerLeft: "Sitios · Apps · Plataformas a medida",
     },
@@ -72,6 +82,24 @@ export const SEO = {
       alt: "Yeison Enciso — El desarrollador detrás de XyraCode",
       eyebrow: "Nosotros",
       footerLeft: `${FOUNDER.name} · ${CONTACT.location}`,
+    },
+    serviciosHub: {
+      alt: "Servicios de desarrollo web y software a medida | XyraCode",
+      eyebrow: "Servicios",
+      title: "Desarrollo web y software a medida",
+      footerLeft: "Sitios · Apps · E-commerce",
+    },
+    proyectosHub: {
+      alt: "Proyectos y casos de estudio | XyraCode",
+      eyebrow: "Proyectos",
+      title: "Trabajo real, en producción",
+      footerLeft: "Casos de estudio",
+    },
+    blogHub: {
+      alt: "Blog de desarrollo web y software | XyraCode",
+      eyebrow: "Blog",
+      title: "Guías para decidir mejor",
+      footerLeft: "Desarrollo web · Apps · E-commerce",
     },
   },
 } as const;

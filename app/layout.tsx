@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
+import { FloatingWhatsApp } from "@/components/sections/FloatingWhatsApp";
 import { CONTACT, SOCIALS } from "@/lib/content";
 import { SEO } from "@/lib/seo";
 import "./globals.css";
@@ -80,7 +81,13 @@ const jsonLd = {
         "@type": "PostalAddress",
         addressLocality: SEO.address.locality,
         addressRegion: SEO.address.region,
+        postalCode: SEO.address.postalCode,
         addressCountry: SEO.address.countryCode,
+      },
+      geo: {
+        "@type": "GeoCoordinates",
+        latitude: SEO.address.geo.lat,
+        longitude: SEO.address.geo.lng,
       },
       areaServed: {
         "@type": "Country",
@@ -109,6 +116,7 @@ export default function RootLayout({
           <style>{`.reveal { opacity: 1; transform: none; }`}</style>
         </noscript>
         {children}
+        <FloatingWhatsApp />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

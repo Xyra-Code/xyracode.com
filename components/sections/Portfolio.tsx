@@ -30,14 +30,15 @@ export function Portfolio() {
           {PROJECTS.map((project, i) => (
             <li key={project.title}>
               <Reveal delay={i * 60}>
-                <article className="overflow-hidden rounded-2xl border border-white/8 bg-white/3 transition-all duration-[220ms] ease-out hover:-translate-y-[3px] md:grid md:grid-cols-2">
+                <article className="overflow-hidden rounded-2xl border border-white/8 bg-white/3 transition-all duration-[220ms] ease-out hover:-translate-y-[3px] md:grid md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
                   {project.images?.length ? (
-                    // El ratio en móvil replica el de las capturas (1898x865);
-                    // en escritorio la foto llena toda la columna (ancho y
-                    // alto) recortando el sobrante de los costados.
+                    // La captura conserva su proporción real (1898x865) en todos
+                    // los tamaños: se ve completa, sin recortar ni deformar. En
+                    // escritorio ocupa la columna ancha y se centra en vertical.
                     <ProjectCarousel
                       images={project.images}
-                      className="aspect-1898/865 w-full md:order-2 md:aspect-auto md:h-full md:min-h-80"
+                      alt={`${project.title} — ${project.description ?? project.type}`}
+                      className="aspect-1898/865 w-full md:order-2 md:self-center"
                     />
                   ) : (
                     <div
@@ -74,11 +75,6 @@ export function Portfolio() {
                     ) : null}
 
                     <p className="text-[13px] text-white/45">{project.type}</p>
-                    {project.role ? (
-                      <p className="mt-0.5 text-[13px] text-white/45">
-                        {project.role}
-                      </p>
-                    ) : null}
 
                     <ul className="mt-3.5 flex flex-wrap gap-[7px]">
                       {project.tags.map((tag) => (
@@ -90,23 +86,6 @@ export function Portfolio() {
                         </li>
                       ))}
                     </ul>
-
-                    {project.features?.length ? (
-                      <ul className="mt-4 space-y-1.5">
-                        {project.features.map((feature) => (
-                          <li
-                            key={feature}
-                            className="flex gap-2 text-[13px] leading-[1.5] text-white/60"
-                          >
-                            <span
-                              className="mt-[7px] size-1 shrink-0 rounded-full bg-teal-300"
-                              aria-hidden
-                            />
-                            {feature}
-                          </li>
-                        ))}
-                      </ul>
-                    ) : null}
 
                     {project.href || project.caseStudyHref ? (
                       <div className="mt-auto flex flex-wrap gap-2.5 pt-5">

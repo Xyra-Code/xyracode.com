@@ -17,6 +17,7 @@ import {
   PERSONAL,
   UI,
 } from "@/lib/content";
+import { breadcrumbLd } from "@/lib/jsonld";
 import { SEO } from "@/lib/seo";
 
 export const metadata: Metadata = {
@@ -54,6 +55,7 @@ const jsonLd = {
         "@type": "PostalAddress",
         addressLocality: SEO.address.locality,
         addressRegion: SEO.address.region,
+        postalCode: SEO.address.postalCode,
         addressCountry: SEO.address.countryCode,
       },
       worksFor: { "@id": `${SITE_URL}/#organization` },
@@ -103,6 +105,7 @@ const jsonLd = {
       "@id": `${SITE_URL}/#organization`,
       founder: { "@id": `${SITE_URL}/nosotros#person` },
     },
+    breadcrumbLd("/nosotros", [{ name: "Nosotros", path: "/nosotros" }]),
   ],
 };
 

@@ -7,6 +7,7 @@ export type ContactValues = {
   nombre: string;
   email: string;
   mensaje: string;
+  celular: string;
 };
 
 export type ContactErrors = Partial<Record<keyof ContactValues, string>> & {
@@ -32,6 +33,7 @@ export async function sendContact(
     .trim();
   const email = String(formData.get("email") ?? "").trim();
   const mensaje = String(formData.get("mensaje") ?? "").trim();
+  const celular = String(formData.get("celular") ?? "").trim();
 
   // Honeypot: campo invisible para humanos; si viene lleno es un bot.
   // Se responde éxito para no darle señal de que fue detectado.
@@ -47,8 +49,10 @@ export async function sendContact(
   else if (!EMAIL_RE.test(email)) errors.email = v.emailInvalid;
   if (!mensaje) errors.mensaje = v.mensajeRequired;
   else if (mensaje.length > 5000) errors.mensaje = v.mensajeMax;
+  if (!celular) errors.celular = v.celularRequired;
+  else if (celular.length > 20) errors.celular = v.celularMax;
 
-  const values: ContactValues = { nombre, email, mensaje };
+  const values: ContactValues = { nombre, email, mensaje, celular };
   if (Object.keys(errors).length > 0) {
     return { status: "error", errors, values };
   }
@@ -75,7 +79,7 @@ export async function sendContact(
       to: CONTACT.email,
       replyTo: `${nombre} <${email}>`,
       subject: CONTACT_FORM.email.subject(nombre),
-      text: CONTACT_FORM.email.body(nombre, email, mensaje),
+      text: CONTACT_FORM.email.body(nombre, email, celular, mensaje),
     });
     if (error) {
       console.error("[contacto] Resend devolvió error:", error);
