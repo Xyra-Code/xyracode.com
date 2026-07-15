@@ -43,9 +43,10 @@ export const PROJECTS: Project[] = [
     href: "https://vuelocarmesi.com",
     caseStudyHref: "/proyectos/vuelo-carmesi",
     images: [
-      "/assets/projects/vuelo-carmesi/1.png",
+      "/assets/projects/vuelo-carmesi/principal.png",
       "/assets/projects/vuelo-carmesi/2.png",
       "/assets/projects/vuelo-carmesi/3.png",
+      "/assets/projects/vuelo-carmesi/4.png",
     ],
   },
 ];

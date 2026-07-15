@@ -50,7 +50,7 @@ export function ProjectCarousel({
           }
           fill
           sizes="(min-width: 768px) 50vw, 100vw"
-          className="object-fill transition-opacity ease-out"
+          className="object-cover transition-opacity ease-out"
           style={{
             opacity: i === index ? 1 : 0,
             transitionDuration: `${FADE_MS}ms`,
