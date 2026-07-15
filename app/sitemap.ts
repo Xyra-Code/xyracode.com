@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { CASE_STUDIES, SERVICE_PAGES } from "@/lib/content";
+import { BLOG_POSTS, CASE_STUDIES, SERVICE_PAGES } from "@/lib/content";
 
 // Fecha real del último cambio de contenido de cada ruta fija (ISO 8601).
 // Actualizar a mano — NO usar new Date() (le diría a Google que todo el
@@ -10,6 +10,7 @@ const LAST_MODIFIED = {
   serviciosHub: "2026-07-13",
   nosotros: "2026-07-13",
   proyectosHub: "2026-07-13",
+  blogHub: "2026-07-13",
 } as const;
 
 const BASE = "https://xyracode.com";
@@ -27,6 +28,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     lastModified: c.lastModified,
     changeFrequency: "monthly",
     priority: 0.8,
+  }));
+
+  const blogPosts: MetadataRoute.Sitemap = BLOG_POSTS.map((p) => ({
+    url: `${BASE}/blog/${p.slug}`,
+    lastModified: p.lastModified,
+    changeFrequency: "monthly",
+    priority: 0.7,
   }));
 
   return [
@@ -56,5 +64,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.7,
     },
+    {
+      url: `${BASE}/blog`,
+      lastModified: LAST_MODIFIED.blogHub,
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    ...blogPosts,
   ];
 }
