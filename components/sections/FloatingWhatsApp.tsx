@@ -52,7 +52,7 @@ export function FloatingWhatsApp() {
             height={56}
             fill="#5EEAD4"
             xmlns="http://www.w3.org/2000/svg"
-            className="wa-glyph relative origin-center [filter:drop-shadow(0_8px_22px_rgba(16,185,129,0.5))]"
+            className="wa-glyph relative origin-center filter:drop-shadow(0_8px_22px_rgba(16,185,129,0.5))]"
           >
             <path d={WHATSAPP_GLYPH} />
           </svg>
