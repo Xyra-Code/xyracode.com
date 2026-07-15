@@ -55,6 +55,7 @@ const jsonLd = {
         "@type": "PostalAddress",
         addressLocality: SEO.address.locality,
         addressRegion: SEO.address.region,
+        postalCode: SEO.address.postalCode,
         addressCountry: SEO.address.countryCode,
       },
       worksFor: { "@id": `${SITE_URL}/#organization` },
