@@ -50,6 +50,10 @@ export default async function CasoPage({
   const study = CASE_STUDIES.find((c) => c.slug === slug);
   if (!study) notFound();
 
+  // La portada ya no se muestra como banner; se incorpora al inicio de la
+  // galería para que todas las capturas del proyecto se vean en un solo lugar.
+  const galleryImages = [study.cover, ...study.gallery];
+
   const path = `/proyectos/${study.slug}`;
   const jsonLd = {
     "@context": "https://schema.org",
@@ -61,11 +65,10 @@ export default async function CasoPage({
         description: study.seo.description,
         url: `${SITE_URL}${path}`,
         image: `${SITE_URL}${study.cover.src}`,
-        datePublished: study.lastModified,
+        datePublished: study.publishedISO,
         dateModified: study.lastModified,
         author: { "@id": `${SITE_URL}/nosotros#person` },
         publisher: { "@id": `${SITE_URL}/#organization` },
-        keywords: study.hero.tags.join(", "),
       },
       breadcrumbLd(path, [
         { name: "Proyectos", path: "/proyectos" },
@@ -81,13 +84,13 @@ export default async function CasoPage({
         {/* Hero */}
         <section
           aria-labelledby="caso-title"
-          className="relative overflow-hidden px-6 pt-[72px] pb-12 md:px-16"
+          className="relative overflow-hidden px-6 pt-18 pb-12 md:px-16"
         >
           <div
             aria-hidden
-            className="absolute -top-40 right-[8%] h-[520px] w-[520px] rounded-full bg-brand-primary opacity-25 blur-[130px]"
+            className="absolute -top-40 right-[8%] h-130 w-130 rounded-full bg-brand-primary opacity-25 blur-[130px]"
           />
-          <Reveal className="relative mx-auto flex max-w-225 flex-col gap-6">
+          <Reveal className="relative mx-auto flex max-w-265 flex-col gap-6">
             <Breadcrumb
               items={[
                 { label: "Inicio", href: "/" },
@@ -104,37 +107,21 @@ export default async function CasoPage({
             </ul>
             <h1
               id="caso-title"
-              className="max-w-225 text-[36px] leading-[1.04] font-extrabold tracking-[-0.03em] md:text-[58px]"
+              className="max-w-265 text-[36px] leading-[1.04] font-extrabold tracking-[-0.03em] md:text-[58px]"
             >
               {study.hero.h1}
             </h1>
-            <p className="max-w-160 text-[19px] leading-[1.6] text-[rgba(226,247,242,0.72)]">
+            <p className="max-w-265 text-[19px] leading-[1.6] text-[rgba(226,247,242,0.72)]">
               {study.hero.intro}
             </p>
           </Reveal>
         </section>
 
-        {/* Cover 16:8 full-width */}
-        <section aria-label="Portada del proyecto" className="px-6 pb-16 md:px-16">
-          <Reveal className="mx-auto max-w-300">
-            <div className="relative aspect-16/8 overflow-hidden rounded-[20px] border border-[rgba(94,234,212,0.15)]">
-              <Image
-                src={study.cover.src}
-                alt={study.cover.alt}
-                fill
-                sizes="(min-width: 1536px) 1400px, 100vw"
-                className="object-cover"
-                priority
-              />
-            </div>
-          </Reveal>
-        </section>
-
         {/* Ficha lateral sticky + cuerpo */}
         <section aria-label="Detalle del caso" className="px-6 pb-20 md:px-16">
-          <div className="mx-auto grid max-w-225 gap-10 md:grid-cols-[260px_1fr]">
+          <div className="mx-auto grid max-w-265 gap-10 md:grid-cols-[260px_1fr]">
             <aside className="md:sticky md:top-24 md:self-start">
-              <dl className="flex flex-col gap-5 rounded-[16px] border border-[rgba(94,234,212,0.15)] bg-white/3 p-6 font-mono text-[13px]">
+              <dl className="flex flex-col gap-5 rounded-2xl border border-[rgba(94,234,212,0.15)] bg-white/3 p-6 font-mono text-[13px]">
                 <div>
                   <dt className="text-[rgba(226,247,242,0.45)]">Cliente</dt>
                   <dd className="mt-1 text-white">{study.meta.cliente}</dd>
@@ -177,7 +164,7 @@ export default async function CasoPage({
             aria-labelledby="caso-resultado-title"
             className="bg-brand-ink px-6 py-20 md:px-16"
           >
-            <div className="mx-auto max-w-225">
+            <div className="mx-auto max-w-265">
               <h2
                 id="caso-resultado-title"
                 className="mb-10 text-[28px] font-extrabold tracking-[-0.03em] md:text-[36px]"
@@ -187,7 +174,7 @@ export default async function CasoPage({
               <dl className="grid gap-8 sm:grid-cols-3">
                 {study.results.map((result) => (
                   <div key={result.label} className="flex flex-col gap-2">
-                    <dt className="order-2 text-[15px] leading-[1.5] text-[rgba(226,247,242,0.6)]">
+                    <dt className="order-2 text-[15px] leading-normal text-[rgba(226,247,242,0.6)]">
                       {result.label}
                     </dt>
                     <dd className="order-1 text-[44px] font-extrabold tracking-[-0.03em] text-teal-300 md:text-[52px]">
@@ -201,27 +188,38 @@ export default async function CasoPage({
         )}
 
         {/* Galería */}
-        {study.gallery.length > 0 && (
+        {galleryImages.length > 0 && (
           <section aria-label="Galería del proyecto" className="px-6 py-20 md:px-16">
-            <div className="mx-auto grid max-w-300 gap-6 md:grid-cols-3">
-              {study.gallery.map((img) => (
-                <figure key={img.src} className="flex flex-col gap-2">
-                  <div className="relative aspect-4/3 overflow-hidden rounded-[16px] border border-[rgba(94,234,212,0.15)]">
-                    <Image
-                      src={img.src}
-                      alt={img.alt}
-                      fill
-                      sizes="(min-width: 768px) 33vw, 100vw"
-                      className="object-cover"
-                    />
-                  </div>
+            <div className="mx-auto grid max-w-300 gap-6 md:grid-cols-2">
+              {galleryImages.map((img, i) => {
+                // Si la galería tiene un número impar de fotos, la última queda sola
+                // en su fila: la centramos con el mismo ancho que las demás.
+                const isLoneLast =
+                  galleryImages.length % 2 === 1 &&
+                  i === galleryImages.length - 1;
+                return (
+                <figure
+                  key={img.src}
+                  className={`flex flex-col gap-2${
+                    isLoneLast ? " md:col-span-2 md:mx-auto md:w-[calc(50%-0.75rem)]" : ""
+                  }`}
+                >
+                  <Image
+                    src={img.src}
+                    alt={img.alt}
+                    width={img.width ?? 1600}
+                    height={img.height ?? 1200}
+                    sizes="(min-width: 768px) 50vw, 100vw"
+                    className="h-auto w-full rounded-2xl border border-[rgba(94,234,212,0.15)]"
+                  />
                   {img.caption && (
                     <figcaption className="text-center font-mono text-[12px] text-[rgba(226,247,242,0.5)]">
                       {img.caption}
                     </figcaption>
                   )}
                 </figure>
-              ))}
+                );
+              })}
             </div>
           </section>
         )}

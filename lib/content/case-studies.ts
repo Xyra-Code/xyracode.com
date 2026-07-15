@@ -4,13 +4,21 @@ import type { Block } from "./blocks";
 export type CaseResult = { value: string; label: string };
 
 /** Imagen de cover/galería. width/height reales (next/image los exige si no se usa fill). */
-export type CaseImage = { src: string; alt: string; caption?: string };
+export type CaseImage = {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+  caption?: string;
+};
 
 export type CaseStudy = {
   slug: string;
   seo: { title: string; description: string };
-  /** ISO 8601; editar a mano al cambiar el contenido (alimenta el sitemap y datePublished). */
+  /** ISO 8601; editar a mano al cambiar el contenido (alimenta el sitemap y dateModified). */
   lastModified: string;
+  /** ISO 8601; fecha de publicación del caso (JSON-LD datePublished). Fija: no se toca al editar. */
+  publishedISO: string;
   hero: { tags: string[]; h1: string; intro: string };
   cover: CaseImage;
   meta: {
@@ -28,6 +36,13 @@ export type CaseStudy = {
   /** Galería inferior. */
   gallery: CaseImage[];
 };
+
+/** SEO de la página de listado /proyectos. */
+export const PROJECTS_SEO = {
+  title: "Proyectos y casos de estudio | XyraCode",
+  description:
+    "Proyectos reales de desarrollo web y software a medida: plataformas, tiendas y web apps que llevamos del prototipo a producción.",
+} as const;
 
 export const CASE_STUDIES: CaseStudy[] = [
   // NOTA (contenido a revisar antes de publicar):
@@ -47,16 +62,19 @@ export const CASE_STUDIES: CaseStudy[] = [
         "Cómo XyraCode construyó la plataforma de reservas y tienda online de Vuelo Carmesí, finca de cacao agroecológico en Cubarral, Meta.",
     },
     lastModified: "2026-07-13",
+    publishedISO: "2026-07-13",
     hero: {
       // Reutilizados de PROJECTS (públicos): tags/stack ya verificados.
       tags: ["Next.js 16", "NestJS", "PostgreSQL", "Prisma", "Cloudinary"],
       h1: "Vuelo Carmesí: plataforma de reservas y tienda para una finca de cacao agroecológico",
       intro:
-        "Vuelo Carmesí es una finca de cacao agroecológico en Cubarral (Meta) que ofrece experiencias vivenciales —glamping, taller de chocolate artesanal, cata de cacao y avistamiento de aves— además de vender su cacao. Necesitaba recibir reservas y vender en línea desde una sola plataforma; XyraCode la diseñó y construyó full-stack, de punta a punta.",
+        "Vuelo Carmesí es una finca de cacao agroecológico en Cubarral (Meta) que ofrece experiencias vivenciales — taller de chocolate artesanal, cata de cacao y avistamiento de aves— además de vender su cacao. Necesitaba recibir reservas y vender en línea desde una sola plataforma; XyraCode la diseñó y construyó full-stack, de punta a punta.",
     },
     cover: {
-      src: "/assets/projects/vuelo-carmesi/1.png",
+      src: "/assets/projects/vuelo-carmesi/4.png",
       alt: "Página principal de la plataforma web de Vuelo Carmesí",
+      width: 1897,
+      height: 863,
     },
     meta: {
       cliente: "Vuelo Carmesí — Cubarral, Meta",
@@ -72,11 +90,11 @@ export const CASE_STUDIES: CaseStudy[] = [
       },
       {
         kind: "p",
-        text: "El reto era llevar toda esa experiencia a una sola plataforma: recibir reservas de experiencias (como el glamping y el taller de chocolate artesanal) y vender en línea, con un panel para gestionarlo todo sin depender del chat.",
+        text: "El reto era llevar toda esa experiencia a una sola plataforma: recibir reservas de experiencias (como la ruta de aves y cacao) y vender en línea, con un panel para gestionarlo todo sin depender del chat.",
       },
       {
         kind: "p",
-        text: "Un reto técnico concreto: la validación de reservas debía respetar correctamente la zona horaria de Bogotá para evitar fechas cruzadas o dobles reservas.",
+        text: "Un reto técnico concreto: a la finca llegan visitantes locales, del resto del país y del exterior, así que la validación de reservas debía anclar cada fecha a la zona horaria de Bogotá. Sin importar desde qué huso horario reserve la persona, la disponibilidad se calcula siempre en el horario local de la finca para evitar fechas cruzadas o dobles reservas.",
       },
       { kind: "h2", text: "La solución" },
       {
@@ -88,8 +106,14 @@ export const CASE_STUDIES: CaseStudy[] = [
         items: [
           "Reservas con validación de fechas, respetando la zona horaria de Bogotá.",
           "Panel de administración + tienda online para gestionar reservas, productos y pedidos.",
-          "Emails transaccionales y carga de imágenes en la nube (Cloudinary).",
+          "Pasarela de pagos integrada para cobrar reservas y pedidos en línea.",
+          "Notificaciones automáticas por correo y Telegram ante cada reserva o pedido.",
+          "Carga de imágenes en la nube (Cloudinary).",
         ],
+      },
+      {
+        kind: "p",
+        text: "Desde el panel de administración el cliente gestiona todo de forma autónoma. En reservas puede crearlas, confirmarlas, suspenderlas y eliminarlas; en pedidos cuenta con esas mismas acciones y, además, puede cambiar el estado de cada pedido según su avance: confirmado, enviado o cancelado.",
       },
       { kind: "h2", text: "Cómo lo construimos" },
       {
@@ -100,10 +124,14 @@ export const CASE_STUDIES: CaseStudy[] = [
       {
         kind: "ul",
         items: [
-          "Frontend: Next.js 16.",
-          "Backend: NestJS.",
-          "Base de datos: PostgreSQL con Prisma.",
-          "Medios e imágenes: Cloudinary.",
+          "Frontend: Next.js 16 y React 19.",
+          "Formularios y validación: React Hook Form + Zod.",
+          "Backend: NestJS 11.",
+          "Base de datos: PostgreSQL con Prisma 7.",
+          "Validación de datos en el backend: class-validator / class-transformer.",
+          "Medios e imágenes: Cloudinary, con recorte en el cliente (react-easy-crop).",
+          "Correos transaccionales: Resend.",
+          "Notificaciones internas: bot de Telegram (Bot API).",
         ],
       },
       {
@@ -122,10 +150,14 @@ export const CASE_STUDIES: CaseStudy[] = [
       {
         src: "/assets/projects/vuelo-carmesi/2.png",
         alt: "Pantalla de reservas de experiencias de Vuelo Carmesí",
+        width: 1898,
+        height: 865,
       },
       {
         src: "/assets/projects/vuelo-carmesi/3.png",
         alt: "Tienda en línea de Vuelo Carmesí",
+        width: 1898,
+        height: 868,
       },
     ],
   },
