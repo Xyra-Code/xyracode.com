@@ -12,6 +12,8 @@ export function BlockRenderer({ blocks }: { blocks: Block[] }) {
         switch (block.kind) {
           case "h2":
             return <h2 key={i}>{block.text}</h2>;
+          case "h3":
+            return <h3 key={i}>{block.text}</h3>;
           case "p":
             return <p key={i}>{block.text}</p>;
           case "ul":

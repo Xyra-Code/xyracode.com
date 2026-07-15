@@ -15,6 +15,7 @@ describe("BlockRenderer", () => {
   it("renderiza cada tipo de bloque con su etiqueta semántica", () => {
     const blocks: Block[] = [
       { kind: "h2", text: "Título" },
+      { kind: "h3", text: "Subtítulo" },
       { kind: "p", text: "Un párrafo." },
       { kind: "ul", items: ["uno", "dos"] },
       {
@@ -32,6 +33,9 @@ describe("BlockRenderer", () => {
 
     expect(
       screen.getByRole("heading", { level: 2, name: "Título" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { level: 3, name: "Subtítulo" }),
     ).toBeInTheDocument();
     expect(screen.getByText("Un párrafo.")).toBeInTheDocument();
     expect(screen.getAllByRole("listitem")).toHaveLength(2);

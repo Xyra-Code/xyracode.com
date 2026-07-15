@@ -151,31 +151,31 @@ export const BLOG_POSTS: BlogPost[] = [
           "Lo importante es tener una cotización clara, con alcance definido, costos recurrentes explícitos y un aliado que te diga la verdad, aunque a veces esa verdad sea \"esto lo resuelves con algo más simple\".",
       },
       { kind: "h2", text: "Preguntas frecuentes" },
-      { kind: "p", text: "¿Cuál es el precio mínimo de una página web en Colombia?" },
+      { kind: "h3", text: "¿Cuál es el precio mínimo de una página web en Colombia?" },
       {
         kind: "p",
         text:
           "Puedes encontrar plantillas y creadores por muy poco, incluso gratis con suscripción mensual. Una landing profesional a medida arranca en el orden del millón de pesos. El mínimo depende de si buscas algo genérico o algo hecho para tu negocio.",
       },
-      { kind: "p", text: "¿Es mejor un freelancer o una agencia?" },
+      { kind: "h3", text: "¿Es mejor un freelancer o una agencia?" },
       {
         kind: "p",
         text:
           "Depende de tu proyecto y presupuesto. Un freelancer o estudio pequeño suele dar mejor precio y trato directo; una agencia grande, más músculo para proyectos complejos. Lo clave es la comunicación, el resultado y que el código quede a tu nombre.",
       },
-      { kind: "p", text: "¿Cuánto tarda en estar lista una web?" },
+      { kind: "h3", text: "¿Cuánto tarda en estar lista una web?" },
       {
         kind: "p",
         text:
           "Una landing suele tomar de 2 a 3 semanas; un sitio corporativo, de 4 a 6; una tienda o app a medida, varias semanas o meses según el alcance.",
       },
-      { kind: "p", text: "¿Por qué dos cotizaciones por \"lo mismo\" son tan distintas?" },
+      { kind: "h3", text: "¿Por qué dos cotizaciones por \"lo mismo\" son tan distintas?" },
       {
         kind: "p",
         text:
           "Porque casi nunca es lo mismo. Cambia el diseño (plantilla vs. a medida), el SEO, la velocidad, las funciones, quién redacta el contenido y quién responde después del lanzamiento. Compara alcances, no solo precios.",
       },
-      { kind: "p", text: "¿Vale la pena pagar por SEO desde el inicio?" },
+      { kind: "h3", text: "¿Vale la pena pagar por SEO desde el inicio?" },
       {
         kind: "p",
         text:
