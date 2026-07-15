@@ -35,6 +35,9 @@ export async function generateMetadata({
       url: path,
       title: post.seo.title,
       description: post.seo.description,
+      publishedTime: post.publishedISO,
+      modifiedTime: post.lastModified,
+      authors: [`${SITE_URL}/nosotros`],
     },
   };
 }
