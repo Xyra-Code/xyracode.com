@@ -25,12 +25,19 @@ export function Navbar() {
         className="mx-auto flex max-w-300 items-center justify-between px-5 py-3.5 sm:px-10"
       >
         <Link href="/" aria-label={UI.nav.homeAria} className="flex items-center">
+          {/* El fuente pesaba 158 KB a 1959px de ancho para renderizarse a 56px
+              de alto; ahora mide 460px (2x del render real) y se sirve en ~8 KB.
+              `preload={false}` y sin `loading="eager"`: el único preload de
+              imagen de la home debe ser el del hero, que es el que marca el
+              LCP. Verificado que `loading="eager"` fuerza el preload igual
+              aunque `preload` sea false, así que se deja el lazy por defecto:
+              al estar en viewport el navegador lo pide en el primer layout. */}
           <Image
             src="/assets/brand/logo-nav.png"
             alt=""
-            width={1883}
-            height={492}
-            priority
+            width={460}
+            height={116}
+            preload={false}
             className="h-14 w-auto"
           />
         </Link>

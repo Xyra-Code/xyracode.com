@@ -3,11 +3,12 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { CARD_ART } from "@/components/content/ArticleArt";
+import { renderInline } from "@/components/content/InlineText";
 import { Footer } from "@/components/sections/Footer";
 import { Navbar } from "@/components/sections/Navbar";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Reveal } from "@/components/ui/Reveal";
-import { BLOG_POSTS, BLOG_SEO } from "@/lib/content";
+import { BLOG_INTRO, BLOG_POSTS, BLOG_SEO } from "@/lib/content";
 import { breadcrumbLd } from "@/lib/jsonld";
 import { SEO } from "@/lib/seo";
 
@@ -162,6 +163,16 @@ export default function BlogIndex() {
             <p className="max-w-160 text-[19px] leading-[1.6] text-[rgba(226,247,242,0.72)]">
               {BLOG_SEO.description}
             </p>
+            <div className="mt-2 flex max-w-160 flex-col gap-4">
+              {BLOG_INTRO.paragraphs.map((paragraph, i) => (
+                <p
+                  key={i}
+                  className="text-[16px] leading-[1.7] text-[rgba(226,247,242,0.6)] [&_a]:text-teal-300 [&_a]:underline [&_a]:underline-offset-4 [&_a:hover]:text-teal-200"
+                >
+                  {renderInline(paragraph)}
+                </p>
+              ))}
+            </div>
           </Reveal>
         </section>
 

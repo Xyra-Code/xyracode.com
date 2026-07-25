@@ -7,7 +7,7 @@ import { Navbar } from "@/components/sections/Navbar";
 import { Chip } from "@/components/ui/Chip";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Reveal } from "@/components/ui/Reveal";
-import { PROJECTS, PROJECTS_SEO } from "@/lib/content";
+import { PROJECTS, PROJECTS_INTRO, PROJECTS_SEO } from "@/lib/content";
 import { breadcrumbLd } from "@/lib/jsonld";
 import { SEO } from "@/lib/seo";
 
@@ -81,6 +81,16 @@ export default function ProyectosIndex() {
             <p className="max-w-160 text-[19px] leading-[1.6] text-[rgba(226,247,242,0.72)]">
               {PROJECTS_SEO.description}
             </p>
+            <div className="mt-2 flex max-w-160 flex-col gap-4">
+              {PROJECTS_INTRO.paragraphs.map((paragraph) => (
+                <p
+                  key={paragraph}
+                  className="text-[16px] leading-[1.7] text-[rgba(226,247,242,0.6)]"
+                >
+                  {paragraph}
+                </p>
+              ))}
+            </div>
           </Reveal>
         </section>
 

@@ -1,4 +1,4 @@
-import type { Block } from "./blocks";
+import type { Block, Inline } from "./blocks";
 
 export type BlogPost = {
   slug: string;
@@ -30,11 +30,31 @@ export const BLOG_SEO = {
     "Guías y comparativas sobre desarrollo web, apps y e-commerce en Colombia: precios, tecnologías y decisiones que importan para tu proyecto.",
 } as const;
 
+/**
+ * Prosa propia del hub. Un listado de tarjetas no explica por qué existe el
+ * blog ni para quién está escrito; estos párrafos sí, y de paso reparten
+ * enlaces hacia las páginas de servicio desde una URL de hub.
+ */
+export const BLOG_INTRO = {
+  paragraphs: [
+    "Escribimos para la persona que tiene que tomar una decisión técnica sin ser técnica: elegir entre dos cotizaciones que se llevan por un factor de cinco, entender qué se paga una vez y qué cada mes, o decidir si lo que necesita es una web o realmente una aplicación.",
+    [
+      "No son artículos de relleno ni listas de \"10 tendencias\". Cada guía sale de conversaciones reales con clientes y de cosas que hemos visto salir mal. Si después de leer quieres ver cómo aterrizamos eso en un proyecto, están las páginas de ",
+      { text: "servicios", href: "/servicios" },
+      " y los ",
+      { text: "casos de estudio", href: "/proyectos" },
+      ".",
+    ],
+  ] satisfies (string | Inline[])[],
+} as const;
+
 export const BLOG_POSTS: BlogPost[] = [
   {
     slug: "cuanto-cuesta-una-web-colombia-2026",
     seo: {
-      title: "¿Cuánto cuesta una web en Colombia? Costos reales 2026 | XyraCode",
+      // 58 caracteres: conserva el año (señal de frescura en una consulta de
+      // precios) y la marca, sin que la SERP corte ninguno de los dos.
+      title: "¿Cuánto cuesta una web en Colombia? Costos 2026 | XyraCode",
       description:
         "Qué se paga una sola vez y qué se paga cada mes en un proyecto web: dominio, hosting, integraciones, mantenimiento. La anatomía completa del costo.",
     },
@@ -286,8 +306,11 @@ export const BLOG_POSTS: BlogPost[] = [
       { kind: "h3", text: "¿Cuánto tarda en estar lista una web?" },
       {
         kind: "p",
-        text:
-          "Una landing suele tomar de dos a tres semanas; un sitio corporativo, de cuatro a seis; una tienda o una aplicación a medida, varias semanas o meses según el alcance. El plazo depende menos del proveedor de lo que crees: la variable que más retrasa proyectos es el contenido —textos, fotos y aprobaciones— que tiene que salir de tu lado.",
+        text: [
+          "Una landing suele tomar de dos a tres semanas; ",
+          { text: "un sitio corporativo a medida", href: "/servicios/desarrollo-web" },
+          ", de cuatro a seis; una tienda o una aplicación a medida, varias semanas o meses según el alcance. El plazo depende menos del proveedor de lo que crees: la variable que más retrasa proyectos es el contenido —textos, fotos y aprobaciones— que tiene que salir de tu lado.",
+        ],
       },
       { kind: "h2", text: "¿Cuáles de estos costos aplican a tu proyecto?" },
       {

@@ -490,6 +490,18 @@ export const SERVICE_PAGES: ServicePage[] = [
         text: "Los tiempos dependen mucho del alcance. Un MVP enfocado (una o dos funcionalidades centrales bien hechas) suele tomar de 4 a 8 semanas; una plataforma más completa, varios meses en fases. Preferimos lanzar algo útil pronto y crecer, antes que tardar un año en un producto gigante que nadie ha probado. Te damos alcance y cronograma en la propuesta, que llega en menos de 48 horas.",
       },
       { kind: "h2", text: "Preguntas frecuentes" },
+      { kind: "h3", text: "¿Cuánto cuesta una app a medida?" },
+      {
+        kind: "p",
+        text: [
+          "Depende de cuántos procesos automatice y con qué se integre: no cuesta lo mismo un panel para gestionar reservas que una plataforma con pagos, roles y facturación. Empezar por un MVP acotado baja bastante la cifra inicial. Desglosamos de qué se compone el precio en ",
+          {
+            text: "nuestra guía de costos de un proyecto web en Colombia",
+            href: GUIA_PRECIOS,
+          },
+          ", y te damos alcance, tiempos y precio cerrado en la propuesta.",
+        ],
+      },
       { kind: "h3", text: "¿Cuál es la diferencia entre una web y una app a medida?" },
       {
         kind: "p",
@@ -525,7 +537,9 @@ export const SERVICE_PAGES: ServicePage[] = [
   {
     slug: "ecommerce",
     seo: {
-      title: "Desarrollo de Tiendas Virtuales y E-commerce en Colombia | XyraCode",
+      // 53 caracteres: conserva los dos términos que busca la gente ("tienda
+      // virtual" y "e-commerce") sin que la SERP corte la marca.
+      title: "Tiendas Virtuales y E-commerce en Colombia | XyraCode",
       description:
         "Desarrollo de tiendas virtuales a medida en Colombia: catálogo, carrito, pagos con Wompi, PayU o PSE y panel propio. El código es tuyo y cotizamos en 48h.",
     },

@@ -87,7 +87,21 @@ export default async function ArticuloPage({
         inLanguage: SEO.localeBcp47,
         author: { "@id": `${SITE_URL}/nosotros#person` },
         publisher: { "@id": `${SITE_URL}/#organization` },
-        ...(post.cover && { image: `${SITE_URL}${post.cover.src}` }),
+        // `image` es campo recomendado para el resultado enriquecido de
+        // artículo. Si el post aún no tiene portada propia, cae en la imagen
+        // Open Graph que esta misma ruta ya genera (1200x630, siempre 200).
+        image: post.cover
+          ? `${SITE_URL}${post.cover.src}`
+          : `${SITE_URL}${path}/opengraph-image`,
+      },
+      // El `author` de arriba referencia un @id que vive en /nosotros. Sin este
+      // nodo, la referencia quedaba colgando dentro del documento y Google
+      // tenía que resolverla contra otra página. La autoría es señal E-E-A-T.
+      {
+        "@type": "Person",
+        "@id": `${SITE_URL}/nosotros#person`,
+        name: FOUNDER.name,
+        url: `${SITE_URL}/nosotros`,
       },
       breadcrumbLd(path, [
         { name: "Blog", path: "/blog" },

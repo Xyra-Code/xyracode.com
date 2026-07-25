@@ -2,6 +2,7 @@ import { ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import { Fragment, type ReactNode } from "react";
+import { renderInline } from "@/components/content/InlineText";
 import { Footer } from "@/components/sections/Footer";
 import { Navbar } from "@/components/sections/Navbar";
 import { WhatsAppIcon } from "@/components/ui/BrandIcons";
@@ -199,12 +200,12 @@ export default function Nosotros() {
               </TerminalCard>
               <TerminalCard label="logout.log">
                 <div className="flex flex-col gap-4 px-6 py-6 md:px-8 md:py-7">
-                  {PERSONAL.paragraphs.map((p) => (
+                  {PERSONAL.paragraphs.map((p, i) => (
                     <p
-                      key={p}
-                      className="text-[17px] leading-[1.75] text-[rgba(226,247,242,0.7)]"
+                      key={i}
+                      className="text-[17px] leading-[1.75] text-[rgba(226,247,242,0.7)] [&_a]:text-teal-300 [&_a]:underline [&_a]:underline-offset-4 [&_a:hover]:text-teal-200"
                     >
-                      {p}
+                      {renderInline(p)}
                     </p>
                   ))}
                 </div>
@@ -214,7 +215,7 @@ export default function Nosotros() {
               <Button href="/#contacto">
                 {UI.nosotros.heroCtaPrimary} <ArrowRight size={20} aria-hidden />
               </Button>
-              <Button href="/#portfolio" variant="ghost" className="border-white/22">
+              <Button href="/proyectos" variant="ghost" className="border-white/22">
                 {UI.nosotros.heroCtaSecondary}
               </Button>
             </div>

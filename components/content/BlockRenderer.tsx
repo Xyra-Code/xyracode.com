@@ -1,21 +1,6 @@
 import Image from "next/image";
-import Link from "next/link";
-import { Fragment } from "react";
-import type { Block, Inline } from "@/lib/content/blocks";
-
-/** Un párrafo puede ser texto plano o una mezcla de texto y enlaces internos. */
-function renderText(text: string | Inline[]) {
-  if (typeof text === "string") return text;
-  return text.map((part, i) =>
-    typeof part === "string" ? (
-      <Fragment key={i}>{part}</Fragment>
-    ) : (
-      <Link key={i} href={part.href}>
-        {part.text}
-      </Link>
-    ),
-  );
-}
+import { renderInline as renderText } from "@/components/content/InlineText";
+import type { Block } from "@/lib/content/blocks";
 
 /**
  * Renderiza un cuerpo de bloques a HTML semántico. Sin clases de estilo:
