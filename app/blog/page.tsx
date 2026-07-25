@@ -2,6 +2,7 @@ import { ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { CARD_ART } from "@/components/content/ArticleArt";
 import { Footer } from "@/components/sections/Footer";
 import { Navbar } from "@/components/sections/Navbar";
 import { Eyebrow } from "@/components/ui/Eyebrow";
@@ -55,10 +56,18 @@ const GROWTH_SLOTS = [
   },
 ];
 
+/**
+ * Portada del artículo. Si el post aún no tiene imagen, se pinta una card de
+ * marca en vez de un degradado vacío: mismo lenguaje que las imágenes Open
+ * Graph (tinta + glows, marco de línea fina, marca XC al sangre) y, como
+ * contenido, la identidad del propio artículo — su archivo y su fecha.
+ */
 function Cover({
   post,
+  featured = false,
 }: {
   post: (typeof BLOG_POSTS)[number];
+  featured?: boolean;
 }) {
   if (post.cover) {
     return (
@@ -66,16 +75,66 @@ function Cover({
         src={post.cover.src}
         alt={post.cover.alt}
         fill
-        sizes="(min-width: 768px) 50vw, 100vw"
+        sizes={
+          featured
+            ? "(min-width: 768px) 50vw, 100vw"
+            : "(min-width: 768px) 33vw, 100vw"
+        }
         className="object-cover"
       />
     );
   }
+  const Art = CARD_ART[post.slug];
+  if (Art && featured) {
+    return <Art />;
+  }
   return (
-    <div
-      aria-hidden
-      className="h-full w-full bg-[linear-gradient(150deg,#0F766E,#0B1F1C)]"
-    />
+    <div aria-hidden className="xc-doc-cover absolute inset-0 overflow-hidden">
+      {/* Marca de agua XC sangrando por la esquina inferior derecha */}
+      <Image
+        src="/assets/brand/variants/xc-teal-mark-white.png"
+        alt=""
+        width={560}
+        height={560}
+        className={`pointer-events-none absolute select-none opacity-[0.07] ${
+          featured ? "-right-16 -bottom-20 w-72" : "-right-10 -bottom-12 w-44"
+        }`}
+      />
+      {/* Marco técnico de línea fina */}
+      <div
+        className={`absolute rounded-[12px] border border-[rgba(94,234,212,0.14)] ${
+          featured ? "inset-6" : "inset-4"
+        }`}
+      />
+      <div
+        className={`absolute inset-0 flex flex-col justify-between ${
+          featured ? "p-10" : "p-6"
+        }`}
+      >
+        {/* Barra de acento + nombre del archivo del artículo */}
+        <div className="flex items-stretch gap-3">
+          <span
+            className={`shrink-0 rounded-full bg-teal-300 ${
+              featured ? "w-1.5" : "w-1"
+            }`}
+          />
+          <p
+            className={`min-w-0 font-mono leading-[1.5] text-[rgba(226,247,242,0.9)] ${
+              featured ? "text-[16px]" : "text-[12px]"
+            }`}
+          >
+            {post.slug}.md
+          </p>
+        </div>
+        <p
+          className={`font-mono text-[rgba(226,247,242,0.45)] ${
+            featured ? "text-[13px]" : "text-[11px]"
+          }`}
+        >
+          {post.publishedLabel}
+        </p>
+      </div>
+    </div>
   );
 }
 
@@ -115,7 +174,7 @@ export default function BlogIndex() {
                 className="group grid overflow-hidden rounded-[20px] border border-[rgba(94,234,212,0.15)] bg-white/3 transition-colors hover:border-[rgba(94,234,212,0.4)] md:grid-cols-2"
               >
                 <div className="relative aspect-16/10 md:order-2 md:h-full">
-                  <Cover post={featured} />
+                  <Cover post={featured} featured />
                 </div>
                 <div className="flex flex-col gap-3 p-8 md:order-1 md:p-10">
                   <p className="font-mono text-[13px] text-teal-300">
