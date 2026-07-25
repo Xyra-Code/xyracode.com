@@ -35,9 +35,15 @@ export const SEO = {
   nosotros: {
     title: "Desarrollador web en Villavicencio, Colombia | XyraCode",
     description:
-      "XyraCode es una agencia de desarrollo web en Villavicencio, Colombia. Más de 10 años entendiendo clientes antes de programar: trato directo, un solo responsable y código propio.",
+      "Agencia de desarrollo web en Villavicencio, Colombia. Más de 10 años entendiendo clientes antes de programar: trato directo y código propio.",
     ogDescription:
       "Agencia de desarrollo web en Villavicencio, Colombia. Más de 10 años entendiendo clientes antes de programar.",
+  },
+
+  contacto: {
+    title: "Contacto | XyraCode",
+    description:
+      "Habla con XyraCode: WhatsApp, teléfono, correo o formulario. Agencia de desarrollo web en Villavicencio, Meta, con clientes en toda Colombia.",
   },
 
   manifest: {
@@ -66,6 +72,24 @@ export const SEO = {
     { type: "City", name: "Villavicencio" },
     { type: "State", name: "Meta" },
     { type: "Country", name: "Colombia" },
+  ],
+
+  /**
+   * Franjas de atención para openingHoursSpecification. Jornada partida, así
+   * que van como dos entradas sobre los mismos días. Deben coincidir con el
+   * horario del perfil de Google Business: un horario declarado aquí que no
+   * case con el del perfil es peor señal que no declarar ninguno.
+   */
+  openingHours: [
+    { opens: "08:00", closes: "12:00" },
+    { opens: "14:00", closes: "18:00" },
+  ],
+  businessDays: [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
   ],
 
   org: {

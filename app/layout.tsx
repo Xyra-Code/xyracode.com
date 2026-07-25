@@ -23,6 +23,11 @@ export const metadata: Metadata = {
   },
   description: SEO.home.description,
   alternates: {
+    // Emite `https://xyracode.com` sin barra final, mientras la URL efectiva
+    // tras la redirección sí la lleva. Verificado: pasar la URL absoluta con
+    // barra no cambia nada, Next 16 normaliza la raíz igual. Igualarlas exigiría
+    // `trailingSlash: true` en todo el sitio, y Google trata ambas formas de la
+    // raíz como la misma URL: no vale el cambio.
     canonical: "/",
   },
   verification: {
@@ -76,7 +81,7 @@ const jsonLd = {
       description: SEO.home.orgDescription,
       image: `${SITE_URL}/opengraph-image`,
       // Derivados de CONTACT (lib/content.ts) para que el NAP nunca se desincronice.
-      telephone: `+${CONTACT.whatsapp}`,
+      telephone: CONTACT.phone,
       email: CONTACT.email,
       priceRange: "$$",
       address: {
@@ -94,6 +99,12 @@ const jsonLd = {
       areaServed: SEO.areaServed.map((area) => ({
         "@type": area.type,
         name: area.name,
+      })),
+      openingHoursSpecification: SEO.openingHours.map((franja) => ({
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: [...SEO.businessDays],
+        opens: franja.opens,
+        closes: franja.closes,
       })),
       knowsAbout: [...SEO.org.knowsAbout],
       // Cierra el cluster: la empresa declara qué servicios ofrece y en qué

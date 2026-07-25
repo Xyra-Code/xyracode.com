@@ -6,11 +6,12 @@ import { BLOG_POSTS, CASE_STUDIES, SERVICE_PAGES } from "@/lib/content";
 // sitio cambió en cada build). Las rutas de servicio y de proyectos derivan
 // su fecha del campo lastModified de cada ServicePage / CaseStudy.
 const LAST_MODIFIED = {
-  home: "2026-07-13",
+  home: "2026-07-25",
   serviciosHub: "2026-07-24",
-  nosotros: "2026-07-13",
-  proyectosHub: "2026-07-13",
-  blogHub: "2026-07-13",
+  nosotros: "2026-07-25",
+  proyectosHub: "2026-07-25",
+  blogHub: "2026-07-25",
+  contacto: "2026-07-25",
 } as const;
 
 const BASE = "https://xyracode.com";
@@ -62,6 +63,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${BASE}/nosotros`,
       lastModified: LAST_MODIFIED.nosotros,
       changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${BASE}/contacto`,
+      lastModified: LAST_MODIFIED.contacto,
+      changeFrequency: "yearly",
       priority: 0.7,
     },
     {
