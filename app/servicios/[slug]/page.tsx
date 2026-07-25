@@ -1,5 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArticleBody } from "@/components/content/ArticleBody";
 import { Footer } from "@/components/sections/Footer";
@@ -8,8 +9,8 @@ import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { Button } from "@/components/ui/Button";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Reveal } from "@/components/ui/Reveal";
-import { SERVICE_PAGES } from "@/lib/content";
-import { breadcrumbLd } from "@/lib/jsonld";
+import { SERVICE_PAGES, type ServicePage } from "@/lib/content";
+import { breadcrumbLd, faqLd } from "@/lib/jsonld";
 import { SEO } from "@/lib/seo";
 
 // Solo los slugs listados existen; cualquier otro devuelve 404.
@@ -52,6 +53,14 @@ export default async function ServicioPage({
   if (!page) notFound();
 
   const path = `/servicios/${page.slug}`;
+  const related = page.related
+    .map((slug) => SERVICE_PAGES.find((p) => p.slug === slug))
+    .filter((p): p is ServicePage => Boolean(p));
+
+  // La FAQ se deriva del cuerpo; las páginas sin sección de preguntas
+  // devuelven null y el @graph queda igual que antes.
+  const faq = faqLd(path, page.body);
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
@@ -59,15 +68,36 @@ export default async function ServicioPage({
         "@type": "Service",
         "@id": `${SITE_URL}${path}#service`,
         name: page.hero.h1,
+        ...(page.serviceType ? { serviceType: page.serviceType } : {}),
         description: page.seo.description,
         url: `${SITE_URL}${path}`,
         provider: { "@id": `${SITE_URL}/#organization` },
-        areaServed: { "@type": "Country", name: SEO.address.country },
+        areaServed: SEO.areaServed.map((area) => ({
+          "@type": area.type,
+          name: area.name,
+        })),
+        // Sin `price`: no publicamos cifras, y un Offer con precio inventado
+        // es peor que no declarar ninguno.
+        hasOfferCatalog: {
+          "@type": "OfferCatalog",
+          name: page.card.title,
+          itemListElement: page.features.map((feature) => ({
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name: feature.title,
+              description: feature.desc,
+            },
+          })),
+        },
       },
+      // La última miga usa card.title, no el h1: el h1 lleva los modificadores
+      // de búsqueda y como miga quedaría larguísimo.
       breadcrumbLd(path, [
         { name: "Servicios", path: "/servicios" },
-        { name: page.hero.h1, path },
+        { name: page.card.title, path },
       ]),
+      ...(faq ? [faq] : []),
     ],
   };
 
@@ -89,7 +119,7 @@ export default async function ServicioPage({
               items={[
                 { label: "Inicio", href: "/" },
                 { label: "Servicios", href: "/servicios" },
-                { label: page.hero.h1 },
+                { label: page.card.title },
               ]}
             />
             <Eyebrow as="p" className="text-teal-300">
@@ -152,6 +182,41 @@ export default async function ServicioPage({
             <ArticleBody blocks={page.body} className="mx-auto max-w-180" />
           </Reveal>
         </section>
+
+        {/* Otros servicios: cross-linking entre hermanas. Antes esta página
+            solo enlazaba a la home, así que todo el link equity salía del
+            cluster de servicios en vez de repartirse dentro. */}
+        {related.length > 0 && (
+          <section aria-labelledby="related-title" className="px-6 pb-22 md:px-16">
+            <div className="mx-auto flex max-w-225 flex-col gap-8">
+              <Reveal>
+                <h2
+                  id="related-title"
+                  className="text-[26px] font-extrabold tracking-[-0.03em] md:text-[32px]"
+                >
+                  Otros servicios
+                </h2>
+              </Reveal>
+              <div className="grid gap-5 md:grid-cols-3">
+                {related.map((other, i) => (
+                  <Reveal key={other.slug} delay={i * 90} className="h-full">
+                    <Link
+                      href={`/servicios/${other.slug}`}
+                      className="group flex h-full flex-col gap-2.5 rounded-[16px] border border-[rgba(94,234,212,0.15)] bg-white/3 p-6 transition-colors hover:border-[rgba(94,234,212,0.4)]"
+                    >
+                      <h3 className="text-[18px] font-extrabold tracking-[-0.02em]">
+                        {other.card.title}
+                      </h3>
+                      <p className="text-[15px] leading-[1.65] text-[rgba(226,247,242,0.65)]">
+                        {other.card.summary}
+                      </p>
+                    </Link>
+                  </Reveal>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* CTA */}
         <section
