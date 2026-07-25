@@ -7,6 +7,13 @@ import { CONTACT, FOUNDER } from "@/lib/content";
 export const SEO = {
   siteName: "XyraCode",
   siteUrl: "https://xyracode.com",
+  /**
+   * Variantes de marca para el alternateName del JSON-LD. Google tokeniza
+   * "XyraCode" (camelCase) como "xyra"+"code", y todos los handles sociales
+   * usan la forma separada: sin estas variantes la búsqueda pegada no resuelve
+   * al sitio. No quitar la forma en minúscula ni el dominio.
+   */
+  alternateNames: ["Xyra Code", "xyracode", "xyracode.com"],
   /** Formato openGraph (es_CO) y BCP-47 (es-CO) según dónde se use. */
   locale: "es_CO",
   localeBcp47: "es-CO",
@@ -49,6 +56,18 @@ export const SEO = {
     geo: { lat: 4.142, lng: -73.626 },
   },
 
+  /**
+   * areaServed del JSON-LD, de lo específico a lo general. Google usa la
+   * jerarquía City → State → Country para resolver relevancia local: declarar
+   * solo el país es tan débil como no declarar nada. El departamento entra
+   * aquí, como dato estructurado, y no como keyword en los titles.
+   */
+  areaServed: [
+    { type: "City", name: "Villavicencio" },
+    { type: "State", name: "Meta" },
+    { type: "Country", name: "Colombia" },
+  ],
+
   org: {
     knowsAbout: [
       "Desarrollo web",
@@ -84,10 +103,10 @@ export const SEO = {
       footerLeft: `${FOUNDER.name} · ${CONTACT.location}`,
     },
     serviciosHub: {
-      alt: "Servicios de desarrollo web y software a medida | XyraCode",
+      alt: "¿Web, tienda online o app a medida? Cómo elegir | XyraCode",
       eyebrow: "Servicios",
-      title: "Desarrollo web y software a medida",
-      footerLeft: "Sitios · Apps · E-commerce",
+      title: "¿Web, tienda o app a medida?",
+      footerLeft: "Compara los tres caminos",
     },
     proyectosHub: {
       alt: "Proyectos y casos de estudio | XyraCode",
