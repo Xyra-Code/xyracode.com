@@ -7,7 +7,7 @@ import { BLOG_POSTS, CASE_STUDIES, SERVICE_PAGES } from "@/lib/content";
 // su fecha del campo lastModified de cada ServicePage / CaseStudy.
 const LAST_MODIFIED = {
   home: "2026-07-13",
-  serviciosHub: "2026-07-13",
+  serviciosHub: "2026-07-24",
   nosotros: "2026-07-13",
   proyectosHub: "2026-07-13",
   blogHub: "2026-07-13",

@@ -40,7 +40,7 @@ const jsonLd = {
 };
 
 // "Slots disponibles" con barra de progreso: ilustran que la grilla crece.
-// Cada uno dice algo distinto, en la voz del estudio (aria-hidden).
+// Cada uno dice algo distinto, en la voz de la agencia (aria-hidden).
 const GROWTH_SLOTS = [
   {
     label: "Tu proyecto acá",

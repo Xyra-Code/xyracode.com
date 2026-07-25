@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Documento · XyraCode</title>
+<style>
+/* __BASE_CSS__ */
+</style>
+</head>
+<body>
+
+<button class="no-print" onclick="window.print()">Imprimir / Guardar PDF</button>
+
+<!-- ====== PORTADA ====== -->
+<section class="page cover">
+  <div class="cover-top">
+    <img class="cover-logo" src="__LOGO_DATA__" alt="XyraCode" />
+    <span class="cover-tag">[Tipo de documento]</span>
+  </div>
+  <div class="cover-mid">
+    <div class="cover-kicker">[Categoría · Año]</div>
+    <h1 class="cover-title">[Título<br><span>del documento]</span></h1>
+    <p class="cover-sub">[Subtítulo o descripción breve de una o dos líneas.]</p>
+    <div class="cover-rule"></div>
+  </div>
+  <div>
+    <div class="cover-meta">
+      <div><div class="lbl">[Campo 1]</div><div class="val">[Valor]</div></div>
+      <div><div class="lbl">Fecha</div><div class="val">[Mes de AAAA]</div></div>
+      <div><div class="lbl">Elaborado por</div><div class="val">XyraCode</div></div>
+    </div>
+    <div class="cover-contact">
+      <span><b>Web</b>&nbsp; xyracode.com</span>
+      <span><b>Email</b>&nbsp; contacto@xyracode.com</span>
+      <span><b>WhatsApp</b>&nbsp; +57 310 679 0518</span>
+      <span><b>Ubicación</b>&nbsp; Villavicencio, Colombia</span>
+    </div>
+  </div>
+</section>
+
+<!-- ====== HOJA INTERIOR (duplica esta <section> por cada hoja) ====== -->
+<section class="page">
+  <div class="runhead"><img src="__LOGO_DATA__" alt="XyraCode" /><span>[Documento]</span></div>
+  <div class="page-pad">
+
+    <div class="section avoid-break">
+      <div class="sec-head"><span class="sec-num">01</span><h2 class="sec-title">[Sección]</h2></div>
+      <p class="lead">[Contenido…]</p>
+    </div>
+
+  </div>
+  <div class="runfoot"><span>XyraCode · [Documento]</span><span class="mono"><span class="dot">●</span> 02</span></div>
+</section>
+
+</body>
+</html>

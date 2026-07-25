@@ -57,22 +57,25 @@ export const CASE_STUDIES: CaseStudy[] = [
   {
     slug: "vuelo-carmesi",
     seo: {
-      title: "Caso de Estudio: Vuelo Carmesí | XyraCode",
+      // Enfocado al vertical (agroturismo/turismo rural), no a la marca del
+      // cliente: "Vuelo Carmesí" no tiene volumen de búsqueda y ocupaba el
+      // arranque del title. La marca queda como prueba en la description.
+      title: "Desarrollo Web para Agroturismo y Turismo Rural | XyraCode",
       description:
-        "Cómo XyraCode construyó la plataforma de reservas y tienda online de Vuelo Carmesí, finca de cacao agroecológico en Cubarral, Meta.",
+        "Caso real de desarrollo web para agroturismo: plataforma de reservas de experiencias y tienda online para una finca de cacao en el Meta. Cotiza tu proyecto.",
     },
-    lastModified: "2026-07-13",
+    lastModified: "2026-07-24",
     publishedISO: "2026-07-13",
     hero: {
       // Reutilizados de PROJECTS (públicos): tags/stack ya verificados.
       tags: ["Next.js 16", "NestJS", "PostgreSQL", "Prisma", "Cloudinary"],
-      h1: "Vuelo Carmesí: plataforma de reservas y tienda para una finca de cacao agroecológico",
+      h1: "Desarrollo web para agroturismo: la plataforma de reservas y tienda de Vuelo Carmesí",
       intro:
-        "Vuelo Carmesí es una finca de cacao agroecológico en Cubarral (Meta) que ofrece experiencias vivenciales — taller de chocolate artesanal, cata de cacao y avistamiento de aves— además de vender su cacao. Necesitaba recibir reservas y vender en línea desde una sola plataforma; XyraCode la diseñó y construyó full-stack, de punta a punta.",
+        "El turismo rural se vende en dos frentes: experiencias que hay que reservar y productos que hay que despachar. Vuelo Carmesí es una finca de cacao agroecológico en Cubarral (Meta) que ofrece experiencias vivenciales —taller de chocolate artesanal, cata de cacao y avistamiento de aves— además de vender su cacao. Necesitaba recibir reservas y vender en línea desde una sola plataforma; XyraCode la diseñó y construyó full-stack, de punta a punta.",
     },
     cover: {
       src: "/assets/projects/vuelo-carmesi/4.png",
-      alt: "Página principal de la plataforma web de Vuelo Carmesí",
+      alt: "Página principal de la plataforma de reservas y tienda de Vuelo Carmesí, finca de agroturismo en el Meta",
       width: 1897,
       height: 863,
     },
@@ -90,7 +93,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       },
       {
         kind: "p",
-        text: "El reto era llevar toda esa experiencia a una sola plataforma: recibir reservas de experiencias (como la ruta de aves y cacao) y vender en línea, con un panel para gestionarlo todo sin depender del chat.",
+        text: "El reto era el de casi cualquier negocio de agroturismo: llevar toda esa experiencia a una sola plataforma —recibir reservas de experiencias (como la ruta de aves y cacao) y vender en línea— con un panel para gestionarlo todo sin depender del chat.",
       },
       {
         kind: "p",
@@ -149,13 +152,13 @@ export const CASE_STUDIES: CaseStudy[] = [
     gallery: [
       {
         src: "/assets/projects/vuelo-carmesi/2.png",
-        alt: "Pantalla de reservas de experiencias de Vuelo Carmesí",
+        alt: "Pantalla de reservas de experiencias de agroturismo en la plataforma de Vuelo Carmesí",
         width: 1898,
         height: 865,
       },
       {
         src: "/assets/projects/vuelo-carmesi/3.png",
-        alt: "Tienda en línea de Vuelo Carmesí",
+        alt: "Tienda en línea de Vuelo Carmesí para la venta del cacao de la finca",
         width: 1898,
         height: 868,
       },

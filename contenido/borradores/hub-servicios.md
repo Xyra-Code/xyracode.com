@@ -35,7 +35,7 @@ Tiendas online a medida, veloces y listas para vender: catálogo, carrito, pasar
 
 ## Desarrollo web en Villavicencio
 
-Todos nuestros servicios, con la ventaja de ser un estudio con base en Villavicencio. Cercanía real, reuniones presenciales cuando el proyecto lo amerite y contexto del mercado local, sin renunciar a los estándares de un producto moderno. Ideal para negocios de la región que quieren un aliado cercano y confiable.
+Todos nuestros servicios, con la ventaja de ser una agencia con base en Villavicencio. Cercanía real, reuniones presenciales cuando el proyecto lo amerite y contexto del mercado local, sin renunciar a los estándares de un producto moderno. Ideal para negocios de la región que quieren un aliado cercano y confiable.
 
 [Ver servicio → /servicios/desarrollo-web-villavicencio]
 

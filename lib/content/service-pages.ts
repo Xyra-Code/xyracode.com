@@ -17,6 +17,21 @@ export type ServicePage = {
   seo: { title: string; description: string };
   /** ISO 8601; editar a mano al cambiar el contenido (alimenta el sitemap). */
   lastModified: string;
+  /**
+   * Cómo se presenta el servicio en el hub y en "Otros servicios". `title` es
+   * el anchor text con el que apuntamos a esta página: keyword limpia, no el
+   * h1 largo. Es la señal interna más fuerte que le damos a Google sobre de
+   * qué trata la URL, así que se escribe corto y sin adornos.
+   */
+  card: { title: string; summary: string };
+  /**
+   * `serviceType` del JSON-LD: el nombre de categoría del servicio, en la
+   * forma en que se busca ("Desarrollo de tiendas virtuales"). El h1 puede
+   * llevar adornos de marca; esto no. Opcional: si falta, se omite el campo.
+   */
+  serviceType?: string;
+  /** Slugs de servicios relacionados; alimenta el cross-linking del pie. */
+  related: string[];
   hero: { eyebrow: string; h1: string; intro: string };
   /** Grid "Qué incluye" (3 tarjetas). */
   features: ServiceFeature[];
@@ -25,22 +40,170 @@ export type ServicePage = {
   cta: { title: string; subtitle: string };
 };
 
-/** SEO de la página de listado /servicios. */
-export const SERVICE_PAGES_SEO = {
-  title: "Servicios de desarrollo web y software a medida | XyraCode",
-  description:
-    "Desarrollo web, apps a medida y e-commerce en Colombia. Elige el servicio que necesitas: del prototipo a producción, con un solo responsable.",
-} as const;
+/** Slug del artículo de costos; se enlaza desde varios servicios y desde el hub. */
+const GUIA_PRECIOS = "/blog/cuanto-cuesta-una-web-colombia-2026";
+
+/** Caso de estudio con tienda y panel; es la prueba de que esto ya se hizo. */
+const CASO_VUELO_CARMESI = "/proyectos/vuelo-carmesi";
+
+/**
+ * Página /servicios. NO es un índice de servicios: es la página de decisión
+ * previa a la compra ("¿web, tienda o app?").
+ *
+ * El listado escueto que había antes competía por la misma intención que la
+ * home y que /servicios/desarrollo-web, y de las tres era la más débil: Google
+ * la descartaba y quedaba sin indexar. Al moverla a intención comparativa
+ * ninguna de las tres URLs pelea con otra. Si alguien vuelve a ponerle un
+ * title tipo "Servicios de desarrollo web", vuelve la canibalización.
+ */
+export const SERVICE_HUB: {
+  seo: { title: string; description: string };
+  hero: { eyebrow: string; h1: string; intro: string };
+  body: Block[];
+  cta: { title: string; subtitle: string };
+} = {
+  seo: {
+    title: "¿Web, tienda online o app a medida? Cómo elegir | XyraCode",
+    description:
+      "Compara los tres caminos: qué resuelve cada uno, cuándo conviene, cuánto tarda y qué inversión pide. Guía honesta para decidir antes de cotizar.",
+  },
+  hero: {
+    eyebrow: "Servicios",
+    h1: "¿Qué necesita tu negocio: una web, una tienda o una app?",
+    intro:
+      "Tres caminos distintos para tres problemas distintos. Aquí te decimos cuál resuelve el tuyo, cuánto tarda cada uno y cuándo no vale la pena desarrollar a medida.",
+  },
+  body: [
+    { kind: "h2", text: "Los tres caminos, en corto" },
+    {
+      kind: "p",
+      text: "Casi todos los proyectos que llegan a XyraCode caben en uno de tres caminos. No se diferencian por tecnología (usamos el mismo stack en los tres), sino por el problema que resuelven: que te encuentren, que te compren o que tu operación deje de ser un caos.",
+    },
+    {
+      kind: "table",
+      caption: "Comparativa de los tres servicios principales.",
+      head: ["Camino", "Qué resuelve", "Cuándo conviene", "Tiempo típico"],
+      rows: [
+        [
+          "Sitio web a medida",
+          "Que te encuentren en Google y confíen en ti",
+          "Vendes servicios, o tu sitio actual no genera consultas",
+          "2 a 6 semanas",
+        ],
+        [
+          "Tienda online",
+          "Vender sin tener que estar presente",
+          "Tienes catálogo propio y hoy vendes por WhatsApp o redes",
+          "4 a 8 semanas",
+        ],
+        [
+          "App a medida",
+          "Ordenar y automatizar tu operación interna",
+          "Gestionas reservas, pedidos o inventario a mano",
+          "4 semanas a varios meses",
+        ],
+      ],
+    },
+    {
+      kind: "p",
+      text: "Los tres se construyen igual de bien desde Villavicencio o desde cualquier parte de Colombia. Si eres un negocio de la región y prefieres tratar con alguien de aquí, ese es un cuarto camino que también cubrimos.",
+    },
+    { kind: "h2", text: "Cómo elegir sin equivocarte" },
+    {
+      kind: "p",
+      text: "La pregunta correcta no es qué quieres construir, sino qué te está costando dinero hoy. Casi siempre la respuesta se ve sola:",
+    },
+    {
+      kind: "ul",
+      items: [
+        "Nadie te encuentra en Google, o tu web actual es lenta y no trae consultas: necesitas un sitio a medida.",
+        "Ya vendes, pero se te caen pedidos, cobras a mano y pierdes el control del inventario: necesitas una tienda online.",
+        "Pasas horas cada semana copiando datos entre hojas de cálculo, agendando o coordinando por chat: necesitas una app a medida.",
+        "Vas a lanzar algo nuevo y no tienes nada: empieza por la web. Es más barato crecer hacia lo demás que construir de más desde el principio.",
+      ],
+    },
+    {
+      kind: "p",
+      text: "Muchos proyectos terminan combinando dos: una web pública que capta clientes y, detrás, un panel de administración que ordena la operación. No hace falta decidirlo todo hoy; sí conviene construir sobre una base que aguante lo que viene.",
+    },
+    { kind: "h2", text: "Cuánto cuesta cada camino" },
+    {
+      kind: "p",
+      text: [
+        "El precio depende del alcance, no del tipo de proyecto: una landing sencilla y un sitio corporativo de doce secciones son ambos \"desarrollo web\" y no cuestan lo mismo. Desglosamos ítem por ítem de qué se compone el costo en ",
+        {
+          text: "nuestra guía de qué se paga una vez y qué cada mes en un proyecto web",
+          href: GUIA_PRECIOS,
+        },
+        ", con los factores que lo mueven hacia arriba y hacia abajo.",
+      ],
+    },
+    {
+      kind: "p",
+      text: "Para tu caso puntual, la propuesta con alcance, cronograma y precio llega en menos de 48 horas desde la primera conversación. Sin compromiso.",
+    },
+    { kind: "h2", text: "Cuándo NO necesitas desarrollo a medida" },
+    {
+      kind: "p",
+      text: "Preferimos perder una venta antes que venderte algo que no necesitas, así que vale la pena decirlo de frente. El desarrollo a medida no te conviene si:",
+    },
+    {
+      kind: "ul",
+      items: [
+        "Estás validando si tu producto se vende y todavía no tienes clientes: una herramienta de bajo costo te deja probar más rápido y más barato.",
+        "Tu necesidad la cubre completa una herramienta existente que ya usas y con la que estás cómodo.",
+        "Tu web no es parte de cómo consigues clientes ni ingresos: con un perfil de negocio bien hecho y redes activas puede bastarte por ahora.",
+        "No tienes quien alimente el proyecto después del lanzamiento. Un sitio a medida sin contenido ni mantenimiento rinde menos que uno sencillo bien cuidado.",
+      ],
+    },
+    {
+      kind: "p",
+      text: "Si nos escribes y tu caso es uno de estos, te lo vamos a decir en la primera llamada. El desarrollo a medida rinde cuando tu presencia digital es parte central del negocio, no un adorno.",
+    },
+    { kind: "h2", text: "Preguntas frecuentes" },
+    { kind: "h3", text: "¿Puedo empezar por una web y agregar la tienda después?" },
+    {
+      kind: "p",
+      text: "Sí, y suele ser el camino más sensato. Construimos la web sobre una base pensada para crecer, de modo que sumar catálogo, pagos o un panel más adelante sea una fase nueva y no empezar de cero.",
+    },
+    { kind: "h3", text: "¿Cuál de los tres da resultados más rápido?" },
+    {
+      kind: "p",
+      text: "La web, porque es la que menos tarda en construirse y la que empieza a captar desde el primer mes. Eso sí: posicionar en Google toma tiempo y contenido constante, en cualquiera de los tres caminos.",
+    },
+    { kind: "h3", text: "¿Cuál es la diferencia real entre una web y una app?" },
+    {
+      kind: "p",
+      text: "Una web informa y capta clientes; una app opera tu negocio: gestiona datos, usuarios y procesos. Si lo que necesitas es que alguien vea algo, es web. Si necesitas que alguien haga algo dentro de un sistema, es app.",
+    },
+    { kind: "h3", text: "¿Y si mi caso no encaja en ninguno de los tres?" },
+    {
+      kind: "p",
+      text: "Escríbenos igual. La mayoría de proyectos son mezclas, y parte del trabajo de la primera conversación es ponerle nombre a lo que necesitas antes de cotizarlo.",
+    },
+  ],
+  cta: {
+    title: "¿Todavía no tienes claro cuál es el tuyo?",
+    subtitle:
+      "Cuéntanos qué te está frenando hoy y te decimos cuál de los tres caminos resuelve tu caso, con alcance, tiempos y precio en 48 horas. Y si ninguno aplica, también te lo decimos.",
+  },
+};
 
 export const SERVICE_PAGES: ServicePage[] = [
   {
     slug: "desarrollo-web",
     seo: {
-      title: "Desarrollo Web a Medida en Colombia | XyraCode",
+      title: "Desarrollo Web a Medida, sin Plantillas | XyraCode",
       description:
         "Sitios web rápidos, medibles y a medida, sin plantillas. Código propio, comunicación directa con el dev y primera propuesta en 48h. Cotiza tu proyecto.",
     },
-    lastModified: "2026-07-13",
+    lastModified: "2026-07-24",
+    card: {
+      title: "Desarrollo web a medida",
+      summary:
+        "Sitios corporativos y landings hechos a mano para cargar rápido, posicionar y convertir.",
+    },
+    related: ["ecommerce", "apps-a-medida", "desarrollo-web-villavicencio"],
     hero: {
       eyebrow: "Desarrollo web",
       h1: "Desarrollo web a medida para negocios que quieren vender más",
@@ -164,7 +327,14 @@ export const SERVICE_PAGES: ServicePage[] = [
       { kind: "h3", text: "¿Cuánto cuesta un sitio web a medida?" },
       {
         kind: "p",
-        text: "Depende del alcance: número de páginas, funcionalidades, integraciones y diseño. Escribimos una guía completa sobre precios del mercado colombiano en 2026 que te da rangos reales. Para tu caso puntual, te enviamos una cotización clara en 48 horas.",
+        text: [
+          "Depende del alcance: número de páginas, funcionalidades, integraciones y diseño. Escribimos ",
+          {
+            text: "una guía completa de los costos de una página web en Colombia",
+            href: GUIA_PRECIOS,
+          },
+          " que desglosa qué se paga una sola vez y qué es recurrente. Para tu caso puntual, te enviamos una cotización clara en 48 horas.",
+        ],
       },
       { kind: "h3", text: "¿El sitio va a aparecer en Google?" },
       {
@@ -200,7 +370,13 @@ export const SERVICE_PAGES: ServicePage[] = [
       description:
         "Web apps, plataformas y dashboards a medida para tu negocio. Código propio, foco en producto y datos, primera propuesta en 48h. Cotiza sin compromiso.",
     },
-    lastModified: "2026-07-13",
+    lastModified: "2026-07-24",
+    card: {
+      title: "Apps y plataformas a medida",
+      summary:
+        "Paneles, reservas, dashboards y herramientas internas para lo que hoy resuelves en hojas de cálculo.",
+    },
+    related: ["desarrollo-web", "ecommerce"],
     hero: {
       eyebrow: "Apps a medida",
       h1: "Apps y plataformas a medida que ordenan tu negocio",
@@ -349,16 +525,29 @@ export const SERVICE_PAGES: ServicePage[] = [
   {
     slug: "ecommerce",
     seo: {
-      title: "Desarrollo de Tiendas Online (E-commerce) | XyraCode Colombia",
+      title: "Desarrollo de Tiendas Virtuales y E-commerce en Colombia | XyraCode",
       description:
-        "Tiendas online a medida en Colombia: rápidas, con pagos, inventario y panel propio. Código tuyo y primera propuesta en 48h. Empieza a vender en línea.",
+        "Desarrollo de tiendas virtuales a medida en Colombia: catálogo, carrito, pagos con Wompi, PayU o PSE y panel propio. El código es tuyo y cotizamos en 48h.",
     },
-    lastModified: "2026-07-13",
+    lastModified: "2026-07-24",
+    /**
+     * "Tienda virtual" es el término con que se busca esto en Colombia;
+     * "tienda online" y "e-commerce" son las variantes. El anchor text lleva
+     * el primero y el cuerpo cubre los tres: misma intención, tres formas de
+     * escribirla. No volver a dejar la página hablando solo de "e-commerce".
+     */
+    serviceType: "Desarrollo de tiendas virtuales",
+    card: {
+      title: "Tiendas virtuales (e-commerce)",
+      summary:
+        "Catálogo, carrito, pagos y un panel propio para gestionar pedidos e inventario.",
+    },
+    related: ["desarrollo-web", "apps-a-medida", "desarrollo-web-villavicencio"],
     hero: {
       eyebrow: "E-commerce",
-      h1: "Tiendas online a medida para vender sin fricción",
+      h1: "Desarrollo de tiendas virtuales a medida en Colombia",
       intro:
-        "Tu negocio abierto 24/7: catálogo, carrito, pagos y un panel propio para gestionar pedidos e inventario. Rápida, medible y hecha a tu catálogo, sin las limitaciones de una plantilla.",
+        "Tu negocio abierto 24/7 y vendiendo sin fricción: catálogo, carrito, pagos y un panel propio para gestionar pedidos e inventario. Rápida, medible y hecha a tu catálogo, sin las limitaciones de una plantilla.",
     },
     features: [
       {
@@ -378,18 +567,18 @@ export const SERVICE_PAGES: ServicePage[] = [
       },
     ],
     body: [
-      { kind: "h2", text: "Qué es una tienda online a medida" },
+      { kind: "h2", text: "Qué es una tienda virtual a medida" },
       {
         kind: "p",
-        text: "Una tienda online (o e-commerce) es tu negocio abierto 24/7: un sitio donde tus clientes ven productos, agregan al carrito, pagan y reciben confirmación, mientras tú gestionas pedidos, inventario y clientes desde un panel propio. Hacerla a medida significa que no te amoldas a las limitaciones de una plantilla: la tienda se ajusta a tu catálogo, tus formas de pago y tu manera de despachar.",
+        text: "Una tienda virtual (también la vas a ver como tienda online o e-commerce: es lo mismo) es tu negocio abierto 24/7: un sitio donde tus clientes ven productos, agregan al carrito, pagan y reciben confirmación, mientras tú gestionas pedidos, inventario y clientes desde un panel propio. Hacerla a medida significa que no te amoldas a las limitaciones de una plantilla: la tienda se ajusta a tu catálogo, tus formas de pago y tu manera de despachar.",
       },
       {
         kind: "p",
-        text: "En XyraCode construimos e-commerce rápido, medible y a medida, con el mismo stack de productos modernos: React, Next.js, Node, PostgreSQL y las pasarelas de pago que usan los negocios en Colombia. La velocidad importa el doble en una tienda: cada segundo de más en cargar es gente que abandona el carrito antes de pagar.",
+        text: "En XyraCode construimos tiendas virtuales rápidas, medibles y a medida, con el mismo stack de productos modernos: React, Next.js, Node, PostgreSQL y las pasarelas de pago que de verdad se usan en Colombia. La velocidad importa el doble en una tienda: cada segundo de más en cargar es gente que abandona el carrito antes de pagar.",
       },
       {
         kind: "p",
-        text: "Ahora, seamos honestos: no todo negocio necesita una tienda a medida desde el día uno. Si estás validando si tus productos se venden en línea, a veces conviene empezar con una plataforma existente y migrar a medida cuando el volumen lo justifique. Te lo decimos de frente. El desarrollo a medida rinde cuando tienes catálogo propio, márgenes que sostienen la inversión, o necesidades que las plataformas cerradas no cubren.",
+        text: "Y no, una tienda a medida no es un lujo reservado a las marcas grandes. Ese es el mito que nos hace competencia: que si estás empezando solo te queda alquilar una plantilla. Nosotros ajustamos el alcance y la tarifa al tamaño de tu negocio, arrancando por lo esencial (catálogo, carrito, pagos y panel) y sumando por fases a medida que vendes. Prefieres pagar una vez por algo que es tuyo, en vez de una mensualidad más una comisión sobre cada venta que crece justo cuando te empieza a ir bien.",
       },
       { kind: "h2", text: "Para quién es este servicio" },
       {
@@ -406,6 +595,17 @@ export const SERVICE_PAGES: ServicePage[] = [
           "Emprendimientos locales de Villavicencio y toda Colombia listos para dar el salto al comercio electrónico.",
         ],
       },
+      {
+        kind: "p",
+        text: [
+          "Trabajamos con negocios de todo el país por videollamada, y si estás en la región tenemos la opción de vernos en persona: mira cómo trabajamos el ",
+          {
+            text: "desarrollo web en Villavicencio y el Meta",
+            href: "/servicios/desarrollo-web-villavicencio",
+          },
+          ".",
+        ],
+      },
       { kind: "h2", text: "Qué incluye" },
       {
         kind: "p",
@@ -416,7 +616,7 @@ export const SERVICE_PAGES: ServicePage[] = [
         items: [
           "Catálogo de productos con categorías, variantes, fotos y buscador.",
           "Carrito y checkout optimizados para que el cliente pague en los menos pasos posibles.",
-          "Pasarela de pagos integrada (tarjetas, PSE y billeteras, según lo que uses en Colombia).",
+          "Pasarela de pagos integrada: Wompi, PayU, Mercado Pago, ePayco o Bold, con tarjetas, PSE y billeteras como Nequi.",
           "Panel de administración para gestionar productos, precios, inventario y pedidos sin depender de nadie.",
           "Gestión de pedidos y estados (recibido, pagado, enviado, entregado) y notificaciones al cliente.",
           "Emails transaccionales: confirmación de compra, actualización de envío y recuperación de carrito.",
@@ -442,6 +642,23 @@ export const SERVICE_PAGES: ServicePage[] = [
         kind: "p",
         text: "Hablas siempre con quien construye tu tienda. Y si en el camino veo una forma de que vendas más o gastes menos, te lo digo.",
       },
+      { kind: "h2", text: "Un caso real: Vuelo Carmesí" },
+      {
+        kind: "p",
+        text: [
+          "Vuelo Carmesí es una finca de agroturismo de cacao en Cubarral, Meta, que vendía sus productos por WhatsApp y coordinaba visitas a mano. Le construimos una tienda virtual con catálogo, carrito y checkout, más un panel donde ve pedidos, reservas, ingresos y stock bajo en la misma pantalla. Puedes ver el detalle en ",
+          { text: "el caso de estudio completo", href: CASO_VUELO_CARMESI },
+          ".",
+        ],
+      },
+      {
+        kind: "image",
+        src: "/assets/projects/vuelo-carmesi/3.png",
+        alt: "Carrito de compras de la tienda virtual de Vuelo Carmesí, con el resumen del pedido y el botón de checkout",
+        width: 1898,
+        height: 868,
+        caption: "Carrito y resumen de pedido de la tienda de Vuelo Carmesí, en producción.",
+      },
       { kind: "h2", text: "Tecnologías que usamos" },
       {
         kind: "ul",
@@ -449,7 +666,7 @@ export const SERVICE_PAGES: ServicePage[] = [
           "Next.js y React para una tienda veloz y bien posicionada en Google.",
           "Node y PostgreSQL para manejar productos, pedidos e inventario de forma confiable.",
           "TypeScript para reducir errores en algo tan sensible como cobrar.",
-          "Pasarelas de pago integradas según tu operación en Colombia.",
+          "Pasarelas de pago colombianas (Wompi, PayU, Mercado Pago, ePayco, Bold) integradas según tus comisiones y tu volumen.",
           "Servicios de email y almacenamiento de imágenes en la nube (como Cloudinary) para catálogo y notificaciones.",
         ],
       },
@@ -462,16 +679,82 @@ export const SERVICE_PAGES: ServicePage[] = [
         kind: "p",
         text: "Como referencia, una tienda con catálogo, checkout, pagos y panel suele tomar entre 4 y 8 semanas, según el tamaño del catálogo, las integraciones y las reglas de negocio. Te entregamos alcance, tiempos y precio en la propuesta, que llega en menos de 48 horas.",
       },
+      { kind: "h2", text: "¿Tienda a medida o plataforma como Shopify?" },
+      {
+        kind: "p",
+        text: "Es la pregunta que más nos hacen. Shopify y WooCommerce son buenas herramientas y salen baratas el primer mes; lo que casi nadie te cuenta es lo que cuestan al año, entre plan, apps y comisión sobre cada venta. Antes de decidir por el precio de arranque, mira la foto completa:",
+      },
+      {
+        kind: "table",
+        head: ["Criterio", "Tienda a medida", "Shopify", "WooCommerce"],
+        rows: [
+          [
+            "Inversión inicial",
+            "Ajustable: definimos el alcance según tu presupuesto",
+            "Baja: plantilla y listo",
+            "Media: plantilla más configuración",
+          ],
+          [
+            "Costo mensual",
+            "Solo hosting y dominio, sin comisión por venta",
+            "Plan mensual más comisión sobre cada venta",
+            "Hosting, plugins y licencias que se renuevan",
+          ],
+          [
+            "Qué pasa si vendes más",
+            "Pagas lo mismo",
+            "Pagas más: la comisión sube con tus ventas",
+            "Pagas más plugins a medida que creces",
+          ],
+          ["Tiempo de salida", "4 a 8 semanas", "Días", "1 a 3 semanas"],
+          [
+            "Reglas de negocio propias",
+            "Sin límite",
+            "Solo lo que permita una app del store",
+            "Según el plugin que exista",
+          ],
+          [
+            "Velocidad",
+            "Bajo nuestro control",
+            "Buena, pero poco ajustable",
+            "Depende de cuántos plugins cargues",
+          ],
+          ["Dueño del código", "Tú", "Shopify", "Tú, sobre WordPress"],
+          [
+            "Conviene cuando",
+            "Quieres que la tienda sea tuya y no ceder un porcentaje de cada venta",
+            "Necesitas publicar esta semana y la comisión no te preocupa",
+            "Ya usas WordPress y tu catálogo es simple",
+          ],
+        ],
+        caption:
+          "Comparativa orientativa entre las tres formas de montar una tienda en Colombia.",
+      },
+      {
+        kind: "p",
+        text: "Si estás empezando, esa columna de la izquierda sigue siendo para ti: no cotizamos a todos con la misma vara. Definimos juntos qué necesitas de verdad para la primera versión, la sacamos con eso, y el resto se suma cuando las ventas lo pidan. Así una marca que arranca paga lo que corresponde a su tamaño y no una tarifa pensada para una empresa grande.",
+      },
+      {
+        kind: "p",
+        text: "Cuéntanos qué vendes y con qué presupuesto cuentas, y te decimos con números si te sirve más una tienda a medida o una plataforma. Si en tu caso la respuesta es la plataforma, te lo vamos a decir igual.",
+      },
       { kind: "h2", text: "Preguntas frecuentes" },
       { kind: "h3", text: "¿Cuánto cuesta una tienda online en Colombia?" },
       {
         kind: "p",
-        text: "Depende del tamaño del catálogo, las pasarelas de pago, los envíos y las reglas de tu negocio. En nuestra guía de precios del mercado colombiano 2026 damos rangos de referencia; para tu caso te cotizamos en 48 horas.",
+        text: [
+          "Depende del tamaño del catálogo, las pasarelas de pago, los envíos y las reglas de tu negocio. En ",
+          {
+            text: "nuestra guía de costos de un proyecto web en Colombia",
+            href: GUIA_PRECIOS,
+          },
+          " explicamos qué se paga una vez y qué cada mes; para tu caso te cotizamos en 48 horas.",
+        ],
       },
       { kind: "h3", text: "¿Qué medios de pago puedo ofrecer?" },
       {
         kind: "p",
-        text: "Integramos las pasarelas más usadas en Colombia (tarjetas, PSE, billeteras digitales). Elegimos la que mejor se ajuste a tus comisiones y a tu volumen.",
+        text: "Integramos las pasarelas más usadas en Colombia: Wompi, PayU, Mercado Pago, ePayco y Bold. Con cualquiera de ellas tus clientes pagan con tarjeta, PSE o billeteras como Nequi. Elegimos la que mejor se ajuste a tus comisiones y a tu volumen; si ya tienes una cuenta abierta, trabajamos con esa.",
       },
       { kind: "h3", text: "¿Puedo administrar la tienda yo mismo?" },
       {
@@ -481,7 +764,7 @@ export const SERVICE_PAGES: ServicePage[] = [
       { kind: "h3", text: "¿Me conviene una tienda a medida o una plataforma como Shopify?" },
       {
         kind: "p",
-        text: "Depende de tu etapa. Si estás validando, a veces una plataforma cerrada es más rápida para arrancar. Si ya tienes volumen, catálogo particular o quieres control total y menos comisiones, la tienda a medida rinde más. Lo evaluamos contigo con honestidad.",
+        text: "Shopify te saca a vender en días y sale barato el primer mes, pero se queda con un porcentaje de cada venta y la tienda nunca es tuya. Una tienda a medida se paga una vez, no cobra comisión y crece con las reglas de tu negocio. Y no hace falta ser una empresa grande: ajustamos el alcance de la primera versión a tu presupuesto y sumamos por fases. Dinos qué vendes y lo comparamos con números sobre tu caso.",
       },
       { kind: "h3", text: "¿La tienda va a cargar rápido?" },
       {
@@ -498,16 +781,22 @@ export const SERVICE_PAGES: ServicePage[] = [
   {
     slug: "desarrollo-web-villavicencio",
     seo: {
-      title: "Desarrollo Web en Villavicencio | XyraCode",
+      title: "Desarrollo Web en Villavicencio y el Meta | XyraCode",
       description:
-        "Agencia de desarrollo web en Villavicencio. Sitios, tiendas y apps a medida, con atención directa del dev y propuesta en 48h. Cotiza tu proyecto local.",
+        "Agencia de desarrollo web en Villavicencio y todo el Meta. Sitios, tiendas y apps a medida, con atención directa del dev y propuesta en 48h. Cotiza tu proyecto.",
     },
-    lastModified: "2026-07-13",
+    lastModified: "2026-07-24",
+    card: {
+      title: "Desarrollo web en Villavicencio",
+      summary:
+        "Sitios, tiendas y apps para negocios del Meta, con la opción de vernos en persona.",
+    },
+    related: ["desarrollo-web", "ecommerce", "apps-a-medida"],
     hero: {
       eyebrow: "Desarrollo web en Villavicencio",
       h1: "Desarrollo web en Villavicencio, hecho por alguien de aquí",
       intro:
-        "Estudio de desarrollo web y software con base en Villavicencio, para negocios de la región y de toda Colombia. Mismos estándares que un producto moderno, con la cercanía de hablar con quien construye tu proyecto.",
+        "Agencia de desarrollo web y software con base en Villavicencio, para negocios de la región y de toda Colombia. Mismos estándares que un producto moderno, con la cercanía de hablar con quien construye tu proyecto.",
     },
     features: [
       {
@@ -530,11 +819,15 @@ export const SERVICE_PAGES: ServicePage[] = [
       { kind: "h2", text: "Una agencia de desarrollo web con base en Villavicencio" },
       {
         kind: "p",
-        text: "XyraCode es un estudio de desarrollo web y software con base en Villavicencio, la puerta del llano. Construimos sitios web, tiendas online y aplicaciones a medida para negocios de la región y de toda Colombia, con código propio y sin plantillas.",
+        text: "XyraCode nace y opera desde Villavicencio, la puerta del llano. Construimos sitios web, tiendas online y aplicaciones a medida, con código propio y sin plantillas.",
       },
       {
         kind: "p",
         text: "Podríamos trabajar desde cualquier parte; nos quedamos en Villavicencio porque desde aquí se construye igual de bien y se vive mejor. Y para un negocio local hay una ventaja concreta: hablas con alguien que conoce el mercado del Meta, que entiende cómo compra la gente de la región y que está a un clic (o a una reunión presencial) de distancia.",
+      },
+      {
+        kind: "p",
+        text: "Atendemos todo el departamento, no solo la capital: trabajamos con negocios de Acacías, Granada, Puerto López, Cumaral, Restrepo y San Martín. Para los proyectos del Meta la cercanía es real y podemos vernos en persona; para el resto del país, la videollamada funciona igual de bien.",
       },
       {
         kind: "p",
@@ -598,7 +891,14 @@ export const SERVICE_PAGES: ServicePage[] = [
       { kind: "h3", text: "¿Cuánto cuesta una página web en Villavicencio?" },
       {
         kind: "p",
-        text: "Depende del alcance del proyecto. Escribimos una guía con rangos reales del mercado colombiano 2026, y para tu caso puntual te enviamos una cotización en 48 horas.",
+        text: [
+          "Depende del alcance del proyecto. Escribimos ",
+          {
+            text: "una guía con el desglose de costos de una web en Colombia",
+            href: GUIA_PRECIOS,
+          },
+          ", y para tu caso puntual te enviamos una cotización en 48 horas.",
+        ],
       },
       { kind: "h3", text: "¿Pueden reunirse en persona?" },
       {

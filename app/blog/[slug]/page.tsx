@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import { HERO_ART } from "@/components/content/ArticleArt";
 import { ArticleBody } from "@/components/content/ArticleBody";
 import { Footer } from "@/components/sections/Footer";
 import { Navbar } from "@/components/sections/Navbar";
@@ -8,7 +9,7 @@ import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Reveal } from "@/components/ui/Reveal";
 import { BLOG_POSTS, FOUNDER } from "@/lib/content";
-import { breadcrumbLd } from "@/lib/jsonld";
+import { breadcrumbLd, faqLd } from "@/lib/jsonld";
 import { SEO } from "@/lib/seo";
 
 export const dynamicParams = false;
@@ -44,6 +45,18 @@ export async function generateMetadata({
 
 const SITE_URL = SEO.siteUrl;
 
+/** Arte de portada del artículo; fondo de marca si aún no tiene uno propio. */
+function HeroArt({ post }: { post: (typeof BLOG_POSTS)[number] }) {
+  const Art = HERO_ART[post.slug];
+  if (Art) return <Art />;
+  return (
+    <div
+      aria-hidden
+      className="xc-doc-cover absolute inset-0 overflow-hidden"
+    />
+  );
+}
+
 export default async function ArticuloPage({
   params,
 }: {
@@ -54,6 +67,11 @@ export default async function ArticuloPage({
   if (!post) notFound();
 
   const path = `/blog/${post.slug}`;
+
+  // La FAQ se deriva del cuerpo; los artículos sin sección de preguntas
+  // devuelven null y el @graph queda igual que antes.
+  const faq = faqLd(path, post.body);
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
@@ -75,6 +93,7 @@ export default async function ArticuloPage({
         { name: "Blog", path: "/blog" },
         { name: post.title, path },
       ]),
+      ...(faq ? [faq] : []),
     ],
   };
 
@@ -114,10 +133,11 @@ export default async function ArticuloPage({
           </Reveal>
         </section>
 
-        {/* Portada 16:8 (o fondo de marca si el slot aún no tiene imagen) */}
+        {/* Portada: foto si la hay; si no, el arte del artículo (ArticleArt).
+            En móvil el 16:8 deja el arte sin aire, por eso sube a 4:3. */}
         <section aria-label="Portada del artículo" className="px-6 pb-14 md:px-16">
           <Reveal className="mx-auto max-w-[900px]">
-            <div className="relative aspect-16/8 overflow-hidden rounded-[20px] border border-[rgba(94,234,212,0.15)]">
+            <div className="relative aspect-4/3 overflow-hidden rounded-[20px] border border-[rgba(94,234,212,0.15)] sm:aspect-16/8">
               {post.cover ? (
                 <Image
                   src={post.cover.src}
@@ -128,10 +148,7 @@ export default async function ArticuloPage({
                   priority
                 />
               ) : (
-                <div
-                  aria-hidden
-                  className="h-full w-full bg-[linear-gradient(150deg,#0F766E,#0B1F1C)]"
-                />
+                <HeroArt post={post} />
               )}
             </div>
           </Reveal>

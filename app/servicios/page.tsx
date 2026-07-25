@@ -1,22 +1,24 @@
 import { ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ArticleBody } from "@/components/content/ArticleBody";
 import { Footer } from "@/components/sections/Footer";
 import { Navbar } from "@/components/sections/Navbar";
+import { Button } from "@/components/ui/Button";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Reveal } from "@/components/ui/Reveal";
-import { SERVICE_PAGES, SERVICE_PAGES_SEO } from "@/lib/content";
-import { breadcrumbLd } from "@/lib/jsonld";
+import { SERVICE_HUB, SERVICE_PAGES } from "@/lib/content";
+import { breadcrumbLd, itemListLd } from "@/lib/jsonld";
 import { SEO } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: { absolute: SERVICE_PAGES_SEO.title },
-  description: SERVICE_PAGES_SEO.description,
+  title: { absolute: SERVICE_HUB.seo.title },
+  description: SERVICE_HUB.seo.description,
   alternates: { canonical: "/servicios" },
   openGraph: {
     url: "/servicios",
-    title: SERVICE_PAGES_SEO.title,
-    description: SERVICE_PAGES_SEO.description,
+    title: SERVICE_HUB.seo.title,
+    description: SERVICE_HUB.seo.description,
   },
 };
 
@@ -28,10 +30,17 @@ const jsonLd = {
     {
       "@type": "CollectionPage",
       "@id": `${SITE_URL}/servicios#collection`,
-      name: "Servicios",
+      name: SERVICE_HUB.hero.h1,
+      description: SERVICE_HUB.seo.description,
       url: `${SITE_URL}/servicios`,
       isPartOf: { "@id": `${SITE_URL}/#website` },
       about: { "@id": `${SITE_URL}/#organization` },
+      mainEntity: itemListLd(
+        SERVICE_PAGES.map((page) => ({
+          name: page.card.title,
+          path: `/servicios/${page.slug}`,
+        })),
+      ),
     },
     breadcrumbLd("/servicios", [{ name: "Servicios", path: "/servicios" }]),
   ],
@@ -52,17 +61,16 @@ export default function ServiciosHub() {
           />
           <Reveal className="relative mx-auto flex max-w-205 flex-col items-center gap-5">
             <Eyebrow as="p" className="text-teal-300">
-              Servicios
+              {SERVICE_HUB.hero.eyebrow}
             </Eyebrow>
             <h1
               id="servicios-title"
               className="text-[40px] leading-[1.05] font-extrabold tracking-[-0.03em] md:text-[52px]"
             >
-              Servicios de desarrollo web y software a medida
+              {SERVICE_HUB.hero.h1}
             </h1>
             <p className="max-w-150 text-[19px] leading-[1.6] text-[rgba(226,247,242,0.72)]">
-              Desarrollo web, apps a medida y e-commerce. Elige por dónde
-              empezar; el resto lo resolvemos contigo.
+              {SERVICE_HUB.hero.intro}
             </p>
           </Reveal>
         </section>
@@ -82,11 +90,12 @@ export default function ServiciosHub() {
                         <Icon size={30} aria-hidden />
                       </span>
                     )}
+                    {/* El h2 es el anchor text del enlace: keyword limpia, no el h1 largo. */}
                     <h2 className="text-[24px] font-extrabold tracking-[-0.02em]">
-                      {page.hero.h1}
+                      {page.card.title}
                     </h2>
                     <p className="text-[16px] leading-[1.7] text-[rgba(226,247,242,0.65)]">
-                      {page.hero.intro}
+                      {page.card.summary}
                     </p>
                     <span className="mt-auto inline-flex items-center gap-1.5 pt-2 font-mono text-[13px] text-teal-300">
                       Ver servicio{" "}
@@ -101,6 +110,38 @@ export default function ServiciosHub() {
               );
             })}
           </div>
+        </section>
+
+        {/* Cuerpo comparativo: lo que convierte el hub en una página propia
+            y no en un índice de enlaces que Google descarta por thin content. */}
+        <section aria-label="Cómo elegir tu servicio" className="px-6 pb-22 md:px-16">
+          <Reveal>
+            <ArticleBody blocks={SERVICE_HUB.body} className="mx-auto max-w-180" />
+          </Reveal>
+        </section>
+
+        <section
+          aria-labelledby="servicios-cta-title"
+          className="relative overflow-hidden bg-brand-ink px-6 py-24 text-center md:px-16"
+        >
+          <div
+            aria-hidden
+            className="absolute top-1/2 left-1/2 h-[560px] w-[560px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand-primary opacity-25 blur-[140px]"
+          />
+          <Reveal className="relative mx-auto flex max-w-160 flex-col items-center gap-5">
+            <h2
+              id="servicios-cta-title"
+              className="text-[30px] font-extrabold tracking-[-0.03em] md:text-[38px]"
+            >
+              {SERVICE_HUB.cta.title}
+            </h2>
+            <p className="text-[17px] leading-[1.6] text-[rgba(226,247,242,0.7)]">
+              {SERVICE_HUB.cta.subtitle}
+            </p>
+            <Button href="/#contacto" className="mt-2">
+              Hablemos de tu proyecto <ArrowRight size={20} aria-hidden />
+            </Button>
+          </Reveal>
         </section>
       </main>
       <Footer />

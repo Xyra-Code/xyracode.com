@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Plan de Implementación por Fases · XyraCode</title>
+<style>
+/* __BASE_CSS__ */
+/* Tarjeta de fase */
+.phase { border:1px solid var(--line); border-radius:14px; overflow:hidden; margin-top:14px; }
+.phase-head { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 18px; background:var(--night-mid); color:#eafaf5; }
+.phase-head .l { display:flex; align-items:center; gap:12px; }
+.phase-head .badge { font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:600; color:var(--night); background:var(--mint); border-radius:6px; padding:3px 9px; }
+.phase-head h4 { margin:0; font-size:15px; font-weight:700; color:#fff; }
+.phase-head .price { font-family:'JetBrains Mono',monospace; font-size:15px; font-weight:600; color:var(--mint); }
+.phase-body { padding:14px 18px; }
+.phase-body .meta { font-size:11.5px; color:var(--muted); margin-bottom:10px; }
+.phase-body .meta b { color:var(--teal-700); }
+</style>
+</head>
+<body>
+
+<button class="no-print" onclick="window.print()">Imprimir / Guardar PDF</button>
+
+<!-- ====== PORTADA ====== -->
+<section class="page cover">
+  <div class="cover-top">
+    <img class="cover-logo" src="__LOGO_DATA__" alt="XyraCode" />
+    <span class="cover-tag">Plan por fases</span>
+  </div>
+  <div class="cover-mid">
+    <div class="cover-kicker">Implementación gradual · 2026</div>
+    <h1 class="cover-title">Plan de<br><span>Implementación por Fases</span></h1>
+    <p class="cover-sub">Una ruta para ejecutar el proyecto por partes, priorizando lo esencial para arrancar y distribuir la inversión en el tiempo.</p>
+    <div class="cover-rule"></div>
+  </div>
+  <div>
+    <div class="cover-meta">
+      <div><div class="lbl">Cliente</div><div class="val">[Nombre de la empresa]</div></div>
+      <div><div class="lbl">Fecha</div><div class="val">[Mes de AAAA]</div></div>
+      <div><div class="lbl">Elaborado por</div><div class="val">XyraCode</div></div>
+    </div>
+    <div class="cover-contact">
+      <span><b>Email</b>&nbsp; contacto@xyracode.com</span>
+      <span><b>WhatsApp</b>&nbsp; +57 310 679 0518</span>
+    </div>
+  </div>
+</section>
+
+<!-- ====== PÁGINA 2 · Enfoque + Fases ====== -->
+<section class="page">
+  <div class="runhead"><img src="__LOGO_DATA__" alt="XyraCode" /><span>Plan por fases</span></div>
+  <div class="page-pad">
+
+    <div class="section avoid-break">
+      <div class="sec-head"><span class="sec-num">01</span><h2 class="sec-title">Enfoque</h2></div>
+      <p class="lead">La propuesta completa sigue siendo la ideal. Este plan permite avanzar de forma gradual: se inicia con lo esencial para poner el negocio en línea y se escala el resto por prioridades, distribuyendo la inversión.</p>
+    </div>
+
+    <div class="section">
+      <div class="sec-head"><span class="sec-num">02</span><h2 class="sec-title">Fases</h2></div>
+
+      <div class="phase avoid-break">
+        <div class="phase-head"><div class="l"><span class="badge">Fase 1</span><h4>[Base · lo esencial para arrancar]</h4></div><span class="price">$[000.000]</span></div>
+        <div class="phase-body">
+          <div class="meta"><b>Duración:</b> [N] semanas&nbsp;·&nbsp;<b>Prioridad:</b> Alta</div>
+          <ul class="checks grid2">
+            <li>[Entregable]</li><li>[Entregable]</li>
+            <li>[Entregable]</li><li>[Entregable]</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="phase avoid-break">
+        <div class="phase-head"><div class="l"><span class="badge">Fase 2</span><h4>[Ventas · carrito y pagos]</h4></div><span class="price">$[000.000]</span></div>
+        <div class="phase-body">
+          <div class="meta"><b>Duración:</b> [N] semanas&nbsp;·&nbsp;<b>Prioridad:</b> Media</div>
+          <ul class="checks grid2">
+            <li>[Entregable]</li><li>[Entregable]</li>
+            <li>[Entregable]</li><li>[Entregable]</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="phase avoid-break">
+        <div class="phase-head"><div class="l"><span class="badge">Fase 3</span><h4>[Administración y crecimiento]</h4></div><span class="price">$[000.000]</span></div>
+        <div class="phase-body">
+          <div class="meta"><b>Duración:</b> [N] semanas&nbsp;·&nbsp;<b>Prioridad:</b> Media</div>
+          <ul class="checks grid2">
+            <li>[Entregable]</li><li>[Entregable]</li>
+            <li>[Entregable]</li><li>[Entregable]</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+  <div class="runfoot"><span>XyraCode · Plan por fases</span><span class="mono"><span class="dot">●</span> 02</span></div>
+</section>
+
+<!-- ====== PÁGINA 3 · Resumen de inversión + cierre ====== -->
+<section class="page">
+  <div class="runhead"><img src="__LOGO_DATA__" alt="XyraCode" /><span>Plan por fases</span></div>
+  <div class="page-pad">
+
+    <div class="section avoid-break">
+      <div class="sec-head"><span class="sec-num">03</span><h2 class="sec-title">Resumen de inversión</h2></div>
+      <div class="invoice">
+        <table>
+          <thead><tr><th>Fase</th><th class="r">Valor</th></tr></thead>
+          <tbody>
+            <tr><td>Fase 1 · [Base]</td><td class="r"><span class="price">$[000.000]</span></td></tr>
+            <tr><td>Fase 2 · [Ventas]</td><td class="r"><span class="price">$[000.000]</span></td></tr>
+            <tr><td>Fase 3 · [Administración]</td><td class="r"><span class="price">$[000.000]</span></td></tr>
+            <tr class="total-row"><td><b>Total del plan</b></td><td class="r"><span class="price price-lg">$[0.000.000] COP</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout">Cada fase se factura al iniciarla. El cliente decide cuándo avanzar a la siguiente; los precios se mantienen vigentes por [30] días.</div>
+    </div>
+
+    <div class="cta-band avoid-break">
+      <h4>¿Empezamos por la Fase 1?</h4>
+      <p>Podemos arrancar con lo esencial y escalar a su propio ritmo.</p>
+      <p style="margin-top:10px;">
+        <a href="mailto:contacto@xyracode.com">contacto@xyracode.com</a> &nbsp;·&nbsp;
+        <a href="https://wa.me/573106790518">WhatsApp +57 310 679 0518</a>
+      </p>
+    </div>
+
+  </div>
+  <div class="runfoot"><span>XyraCode · Villavicencio, Colombia</span><span class="mono"><span class="dot">●</span> 03</span></div>
+</section>
+
+</body>
+</html>

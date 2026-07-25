@@ -55,6 +55,9 @@ export const UI = {
   footer: {
     tagline:
       "Agencia de desarrollo web. Diseño y código a medida para que tu negocio escale.",
+    // La forma pegada del dominio tiene que existir como texto real: el resto
+    // del sitio solo escribe "XyraCode" (camelCase) y Google no la resuelve.
+    domain: "xyracode.com",
     copyright: "© 2026 XyraCode. Todos los derechos reservados.",
     madeWith: "diseñado y programado con </> en Colombia",
   },

@@ -18,6 +18,9 @@ export function Footer() {
             <p className="text-[13px] leading-[1.6] text-white/50">
               {UI.footer.tagline}
             </p>
+            <p className="mt-3 font-mono text-[13px] text-white/40">
+              {UI.footer.domain}
+            </p>
             <ul className="mt-4 flex gap-4">
               {SOCIALS.map((social) => (
                 <li key={social.label}>

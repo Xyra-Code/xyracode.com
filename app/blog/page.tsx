@@ -2,6 +2,7 @@ import { ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { CARD_ART } from "@/components/content/ArticleArt";
 import { Footer } from "@/components/sections/Footer";
 import { Navbar } from "@/components/sections/Navbar";
 import { Eyebrow } from "@/components/ui/Eyebrow";
@@ -38,12 +39,35 @@ const jsonLd = {
   ],
 };
 
-const GROWTH_SLOTS = 2;
+// "Slots disponibles" con barra de progreso, igual que en /proyectos:
+// ilustran que la grilla crece. Voz de la agencia (aria-hidden).
+const GROWTH_SLOTS = [
+  {
+    label: "Próximo artículo",
+    caption: "Ya lo estamos escribiendo; queda poco para publicarlo.",
+  },
+  {
+    label: "En borrador",
+    caption: "Guardamos este lugar para la siguiente guía.",
+  },
+  {
+    label: "Tu duda acá",
+    caption: "Escríbenos qué quieres entender y lo convertimos en artículo.",
+  },
+];
 
+/**
+ * Portada del artículo. Si el post aún no tiene imagen, se pinta una card de
+ * marca en vez de un degradado vacío: mismo lenguaje que las imágenes Open
+ * Graph (tinta + glows, marco de línea fina, marca XC al sangre) y, como
+ * contenido, la identidad del propio artículo — su archivo y su fecha.
+ */
 function Cover({
   post,
+  featured = false,
 }: {
   post: (typeof BLOG_POSTS)[number];
+  featured?: boolean;
 }) {
   if (post.cover) {
     return (
@@ -51,16 +75,66 @@ function Cover({
         src={post.cover.src}
         alt={post.cover.alt}
         fill
-        sizes="(min-width: 768px) 50vw, 100vw"
+        sizes={
+          featured
+            ? "(min-width: 768px) 50vw, 100vw"
+            : "(min-width: 768px) 33vw, 100vw"
+        }
         className="object-cover"
       />
     );
   }
+  const Art = CARD_ART[post.slug];
+  if (Art && featured) {
+    return <Art />;
+  }
   return (
-    <div
-      aria-hidden
-      className="h-full w-full bg-[linear-gradient(150deg,#0F766E,#0B1F1C)]"
-    />
+    <div aria-hidden className="xc-doc-cover absolute inset-0 overflow-hidden">
+      {/* Marca de agua XC sangrando por la esquina inferior derecha */}
+      <Image
+        src="/assets/brand/variants/xc-teal-mark-white.png"
+        alt=""
+        width={560}
+        height={560}
+        className={`pointer-events-none absolute select-none opacity-[0.07] ${
+          featured ? "-right-16 -bottom-20 w-72" : "-right-10 -bottom-12 w-44"
+        }`}
+      />
+      {/* Marco técnico de línea fina */}
+      <div
+        className={`absolute rounded-[12px] border border-[rgba(94,234,212,0.14)] ${
+          featured ? "inset-6" : "inset-4"
+        }`}
+      />
+      <div
+        className={`absolute inset-0 flex flex-col justify-between ${
+          featured ? "p-10" : "p-6"
+        }`}
+      >
+        {/* Barra de acento + nombre del archivo del artículo */}
+        <div className="flex items-stretch gap-3">
+          <span
+            className={`shrink-0 rounded-full bg-teal-300 ${
+              featured ? "w-1.5" : "w-1"
+            }`}
+          />
+          <p
+            className={`min-w-0 font-mono leading-[1.5] text-[rgba(226,247,242,0.9)] ${
+              featured ? "text-[16px]" : "text-[12px]"
+            }`}
+          >
+            {post.slug}.md
+          </p>
+        </div>
+        <p
+          className={`font-mono text-[rgba(226,247,242,0.45)] ${
+            featured ? "text-[13px]" : "text-[11px]"
+          }`}
+        >
+          {post.publishedLabel}
+        </p>
+      </div>
+    </div>
   );
 }
 
@@ -100,7 +174,7 @@ export default function BlogIndex() {
                 className="group grid overflow-hidden rounded-[20px] border border-[rgba(94,234,212,0.15)] bg-white/3 transition-colors hover:border-[rgba(94,234,212,0.4)] md:grid-cols-2"
               >
                 <div className="relative aspect-16/10 md:order-2 md:h-full">
-                  <Cover post={featured} />
+                  <Cover post={featured} featured />
                 </div>
                 <div className="flex flex-col gap-3 p-8 md:order-1 md:p-10">
                   <p className="font-mono text-[13px] text-teal-300">
@@ -133,7 +207,7 @@ export default function BlogIndex() {
               <Reveal key={post.slug} delay={i * 80} className="h-full">
                 <Link
                   href={`/blog/${post.slug}`}
-                  className="flex h-full flex-col overflow-hidden rounded-[16px] border border-[rgba(94,234,212,0.15)] bg-white/3"
+                  className="group flex h-full flex-col overflow-hidden rounded-[16px] border border-[rgba(94,234,212,0.15)] bg-white/3 transition-colors hover:border-[rgba(94,234,212,0.4)]"
                 >
                   <div className="relative aspect-16/9">
                     <Cover post={post} />
@@ -145,12 +219,29 @@ export default function BlogIndex() {
                     <h2 className="text-[18px] font-extrabold tracking-[-0.02em]">
                       {post.title}
                     </h2>
+                    {/* Pie: tiempo de lectura a la izquierda, entrada al artículo a la derecha */}
+                    <div className="mt-auto flex items-center justify-between gap-3 pt-4">
+                      <span className="font-mono text-[12px] text-[rgba(226,247,242,0.45)]">
+                        {post.readingTime}
+                      </span>
+                      <span className="inline-flex items-center gap-1.5 font-mono text-[12px] text-teal-300">
+                        Leer
+                        <span className="inline-flex size-7 items-center justify-center rounded-full border border-[rgba(94,234,212,0.3)] transition duration-300 ease-out group-hover:border-teal-300 group-hover:bg-teal-300/12">
+                          <ArrowRight
+                            size={14}
+                            aria-hidden
+                            className="transition-transform duration-300 ease-out group-hover:translate-x-0.5"
+                          />
+                        </span>
+                      </span>
+                    </div>
                   </div>
                 </Link>
               </Reveal>
             ))}
 
-            {Array.from({ length: GROWTH_SLOTS }).map((_, i) => (
+            {/* Slots atenuados: comunican que el blog crece (no son contenido real). */}
+            {GROWTH_SLOTS.map((slot, i) => (
               <Reveal
                 key={`slot-${i}`}
                 delay={(rest.length + i) * 80}
@@ -158,9 +249,26 @@ export default function BlogIndex() {
               >
                 <div
                   aria-hidden
-                  className="flex h-full min-h-56 items-center justify-center rounded-[16px] border border-dashed border-[rgba(94,234,212,0.2)] bg-white/2 font-mono text-[13px] text-[rgba(226,247,242,0.4)]"
+                  className="group relative flex h-full min-h-64 flex-col justify-end overflow-hidden rounded-[16px] border border-dashed border-[rgba(94,234,212,0.22)] bg-white/2 p-6 transition duration-300 ease-out hover:-translate-y-1 hover:border-[rgba(94,234,212,0.5)] hover:bg-white/4"
                 >
-                  Próximo artículo
+                  {/* Etiqueta de estado arriba */}
+                  <span className="mb-auto font-mono text-[12px] tracking-wide text-teal-300">
+                    {"// en camino"}
+                  </span>
+                  {/* Título + copy */}
+                  <h2 className="mb-2 text-[19px] font-extrabold tracking-[-0.02em]">
+                    {slot.label}
+                  </h2>
+                  <p className="mb-4 text-[13px] leading-[1.6] text-[rgba(226,247,242,0.5)]">
+                    {slot.caption}
+                  </p>
+                  {/* Barra "cargando" indeterminada */}
+                  <div className="xc-prog-track">
+                    <div
+                      className="xc-prog-fill"
+                      style={{ animationDelay: `${i * -0.55}s` }}
+                    />
+                  </div>
                 </div>
               </Reveal>
             ))}
