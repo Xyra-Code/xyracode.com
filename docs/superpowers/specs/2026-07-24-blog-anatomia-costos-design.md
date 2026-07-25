@@ -39,7 +39,7 @@ Meta de conversión: que el lead llegue preguntando *"¿cuáles de estos ítems 
 | `seo.title` | ¿Cuánto Cuesta una Web en Colombia 2026? Guía y Precios \| XyraCode | ¿Cuánto cuesta una web en Colombia? Costos reales 2026 \| XyraCode |
 | `seo.description` | Precios reales de páginas web en Colombia 2026: landing, sitios corporativos y tiendas online… | Qué se paga una sola vez y qué se paga cada mes en un proyecto web: dominio, hosting, integraciones, mantenimiento. La anatomía completa del costo. |
 | `excerpt` | Rangos de precios reales del mercado colombiano… | El precio no depende del tipo de proyecto sino del alcance. Desglosamos ítem por ítem qué se paga una vez, qué se paga cada mes y qué aparece después. |
-| `readingTime` | `~7 min` | `~11 min` |
+| `readingTime` | `~7 min` | `~12 min` (3.065 palabras) |
 | `publishedISO` / `publishedLabel` | 2026-07-13 | *(sin cambio — es actualización, no republicación)* |
 | `lastModified` | 2026-07-13 | `2026-07-24` |
 | `category` | Guía | *(sin cambio)* |
@@ -73,23 +73,25 @@ Aquí van las cifras en pesos, y solo aquí.
 **6. Todo el costo de un proyecto web, en una tabla**
 Bloque `table` de 4 columnas: **Concepto · Único o recurrente · Quién lo asume · A nombre de quién queda**.
 
-La cuarta columna es la que convierte: es donde el lector descubre que su proveedor actual tiene el dominio a nombre propio. Las 13 filas previstas:
+La cuarta columna es la que convierte: es donde el lector descubre que su proveedor actual tiene el dominio a nombre propio. Las 15 filas, agrupadas primero los ítems únicos y después los recurrentes para que la tabla se lea en el mismo orden que las secciones 4 y 5:
 
-| Concepto | Tipo | Quién lo asume | A nombre de quién queda |
+| Concepto | Único o recurrente | Quién lo asume | A nombre de quién queda |
 |---|---|---|---|
-| Dominio | Anual | Cliente | Cliente |
-| Hosting / infraestructura | Mensual o anual | Cliente | Cliente |
-| Correo corporativo | Mensual por usuario | Cliente | Cliente |
-| Certificado HTTPS | Incluido | — | — |
 | Descubrimiento y arquitectura | Único | Proyecto | Cliente |
 | Diseño de interfaz | Único | Proyecto | Cliente |
 | Desarrollo | Único | Proyecto | Cliente (repositorio) |
 | Contenido (textos y fotos) | Único | Proyecto o cliente | Cliente |
 | Integraciones | Único + posible mensual | Ambos | Cliente |
-| Pasarela de pagos | % por transacción | Cliente | Cliente |
+| SEO técnico de base | Único | Proyecto | Cliente |
+| Migración y capacitación | Único | Proyecto | Cliente |
+| Dominio | Anual | Cliente | Cliente |
+| Hosting o infraestructura | Mensual o anual | Cliente | Cliente |
+| Correo corporativo | Mensual por usuario | Cliente | Cliente |
+| Certificado HTTPS | Incluido | — | — |
 | Licencias, temas y plugins | Anual | Cliente | Cliente |
+| Pasarela de pagos | % por transacción | Cliente | Cliente |
 | Mantenimiento y respaldos | Mensual o bolsa de horas | Cliente | — |
-| SEO y contenido continuo | Mensual | Cliente | Cliente |
+| Contenido y SEO continuo | Mensual | Cliente | Cliente |
 
 El modelo de bloques ya soporta `table` (`lib/content/blocks.ts`, commit `1e8a961`). `head` y cada fila deben tener la misma longitud: 4.
 
@@ -145,6 +147,17 @@ El artículo emite hoy `BlogPosting` + `BreadcrumbList`, pero no `FAQPage`, teni
 Se usa spread con fallback a array vacío porque `faqLd` devuelve `null` en artículos sin sección de FAQ, y el `@graph` no debe contener nulos.
 
 **Expectativa realista:** desde 2023 Google reserva el rich result de FAQ a sitios de gobierno y salud, así que esto **no** pintará acordeones en la SERP. El valor está en que buscadores y respuestas generativas extraigan el par pregunta/respuesta limpio.
+
+## Enlaces salientes del artículo
+
+El artículo no enlazaba a ninguna página de servicio. Se añaden dos enlaces contextuales dentro de bloques `p` (los `ul` solo aceptan strings planos, así que no admiten enlaces):
+
+| Sección | Anchor | Destino |
+|---|---|---|
+| 2 — El precio depende del alcance | tiendas online | `/servicios/ecommerce` |
+| 8 — Los seis factores | una aplicación a medida | `/servicios/apps-a-medida` |
+
+El segundo cierra el punto de "roles, estados y permisos": si el proyecto cae ahí, deja de ser una web y el lector debe llegar a la página correcta.
 
 ## Enlaces internos a corregir
 
