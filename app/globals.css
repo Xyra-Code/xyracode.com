@@ -104,7 +104,7 @@ body {
   }
 }
 
-/* Slots de crecimiento del portafolio (proyectos/page.tsx): barra "cargando"
+/* Slots de crecimiento (proyectos/page.tsx y blog/page.tsx): barra "cargando"
    indeterminada — un segmento teal que recorre la pista una y otra vez. */
 @keyframes xcProgress {
   0% {

@@ -38,7 +38,22 @@ const jsonLd = {
   ],
 };
 
-const GROWTH_SLOTS = 2;
+// "Slots disponibles" con barra de progreso, igual que en /proyectos:
+// ilustran que la grilla crece. Voz de la agencia (aria-hidden).
+const GROWTH_SLOTS = [
+  {
+    label: "Próximo artículo",
+    caption: "Ya lo estamos escribiendo; queda poco para publicarlo.",
+  },
+  {
+    label: "En borrador",
+    caption: "Guardamos este lugar para la siguiente guía.",
+  },
+  {
+    label: "Tu duda acá",
+    caption: "Escríbenos qué quieres entender y lo convertimos en artículo.",
+  },
+];
 
 function Cover({
   post,
@@ -150,7 +165,8 @@ export default function BlogIndex() {
               </Reveal>
             ))}
 
-            {Array.from({ length: GROWTH_SLOTS }).map((_, i) => (
+            {/* Slots atenuados: comunican que el blog crece (no son contenido real). */}
+            {GROWTH_SLOTS.map((slot, i) => (
               <Reveal
                 key={`slot-${i}`}
                 delay={(rest.length + i) * 80}
@@ -158,9 +174,26 @@ export default function BlogIndex() {
               >
                 <div
                   aria-hidden
-                  className="flex h-full min-h-56 items-center justify-center rounded-[16px] border border-dashed border-[rgba(94,234,212,0.2)] bg-white/2 font-mono text-[13px] text-[rgba(226,247,242,0.4)]"
+                  className="group relative flex h-full min-h-64 flex-col justify-end overflow-hidden rounded-[16px] border border-dashed border-[rgba(94,234,212,0.22)] bg-white/2 p-6 transition duration-300 ease-out hover:-translate-y-1 hover:border-[rgba(94,234,212,0.5)] hover:bg-white/4"
                 >
-                  Próximo artículo
+                  {/* Etiqueta de estado arriba */}
+                  <span className="mb-auto font-mono text-[12px] tracking-wide text-teal-300">
+                    {"// en camino"}
+                  </span>
+                  {/* Título + copy */}
+                  <h2 className="mb-2 text-[19px] font-extrabold tracking-[-0.02em]">
+                    {slot.label}
+                  </h2>
+                  <p className="mb-4 text-[13px] leading-[1.6] text-[rgba(226,247,242,0.5)]">
+                    {slot.caption}
+                  </p>
+                  {/* Barra "cargando" indeterminada */}
+                  <div className="xc-prog-track">
+                    <div
+                      className="xc-prog-fill"
+                      style={{ animationDelay: `${i * -0.55}s` }}
+                    />
+                  </div>
                 </div>
               </Reveal>
             ))}
