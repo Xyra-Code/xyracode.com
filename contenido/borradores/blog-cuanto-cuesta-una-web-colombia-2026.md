@@ -78,7 +78,7 @@ Lo importante es tener una cotización clara, con alcance definido, costos recur
 Puedes encontrar plantillas y creadores por muy poco, incluso gratis con suscripción mensual. Una landing profesional a medida arranca en el orden del millón de pesos. El mínimo depende de si buscas algo genérico o algo hecho para tu negocio.
 
 **¿Es mejor un freelancer o una agencia?**
-Depende de tu proyecto y presupuesto. Un freelancer o estudio pequeño suele dar mejor precio y trato directo; una agencia grande, más músculo para proyectos complejos. Lo clave es la comunicación, el resultado y que el código quede a tu nombre.
+Depende de tu proyecto y presupuesto. Un freelancer o una agencia pequeña suele dar mejor precio y trato directo, porque hablas con quien construye; una agencia grande tiene más músculo para proyectos complejos, aunque muchas veces terminas hablando con un intermediario y no con quien programa. Lo clave es la comunicación, el resultado y que el código quede a tu nombre.
 
 **¿Cuánto tarda en estar lista una web?**
 Una landing suele tomar de 2 a 3 semanas; un sitio corporativo, de 4 a 6; una tienda o app a medida, varias semanas o meses según el alcance.

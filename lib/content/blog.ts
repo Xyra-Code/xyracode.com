@@ -168,7 +168,7 @@ export const BLOG_POSTS: BlogPost[] = [
       {
         kind: "p",
         text:
-          "Depende de tu proyecto y presupuesto. Un freelancer o estudio pequeño suele dar mejor precio y trato directo; una agencia grande, más músculo para proyectos complejos. Lo clave es la comunicación, el resultado y que el código quede a tu nombre.",
+          "Depende de tu proyecto y presupuesto. Un freelancer o una agencia pequeña suele dar mejor precio y trato directo, porque hablas con quien construye; una agencia grande tiene más músculo para proyectos complejos, aunque muchas veces terminas hablando con un intermediario y no con quien programa. Lo clave es la comunicación, el resultado y que el código quede a tu nombre.",
       },
       { kind: "h3", text: "¿Cuánto tarda en estar lista una web?" },
       {

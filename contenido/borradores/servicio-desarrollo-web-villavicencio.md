@@ -7,7 +7,7 @@ h1: Desarrollo web en Villavicencio, hecho por alguien de aquí
 
 ## Una agencia de desarrollo web con base en Villavicencio
 
-XyraCode es un estudio de desarrollo web y software con base en Villavicencio, la puerta del llano. Construimos sitios web, tiendas online y aplicaciones a medida para negocios de la región y de toda Colombia, con código propio y sin plantillas.
+XyraCode nace y opera desde Villavicencio, la puerta del llano. Construimos sitios web, tiendas online y aplicaciones a medida, con código propio y sin plantillas.
 
 Podríamos trabajar desde cualquier parte; nos quedamos en Villavicencio porque desde aquí se construye igual de bien y se vive mejor. Y para un negocio local hay una ventaja concreta: hablas con alguien que conoce el mercado del Meta, que entiende cómo compra la gente de la región y que está a un clic (o a una reunión presencial) de distancia.
 
