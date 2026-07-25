@@ -40,7 +40,7 @@ export type ServicePage = {
   cta: { title: string; subtitle: string };
 };
 
-/** Slug del artículo de precios; se enlaza desde varios servicios y desde el hub. */
+/** Slug del artículo de costos; se enlaza desde varios servicios y desde el hub. */
 const GUIA_PRECIOS = "/blog/cuanto-cuesta-una-web-colombia-2026";
 
 /** Caso de estudio con tienda y panel; es la prueba de que esto ya se hizo. */
@@ -130,9 +130,12 @@ export const SERVICE_HUB: {
     {
       kind: "p",
       text: [
-        "El precio depende del alcance, no del tipo de proyecto: una landing sencilla y un sitio corporativo de doce secciones son ambos \"desarrollo web\" y no cuestan lo mismo. Publicamos rangos reales del mercado colombiano en ",
-        { text: "nuestra guía de cuánto cuesta una página web en Colombia", href: GUIA_PRECIOS },
-        ", con los factores que mueven el costo hacia arriba y hacia abajo.",
+        "El precio depende del alcance, no del tipo de proyecto: una landing sencilla y un sitio corporativo de doce secciones son ambos \"desarrollo web\" y no cuestan lo mismo. Desglosamos ítem por ítem de qué se compone el costo en ",
+        {
+          text: "nuestra guía de qué se paga una vez y qué cada mes en un proyecto web",
+          href: GUIA_PRECIOS,
+        },
+        ", con los factores que lo mueven hacia arriba y hacia abajo.",
       ],
     },
     {
@@ -327,10 +330,10 @@ export const SERVICE_PAGES: ServicePage[] = [
         text: [
           "Depende del alcance: número de páginas, funcionalidades, integraciones y diseño. Escribimos ",
           {
-            text: "una guía completa con los precios de páginas web en Colombia",
+            text: "una guía completa de los costos de una página web en Colombia",
             href: GUIA_PRECIOS,
           },
-          " que te da rangos reales del mercado. Para tu caso puntual, te enviamos una cotización clara en 48 horas.",
+          " que desglosa qué se paga una sola vez y qué es recurrente. Para tu caso puntual, te enviamos una cotización clara en 48 horas.",
         ],
       },
       { kind: "h3", text: "¿El sitio va a aparecer en Google?" },
@@ -742,10 +745,10 @@ export const SERVICE_PAGES: ServicePage[] = [
         text: [
           "Depende del tamaño del catálogo, las pasarelas de pago, los envíos y las reglas de tu negocio. En ",
           {
-            text: "nuestra guía de precios del mercado colombiano 2026",
+            text: "nuestra guía de costos de un proyecto web en Colombia",
             href: GUIA_PRECIOS,
           },
-          " damos rangos de referencia; para tu caso te cotizamos en 48 horas.",
+          " explicamos qué se paga una vez y qué cada mes; para tu caso te cotizamos en 48 horas.",
         ],
       },
       { kind: "h3", text: "¿Qué medios de pago puedo ofrecer?" },
@@ -891,7 +894,7 @@ export const SERVICE_PAGES: ServicePage[] = [
         text: [
           "Depende del alcance del proyecto. Escribimos ",
           {
-            text: "una guía con rangos reales de cuánto cuesta una web en Colombia",
+            text: "una guía con el desglose de costos de una web en Colombia",
             href: GUIA_PRECIOS,
           },
           ", y para tu caso puntual te enviamos una cotización en 48 horas.",
