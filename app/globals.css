@@ -220,3 +220,53 @@ body {
   font-weight: 600;
   color: #ffffff;
 }
+.prose-xyra a {
+  color: #5eead4;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(94, 234, 212, 0.4);
+  transition: text-decoration-color 150ms;
+}
+.prose-xyra a:hover {
+  text-decoration-color: #5eead4;
+}
+/* Solo el wrapper scrollea: la tabla no debe empujar el ancho de la página. */
+.prose-xyra .prose-table {
+  overflow-x: auto;
+}
+.prose-xyra table {
+  width: 100%;
+  min-width: 560px;
+  border-collapse: collapse;
+  font-size: 15.5px;
+  line-height: 1.6;
+  text-align: left;
+  color: rgba(226, 247, 242, 0.78);
+}
+.prose-xyra caption {
+  margin-bottom: 12px;
+  font-size: 13px;
+  text-align: left;
+  color: rgba(226, 247, 242, 0.5);
+}
+.prose-xyra th,
+.prose-xyra td {
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(94, 234, 212, 0.15);
+  vertical-align: top;
+}
+.prose-xyra thead th {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #5eead4;
+}
+.prose-xyra tbody th {
+  font-weight: 700;
+  color: #ffffff;
+}
+.prose-xyra tbody tr:last-child th,
+.prose-xyra tbody tr:last-child td {
+  border-bottom: 0;
+}
