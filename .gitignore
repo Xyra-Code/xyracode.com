@@ -44,3 +44,6 @@ pr-descriptions/
 
 # documentos comerciales por cliente (HTML + PDF generados por la skill)
 documentos/
+
+# auditorias SEO generadas por la skill auditoria-seo
+auditoria-seo/
