@@ -44,6 +44,18 @@ export const PROJECTS_SEO = {
     "Proyectos reales de desarrollo web y software a medida: plataformas, tiendas y web apps que llevamos del prototipo a producción.",
 } as const;
 
+/**
+ * Prosa propia del hub. Un listado con una sola ficha no le da a Google (ni al
+ * visitante) ninguna razón para quedarse: estos párrafos explican el criterio
+ * con el que se publica un caso y qué va a encontrar quien entre.
+ */
+export const PROJECTS_INTRO = {
+  paragraphs: [
+    "Publicamos pocos casos y con detalle, en vez de una galería de miniaturas. Cada caso de estudio cuenta el problema real del negocio, qué decidimos construir y por qué, y qué quedó funcionando en producción. Si buscas ideas para tu propio proyecto, ahí es donde están.",
+    "No todo lo que hacemos aparece acá. Buena parte del trabajo es software interno —paneles, integraciones, automatizaciones— que los clientes prefieren no mostrar, y lo respetamos. Lo que ves publicado es lo que podemos contar con nombre propio y con permiso de quien lo encargó.",
+  ],
+} as const;
+
 export const CASE_STUDIES: CaseStudy[] = [
   // NOTA (contenido a revisar antes de publicar):
   // - Descripción, hero, reto, solución y alts se basan en información PÚBLICA
