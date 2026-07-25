@@ -30,7 +30,7 @@ export const SOCIALS: Social[] = [
     icon: FacebookIcon,
   },
   { label: "TikTok",
-    href: "https://www.tiktok.com/@xyra.code",
+    href: "https://www.tiktok.com/@xyra_code",
     icon: TikTokIcon,
   }
 ];
