@@ -41,3 +41,6 @@ yarn-error.log*
 next-env.d.ts
 
 pr-descriptions/
+
+# documentos comerciales por cliente (HTML + PDF generados por la skill)
+documentos/
