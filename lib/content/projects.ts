@@ -29,7 +29,7 @@ export const PROJECTS: Project[] = [
     title: "Vuelo Carmesí",
     type: "Web App · Reservas · E-commerce",
     description:
-      "Plataforma de reservas y tienda para una finca de cacao agroecológico",
+      "Plataforma de reservas y tienda online para una finca de agroturismo de cacao",
     role: "Diseño + Desarrollo full-stack",
     status: "2026 · En producción",
     icon: ShoppingBag,
