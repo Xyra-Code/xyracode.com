@@ -148,7 +148,7 @@ export default function BlogIndex() {
               <Reveal key={post.slug} delay={i * 80} className="h-full">
                 <Link
                   href={`/blog/${post.slug}`}
-                  className="flex h-full flex-col overflow-hidden rounded-[16px] border border-[rgba(94,234,212,0.15)] bg-white/3"
+                  className="group flex h-full flex-col overflow-hidden rounded-[16px] border border-[rgba(94,234,212,0.15)] bg-white/3 transition-colors hover:border-[rgba(94,234,212,0.4)]"
                 >
                   <div className="relative aspect-16/9">
                     <Cover post={post} />
@@ -160,6 +160,22 @@ export default function BlogIndex() {
                     <h2 className="text-[18px] font-extrabold tracking-[-0.02em]">
                       {post.title}
                     </h2>
+                    {/* Pie: tiempo de lectura a la izquierda, entrada al artículo a la derecha */}
+                    <div className="mt-auto flex items-center justify-between gap-3 pt-4">
+                      <span className="font-mono text-[12px] text-[rgba(226,247,242,0.45)]">
+                        {post.readingTime}
+                      </span>
+                      <span className="inline-flex items-center gap-1.5 font-mono text-[12px] text-teal-300">
+                        Leer
+                        <span className="inline-flex size-7 items-center justify-center rounded-full border border-[rgba(94,234,212,0.3)] transition duration-300 ease-out group-hover:border-teal-300 group-hover:bg-teal-300/12">
+                          <ArrowRight
+                            size={14}
+                            aria-hidden
+                            className="transition-transform duration-300 ease-out group-hover:translate-x-0.5"
+                          />
+                        </span>
+                      </span>
+                    </div>
                   </div>
                 </Link>
               </Reveal>
