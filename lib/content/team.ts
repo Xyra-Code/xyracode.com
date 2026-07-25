@@ -1,3 +1,4 @@
+import type { Inline } from "./blocks";
 import { CONTACT } from "./contact";
 import type { Step } from "./home";
 
@@ -162,11 +163,22 @@ export const CREDENTIALS: Credential[] = [
 
 // ---------- Lado humano (/nosotros) ----------
 
-/** Párrafos de la card "logout.log" del hero de /nosotros. */
+/**
+ * Párrafos de la card "logout.log" del hero de /nosotros. Aceptan el modelo
+ * `Inline` para poder enlazar dentro de la frase: aquí es donde la mención a
+ * Villavicencio se convierte en un enlace real hacia la página local.
+ */
 export const PERSONAL = {
   paragraphs: [
-    "Vivo y trabajo desde Villavicencio, la puerta del llano. Podría trabajar desde cualquier parte; me quedo porque desde aquí se construye igual de bien y se vive mejor.",
+    [
+      "Vivo y trabajo desde ",
+      {
+        text: "Villavicencio",
+        href: "/servicios/desarrollo-web-villavicencio",
+      },
+      ", la puerta del llano. Podría trabajar desde cualquier parte; me quedo porque desde aquí se construye igual de bien y se vive mejor.",
+    ],
     "Desde aquí construimos lo que tu negocio necesita: mejorar tus ventas, ordenar tus procesos y, a un clic de distancia, reunirnos para plantear las mejores ideas.",
     "Trabajo con clientes de cualquier parte, pero siempre tendrás la atención directa de quien construye tu proyecto.",
-  ],
+  ] satisfies (string | Inline[])[],
 } as const;

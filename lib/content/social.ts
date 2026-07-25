@@ -47,6 +47,9 @@ export const FOOTER_COLUMNS: FooterColumn[] = [
       { label: "Desarrollo web", href: "/servicios/desarrollo-web" },
       { label: "Apps a medida", href: "/servicios/apps-a-medida" },
       { label: "E-commerce", href: "/servicios/ecommerce" },
+      // La página local vivía con un único enlace entrante (desde /servicios).
+      // Aquí recibe uno desde todas las páginas del sitio.
+      { label: "Desarrollo web en Villavicencio", href: "/servicios/desarrollo-web-villavicencio" },
       { label: "Ver todos los servicios", href: "/servicios" },
     ],
   },
@@ -54,14 +57,19 @@ export const FOOTER_COLUMNS: FooterColumn[] = [
     title: "Empresa",
     items: [
       { label: "Nosotros", href: "/nosotros" },
-      { label: "Proyectos", href: "#portfolio" },
-      { label: "Contacto", href: "#contacto" },
+      // Rutas reales, no anclas sueltas: los id #portfolio y #contacto solo
+      // existen en la home, así que como anclas quedaban muertos en el resto
+      // del sitio.
+      { label: "Proyectos", href: "/proyectos" },
+      { label: "Blog", href: "/blog" },
+      { label: "Contacto", href: "/contacto" },
     ],
   },
   {
     title: "Contacto",
     items: [
       { label: CONTACT.email, href: `mailto:${CONTACT.email}` },
+      { label: CONTACT.phoneDisplay, href: `tel:${CONTACT.phone}` },
       {
         label: "WhatsApp",
         href: `https://wa.me/${CONTACT.whatsapp}?text=${encodeURIComponent(
