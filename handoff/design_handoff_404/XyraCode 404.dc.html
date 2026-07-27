@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/dualtherapist-design-system-149c5f08-6c58-49aa-8e1a-fa4f71a41f2d/tokens/fonts.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap">
+  <style>
+    body { margin:0; background:#08110F; }
+    a { color:#5EEAD4; text-decoration:none; } a:hover { color:#2DD4BF; }
+    @keyframes xcBlink { 0%,49% { opacity:1; } 50%,100% { opacity:0; } }
+    @keyframes xcFloat404 { 0%,100% { transform:translateY(0) rotate(-1deg); } 50% { transform:translateY(-14px) rotate(1deg); } }
+    @keyframes xcGlow { 0%,100% { text-shadow:0 0 40px rgba(16,185,129,0.35); } 50% { text-shadow:0 0 70px rgba(16,185,129,0.6); } }
+    @keyframes xcFadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes xcSpin { 0%,100% { transform:translateY(0) rotate(-8deg); } 50% { transform:translateY(-20px) rotate(8deg); } }
+    .xc-btn:hover { transform:translateY(-2px); box-shadow:0 22px 46px -18px rgba(16,185,129,0.8) !important; }
+    .xc-ghost:hover { background:rgba(94,234,212,0.08); }
+    .xc-glitch:hover { animation:xcFloat404 0.4s ease-in-out; }
+  </style>
+</helmet>
+
+<div style="font-family:'Plus Jakarta Sans',system-ui,sans-serif; min-height:100vh; background:radial-gradient(1200px 800px at 50% 0%, #0d2b26 0%, #08110F 62%); color:#fff; position:relative; overflow:hidden; display:flex; flex-direction:column;">
+
+  <div style="position:absolute; inset:0; pointer-events:none;">
+    <div style="position:absolute; top:-160px; left:-120px; width:520px; height:520px; border-radius:9999px; background:#0F766E; opacity:0.35; filter:blur(150px);"></div>
+    <div style="position:absolute; bottom:-220px; right:-100px; width:560px; height:560px; border-radius:9999px; background:#10B981; opacity:0.14; filter:blur(150px);"></div>
+  </div>
+
+  <!-- nav -->
+  <div style="position:relative; display:flex; align-items:center; justify-content:space-between; padding:26px 56px;">
+    <img src="assets/xc-teal-horizontal-trans.png" alt="XyraCode" style="height:38px;">
+    <div style="display:flex; gap:30px; font-size:14px; font-weight:600; color:rgba(226,247,242,0.6);"><span>Servicios</span><span>Proyectos</span><span>Blog</span><span>Contacto</span></div>
+  </div>
+
+  <!-- main -->
+  <div style="position:relative; flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:40px 56px 80px; gap:36px;">
+
+    <!-- 404 gigante -->
+    <div class="xc-glitch" style="cursor:default; display:flex; align-items:center; gap:24px; font-size:210px; font-weight:800; letter-spacing:-0.05em; line-height:0.9; color:#5EEAD4; animation:xcFloat404 6s ease-in-out infinite, xcGlow 4s ease-in-out infinite; user-select:none;"><span>4</span><span style="font-size:170px; animation:xcSpin 8s ease-in-out infinite; display:inline-block;">🛸</span><span>4</span></div>
+
+    <h1 style="font-size:44px; font-weight:800; letter-spacing:-0.03em; line-height:1.05; margin:0; animation:xcFadeUp 0.6s ease-out both;">Uy… esta página no existe</h1>
+
+    <div style="font-size:19px; color:rgba(226,247,242,0.7); max-width:540px; line-height:1.65; animation:xcFadeUp 0.7s ease-out both;">Puede que el enlace esté mal escrito o que la página se haya movido. No te preocupes, no hiciste nada mal — volvamos a un lugar seguro.</div>
+
+    <!-- botones -->
+    <div style="display:flex; gap:16px; animation:xcFadeUp 0.8s ease-out both;">
+      <a href="/" class="xc-btn" style="display:inline-flex; align-items:center; gap:10px; background:#10B981; color:#04211A; font-size:16px; font-weight:800; padding:17px 34px; border-radius:9999px; box-shadow:0 16px 38px -16px rgba(16,185,129,0.6); transition:transform 0.25s ease, box-shadow 0.25s ease;">← Volver al inicio</a>
+      <a href="/contacto" class="xc-ghost" style="display:inline-flex; align-items:center; gap:10px; border:1px solid rgba(94,234,212,0.35); color:#5EEAD4; font-size:16px; font-weight:700; padding:17px 34px; border-radius:9999px; transition:background 0.25s ease;">Escribinos</a>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>
