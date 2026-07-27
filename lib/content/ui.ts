@@ -61,6 +61,15 @@ export const UI = {
     copyright: "© 2026 XyraCode. Todos los derechos reservados.",
     madeWith: "diseñado y programado con </> en Colombia",
   },
+  notFound: {
+    title: "Uy… esta página no existe",
+    paragraph:
+      "Puede que el enlace esté mal escrito o que la página se haya movido. No te preocupes, no hiciste nada mal — volvamos a un lugar seguro.",
+    ctaPrimary: "← Volver al inicio",
+    ctaSecondary: "Escribenos",
+    /** El "4 🛸 4" es decorativo: los lectores de pantalla leen esta etiqueta. */
+    codeAria: "Error 404",
+  },
   nosotros: {
     headingPrefix: "El desarrollador detrás de",
     wordmarkAlt: "XyraCode",
