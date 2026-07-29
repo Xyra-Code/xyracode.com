@@ -434,10 +434,17 @@ para dónde se cargan las variables de entorno y dónde se revisa el deploy prev
 5. **`negocio.tagline = "El inoxidable"`**, tomado del propio logo.
 6. **`negocio.ciudad = "Villavicencio"` NO está verificado.** Es el dato más frágil del spec:
    entró por arrastre —el brief decía que *XyraCode* está en Villavicencio y el diseño lo
-   aplicó también al cliente— y nadie confirmó dónde opera Nelson. No es interno: alimenta
-   `Envío en <ciudad>` en la tira de confianza, o sea lo primero que él lee en la home, y el
-   footer. Confirmar antes de generar la demo. Si vende por envío nacional en vez de local, la
-   entrada de `confianza[]` cambia (`Envío a todo el país`), no solo el nombre de la ciudad.
+   aplicó también al cliente— y nadie confirmó dónde opera Nelson.
+
+   **Aparece en tres lugares visibles, y uno es el primero de todos:**
+   - el **kicker del hero** (`EL INOXIDABLE · VILLAVICENCIO`), arriba del pliegue;
+   - `Envío en <ciudad>` en la tira de confianza;
+   - el footer.
+
+   Confirmar **antes** de mandar el link. Si vende por envío nacional en vez de local, no cambia
+   solo el nombre de la ciudad: cambia la entrada de `confianza[]` (`Envío a todo el país`) y hay
+   que decidir qué dice el kicker, porque una zona que no es su zona lo delata en el primer
+   segundo.
 7. **`logo` y `logoMarca` son obligatorios** porque este cliente los tiene. El handoff
    contemplaba un wordmark tipográfico en dos pesos para clientes sin logo; no se implementa
    hoy (nada lo usaría). Cuando aparezca un cliente sin logo, los campos pasan a opcionales y
