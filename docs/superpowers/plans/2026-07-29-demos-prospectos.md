@@ -27,7 +27,18 @@
 - **No reusar `components/ui/`** en la demo: está acoplado a la marca de XyraCode.
 - **Un solo quiebre responsive: 768px** — el `md:` de Tailwind.
 - **Tests colocados** junto al archivo que prueban (`Foo.tsx` + `Foo.test.tsx`), como `components/ui/Breadcrumb.test.tsx`.
-- **`formatCOP` emite `$` + U+00A0 + dígitos.** En los tests escribir `"$ 149.900"`. Un espacio normal falla.
+- **`formatCOP` emite `$` + U+00A0 + dígitos, y el espacio que va en el test depende del
+  matcher** — verificado contra el DOM, no deducido:
+  - `expect(formatCOP(149900)).toBe("$ 149.900")` → **espacio duro U+00A0**. Es una
+    comparación cruda de strings.
+  - `screen.getByText("$ 149.900")` → **espacio normal**. El normalizador por defecto de
+    Testing Library colapsa todo `\s` del DOM —U+00A0 incluido— a un espacio normal antes de
+    comparar, pero **no normaliza el string del matcher**. Con espacio duro no matchea nunca,
+    con ninguna implementación.
+- **Copy en caja normal más `uppercase` por CSS**, nunca mayúscula sostenida en el JSX:
+  algunos lectores de pantalla deletrean letra por letra las palabras en mayúsculas.
+  Consecuencia para los tests: `getByText` lee el texto del DOM y no el transformado por CSS,
+  así que hay que afirmar contra la caja original o usar una expresión regular con `/i`.
 - Comandos: `npm test` · `npm run build` · `npm run lint`.
 - Commits: `feat(demos):` / `test(demos):` / `refactor(sitio):`. Sujeto en minúscula, sin acentos, como el historial del repo.
 
