@@ -40,7 +40,12 @@ describe("ProductCard", () => {
 
   it("con precio null muestra 'Consultar por WhatsApp' y no un precio", () => {
     render(<ProductCard producto={{ ...base, precio: null }} demo={demo} />);
-    expect(screen.getByText("Consultar por WhatsApp")).toBeInTheDocument();
+    // A la vista es "Consultar por" + el logo de WhatsApp. La palabra sigue en el
+    // DOM dentro de un `sr-only`, así que se mide por textContent: el logo va
+    // `aria-hidden` y sin ella la etiqueta quedaría cortada para un lector.
+    expect(screen.getByText(/Consultar por/)).toHaveTextContent(
+      "Consultar por WhatsApp",
+    );
     expect(screen.queryByText(/^\$/)).not.toBeInTheDocument();
   });
 

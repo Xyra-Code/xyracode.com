@@ -1,4 +1,5 @@
 import { formatCOP } from "@/lib/demos/format";
+import { WhatsAppMark } from "./WhatsAppMark";
 
 /**
  * Precio de un producto, o el estado "sin precio publicado".
@@ -45,8 +46,12 @@ export function PriceTag({
         <p className="font-(family-name:--font-mono-demo) text-[10px] tracking-[0.12em] text-[var(--atenuado)] uppercase md:text-[11px]">
           Precio
         </p>
-        <p className="font-(family-name:--font-archivo) text-[15px] font-bold text-[var(--acento)] md:text-[16px]">
-          Consultar por WhatsApp
+        {/* `flex` y no un `<p>` de texto corrido: el logo alineado a la línea
+            base quedaría bajo, y así el `gap` sustituye al espacio de la palabra
+            que reemplaza. */}
+        <p className="flex items-center gap-1.5 font-(family-name:--font-archivo) text-[15px] font-bold text-[var(--acento)] md:text-[16px]">
+          Consultar por{" "}
+          <WhatsAppMark size={16} />
         </p>
       </div>
     );

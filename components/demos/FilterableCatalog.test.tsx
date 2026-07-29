@@ -119,6 +119,10 @@ describe("FilterableCatalog", () => {
     // Espacio NORMAL en el matcher: el normalizador de Testing Library colapsa
     // el U+00A0 que emite formatCOP, pero no toca el string que se le pasa.
     expect(screen.getByText("$ 149.900")).toBeInTheDocument();
-    expect(screen.getByText("Consultar por WhatsApp")).toBeInTheDocument();
+    // "Consultar por" a la vista + el logo de WhatsApp; la palabra sigue en el
+    // DOM (`sr-only`), de ahí que se mida por textContent y no por getByText.
+    expect(screen.getByText(/Consultar por/)).toHaveTextContent(
+      "Consultar por WhatsApp",
+    );
   });
 });
