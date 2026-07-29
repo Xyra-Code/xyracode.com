@@ -1,0 +1,47 @@
+/*
+ * Tokens de la demo, en dos capas.
+ *
+ * La capa de identidad son 4 variables (--fondo, --texto, --acento,
+ * --acento-texto) y las escribe el layout desde `demo.tema`. Los 9 tokens de
+ * sistema de acá abajo se DERIVAN de esas cuatro con color-mix(), así agregar un
+ * cliente nuevo es literalmente cuatro valores hex y ningún CSS.
+ *
+ * Los hex de referencia para Guantes NR1 están en el handoff
+ * (handoff/demos/design_handoff_demos_tienda-nr1/README.md, "Capa de sistema").
+ * color-mix en srgb puede diferir ~2/255 por canal de esos valores: se acepta.
+ * Si alguna se ve mal —sobre todo en un cliente de fondo claro— se ajusta el
+ * porcentaje, NUNCA se hardcodea el hex: eso rompería la reusabilidad.
+ */
+.demo-root {
+  --superficie: color-mix(in srgb, var(--texto) 6%, var(--fondo));
+  --superficie-foto: color-mix(in srgb, var(--texto) 9%, var(--fondo));
+  --borde: color-mix(in srgb, var(--texto) 12%, var(--fondo));
+  --borde-fuerte: color-mix(in srgb, var(--texto) 30%, var(--fondo));
+  --cuerpo: color-mix(in srgb, var(--fondo) 25%, var(--texto));
+  --atenuado: color-mix(in srgb, var(--fondo) 58%, var(--texto));
+  --atenuado-suave: color-mix(in srgb, var(--fondo) 72%, var(--texto));
+  --acento-suave: color-mix(in srgb, var(--fondo) 88%, var(--acento));
+  --acento-profundo: color-mix(in srgb, var(--texto) 45%, var(--acento));
+
+  /* La franja de XyraCode es el tema invertido. Así queda clara sobre una tienda
+     oscura y oscura sobre una clara, sin necesitar un caso especial por cliente:
+     una franja de color constante desaparecería en los clientes de fondo
+     oscuro. */
+  --franja-fondo: var(--texto);
+  --franja-texto: color-mix(in srgb, var(--texto) 30%, var(--fondo));
+  --franja-borde: color-mix(in srgb, var(--fondo) 22%, var(--texto));
+
+  background: var(--fondo);
+  color: var(--texto);
+
+  /* Compensa los dos elementos fijos (franja 32 + nav 52 en móvil) al navegar
+     por anclas. */
+  scroll-padding-top: 84px;
+}
+
+/* Foco de teclado en toda la demo: nunca el anillo azul por defecto del
+   navegador, que sobre estas paletas se ve como un error de diseño. */
+.demo-root :focus-visible {
+  outline: 2px solid var(--acento);
+  outline-offset: 2px;
+}
