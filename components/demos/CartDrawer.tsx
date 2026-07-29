@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useEffect, useRef } from "react";
 import type { Demo } from "@/lib/content";
 import { formatCOP } from "@/lib/demos/format";
-import { buildOrderHref, buildOrderMessage } from "@/lib/demos/order";
+import { buildOrderHref } from "@/lib/demos/order";
 import { useCart } from "./CartProvider";
 import { QuantityStepper } from "./QuantityStepper";
 import { storeButtonClasses } from "./StoreButton";
@@ -58,9 +58,12 @@ export function CartDrawer({ demo }: { demo: Demo }) {
 
   const vacio = lineas.length === 0;
   const catalogo = `/demos/${demo.slug}/catalogo`;
-  const pedido = buildOrderHref(
+  const checkout = `/demos/${demo.slug}/checkout`;
+  // WhatsApp ya no recibe el pedido —de eso se encarga el checkout— pero sigue
+  // siendo el canal para preguntar antes de pagar.
+  const consulta = buildOrderHref(
     demo.negocio.whatsapp,
-    buildOrderMessage(demo.negocio.nombre, lineas),
+    `Hola ${demo.negocio.nombre}, tengo una duda antes de hacer mi pedido.`,
   );
 
   return (
@@ -116,7 +119,7 @@ export function CartDrawer({ demo }: { demo: Demo }) {
               Todavía no has agregado nada
             </p>
             <p className="max-w-70 text-[15px] leading-[1.6] text-[var(--atenuado)]">
-              Arma tu pedido desde el catálogo y lo envías por WhatsApp en un solo mensaje.
+              Arma tu pedido desde el catálogo y págalo en línea, con envío a todo el país.
             </p>
             <Link href={catalogo} onClick={cerrar} className={storeButtonClasses("primario")}>
               Ver catálogo
@@ -191,19 +194,27 @@ export function CartDrawer({ demo }: { demo: Demo }) {
                 </p>
               </div>
 
-              {/* Único relleno de acento del panel: es el clímax de la pantalla. */}
-              <a
-                href={pedido}
-                target="_blank"
-                rel="noopener noreferrer"
+              {/* Único relleno de acento del panel: es el clímax de la pantalla.
+                  El proceso de compra va por el checkout, no por WhatsApp; el chat
+                  queda para preguntar, no para pedir. */}
+              <Link
+                href={checkout}
+                onClick={cerrar}
                 className={storeButtonClasses("primario", true, "mt-4 min-h-13 text-[15px]")}
               >
-                Pedir por WhatsApp
-              </a>
+                Ir a pagar
+              </Link>
 
               <p className="mt-3 text-center text-[13px] leading-[1.5] text-[var(--atenuado-suave)]">
-                El pedido se abre en WhatsApp con los ítems escritos. El envío y la forma de
-                pago se acuerdan ahí.
+                Pago en línea y envío a todo el país.{" "}
+                <a
+                  href={consulta}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline decoration-[var(--borde-fuerte)] underline-offset-2 hover:decoration-[var(--acento)]"
+                >
+                  ¿Dudas? Escríbenos
+                </a>
               </p>
             </footer>
           </>

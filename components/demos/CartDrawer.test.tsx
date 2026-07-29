@@ -73,26 +73,38 @@ describe("CartDrawer", () => {
     expect(screen.getByText(/todavía no has agregado nada/i)).toBeInTheDocument();
     expect(screen.getByText(/ver catálogo/i)).toBeInTheDocument();
     expect(screen.queryByText(/^subtotal$/i)).not.toBeInTheDocument();
-    expect(screen.queryByText(/PEDIR POR WHATSAPP/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/ir a pagar/i)).not.toBeInTheDocument();
   });
 
-  it("con ítems: muestra subtotal y el CTA de pedido", () => {
+  it("con ítems: muestra subtotal y el CTA de pago", () => {
     montar();
     clic("cargar guante");
     clic("abrir");
     expect(screen.getByText(/^subtotal$/i)).toBeInTheDocument();
-    expect(screen.getByText(/PEDIR POR WHATSAPP/i)).toBeInTheDocument();
+    expect(screen.getByText(/ir a pagar/i)).toBeInTheDocument();
   });
 
-  it("el CTA arma el pedido en un enlace wa.me del cliente", () => {
+  it("el CTA lleva al checkout, no a WhatsApp", () => {
+    // El proceso de compra va por el checkout. WhatsApp queda solo para dudas,
+    // así que el botón principal del panel no puede ser un wa.me.
     montar();
     clic("cargar guante");
     clic("abrir");
-    const cta = screen.getByRole("link", { name: /PEDIR POR WHATSAPP/i });
-    const href = cta.getAttribute("href") ?? "";
+    expect(screen.getByRole("link", { name: /ir a pagar/i })).toHaveAttribute(
+      "href",
+      "/demos/guantes-nr1/checkout",
+    );
+  });
+
+  it("conserva un enlace a WhatsApp para dudas, no para pedir", () => {
+    montar();
+    clic("cargar guante");
+    clic("abrir");
+    const duda = screen.getByRole("link", { name: /escríbenos/i });
+    const href = duda.getAttribute("href") ?? "";
     expect(href).toContain("wa.me/573044962704");
-    expect(decodeURIComponent(href)).toContain("Guante corte negativo");
-    expect(decodeURIComponent(href)).toContain("Hola Guantes NR1, quiero pedir:");
+    expect(decodeURIComponent(href)).toContain("tengo una duda");
+    expect(decodeURIComponent(href)).not.toContain("quiero pedir:");
   });
 
   it("muestra la variante, y 'Única' cuando el producto no tiene", () => {
