@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Archivo, Manrope, Space_Mono } from "next/font/google";
 import { notFound } from "next/navigation";
+import { DemoBar } from "@/components/demos/DemoBar";
+import { StoreFooter } from "@/components/demos/StoreFooter";
+import { StoreNav } from "@/components/demos/StoreNav";
 import { DEMOS, getDemo } from "@/lib/content";
 import "./demo.css";
 
@@ -115,7 +118,11 @@ export default async function DemoLayout({
 
   return (
     <div
-      className={`demo-root ${archivo.variable} ${manrope.variable} ${spaceMono.variable} min-h-screen font-(family-name:--font-manrope)`}
+      // `pt-8 md:pt-10` reserva el alto de la franja, que es `fixed` y por lo
+      // tanto está fuera del flujo. Con eso el nav —que es `sticky top-8`—
+      // arranca justo debajo de ella y se pega ahí al hacer scroll. Son los
+      // únicos dos elementos fijos: 84px en móvil, 112px en desktop.
+      className={`demo-root ${archivo.variable} ${manrope.variable} ${spaceMono.variable} flex min-h-screen flex-col pt-8 font-(family-name:--font-manrope) md:pt-10`}
       style={
         {
           "--fondo": demo.tema.fondo,
@@ -125,7 +132,10 @@ export default async function DemoLayout({
         } as React.CSSProperties
       }
     >
-      {children}
+      <DemoBar />
+      <StoreNav demo={demo} />
+      <main className="flex-1">{children}</main>
+      <StoreFooter demo={demo} />
     </div>
   );
 }
