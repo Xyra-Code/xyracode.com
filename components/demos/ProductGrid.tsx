@@ -1,5 +1,7 @@
 import type { Demo, DemoProduct } from "@/lib/content";
+import { buildProductInquiryHref } from "@/lib/demos/order";
 import { ProductCard } from "./ProductCard";
+import { QuickAddButton } from "./QuickAddButton";
 
 /**
  * Grilla de tarjetas de producto.
@@ -29,7 +31,31 @@ export function ProductGrid({
         // `flex` en el ítem para que la tarjeta ocupe todo el alto de la fila:
         // de eso depende el `mt-auto` que ancla el precio.
         <li key={producto.slug} className="flex">
-          <ProductCard producto={producto} demo={demo} />
+          {/*
+            El CTA se inyecta acá y no dentro de ProductCard a propósito: así la
+            tarjeta no depende del CartProvider y se puede testear suelta. Los
+            tres usos de la grilla —destacados, catálogo y relacionados— reciben
+            el botón sin repetir el cableado.
+
+            Los productos sin precio no llevan botón: su CTA es el enlace a
+            WhatsApp que la propia tarjeta ya renderiza.
+          */}
+          <ProductCard
+            producto={producto}
+            demo={demo}
+            cta={
+              producto.precio === null ? undefined : (
+                <QuickAddButton
+                  producto={producto}
+                  fallbackHref={buildProductInquiryHref(
+                    demo.negocio.whatsapp,
+                    demo.negocio.nombre,
+                    producto.nombre,
+                  )}
+                />
+              )
+            }
+          />
         </li>
       ))}
     </ul>
