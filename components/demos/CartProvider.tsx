@@ -4,9 +4,9 @@ import {
   createContext,
   useCallback,
   useContext,
-  useEffect,
   useMemo,
   useState,
+  useSyncExternalStore,
 } from "react";
 import type { Demo } from "@/lib/content";
 import {
@@ -18,6 +18,7 @@ import {
   type CartItem,
   type ResolvedLine,
 } from "@/lib/demos/cart";
+import { getCartStore } from "@/lib/demos/cart-store";
 
 type CartContexto = {
   items: CartItem[];
@@ -49,37 +50,26 @@ export function CartProvider({
   demo: Demo;
   children: React.ReactNode;
 }) {
-  const [items, setItems] = useState<CartItem[]>([]);
+  // `abierto` sí es estado de interfaz y vive acá.
   const [abierto, setAbierto] = useState(false);
-  const clave = cartStorageKey(demo.slug);
 
   /**
-   * El `localStorage` se lee en un efecto y NUNCA en el primer render: leerlo
-   * durante el render rompería la hidratación del HTML prerenderizado, porque el
-   * servidor no tiene storage. El primer paint muestra el carrito vacío y el
-   * contenido aparece un tick después.
+   * El carrito NO es estado de React: es estado externo (`localStorage`), y se
+   * consume con `useSyncExternalStore`, que es la herramienta que React expone
+   * para eso. El intento anterior —leer el storage en un `useEffect` y llamar a
+   * `setItems`— viola `react-hooks/set-state-in-effect` y provoca un render extra.
+   *
+   * `getServerSnapshot` devuelve siempre el mismo array vacío, así que el HTML
+   * prerenderizado sale con el carrito vacío y React repinta después de hidratar,
+   * sin desajuste. Ver lib/demos/cart-store.ts.
    */
-  useEffect(() => {
-    try {
-      const bruto = window.localStorage.getItem(clave);
-      if (!bruto) return;
-      const guardado: unknown = JSON.parse(bruto);
-      if (Array.isArray(guardado)) setItems(guardado as CartItem[]);
-    } catch {
-      // Storage corrupto o deshabilitado (modo privado, cuota llena): la tienda
-      // tiene que seguir funcionando con el carrito vacío, no romperse.
-    }
-  }, [clave]);
-
-  // Persiste en cada cambio. `items` arranca vacío, así que el primer disparo
-  // escribe "[]" — inofensivo y evita tener que distinguir el montaje.
-  useEffect(() => {
-    try {
-      window.localStorage.setItem(clave, JSON.stringify(items));
-    } catch {
-      // Sin storage el carrito funciona igual, solo no sobrevive al refresco.
-    }
-  }, [clave, items]);
+  const store = getCartStore(cartStorageKey(demo.slug));
+  const items = useSyncExternalStore(
+    store.subscribe,
+    store.getSnapshot,
+    store.getServerSnapshot,
+  );
+  const setItems = store.set;
 
   const add = useCallback(
     (slug: string, variante: string | undefined, cantidad: number) => {
@@ -92,7 +82,7 @@ export function CartProvider({
         );
       });
     },
-    [],
+    [setItems],
   );
 
   const setCantidad = useCallback(
@@ -107,12 +97,12 @@ export function CartProvider({
             ),
       );
     },
-    [],
+    [setItems],
   );
 
   const remove = useCallback((slug: string, variante?: string) => {
     setItems((previos) => previos.filter((item) => !sameCartItem(item, slug, variante)));
-  }, []);
+  }, [setItems]);
 
   const abrir = useCallback(() => setAbierto(true), []);
   const cerrar = useCallback(() => setAbierto(false), []);
