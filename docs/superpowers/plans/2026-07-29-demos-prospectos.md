@@ -1594,6 +1594,18 @@ npm run build
 Expected: `BIEN`. Si sale `MAL`, la huella no está capturando el `ld+json` y hay que arreglar
 `/tmp/huella.py` antes de confiar en el Step 9.
 
+**Conteo esperado de bloques `ld+json`**, medido en el build del 2026-07-29 antes del refactor:
+
+| Página | Antes | Después de T13 |
+|---|---|---|
+| Las 12 del sitio, salvo la home | 2 (el `@graph` del layout + el propio de la página) | **2** — igual, `SiteChrome` aporta el primero |
+| La home (`index.html`) | 1 (solo el del layout; no tiene `@graph` propio) | **1** |
+| `/demos/guantes-nr1` | 1 (el de XyraCode, heredado) | **0** ← el objetivo del refactor |
+| `_not-found`, `_global-error` | 0 (`global-not-found` saltea el root layout) | **0** |
+
+Si una página del sitio baja de 2 a 1, se perdió su `@graph` o el de `SiteChrome`, y hay que
+encontrar cuál antes de seguir.
+
 - [ ] **Step 11: Verificar que la demo quedó limpia**
 
 ```bash
