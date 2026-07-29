@@ -1,6 +1,7 @@
 import { act, render, screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it } from "vitest";
 import type { Demo, DemoProduct } from "@/lib/content";
+import { resetCartStores } from "@/lib/demos/cart-store";
 import { CartProvider, useCart } from "./CartProvider";
 
 const productos: DemoProduct[] = [
@@ -56,6 +57,9 @@ const leer = (id: string) => screen.getByTestId(id).textContent;
 describe("CartProvider", () => {
   beforeEach(() => {
     localStorage.clear();
+    // El store vive a nivel de módulo: su caché en memoria sobrevive entre
+    // casos, así que limpiar el storage no alcanza para aislarlos.
+    resetCartStores();
   });
 
   it("arranca vacío", () => {
