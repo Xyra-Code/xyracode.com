@@ -269,7 +269,7 @@ export const DEMOS: Demo[] = [
     productos: NR1_PRODUCTOS,
     confianza: [
       "Envío a todo el país",
-      "Pago contra entrega",
+      "Pago en línea seguro",
       "Atención por WhatsApp",
     ],
   },

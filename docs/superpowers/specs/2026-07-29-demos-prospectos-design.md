@@ -36,10 +36,28 @@ franja de crédito, nav, footer y panel de carrito · tema de 4 variables con 9 
 derivados · carrito persistido con pedido armado a WhatsApp · copy en español colombiano ·
 `noindex` en toda la rama · accesibilidad del panel.
 
-**Fuera, a propósito:** pasarela de pago · inventario · panel de administración · cuentas de
-usuario · cálculo de envío · buscador (12 productos: las categorías alcanzan) · galerías de
+**Fuera, a propósito:** pasarela de pago real · inventario · panel de administración · cuentas
+de usuario · cálculo de envío · buscador (12 productos: las categorías alcanzan) · galerías de
 producto (una sola imagen por producto) · 404 propia de la tienda (ver §5.4) · tipografía
 por cliente (ver §5.3).
+
+**Cambio del 2026-07-29 — el cierre pasa del chat al checkout.** El pedido ya no se manda por
+WhatsApp: el carrito lleva a `/demos/<cliente>/checkout`, que muestra el resumen y **explica**
+que en la tienda real el comprador iría a la pasarela que el cliente elija. WhatsApp queda solo
+para preguntar, no para pedir.
+
+**No hay formulario de tarjeta, y es una decisión, no una omisión.** Dos razones: una pasarela
+real necesita la cuenta de comercio del cliente (RUT, cámara de comercio, cuenta bancaria del
+negocio) y el prospecto todavía no la tiene, así que no hay credenciales que integrar; y un
+formulario de pago que parece real invita a que alguien escriba su tarjeta de verdad. La
+pantalla cuenta lo que pasaría en vez de simularlo, y ofrece el paso siguiente.
+
+Esa pantalla tiene **doble audiencia** y el diseño lo hace explícito: el resumen del pedido le
+habla al comprador; el bloque de abajo le habla al dueño del negocio y usa la paleta invertida
+de la franja de crédito (`--franja-*`), para que se lea como una nota de la agencia y no como
+parte de la interfaz del comercio. Sus dos botones —"Quiero mi tienda funcionando" al WhatsApp
+de XyraCode con la demo identificada en el mensaje, y "Volver a la tienda"— van con la paleta
+invertida por la misma razón.
 
 La demo **no** entra al sitemap ni al portafolio público.
 
