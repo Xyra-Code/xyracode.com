@@ -3,13 +3,24 @@ import type { Block, Inline } from "./blocks";
 export type BlogPost = {
   slug: string;
   seo: { title: string; description: string };
-  /** ISO 8601; alimenta sitemap y dateModified. */
+  /**
+   * ISO 8601 con hora y offset; alimenta sitemap y dateModified.
+   * Colombia es UTC-05:00 todo el año (sin horario de verano), así que el
+   * offset es siempre `-05:00`. Sin él, Google interpreta la fecha en una zona
+   * que elige por su cuenta y la señal de frescura queda a la deriva.
+   * Convención: las ediciones se sellan a las 18:00 (cierre de jornada) para
+   * que, si un post se publica y se edita el mismo día, dateModified nunca
+   * quede antes que datePublished.
+   */
   lastModified: string;
   /** Categoría (chip) — p.ej. "Guía". */
   category: string;
   /** Tiempo de lectura visible — p.ej. "~7 min". */
   readingTime: string;
-  /** Fecha de publicación en ISO (JSON-LD datePublished). */
+  /**
+   * ISO 8601 con hora y offset (JSON-LD datePublished). Convención: 09:00
+   * -05:00, dentro de la jornada declarada en openingHoursSpecification.
+   */
   publishedISO: string;
   /** Fecha de publicación visible — p.ej. "13 de julio de 2026". */
   publishedLabel: string;
@@ -58,10 +69,10 @@ export const BLOG_POSTS: BlogPost[] = [
       description:
         "Qué se paga una sola vez y qué se paga cada mes en un proyecto web: dominio, hosting, integraciones, mantenimiento. La anatomía completa del costo.",
     },
-    lastModified: "2026-07-24",
+    lastModified: "2026-07-24T18:00:00-05:00",
     category: "Guía",
     readingTime: "~12 min",
-    publishedISO: "2026-07-13",
+    publishedISO: "2026-07-13T09:00:00-05:00",
     publishedLabel: "13 de julio de 2026",
     title: "¿Cuánto cuesta una página web en Colombia? Así se arma el precio",
     excerpt:
