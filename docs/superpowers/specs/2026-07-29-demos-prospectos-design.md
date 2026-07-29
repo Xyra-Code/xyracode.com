@@ -327,7 +327,7 @@ la tanda"). La tienda es para Villavicencio, Meta: se reescribe. Textos definiti
 | Panel, nota | `El pedido se abre en WhatsApp con los ítems escritos. El envío y la forma de pago se acuerdan ahí.` |
 | Panel, vacío | `TODAVÍA NO HAS AGREGADO NADA` · `Arma tu pedido desde el catálogo y lo envías por WhatsApp en un solo mensaje.` · botón `VER CATÁLOGO` |
 | Variante ausente | `Única` |
-| Tira de confianza | `Envío en Villavicencio` · `Pago contra entrega` · `Atención por WhatsApp` |
+| Tira de confianza | `Envío en <negocio.ciudad>` · `Pago contra entrega` · `Atención por WhatsApp` — vive en `confianza[]`, derivado de los datos, nunca escrito a mano en JSX |
 
 Mensaje de pedido:
 
@@ -411,7 +411,13 @@ limpia desde el primer render local.
    en esa proporción. Si no aparece una usable, se resuelve con una composición sobre
    `superficieFoto` en vez de estirar una foto cuadrada.
 5. **`negocio.tagline = "El inoxidable"`**, tomado del propio logo.
-6. **`logo` y `logoMarca` son obligatorios** porque este cliente los tiene. El handoff
+6. **`negocio.ciudad = "Villavicencio"` NO está verificado.** Es el dato más frágil del spec:
+   entró por arrastre —el brief decía que *XyraCode* está en Villavicencio y el diseño lo
+   aplicó también al cliente— y nadie confirmó dónde opera Nelson. No es interno: alimenta
+   `Envío en <ciudad>` en la tira de confianza, o sea lo primero que él lee en la home, y el
+   footer. Confirmar antes de generar la demo. Si vende por envío nacional en vez de local, la
+   entrada de `confianza[]` cambia (`Envío a todo el país`), no solo el nombre de la ciudad.
+7. **`logo` y `logoMarca` son obligatorios** porque este cliente los tiene. El handoff
    contemplaba un wordmark tipográfico en dos pesos para clientes sin logo; no se implementa
    hoy (nada lo usaría). Cuando aparezca un cliente sin logo, los campos pasan a opcionales y
    se agrega un componente `Wordmark` con `negocio.wordmark: { parte1, parte2 }`.
