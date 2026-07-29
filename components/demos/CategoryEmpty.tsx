@@ -2,6 +2,7 @@ import { Search } from "lucide-react";
 import type { Demo, DemoCategory } from "@/lib/content";
 import { buildProductInquiryHref } from "@/lib/demos/order";
 import { StoreButton } from "./StoreButton";
+import { WhatsAppMark } from "./WhatsAppMark";
 
 /**
  * Estado "categoría sin resultados" del catálogo
@@ -71,7 +72,8 @@ export function CategoryEmpty({
         external
         className="mt-2 border-[var(--acento)]! text-[var(--acento)]!"
       >
-        Preguntar por WhatsApp
+        Preguntar por{" "}
+        <WhatsAppMark size={17} />
       </StoreButton>
 
       {/*
