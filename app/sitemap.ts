@@ -1,6 +1,12 @@
 import type { MetadataRoute } from "next";
 import { BLOG_POSTS, CASE_STUDIES, SERVICE_PAGES } from "@/lib/content";
 
+// Las rutas de /demos/* quedan fuera a propósito y NO se derivan de DEMOS: son
+// demos de tiendas de clientes, van `noindex` y no deben aparecer acá. Ojo, la
+// salida correcta es esa etiqueta y no un `Disallow: /demos` en robots.ts —
+// bloquear el rastreo impediría que Google leyera el `noindex` y la URL quedaría
+// indexable por enlaces externos.
+
 // Fecha real del último cambio de contenido de cada ruta fija (ISO 8601).
 // Actualizar a mano — NO usar new Date() (le diría a Google que todo el
 // sitio cambió en cada build). Las rutas de servicio y de proyectos derivan
