@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CategoryCard } from "@/components/demos/CategoryCard";
 import { ProductGrid } from "@/components/demos/ProductGrid";
+import { StoreFounder } from "@/components/demos/StoreFounder";
 import { StoreHero } from "@/components/demos/StoreHero";
 import { TrustStrip } from "@/components/demos/TrustStrip";
 import { getDemo } from "@/lib/content";
@@ -81,7 +82,14 @@ export default async function DemoHome({
         </section>
       ) : null}
 
-      <section className="mx-auto max-w-[1240px] px-4 pb-9 md:px-6 md:pb-14">
+      {/*
+        Entre los destacados y las categorías: el visitante llega buscando guantes,
+        ve guantes, y recién ahí recibe la razón para comprarle a él. Antes de
+        cualquier producto, la home se leería como una página institucional.
+      */}
+      <StoreFounder demo={demo} />
+
+      <section className="mx-auto max-w-[1240px] px-4 py-9 md:px-6 md:py-14">
         <EncabezadoSeccion titulo="Categorías" />
         <ul className="mt-5 grid gap-3 md:mt-6 md:grid-cols-3 md:gap-4">
           {demo.categorias.map((categoria, indice) => (

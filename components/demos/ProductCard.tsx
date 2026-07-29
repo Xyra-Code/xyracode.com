@@ -68,8 +68,22 @@ export function ProductCard({ producto, demo, cta }: Props) {
         href={href}
         aria-hidden="true"
         tabIndex={-1}
-        className="block aspect-square border-b border-[var(--borde)] bg-[var(--superficie-foto)]"
+        className="relative block aspect-square border-b border-[var(--borde)] bg-[var(--superficie-foto)]"
       >
+        {/*
+          Insignia del cliente, p. ej. "Edición Pro". Va sobre la foto porque así la
+          usa él en sus piezas, y en `acento` porque es lo único de la tarjeta que
+          debe leerse antes que el precio.
+
+          `aria-hidden` lo hereda del enlace que la contiene, así que el dato no se
+          pierde para un lector de pantalla: viaja en el `alt` de la imagen y, sobre
+          todo, en el detalle. Repetirlo acá agregaría ruido a cada tarjeta.
+        */}
+        {producto.insignia && (
+          <span className="absolute top-2.5 left-2.5 z-10 rounded-[4px] bg-[var(--acento)] px-2 py-1 font-(family-name:--font-archivo) text-[10px] font-bold tracking-[0.08em] text-[var(--acento-texto)] uppercase">
+            {producto.insignia}
+          </span>
+        )}
         <Image
           src={producto.imagen.src}
           alt={producto.imagen.alt}

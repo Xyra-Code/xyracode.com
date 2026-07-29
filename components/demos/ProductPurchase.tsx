@@ -5,9 +5,11 @@ import type { Demo, DemoProduct } from "@/lib/content";
 import { buildProductInquiryHref } from "@/lib/demos/order";
 import { useCart } from "./CartProvider";
 import { PriceTag } from "./PriceTag";
+import { ProductBenefits } from "./ProductBenefits";
 import { QuantityStepper } from "./QuantityStepper";
 import { SizePicker } from "./SizePicker";
 import { StoreButton, storeButtonClasses } from "./StoreButton";
+import { WhatsAppMark } from "./WhatsAppMark";
 
 /** Etiqueta de bloque, en mono. La misma que usa SizePicker para "Talla". */
 const ETIQUETA =
@@ -107,6 +109,10 @@ export function ProductPurchase({
         {producto.descripcion}
       </p>
 
+      {/* Los cuatro atributos que el cliente pone en todas sus piezas. Van acá,
+          antes de elegir talla: son la razón para seguir, no un pie de página. */}
+      <ProductBenefits demo={demo} />
+
       <div className="mt-7 flex flex-col gap-5">
         {producto.variantes && (
           <div>
@@ -147,7 +153,8 @@ export function ProductPurchase({
             full
             className="min-h-13 text-[15px]"
           >
-            Consultar por WhatsApp
+            Consultar por{" "}
+            <WhatsAppMark />
           </StoreButton>
         ) : (
           <>
@@ -175,9 +182,12 @@ export function ProductPurchase({
                 href={consultar}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-(family-name:--font-archivo) text-[14px] font-bold text-[var(--acento)] underline underline-offset-4 md:text-[15px]"
+                className="inline-flex items-center gap-1.5 font-(family-name:--font-archivo) text-[14px] font-bold text-[var(--acento)] md:text-[15px]"
               >
-                Preguntar por WhatsApp
+                {/* El subrayado va en las palabras y no en el `<a>`: cruzando el
+                    logo se leería como un tachado. */}
+                <span className="underline underline-offset-4">Preguntar por</span>{" "}
+                <WhatsAppMark size={16} />
               </a>
             </p>
           </>

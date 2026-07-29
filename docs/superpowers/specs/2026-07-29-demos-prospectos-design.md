@@ -201,6 +201,23 @@ oscura y oscura sobre una clara, sin caso especial.
 Constantes de sistema: radio `4px` (chips y contador `999px`) · sin sombras — la elevación es
 borde 1px más overlay negro 60% · escala de espaciado 4/6/8/12/16/22/26/36/48/56 px.
 
+**Límite conocido del contrato de 4 variables: supone que `acento` es CLARO.** El acento se usa
+como relleno (con `acentoTexto` encima) **y como texto** sobre `fondo`. El verde ácido sirve para
+las dos cosas porque es muy luminoso: 14.89:1 como texto sobre el fondo oscuro. Un acento oscuro
+no puede: probado con el rojo real del cliente, `#D80000` da 5.36:1 con blanco encima —pasa AA—
+pero **3.60:1 como texto sobre el fondo, que no pasa**. Y ningún rojo hace las dos: los rojos
+brillantes que sí sirven como texto pierden el blanco encima.
+
+La solución, medida el 2026-07-29 y **no aplicada** porque con el verde no aporta nada: una décima
+derivada, `--acento-legible: color-mix(in srgb, var(--texto) 35%, var(--acento))`, y la regla
+"`--acento` para rellenos y bordes, `--acento-legible` para texto". El 35% es el mínimo que pasa
+AA (4.5:1) en los tres casos probados —rojo sobre fondo oscuro 4.90:1, naranja sobre fondo claro
+5.84:1, y el verde original 15.45:1, que casi no se mueve—. Mezclar hacia `texto` funciona en los
+dos sentidos: aclara sobre tema oscuro y oscurece sobre tema claro.
+
+**Aplicarla en cuanto un cliente traiga un acento oscuro.** Son 17 usos a migrar, todos
+`text-[var(--acento)]` y `decoration-[var(--acento)]`; los `bg-` y `border-` no se tocan.
+
 **Tolerancia:** el handoff lista los hex resultantes para NR1 (`superficie #191A1C`,
 `superficieFoto #202124`, `borde #26272A`, `bordeFuerte #47484B`, `atenuado #9A9B98`,
 `atenuadoSuave #6B6C69`, `cuerpo #B6B7B3`, `acentoSuave #23291A`, `acentoProfundo #40521A`).
