@@ -101,11 +101,6 @@ const jsonLd = {
         },
       ],
     },
-    {
-      "@type": "ProfessionalService",
-      "@id": `${SITE_URL}/#organization`,
-      founder: { "@id": `${SITE_URL}/nosotros#person` },
-    },
     breadcrumbLd("/nosotros", [{ name: "Nosotros", path: "/nosotros" }]),
   ],
 };
