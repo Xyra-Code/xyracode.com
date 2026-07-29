@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Archivo, Manrope, Space_Mono } from "next/font/google";
 import { notFound } from "next/navigation";
+import { CartButton } from "@/components/demos/CartButton";
+import { CartProvider } from "@/components/demos/CartProvider";
 import { DemoBar } from "@/components/demos/DemoBar";
 import { StoreFooter } from "@/components/demos/StoreFooter";
 import { StoreNav } from "@/components/demos/StoreNav";
@@ -133,8 +135,14 @@ export default async function DemoLayout({
       }
     >
       <DemoBar />
-      <StoreNav demo={demo} />
-      <main className="flex-1">{children}</main>
+      {/* El provider envuelve al nav, no solo al contenido: el CartButton vive
+          dentro del nav y necesita leer el context. */}
+      <CartProvider demo={demo}>
+        <StoreNav demo={demo}>
+          <CartButton />
+        </StoreNav>
+        <main className="flex-1">{children}</main>
+      </CartProvider>
       <StoreFooter demo={demo} />
     </div>
   );
