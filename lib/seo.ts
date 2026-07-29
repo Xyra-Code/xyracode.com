@@ -46,6 +46,15 @@ export const SEO = {
       "Habla con XyraCode: WhatsApp, teléfono, correo o formulario. Agencia de desarrollo web en Villavicencio, Meta, con clientes en toda Colombia.",
   },
 
+  /**
+   * Título de `app/global-not-found.tsx`. Usa el guion largo y la marca separada
+   * que pide el handoff, en vez del `| XyraCode` del resto del sitio: la página
+   * es noindex, así que el título no compite por nada en la SERP.
+   */
+  notFound: {
+    title: "Página no encontrada — Xyra Code",
+  },
+
   manifest: {
     name: "XyraCode — Desarrollo web y apps a medida",
     shortName: "XyraCode",
@@ -93,6 +102,14 @@ export const SEO = {
   ],
 
   org: {
+    /**
+     * Logo de la organización para el JSON-LD. Distinto de `image`: Google usa
+     * `logo` en el panel de conocimiento y exige mínimo 112x112px. mark.png es
+     * 600x355 — pasa de sobra y su relación de aspecto (1.7:1) sobrevive el
+     * recorte mejor que logo-horizontal.png (3.8:1). Si se cambia el archivo,
+     * verificar que el nuevo siga por encima del mínimo.
+     */
+    logo: "/assets/brand/mark.png",
     knowsAbout: [
       "Desarrollo web",
       "Desarrollo de aplicaciones móviles",

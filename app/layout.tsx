@@ -80,6 +80,10 @@ const jsonLd = {
       url: SITE_URL,
       description: SEO.home.orgDescription,
       image: `${SITE_URL}/opengraph-image`,
+      // `image` (el OG, 1200x630) y `logo` cumplen funciones distintas: Google
+      // toma `logo` para el panel de conocimiento. Ver SEO.org.logo por el
+      // requisito de tamaño mínimo.
+      logo: `${SITE_URL}${SEO.org.logo}`,
       // Derivados de CONTACT (lib/content.ts) para que el NAP nunca se desincronice.
       telephone: CONTACT.phone,
       email: CONTACT.email,
@@ -107,6 +111,12 @@ const jsonLd = {
         closes: franja.closes,
       })),
       knowsAbout: [...SEO.org.knowsAbout],
+      // Cierra el triángulo empresa → fundador → autor de los artículos: los
+      // posts ya firman con este mismo @id, así que declararlo acá consolida
+      // una sola entidad Person en todo el sitio (señal E-E-A-T). Es una
+      // referencia a propósito: el nodo completo vive en /nosotros, que es su
+      // página canónica, y no se duplica en cada página del sitio.
+      founder: { "@id": `${SITE_URL}/nosotros#person` },
       // Cierra el cluster: la empresa declara qué servicios ofrece y en qué
       // URL vive cada uno, así el hub y sus hijas se leen como una unidad.
       hasOfferCatalog: {

@@ -29,6 +29,12 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  experimental: {
+    // Habilita `app/global-not-found.tsx`: sin esto, las URLs sin match caen en
+    // `app/not-found.tsx`, donde Next ignora el `export const metadata` y el
+    // <title> queda siendo el default del root layout.
+    globalNotFound: true,
+  },
   async headers() {
     return [
       {
