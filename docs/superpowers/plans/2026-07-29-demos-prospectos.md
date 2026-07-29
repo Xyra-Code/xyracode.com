@@ -15,7 +15,15 @@
 - **Idioma del copy:** español colombiano. Sin voseo. Los textos definitivos están en el spec §5.7 — no improvisar.
 - **Todo prerenderizado estático.** Prohibido `searchParams`, `cookies()`, `headers()` y `fetch` dinámico en la rama de demos.
 - **`export const dynamicParams = false`** en `app/demos/[cliente]/layout.tsx` y en `app/demos/[cliente]/p/[producto]/page.tsx`. No hay `not-found.tsx` de tienda.
-- **`robots: { index: false, follow: false }`** en el layout de la demo. **No** tocar `app/robots.ts`.
+- **Aislamiento de metadata (no solo `robots`).** El layout de la demo usa `generateMetadata` y
+  declara `robots`, `title` (con `template` propio), `description`, `alternates.canonical`
+  autorreferencial, `openGraph` y `twitter`. Next fusiona la metadata **superficialmente** de la
+  raíz hacia abajo, así que cualquier clave que no se redefina se hereda de `app/layout.tsx` y la
+  demo sale titulada `| XyraCode` con `canonical` a la home de la agencia. **No** tocar
+  `app/robots.ts`.
+- **Las páginas hijas de la demo llevan `title` como string simple**, para que use el `template`
+  del layout de la demo. Un `title.absolute` en una hija se saltea ese template; un `title` en
+  una hija sin template propio en el layout caería en el de la raíz.
 - **No reusar `components/ui/`** en la demo: está acoplado a la marca de XyraCode.
 - **Un solo quiebre responsive: 768px** — el `md:` de Tailwind.
 - **Tests colocados** junto al archivo que prueban (`Foo.tsx` + `Foo.test.tsx`), como `components/ui/Breadcrumb.test.tsx`.
@@ -561,11 +569,57 @@ const archivo = Archivo({ variable: "--font-archivo", subsets: ["latin"], weight
 const manrope = Manrope({ variable: "--font-manrope", subsets: ["latin"], weight: ["400", "500", "600"] });
 const spaceMono = Space_Mono({ variable: "--font-mono-demo", subsets: ["latin"], weight: ["400", "700"] });
 
-// Toda la rama fuera del indice. NO agregar Disallow en robots.ts: impediria
-// que Google lea esta etiqueta y la URL quedaria indexable por enlaces externos.
-export const metadata: Metadata = {
-  robots: { index: false, follow: false },
-};
+/**
+ * NO alcanza con declarar `robots`. Next fusiona la metadata **superficialmente**
+ * de la raiz hacia abajo, asi que toda clave que no se redefina aca se hereda de
+ * app/layout.tsx: el titulo con "| XyraCode", el canonical a "/", la description
+ * de la agencia y og:site_name = XyraCode. Eso convierte la tienda del cliente
+ * en una pagina de la agencia — justo lo que el spec §2 pide evitar — y deja un
+ * canonical a la home desde una pagina noindex, que es señal contradictoria.
+ *
+ * `title` usa template + default en vez de `absolute` a proposito: `absolute`
+ * arreglaria solo esta ruta, y las paginas hijas (catalogo, detalle) que exporten
+ * un title de tipo string volverian a caer en el titleTemplate de la raiz. Con un
+ * template propio, cualquier hija queda cubierta sin acordarse de nada.
+ */
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ cliente: string }>;
+}): Promise<Metadata> {
+  const { cliente } = await params;
+  const demo = getDemo(cliente);
+  // Sin demo la ruta no existe; el layout ya llama notFound(). Solo hay que
+  // asegurar que ni siquiera ese caso herede la identidad de la agencia.
+  if (!demo) return { robots: { index: false, follow: false } };
+
+  const titulo = `${demo.negocio.nombre} — ${demo.negocio.tagline}`;
+  const url = `/demos/${demo.slug}`;
+
+  return {
+    // Toda la rama fuera del indice. NO agregar Disallow en robots.ts:
+    // impediria que Google lea esta etiqueta y la URL quedaria indexable por
+    // enlaces externos.
+    robots: { index: false, follow: false },
+    title: { template: `%s · ${demo.negocio.nombre}`, default: titulo },
+    description: demo.hero.subtitulo,
+    // Autorreferencial. Heredar el "/" de la raiz apuntaria a la home de la
+    // agencia desde la tienda de un cliente.
+    alternates: { canonical: url },
+    openGraph: {
+      type: "website",
+      url,
+      siteName: demo.negocio.nombre,
+      title: titulo,
+      description: demo.hero.subtitulo,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: titulo,
+      description: demo.hero.subtitulo,
+    },
+  };
+}
 
 // Un slug desconocido se corta a nivel de routing y lo atiende
 // app/global-not-found.tsx. Por eso la demo no lleva not-found.tsx propia.
@@ -621,13 +675,41 @@ export default async function DemoHome({ params }: { params: Promise<{ cliente: 
 }
 ```
 
-- [ ] **Step 4: Verificar que la ruta se prerenderiza y va noindex**
+- [ ] **Step 4: Verificar el aislamiento de metadata contra el HTML construido**
 
 Run: `npm run build`
 Expected: en la lista de rutas aparece `● /demos/[cliente]` con `/demos/guantes-nr1`.
 
-Run: `grep -o 'name="robots" content="[^"]*"' .next/server/app/demos/guantes-nr1.html`
-Expected: `name="robots" content="noindex, nofollow"`
+La regla de fusión de metadata de Next está documentada, pero una conclusión de este peso se
+confirma contra el HTML servido, no contra la documentación:
+
+```bash
+python -c "
+import pathlib, re
+h = pathlib.Path('.next/server/app/demos/guantes-nr1.html').read_text(encoding='utf8')
+def buscar(patron):
+    m = re.search(patron, h)
+    return m.group(1) if m else '*** AUSENTE ***'
+print('title     :', buscar(r'<title>(.*?)</title>'))
+print('robots    :', buscar(r'name=\"robots\" content=\"([^\"]*)\"'))
+print('canonical :', buscar(r'rel=\"canonical\" href=\"([^\"]*)\"'))
+print('og:site   :', buscar(r'property=\"og:site_name\" content=\"([^\"]*)\"'))
+print('descr     :', buscar(r'name=\"description\" content=\"([^\"]{0,60})'))
+"
+```
+
+Expected, los cuatro a la vez:
+
+| Señal | Valor exigido |
+|---|---|
+| `robots` | `noindex, nofollow` |
+| `title` | `Guantes NR1 — El inoxidable` · **no** puede contener `XyraCode` |
+| `canonical` | `https://xyracode.com/demos/guantes-nr1` · **no** `https://xyracode.com/` |
+| `og:site_name` | `Guantes NR1` · **no** `XyraCode` |
+| `description` | la del negocio · **no** la de la agencia |
+
+Si alguno sale con el valor de XyraCode, la metadata se está heredando y hay que corregir
+`generateMetadata` antes de seguir: cada página nueva de la demo arrastraría el problema.
 
 - [ ] **Step 5: Verificar el tema en el navegador**
 
@@ -1181,7 +1263,9 @@ horizontal en móvil, activo con relleno `acento`.
 `Se nos agotó por ahora. Escríbenos y te avisamos cuando vuelva a entrar.`, botón
 `PREGUNTAR POR WHATSAPP` y enlace `Ver todos los productos`.
 
-La página es un Server Component que resuelve la demo y renderiza `<FilterableCatalog />`.
+La página es un Server Component que resuelve la demo y renderiza `<FilterableCatalog />`, y
+exporta `metadata: { title: "Catálogo" }` — string simple, para que tome el `template` del
+layout de la demo y salga `Catálogo · Guantes NR1`, nunca `Catálogo | XyraCode`.
 
 - [ ] **Step 4: Correr los tests y el build**
 
@@ -1230,7 +1314,9 @@ se descuadra (`capturas/1d-detalle.png`, tercer marco).
 `RelatedProducts`: 4 en desktop / 2 en móvil, de la misma categoría, excluyendo el actual.
 
 La página: `generateStaticParams` sobre `DEMOS.flatMap` de cliente × producto, y
-**`export const dynamicParams = false`**. Migas en mono.
+**`export const dynamicParams = false`**. Migas en mono. `generateMetadata` devuelve
+`{ title: producto.nombre }` como string simple, para que el `template` del layout de la demo
+produzca `Guante corte negativo látex 4 mm · Guantes NR1`.
 
 - [ ] **Step 4: Verificar el prerender de las 12 páginas**
 
@@ -1318,26 +1404,56 @@ Antes de mandarle el link a Nelson, y **solo** cuando llegue su material:
 - Consumes: `SEO`, `CONTACT`, `SOCIALS`, `SERVICE_PAGES`.
 - Produces: `SITE_GRAPH` (en `lib/jsonld.ts`), `<SiteChrome />`.
 
-- [ ] **Step 1: Tomar la línea base ANTES de tocar nada**
+- [ ] **Step 1: Escribir el extractor de huella**
+
+**El `@graph` NO está en el `<head>`.** Verificado en producción: el bloque
+`application/ld+json` aparece en el byte 54045 de la home, con `</head>` cerrando en el 4594 —
+está en el `<body>`. Una comparación que mire solo el `<head>` **no puede ver el único activo
+que este refactor pone en riesgo**, y declararía verificado un `@graph` roto.
+
+La huella es entonces `<head>` **más** todos los bloques `ld+json`, estos últimos parseados y
+re-serializados con `sort_keys=True` para que un reordenamiento de claves no genere un falso
+positivo ni tape uno real.
+
+```bash
+cat > /tmp/huella.py <<'PY'
+import json, pathlib, re, sys
+
+html = pathlib.Path(sys.argv[1]).read_text(encoding="utf8")
+
+cabeza = re.search(r"<head>.*?</head>", html, re.S)
+print("=== HEAD ===")
+print(cabeza.group(0) if cabeza else "*** SIN HEAD ***")
+
+bloques = re.findall(
+    r'<script type="application/ld\+json"[^>]*>(.*?)</script>', html, re.S
+)
+print(f"=== LD+JSON: {len(bloques)} bloque(s) ===")
+for bruto in bloques:
+    # Normalizado: un cambio de orden de claves no es un cambio de contenido.
+    print(json.dumps(json.loads(bruto), sort_keys=True, ensure_ascii=False, indent=1))
+PY
+echo "extractor listo"
+```
+
+- [ ] **Step 2: Tomar la línea base ANTES de tocar nada**
 
 ```bash
 npm run build
-mkdir -p /tmp/base
+rm -rf /tmp/base && mkdir -p /tmp/base
 for f in $(find .next/server/app -name "*.html"); do
-  python -c "
-import re,sys,pathlib
-h=pathlib.Path(sys.argv[1]).read_text(encoding='utf8')
-print(re.search(r'<head>.*?</head>', h, re.S).group(0))
-" "$f" > "/tmp/base/$(echo $f | tr '/' '_').head"
+  python /tmp/huella.py "$f" > "/tmp/base/$(echo $f | tr '/' '_').txt"
 done
+ls /tmp/base | wc -l
 ```
 
-Guarda el `<head>` de los 14 HTML. **El hash del archivo completo va a cambiar y es
-esperado**: agregar un nodo al árbol RSC altera el payload de flight (`self.__next_f`), que es
-data de hidratación y no contenido. Lo que tiene que salir idéntico es el `<head>` y el
-`@graph`.
+Expected: 14 archivos de huella.
 
-- [ ] **Step 2: Escribir el test guardía**
+**El hash del HTML completo va a cambiar y es esperado**: agregar un nodo al árbol RSC altera
+el payload de flight (`self.__next_f`), que es data de hidratación y no contenido. Lo que tiene
+que salir idéntico es la huella.
+
+- [ ] **Step 3: Escribir el test guardía**
 
 `components/sections/SiteChrome.test.tsx`:
 
@@ -1375,18 +1491,18 @@ describe("SiteChrome", () => {
 });
 ```
 
-- [ ] **Step 3: Correr y verificar que falla**
+- [ ] **Step 4: Correr y verificar que falla**
 
 Run: `npx vitest run components/sections/SiteChrome.test.tsx`
 Expected: FAIL — ninguna página lo monta todavía.
 
-- [ ] **Step 4: Mover el `@graph` a `lib/jsonld.ts`**
+- [ ] **Step 5: Mover el `@graph` a `lib/jsonld.ts`**
 
 Cortar el objeto `jsonLd` de `app/layout.tsx:62-139` y pegarlo en `lib/jsonld.ts` como
 `export const SITE_GRAPH`, conservando **todos** los comentarios. Agregar los imports que
 necesite (`CONTACT`, `SOCIALS`, `SERVICE_PAGES`).
 
-- [ ] **Step 5: Crear SiteChrome**
+- [ ] **Step 6: Crear SiteChrome**
 
 ```tsx
 import { FloatingWhatsApp } from "@/components/sections/FloatingWhatsApp";
@@ -1415,7 +1531,7 @@ export function SiteChrome() {
 }
 ```
 
-- [ ] **Step 6: Limpiar el root layout y montar en las 9 páginas**
+- [ ] **Step 7: Limpiar el root layout y montar en las 9 páginas**
 
 De `app/layout.tsx`: quitar el objeto `jsonLd`, su `<script>`, `<FloatingWhatsApp />` y los
 imports que queden sin uso. Conservar `metadata`, `viewport`, las fuentes y `<html>`/`<body>`.
@@ -1423,30 +1539,51 @@ imports que queden sin uso. Conservar `metadata`, `viewport`, las fuentes y `<ht
 En cada una de las 9 `page.tsx`, agregar el import y `<SiteChrome />` junto al `<script>` de
 JSON-LD que ya tienen al final del fragmento.
 
-- [ ] **Step 7: Correr el guardía y verificar que pasa**
+- [ ] **Step 8: Correr el guardía y verificar que pasa**
 
 Run: `npx vitest run components/sections/SiteChrome.test.tsx`
 Expected: PASS (10 tests: el conteo + 9 páginas).
 
-- [ ] **Step 8: Verificar contra la línea base**
+- [ ] **Step 9: Verificar contra la línea base**
 
 ```bash
 npm run build
+rm -rf /tmp/nuevo && mkdir -p /tmp/nuevo
 for f in $(find .next/server/app -name "*.html"); do
-  python -c "
-import re,sys,pathlib
-h=pathlib.Path(sys.argv[1]).read_text(encoding='utf8')
-print(re.search(r'<head>.*?</head>', h, re.S).group(0))
-" "$f" > "/tmp/nuevo_$(echo $f | tr '/' '_').head"
-  diff -q "/tmp/base/$(echo $f | tr '/' '_').head" "/tmp/nuevo_$(echo $f | tr '/' '_').head" \
-    && echo "OK $f" || echo "DIFIERE $f"
+  n="$(echo $f | tr '/' '_').txt"
+  python /tmp/huella.py "$f" > "/tmp/nuevo/$n"
+  if diff -q "/tmp/base/$n" "/tmp/nuevo/$n" >/dev/null 2>&1; then
+    echo "OK       $f"
+  else
+    echo "DIFIERE  $f"
+  fi
 done
 ```
 
-Expected: `OK` en las 12 URLs del sitio. Cualquier `DIFIERE` hay que investigarlo antes de
-seguir: significa que el `<head>` cambió, y no debería.
+Expected: `OK` en las 12 URLs del sitio. Cualquier `DIFIERE` se investiga con
+`diff /tmp/base/<n> /tmp/nuevo/<n>` **antes** de seguir: significa que el `<head>` o el `@graph`
+cambiaron, y ninguno de los dos debería.
 
-- [ ] **Step 9: Verificar que la demo quedó limpia**
+- [ ] **Step 10: Probar que el control funciona**
+
+Un control que no se probó no es un control. Rompelo a propósito y comprobá que **falla**:
+
+```bash
+# Quitar SiteChrome de una pagina cualquiera y reconstruir.
+sed -i 's|<SiteChrome />||' app/contacto/page.tsx
+npm run build
+python /tmp/huella.py .next/server/app/contacto.html > /tmp/roto.txt
+diff -q /tmp/base/.next_server_app_contacto.html.txt /tmp/roto.txt \
+  && echo "MAL: el control NO detecta el @graph faltante" \
+  || echo "BIEN: el control detecta el @graph faltante"
+git checkout app/contacto/page.tsx   # restaurar
+npm run build
+```
+
+Expected: `BIEN`. Si sale `MAL`, la huella no está capturando el `ld+json` y hay que arreglar
+`/tmp/huella.py` antes de confiar en el Step 9.
+
+- [ ] **Step 11: Verificar que la demo quedó limpia**
 
 ```bash
 grep -c "xyracode.com/#organization" .next/server/app/demos/guantes-nr1.html || echo "0 — correcto"
@@ -1456,7 +1593,7 @@ grep -c "wa-fab" .next/server/app/demos/guantes-nr1.html || echo "0 — correcto
 Expected: `0` en las dos. La tienda de NR1 ya no declara el `@graph` de XyraCode ni muestra su
 botón flotante.
 
-- [ ] **Step 10: Commit**
+- [ ] **Step 12: Commit**
 
 ```bash
 git add components/sections/SiteChrome.tsx components/sections/SiteChrome.test.tsx lib/jsonld.ts app/layout.tsx app/page.tsx app/servicios app/proyectos app/blog app/nosotros app/contacto
@@ -1466,6 +1603,14 @@ git commit -m "refactor(sitio): baja el json-ld y el fab del layout a las pagina
 ---
 
 ## Autorrevisión de este plan
+
+**Correcciones de la revisión SEO del 2026-07-29** (`auditoria-seo/2026-07-29-informe.md`):
+el aislamiento de metadata entró en las restricciones globales y en T3 (antes solo se declaraba
+`robots`, y el resto se heredaba de la raíz) · T3 Step 4 lo verifica contra el HTML construido ·
+T13 Steps 1, 2 y 9 comparan `<head>` **más** los bloques `ld+json`, porque el `@graph` se sirve
+en el `<body>` y la comparación anterior no podía verlo · T13 Step 10 prueba que ese control
+falla cuando debe · T10 y T11 fijan `title` como string simple para que tomen el `template` de
+la demo.
 
 **Cobertura del spec:** §4 → T13 · §5.1 → T1 · §5.2 → T3 · §5.3 → T3 · §5.4 → T3, T10, T11 ·
 §5.5 → T4–T11 · §5.6 → T2, T6, T7, T8 · §5.7 → T7, T10 (copy literal) · §5.8 → T3, T12 ·
