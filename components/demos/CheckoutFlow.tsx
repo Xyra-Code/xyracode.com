@@ -108,9 +108,11 @@ export function CheckoutFlow({ demo }: { demo: Demo }) {
           </div>
           <div className="mt-1.5 flex justify-between text-[var(--atenuado)]">
             <dt>Envío</dt>
-            {/* Envío nacional incluido: es la promesa de la tira de confianza, y
-                contradecirla acá con un costo sería un gol en contra. */}
-            <dd>Incluido · todo el país</dd>
+            {/* NO dice "incluido": en su Instagram el cliente anuncia "más
+                envío", o sea que lo cobra aparte. La tira de confianza promete
+                cobertura nacional, que es verdad; regalar el costo del envío
+                sería inventarle una promesa que él no hace. */}
+            <dd>Se calcula al confirmar</dd>
           </div>
           <div className="mt-4 flex items-baseline justify-between border-t border-[var(--borde)] pt-4">
             <dt className="font-(family-name:--font-mono-demo) text-[12px] tracking-[0.14em] uppercase">

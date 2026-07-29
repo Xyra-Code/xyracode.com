@@ -7,7 +7,7 @@
 Cerrar prospectos que hoy venden por Instagram/WhatsApp mostrándoles una **demo navegable
 de su propia tienda**, publicada en el dominio de la agencia y enviada por link. El
 prospecto no ve un mockup ni un portafolio: ve su marca, sus productos y sus precios,
-funcionando, con un carrito que termina el pedido en WhatsApp.
+funcionando, con un carrito que cierra en un checkout.
 
 Primer cliente: **Guantes NR1** (guantes de arquero e indumentaria de portero,
 Villavicencio, Meta). Contacto: Nelson, `573044962704`.
@@ -24,7 +24,7 @@ y cambiando cuatro variables de color.
 | Marca del cliente al 100% + franja discreta de crédito | El prospecto tiene que proyectarse como dueño. El crédito visible protege la autoría sin robar protagonismo. |
 | Identidad diseñada de cero, no copiada de su Instagram | La identidad **es** el producto que se vende. Replicar su estética actual le muestra lo que ya tiene. |
 | Sistema común + capa de identidad por cliente | Impacto alto por cliente sin rediseñar: cambian 4 variables de color y los datos. Validado en el handoff (`1f`). |
-| Carrito en `localStorage`, pedido a WhatsApp | Es el patrón real de un comercio pyme en Colombia. Una pasarela convierte la demo en el producto que hay que cotizar. |
+| Carrito en `localStorage`, cierre en checkout | Sin servidor ni base de datos: el carrito vive en el navegador. El cierre pasó del chat al checkout el 2026-07-29 — ver §3. |
 | `noindex` sin `Disallow` en robots.txt | Ver §5.8. Un `Disallow` impediría leer la etiqueta `noindex`. |
 | Todo prerenderizado estático | Coherente con el resto del sitio (30 páginas estáticas hoy). Sin servidor ni base de datos. |
 
@@ -33,12 +33,12 @@ y cambiando cuatro variables de color.
 **Dentro:** `SiteChrome` y su test guardía · `lib/content/demos.ts` con los tipos y la
 entrada de Guantes NR1 · rutas `/demos/[cliente]`, `/catalogo`, `/p/[producto]` · layout con
 franja de crédito, nav, footer y panel de carrito · tema de 4 variables con 9 tokens
-derivados · carrito persistido con pedido armado a WhatsApp · copy en español colombiano ·
+derivados · carrito persistido · checkout que explica la pasarela · copy en español colombiano ·
 `noindex` en toda la rama · accesibilidad del panel.
 
 **Fuera, a propósito:** pasarela de pago real · inventario · panel de administración · cuentas
 de usuario · cálculo de envío · buscador (12 productos: las categorías alcanzan) · galerías de
-producto (una sola imagen por producto) · 404 propia de la tienda (ver §5.4) · tipografía
+producto (una sola imagen por producto) · 404 propia de la tienda (**no es posible**, ver §5.4) · tipografía
 por cliente (ver §5.3).
 
 **Cambio del 2026-07-29 — el cierre pasa del chat al checkout.** El pedido ya no se manda por
@@ -234,10 +234,30 @@ app/demos/[cliente]/
 `generateStaticParams` en `[cliente]` y en `p/[producto]`, con
 **`export const dynamicParams = false`** en ambos. Eso es parte del contrato, no un detalle:
 es lo que hace que un slug inexistente se corte a nivel de routing y atienda
-`app/global-not-found.tsx`, igual que ya pasa con `blog/[slug]` y `proyectos/[slug]`. Por eso
-**no hay 404 propia de la tienda**: sería código muerto. Consecuencia aceptada:
-`/demos/slug-inexistente` muestra la 404 de XyraCode, que para una demo que no existe es
-correcto.
+`app/global-not-found.tsx`, igual que ya pasa con `blog/[slug]` y `proyectos/[slug]`.
+
+**No hay 404 propia de la tienda, y no por alcance: no es posible.** Se intentó el 2026-07-29 y
+se verificó contra el build de producción con tres formas de URL. `experimental.globalNotFound`
+(`next.config.ts`) intercepta **todos** los casos de not-found, incluidos los `notFound()` de
+segmento, así que cualquier `not-found.tsx` anidada es inalcanzable. Poner `dynamicParams = true`
+en el detalle —para que la URL equivocada llegara a renderizar en vez de cortarse en el
+routing— tampoco alcanza: igual cae en la global.
+
+El conflicto es de fondo y conviene entenderlo antes de volver a intentarlo. El 404 global existe
+porque es la única convención donde Next lee el `export const metadata` (ver el comentario de
+`app/not-found.tsx`), y ese mismo carácter global es lo que impide una 404 por rama. Las únicas
+salidas serían:
+
+1. una ruta comodín dentro de la tienda que responda **200** con la 404 vestida del cliente —un
+   soft 404 deliberado, que en una rama `noindex` y sin enlaces cuesta casi nada en SEO pero
+   contradice el principio que la auditoría marcó como P0; o
+2. **apagar `globalNotFound`** y volver a `not-found.tsx` por segmento, lo que recupera la 404 de
+   la demo y deja las dos con código 404 correcto, a costa del `<title>` propio del 404 del
+   sitio.
+
+**Decisión del 2026-07-29: se deja así.** `/demos/<lo-que-sea-mal-escrito>` muestra la 404 de
+XyraCode con código 404 correcto. Es una URL a la que el prospecto solo llega escribiendo mal el
+link, y la franja de crédito ya dice XyraCode de todas formas.
 
 **El filtro de categorías corre en el navegador**, no por `searchParams`: leerlos saca la
 página del prerender estático. La página sirve los 12 productos y un componente cliente
@@ -437,36 +457,66 @@ limpia desde el primer render local.
 `Server: Netlify` en producción. El README del proyecto dice Vercel y está equivocado. Importa
 para dónde se cargan las variables de entorno y dónde se revisa el deploy preview de la rama.
 
-## 8. Supuestos y decisiones abiertas
+## 8. Datos del cliente — lo hallado y lo que sigue abierto
 
-1. **`negocio.nombre = "Guantes NR1"`**, como se indicó. La marca del logo dibuja `N1R`
+### Hallado en su Instagram el 2026-07-29
+
+Consultado dos veces con prompts distintos; los datos de abajo coincidieron en las dos, así que
+no son invención del resumidor. **Pero los captions llegaron con OCR sucio** —el texto está
+quemado en las imágenes de las publicaciones, no escrito como texto— así que **cifras y
+teléfonos son lecturas de una imagen y hay que confirmarlas con él antes de publicar.**
+
+| Dato | Valor hallado |
+|---|---|
+| Perfil | [@nelramosoficial1](https://www.instagram.com/nelramosoficial1) · **126K seguidores, verificado** |
+| Bio | "DIRECTOR TÉCNICO PROFESIONAL Y ARQUERO DEP PASTO AMÉRICA MILLONARIOS MEDELLÍN FORTALEZA DEP QUITO BUCARAMANGA BOCA" |
+| Productos | **2**: "Guantes NR1" y "Guantes 2025 NR" |
+| Precios | niños **$260.000** · adulto **$330.000** |
+| Envío | *"más envío"* — **lo cobra aparte**, no va incluido |
+| Obsequio | *"shampooNR1"* — es su propio producto de marca, no un shampoo genérico |
+| Pagos | *"Todos los medios de pago"* |
+| Teléfonos | **3103207806** y **3332393715** |
+
+**Esto reencuadra el argumento de venta.** No es un vendedor informal de Instagram: es un arquero
+profesional con carrera en primera división colombiana y 126 mil seguidores vendiendo su propia
+marca. **No le falta tráfico, le falta dónde convertirlo** — el cuello de botella es el DM, no la
+audiencia. Y explica el logo: "El inoxidable" es su apodo de arquero, no un eslogan inventado.
+
+### Lo que hay que corregir cuando mande su material
+
+1. **El catálogo de la demo es ficción y se mantiene a propósito.** Los 12 productos en 3
+   categorías vienen del handoff; él vende 2. Se dejan para poder revisar el diseño con volumen,
+   pero **la demo no se puede enviar así**: nueve de esos productos no son suyos, y ver
+   rodilleras y medias de compresión en su propia tienda le dice que no entendimos su negocio.
+   Su catálogo real da para cuatro entradas honestas: Guantes NR1 niños, Guantes NR1 adulto,
+   Guantes 2025 NR y Shampoo NR1.
+2. **Los precios están a la mitad.** El guante más caro de la demo son $189.000; el adulto real
+   son $330.000.
+3. **Las fotos.** No se pudieron obtener por herramienta: `WebFetch` devuelve texto convertido a
+   markdown, no archivos, y las URLs del CDN no vienen en la respuesta. Las baja el usuario desde
+   su propia sesión, con los nombres de archivo que ya existen en
+   `public/demos/guantes-nr1/`.
+
+### Sigue abierto
+
+1. **`whatsapp: "573044962704"`** es el número del chat del DM, y **no coincide con ninguno de
+   los dos** que anuncia en su perfil. Probablemente el del DM es personal. Confirmar cuál es la
+   línea del negocio antes de enviar el link.
+2. **`negocio.nombre = "Guantes NR1"`**, como se indicó. La marca del logo dibuja `N1R`
    (N — 1 — R). Si el orden comercial correcto es el del dibujo, es un cambio de una línea:
    afecta el `alt` del logo y el saludo del mensaje de WhatsApp.
-2. **`whatsapp: "573044962704"`**, tomado del chat de Instagram. Confirmar que es la línea del
-   negocio y no la personal antes de enviar el link.
-3. **Los 12 productos, sus precios y sus fotos** salen del Instagram del cliente. Los del
-   handoff son representativos. Precio ausente → `null`, nunca inventado.
-4. **El hero** necesita una imagen 16:9 que el material de Instagram probablemente no tenga
-   en esa proporción. Si no aparece una usable, se resuelve con una composición sobre
-   `superficieFoto` en vez de estirar una foto cuadrada.
-5. **`negocio.tagline = "El inoxidable"`**, tomado del propio logo.
-6. **`negocio.ciudad = "Villavicencio"` NO está verificado.** Es el dato más frágil del spec:
-   entró por arrastre —el brief decía que *XyraCode* está en Villavicencio y el diseño lo
-   aplicó también al cliente— y nadie confirmó dónde opera Nelson.
-
-   **Aparece en tres lugares visibles, y uno es el primero de todos:**
-   - el **kicker del hero** (`EL INOXIDABLE · VILLAVICENCIO`), arriba del pliegue;
-   - `Envío en <ciudad>` en la tira de confianza;
-   - el footer.
-
-   Confirmar **antes** de mandar el link. Si vende por envío nacional en vez de local, no cambia
-   solo el nombre de la ciudad: cambia la entrada de `confianza[]` (`Envío a todo el país`) y hay
-   que decidir qué dice el kicker, porque una zona que no es su zona lo delata en el primer
-   segundo.
-7. **`logo` y `logoMarca` son obligatorios** porque este cliente los tiene. El handoff
-   contemplaba un wordmark tipográfico en dos pesos para clientes sin logo; no se implementa
-   hoy (nada lo usaría). Cuando aparezca un cliente sin logo, los campos pasan a opcionales y
-   se agrega un componente `Wordmark` con `negocio.wordmark: { parte1, parte2 }`.
+3. **`negocio.ciudad = "Villavicencio"` NO está verificado.** Entró por arrastre: el brief decía
+   que *XyraCode* está en Villavicencio y el diseño lo aplicó también al cliente. Su perfil no
+   menciona ciudad. Ya no alimenta la promesa de cobertura —los envíos son nacionales— pero
+   sigue visible en el **kicker del hero**, arriba del pliegue, y en el footer.
+4. **El hero** necesita una imagen 16:9, proporción que el material de Instagram probablemente no
+   tenga. Si no aparece una usable, se resuelve con una composición sobre `superficieFoto` en vez
+   de estirar una foto cuadrada.
+5. **`negocio.tagline = "El inoxidable"`**, del logo. Coherente con su apodo de arquero.
+6. **`logo` y `logoMarca` son obligatorios** porque este cliente los tiene. El handoff
+   contemplaba un wordmark tipográfico en dos pesos para clientes sin logo; no se implementa hoy
+   (nada lo usaría). Cuando aparezca un cliente sin logo, los campos pasan a opcionales y se
+   agrega un componente `Wordmark` con `negocio.wordmark: { parte1, parte2 }`.
 
 ## 9. Referencias
 

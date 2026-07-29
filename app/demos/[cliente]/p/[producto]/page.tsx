@@ -10,8 +10,22 @@ type Params = { cliente: string; producto: string };
 
 /**
  * Un par cliente/producto que no exista se corta a nivel de routing y lo atiende
- * `app/global-not-found.tsx`, igual que en el layout de la demo. Por eso esta rama
- * no lleva `not-found.tsx` propia: sería código muerto.
+ * `app/global-not-found.tsx`.
+ *
+ * **Y no se puede hacer que lo atienda una 404 de la tienda.** Verificado contra
+ * el build de producción el 2026-07-29: `experimental.globalNotFound`
+ * (next.config.ts) intercepta *todos* los casos de not-found, incluidos los
+ * `notFound()` de segmento, así que cualquier `not-found.tsx` anidada es
+ * inalcanzable. Se probó poniendo esto en `true` para que la URL equivocada
+ * llegara a renderizar en vez de cortarse en el routing: igual cae en la global.
+ *
+ * El conflicto es de fondo. El 404 global existe porque es la única convención
+ * donde Next lee el `export const metadata` (ver el comentario de
+ * `app/not-found.tsx`), y ese mismo carácter global es lo que impide una 404 por
+ * rama. Las únicas salidas serían una ruta comodín que responda 200 —un soft 404
+ * deliberado— o apagar el flag. Decisión tomada el 2026-07-29: se deja así. Es
+ * una URL a la que el prospecto solo llega escribiendo mal el link, y la franja
+ * de crédito ya dice XyraCode de todas formas.
  */
 export const dynamicParams = false;
 
