@@ -35,6 +35,53 @@ export type DemoProduct = {
   /** Ausente = producto sin variantes; el carrito lo muestra como "Única". */
   variantes?: { label: string; opciones: string[] };
   destacado?: boolean;
+  /**
+   * Distintivo corto sobre la foto, p. ej. "Edición Pro". Sale de las piezas del
+   * cliente, no lo inventamos: él marca así algunas referencias.
+   */
+  insignia?: string;
+};
+
+/**
+ * Perfil del cliente en una red. Solo la URL y qué red es: el ícono lo resuelve
+ * StoreFooter contra `red`. Acá no puede vivir el componente del ícono porque el
+ * objeto Demo completo cruza al árbol cliente (`<CartProvider demo={demo}>`) y
+ * una función no es serializable a través de esa frontera.
+ */
+export type DemoRed = {
+  red: "instagram" | "facebook" | "tiktok" | "x";
+  href: string;
+};
+
+/**
+ * La persona detrás de la marca. **Opcional**: no todo cliente es una marca
+ * personal —una papelería no tiene fundador que mostrar— y sin este campo la home
+ * no dibuja la sección.
+ *
+ * Para un cliente como este es la pieza que ningún competidor puede copiar: el
+ * producto se iguala, la carrera no.
+ */
+export type DemoPersona = {
+  nombre: string;
+  /** Credencial en una línea, para el kicker. */
+  rol: string;
+  /** Retrato. 4:5 — un formato vertical le da presencia sin comerse la pantalla. */
+  foto: DemoImage;
+  /** Relato en primera persona, dos o tres frases. */
+  relato: string;
+  /**
+   * Credenciales cortas para la fila de etiquetas: clubes, títulos, años. Se
+   * escriben **como las escribe el cliente**, sin expandir abreviaturas: "AMÉRICA"
+   * puede ser América de Cali y "BOCA" puede ser más de un club, y adivinar mal un
+   * nombre en la tienda de un profesional es peor que abreviarlo.
+   */
+  credenciales: string[];
+  /**
+   * Segunda línea de negocio, si la tiene. Este cliente vende entrenamientos
+   * personalizados, individuales y en grupo, y hoy los cierra por DM. Mientras el
+   * flujo de agenda no exista, esto lo saca a la superficie con un enlace.
+   */
+  servicio?: { titulo: string; nota: string };
 };
 
 export type Demo = {
@@ -42,10 +89,21 @@ export type Demo = {
   slug: string;
   negocio: {
     nombre: string;
+    /** Apodo o bajada de la marca. Va en el logo y en el <title>. */
     tagline: string;
+    /**
+     * Promesa de producto, en las palabras del cliente. Distinto del tagline:
+     * "El inoxidable" es quién es, el lema es qué promete. Encabeza el hero.
+     */
+    lema?: string;
+    /**
+     * Los atributos que el cliente pone en TODAS sus piezas de producto. Van en el
+     * detalle, que es donde alguien decide comprar. Se escriben como los escribe
+     * él: son sus argumentos de venta, no los nuestros.
+     */
+    beneficios?: string[];
     /** Solo dígitos con indicativo, formato wa.me. Es el del CLIENTE. */
     whatsapp: string;
-    ciudad: string;
     /** Lockup completo (marca + tagline). Footer, a 56px mínimo. */
     logo: DemoImage;
     /**
@@ -53,6 +111,11 @@ export type Demo = {
      * marca tiene alas y letras solapadas y a esa altura es ilegible.
      */
     logoMarca: DemoImage;
+    /**
+     * Redes del cliente, en el orden en que se muestran en el footer. Opcional:
+     * un cliente puede no tener ninguna, y entonces el footer no dibuja la fila.
+     */
+    redes?: DemoRed[];
   };
   /**
    * La capa de identidad: exactamente 4 variables. Los 9 tokens de sistema se
@@ -63,23 +126,20 @@ export type Demo = {
   hero: { titulo: string; subtitulo: string; imagen: DemoImage };
   categorias: DemoCategory[];
   productos: DemoProduct[];
+  /** La persona detrás de la marca. Ausente = la home no muestra la sección. */
+  persona?: DemoPersona;
   /** Tira de confianza: 3 entradas, texto libre. */
   confianza: string[];
 };
 
 // ---------- Guantes NR1 ----------
 
-/**
- * SIN VERIFICAR (spec §8): entró por arrastre desde el brief de diseño y nadie
- * confirmó dónde opera el cliente.
- *
- * Ya NO alimenta la tira de confianza —los envíos son nacionales— pero sigue
- * visible en dos lugares: el **kicker del hero** (`EL INOXIDABLE ·
- * VILLAVICENCIO`, arriba del pliegue) y el footer. Como ciudad de origen de un
- * negocio que despacha a todo el país es una afirmación razonable, pero es una
- * afirmación: confirmar antes de mandar el link.
+/*
+ * La ciudad del cliente ya no existe en el modelo. Venía por arrastre del brief
+ * de diseño, nadie confirmó dónde opera (spec §8) y salió de los tres lugares
+ * donde se veía: la tira de confianza (los envíos son nacionales), el footer y
+ * el kicker del hero. Si algún día se confirma, vuelve como campo de `negocio`.
  */
-const NR1_CIUDAD = "Villavicencio";
 
 const TALLAS_GUANTE = { label: "Talla", opciones: ["6", "7", "8", "9", "10", "11"] };
 const TALLAS_ROPA = { label: "Talla", opciones: ["S", "M", "L", "XL"] };
@@ -89,7 +149,8 @@ const TALLAS_ROPA = { label: "Talla", opciones: ["S", "M", "L", "XL"] };
  * cada descripción para que no se desincronice: si la promoción cambia o se
  * termina, se edita en un solo lugar y no en cinco.
  */
-const OBSEQUIO_GUANTES = " Incluye de obsequio el shampoo para lavarlos y cuidar el látex.";
+const OBSEQUIO_GUANTES =
+  " Incluye de obsequio el shampoo NR1 para lavarlos y cuidar el látex.";
 
 /** Foto de producto: 1:1 800x800, un archivo por slug. */
 function fotoNR1(slug: string, alt: string): DemoImage {
@@ -99,6 +160,7 @@ function fotoNR1(slug: string, alt: string): DemoImage {
 const NR1_PRODUCTOS: DemoProduct[] = [
   {
     slug: "guante-corte-negativo-latex-4mm",
+    insignia: "Edición Pro",
     nombre: "Guante corte negativo látex 4 mm",
     precio: 149900,
     categoria: "guantes",
@@ -120,12 +182,13 @@ const NR1_PRODUCTOS: DemoProduct[] = [
   },
   {
     slug: "guante-hibrido-roll-finger-dedo-espina",
+    insignia: "Edición Pro",
     nombre: "Guante híbrido roll finger con dedo espina para partido de competencia",
     precio: 189000,
     categoria: "guantes",
     imagen: fotoNR1("guante-hibrido-roll-finger-dedo-espina", "Guante híbrido roll finger con dedo espina"),
     descripcion:
-      "Roll finger en los laterales y dedo espina con varillas: sujeción de competencia y protección contra la hiperextensión." + OBSEQUIO_GUANTES,
+      "Roll finger en los laterales y dedo espina con varillas: sujeción de competencia y protección contra la hiperextensión. Ideales para entrenamiento y partidos." + OBSEQUIO_GUANTES,
     variantes: TALLAS_GUANTE,
     destacado: true,
   },
@@ -228,9 +291,16 @@ export const DEMOS: Demo[] = [
     negocio: {
       nombre: "Guantes NR1",
       tagline: "El inoxidable",
+      // Los dos salen textuales de sus nueve flyers de producto.
+      lema: "Rendimiento. Control. Confianza.",
+      beneficios: [
+        "Excelente agarre",
+        "Máxima protección",
+        "Cómodos y transpirables",
+        "Diseño profesional",
+      ],
       // Del chat de Instagram. Confirmar que es la línea del negocio (spec §8).
       whatsapp: "573044962704",
-      ciudad: NR1_CIUDAD,
       logo: {
         src: "/demos/guantes-nr1/logo.png",
         alt: "Guantes NR1 — El inoxidable",
@@ -243,6 +313,23 @@ export const DEMOS: Demo[] = [
         width: 852,
         height: 604,
       },
+      /**
+       * Perfiles que el cliente pasó él mismo (2026-07-29), así que no llevan la
+       * marca de SIN VERIFICAR del resto de sus datos.
+       *
+       * Facebook va con `www` y no con el `web.facebook.com` original: `web.` es
+       * la variante que salta la app móvil, y el perfil es un `profile.php?id=`
+       * porque es cuenta personal, no página de negocio — no tiene URL con nombre.
+       */
+      redes: [
+        { red: "instagram", href: "https://www.instagram.com/nelramosoficial1" },
+        {
+          red: "facebook",
+          href: "https://www.facebook.com/profile.php?id=100066874174711",
+        },
+        { red: "tiktok", href: "https://www.tiktok.com/@nelsonramos034" },
+        { red: "x", href: "https://x.com/NelRamosOficial" },
+      ],
     },
     tema: {
       fondo: "#0E0E10",
@@ -267,6 +354,47 @@ export const DEMOS: Demo[] = [
       { slug: "accesorios", nombre: "Accesorios" },
     ],
     productos: NR1_PRODUCTOS,
+    /**
+     * COPY PARA APROBAR CON ÉL. El relato está escrito en su voz a partir de lo
+     * único que sabemos con certeza —su bio: arquero y director técnico, con paso
+     * por esos clubes— pero son palabras nuestras puestas en su boca. Se muestra,
+     * no se publica, hasta que él lo confirme.
+     *
+     * Las credenciales van tal como las escribe en su bio, sin expandir: "AMÉRICA"
+     * y "BOCA" admiten más de un club, y equivocarle el nombre de un equipo donde
+     * jugó es peor que abreviarlo.
+     *
+     * El número de seguidores NO va acá a propósito. Es un argumento de venta para
+     * la agencia, no un elemento de conversión para su comprador: a quien va a
+     * comprar guantes le importa que haya atajado en primera, no cuánta gente lo
+     * sigue. Y un número así envejece; una carrera no.
+     */
+    persona: {
+      nombre: "Nelson Ramos",
+      rol: "Arquero profesional y director técnico",
+      foto: {
+        src: "/demos/guantes-nr1/nelson-ramos.webp",
+        alt: "Nelson Ramos, arquero profesional, con guantes NR1",
+        width: 900,
+        height: 1125,
+      },
+      relato:
+        "Soy arquero y director técnico, y sé qué le pasa a un guante en el minuto ochenta: cuándo el látex deja de agarrar y cuándo la costura empieza a molestar. Por eso hice NR1. No vendo una referencia que no haya probado en cancha.",
+      credenciales: [
+        "Dep. Pasto",
+        "América",
+        "Millonarios",
+        "Medellín",
+        "Fortaleza",
+        "Dep. Quito",
+        "Bucaramanga",
+        "Boca",
+      ],
+      servicio: {
+        titulo: "Entrenamiento personalizado de arqueros",
+        nota: "Sesiones individuales o en grupo, con seguimiento. Escríbeme y armamos el plan.",
+      },
+    },
     confianza: [
       "Envío a todo el país",
       "Pago en línea seguro",

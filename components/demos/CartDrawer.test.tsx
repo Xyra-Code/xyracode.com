@@ -124,6 +124,65 @@ describe("CartDrawer", () => {
     expect(screen.getByText(/todavía no has agregado nada/i)).toBeInTheDocument();
   });
 
+  it("ofrece vaciar el pedido cuando hay ítems", () => {
+    montar();
+    clic("cargar guante");
+    clic("abrir");
+    expect(screen.getByRole("button", { name: /vaciar el pedido/i })).toBeInTheDocument();
+  });
+
+  it("no ofrece vaciar un pedido que ya está vacío", () => {
+    montar();
+    clic("abrir");
+    expect(screen.queryByRole("button", { name: /vaciar el pedido/i })).not.toBeInTheDocument();
+  });
+
+  it("el primer clic en vaciar pide confirmación y no borra nada", () => {
+    // Es la única acción del panel que no se puede deshacer: quitar un ítem se
+    // vuelve a agregar de memoria, un pedido de ocho líneas no.
+    montar();
+    clic("cargar guante");
+    clic("cargar espuma");
+    clic("abrir");
+    clic("Vaciar el pedido");
+    expect(screen.getByText("Talla 8")).toBeInTheDocument();
+    expect(screen.getByText("Única")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /sí, vaciar/i })).toBeInTheDocument();
+  });
+
+  it("confirmar vacía el pedido", () => {
+    montar();
+    clic("cargar guante");
+    clic("abrir");
+    clic("Vaciar el pedido");
+    clic("Sí, vaciar");
+    expect(screen.getByText(/todavía no has agregado nada/i)).toBeInTheDocument();
+  });
+
+  it("cancelar deja el pedido intacto y devuelve el botón", () => {
+    montar();
+    clic("cargar guante");
+    clic("abrir");
+    clic("Vaciar el pedido");
+    clic("Cancelar");
+    expect(screen.getByText("Talla 8")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /vaciar el pedido/i })).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /sí, vaciar/i })).not.toBeInTheDocument();
+  });
+
+  it("cerrar el panel descarta la confirmación pendiente", () => {
+    // Reabrir con un "¿Seguro?" colgado de la sesión anterior deja al comprador
+    // a un clic de borrar algo que ya no recuerda haber pedido borrar.
+    montar();
+    clic("cargar guante");
+    clic("abrir");
+    clic("Vaciar el pedido");
+    act(() => screen.getByLabelText("Cerrar el pedido").click());
+    clic("abrir");
+    expect(screen.queryByRole("button", { name: /sí, vaciar/i })).not.toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /vaciar el pedido/i })).toBeInTheDocument();
+  });
+
   it("cierra con Escape", () => {
     montar();
     clic("abrir");

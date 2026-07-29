@@ -28,7 +28,7 @@ const demo = { slug: "guantes-nr1", productos } as unknown as Demo;
 
 /** Sonda: expone el estado del carrito y unos botones para manipularlo. */
 function Sonda() {
-  const { unidades, total, lineas, add, setCantidad, remove } = useCart();
+  const { unidades, total, lineas, add, setCantidad, remove, vaciar } = useCart();
   return (
     <div>
       <p data-testid="unidades">{unidades}</p>
@@ -39,6 +39,7 @@ function Sonda() {
       <button onClick={() => add("espuma", undefined, 1)}>add espuma</button>
       <button onClick={() => setCantidad("guante", "8", 0)}>cero guante 8</button>
       <button onClick={() => remove("espuma", undefined)}>quitar espuma</button>
+      <button onClick={vaciar}>vaciar</button>
     </div>
   );
 }
@@ -103,6 +104,25 @@ describe("CartProvider", () => {
     clic("add espuma");
     clic("quitar espuma");
     expect(leer("lineas")).toBe("0");
+  });
+
+  it("vaciar deja el carrito sin líneas, sin unidades y sin total", () => {
+    montar();
+    clic("add guante 8");
+    clic("add espuma");
+    clic("vaciar");
+    expect(leer("lineas")).toBe("0");
+    expect(leer("unidades")).toBe("0");
+    expect(leer("total")).toBe("0");
+  });
+
+  it("vaciar también borra lo persistido, no solo lo que está en pantalla", () => {
+    // Si el storage quedara con los ítems viejos, el carrito volvería solo al
+    // refrescar y el comprador lo leería como que la tienda no le hizo caso.
+    montar();
+    clic("add espuma");
+    clic("vaciar");
+    expect(JSON.parse(localStorage.getItem("carrito:guantes-nr1") as string)).toEqual([]);
   });
 
   it("persiste en localStorage bajo la clave de la demo", () => {

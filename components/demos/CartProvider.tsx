@@ -31,6 +31,8 @@ type CartContexto = {
   add: (slug: string, variante: string | undefined, cantidad: number) => void;
   setCantidad: (slug: string, variante: string | undefined, cantidad: number) => void;
   remove: (slug: string, variante?: string) => void;
+  /** Deja el carrito en cero, storage incluido. */
+  vaciar: () => void;
   abrir: () => void;
   cerrar: () => void;
 };
@@ -104,6 +106,10 @@ export function CartProvider({
     setItems((previos) => previos.filter((item) => !sameCartItem(item, slug, variante)));
   }, [setItems]);
 
+  // Devuelve un array nuevo y no la constante VACIO del store: el `set` lo
+  // serializa igual y así no se comparte la referencia del snapshot del servidor.
+  const vaciar = useCallback(() => setItems(() => []), [setItems]);
+
   const abrir = useCallback(() => setAbierto(true), []);
   const cerrar = useCallback(() => setAbierto(false), []);
 
@@ -120,10 +126,11 @@ export function CartProvider({
       add,
       setCantidad,
       remove,
+      vaciar,
       abrir,
       cerrar,
     };
-  }, [items, demo.productos, abierto, add, setCantidad, remove, abrir, cerrar]);
+  }, [items, demo.productos, abierto, add, setCantidad, remove, vaciar, abrir, cerrar]);
 
   return <Contexto.Provider value={valor}>{children}</Contexto.Provider>;
 }
