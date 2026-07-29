@@ -63,7 +63,7 @@ export type Demo = {
   hero: { titulo: string; subtitulo: string; imagen: DemoImage };
   categorias: DemoCategory[];
   productos: DemoProduct[];
-  /** Tira de confianza: 3 entradas. La primera deriva de negocio.ciudad. */
+  /** Tira de confianza: 3 entradas, texto libre. */
   confianza: string[];
 };
 
@@ -71,14 +71,25 @@ export type Demo = {
 
 /**
  * SIN VERIFICAR (spec §8): entró por arrastre desde el brief de diseño y nadie
- * confirmó dónde opera el cliente. Alimenta la tira de confianza y el footer,
- * o sea lo primero que el prospecto lee. Confirmar antes de mandar el link. Si
- * vende por envío nacional, cambia la entrada de `confianza`, no solo el nombre.
+ * confirmó dónde opera el cliente.
+ *
+ * Ya NO alimenta la tira de confianza —los envíos son nacionales— pero sigue
+ * visible en dos lugares: el **kicker del hero** (`EL INOXIDABLE ·
+ * VILLAVICENCIO`, arriba del pliegue) y el footer. Como ciudad de origen de un
+ * negocio que despacha a todo el país es una afirmación razonable, pero es una
+ * afirmación: confirmar antes de mandar el link.
  */
 const NR1_CIUDAD = "Villavicencio";
 
 const TALLAS_GUANTE = { label: "Talla", opciones: ["6", "7", "8", "9", "10", "11"] };
 const TALLAS_ROPA = { label: "Talla", opciones: ["S", "M", "L", "XL"] };
+
+/**
+ * Obsequio que acompaña a todos los guantes. Va como constante y no escrito en
+ * cada descripción para que no se desincronice: si la promoción cambia o se
+ * termina, se edita en un solo lugar y no en cinco.
+ */
+const OBSEQUIO_GUANTES = " Incluye de obsequio el shampoo para lavarlos y cuidar el látex.";
 
 /** Foto de producto: 1:1 800x800, un archivo por slug. */
 function fotoNR1(slug: string, alt: string): DemoImage {
@@ -93,7 +104,7 @@ const NR1_PRODUCTOS: DemoProduct[] = [
     categoria: "guantes",
     imagen: fotoNR1("guante-corte-negativo-latex-4mm", "Guante de arquero corte negativo en látex de 4 mm"),
     descripcion:
-      "Látex de 4 mm con corte negativo: la costura va por dentro, así el guante queda ajustado a la mano y el agarre se siente más directo.",
+      "Látex de 4 mm con corte negativo: la costura va por dentro, así el guante queda ajustado a la mano y el agarre se siente más directo." + OBSEQUIO_GUANTES,
     variantes: TALLAS_GUANTE,
     destacado: true,
   },
@@ -104,7 +115,7 @@ const NR1_PRODUCTOS: DemoProduct[] = [
     categoria: "guantes",
     imagen: fotoNR1("guante-corte-plano-entrenamiento", "Guante de arquero corte plano para entrenamiento"),
     descripcion:
-      "Corte plano en látex resistente, pensado para entrenar todos los días sin gastar el guante de partido.",
+      "Corte plano en látex resistente, pensado para entrenar todos los días sin gastar el guante de partido." + OBSEQUIO_GUANTES,
     variantes: TALLAS_GUANTE,
   },
   {
@@ -114,7 +125,7 @@ const NR1_PRODUCTOS: DemoProduct[] = [
     categoria: "guantes",
     imagen: fotoNR1("guante-hibrido-roll-finger-dedo-espina", "Guante híbrido roll finger con dedo espina"),
     descripcion:
-      "Roll finger en los laterales y dedo espina con varillas: sujeción de competencia y protección contra la hiperextensión.",
+      "Roll finger en los laterales y dedo espina con varillas: sujeción de competencia y protección contra la hiperextensión." + OBSEQUIO_GUANTES,
     variantes: TALLAS_GUANTE,
     destacado: true,
   },
@@ -127,7 +138,7 @@ const NR1_PRODUCTOS: DemoProduct[] = [
     categoria: "guantes",
     imagen: fotoNR1("guante-infantil-talla-5-velcro", "Guante de arquero infantil talla 5 con velcro ancho"),
     descripcion:
-      "Para arqueros en formación. El velcro ancho lo deja firme sin apretar la muñeca.",
+      "Para arqueros en formación. El velcro ancho lo deja firme sin apretar la muñeca." + OBSEQUIO_GUANTES,
   },
   {
     slug: "guante-portero-cancha-arena",
@@ -136,7 +147,7 @@ const NR1_PRODUCTOS: DemoProduct[] = [
     categoria: "guantes",
     imagen: fotoNR1("guante-portero-cancha-arena", "Guante de portero con palma reforzada para cancha de arena"),
     descripcion:
-      "Palma reforzada para superficies abrasivas. Aguanta la arena sin pelarse a las dos semanas.",
+      "Palma reforzada para superficies abrasivas. Aguanta la arena sin pelarse a las dos semanas." + OBSEQUIO_GUANTES,
     variantes: TALLAS_GUANTE,
   },
   {
@@ -257,7 +268,7 @@ export const DEMOS: Demo[] = [
     ],
     productos: NR1_PRODUCTOS,
     confianza: [
-      `Envío en ${NR1_CIUDAD}`,
+      "Envío a todo el país",
       "Pago contra entrega",
       "Atención por WhatsApp",
     ],
