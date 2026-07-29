@@ -16,7 +16,27 @@ import { formatCOP } from "@/lib/demos/format";
  *
  * Sin `"use client"`: lo usan el catálogo (árbol cliente) y el detalle (servidor).
  */
-export function PriceTag({ precio }: { precio: number | null }) {
+/**
+ * `size` es un prop explícito y no un `className`: las clases de tamaño internas
+ * y las que viniesen de afuera tienen el mismo peso, así que cuál gana lo decide
+ * el orden de la hoja generada y no el del atributo. Un `className` haría que el
+ * tamaño funcione o no según cómo Tailwind ordenó ese build.
+ *
+ * `md` es la tarjeta de la grilla; `lg` es el detalle, donde el precio es el
+ * segundo elemento más grande de la pantalla después del título.
+ */
+const TAMANOS = {
+  md: "text-[18px] md:text-[21px]",
+  lg: "text-[28px] md:text-[36px]",
+} as const;
+
+export function PriceTag({
+  precio,
+  size = "md",
+}: {
+  precio: number | null;
+  size?: keyof typeof TAMANOS;
+}) {
   if (precio === null) {
     return (
       // Barra de acento a la izquierda en vez de un recuadro: marca el bloque sin
@@ -33,7 +53,9 @@ export function PriceTag({ precio }: { precio: number | null }) {
   }
 
   return (
-    <p className="mt-auto pt-4 font-(family-name:--font-archivo) text-[18px] font-bold tracking-[-0.02em] text-[var(--texto)] md:text-[21px]">
+    <p
+      className={`mt-auto pt-4 font-(family-name:--font-archivo) font-bold tracking-[-0.02em] text-[var(--texto)] ${TAMANOS[size]}`}
+    >
       {formatCOP(precio)}
     </p>
   );
