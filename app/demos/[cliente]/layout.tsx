@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Archivo, Manrope, Space_Mono } from "next/font/google";
 import { notFound } from "next/navigation";
 import { CartButton } from "@/components/demos/CartButton";
+import { CartDrawer } from "@/components/demos/CartDrawer";
 import { CartProvider } from "@/components/demos/CartProvider";
 import { DemoBar } from "@/components/demos/DemoBar";
 import { StoreFooter } from "@/components/demos/StoreFooter";
@@ -142,6 +143,7 @@ export default async function DemoLayout({
           <CartButton />
         </StoreNav>
         <main className="flex-1">{children}</main>
+        <CartDrawer demo={demo} />
       </CartProvider>
       <StoreFooter demo={demo} />
     </div>

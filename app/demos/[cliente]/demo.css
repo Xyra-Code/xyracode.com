@@ -45,3 +45,22 @@
   outline: 2px solid var(--acento);
   outline-offset: 2px;
 }
+
+/* Entrada del panel del carrito. Solo entrada: el panel se desmonta al cerrar,
+   así que no hay animación de salida que valga la pena orquestar. Se aplican con
+   `motion-safe:` para respetar prefers-reduced-motion. */
+@keyframes demoFade {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes demoEntrar {
+  from {
+    transform: translateX(100%);
+  }
+}
+@keyframes demoSubir {
+  from {
+    transform: translateY(100%);
+  }
+}
