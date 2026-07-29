@@ -256,9 +256,8 @@ export const DEMOS: Demo[] = [
       { slug: "accesorios", nombre: "Accesorios" },
     ],
     productos: [
-      // 12 entradas. Nombres y precios de capturas/1c-catalogo.png.
-      // Tallas: guantes 6-11, indumentaria S/M/L/XL, accesorios sin variantes.
-      // "Bolso portaguantes con malla de secado" va con precio: null.
+      // Los 12 de la tabla de abajo. Datos representativos del handoff hasta
+      // que llegue el material real del cliente (ver Tarea 12).
     ],
     confianza: [
       "Envío en Villavicencio",
@@ -274,7 +273,42 @@ export function getDemo(slug: string): Demo | undefined {
 }
 ```
 
-- [ ] **Step 6: Exportar desde el barrel**
+- [ ] **Step 6: Cargar los 12 productos**
+
+De `capturas/1c-catalogo.png`. `slug` en kebab-case a partir del nombre. `imagen.src` es
+`/demos/guantes-nr1/<slug>.webp`, 800×800. Variantes: guantes `Talla` 6–11 · indumentaria
+`Talla` S/M/L/XL · accesorios sin variantes.
+
+| # | Nombre | Precio | Categoría | Variantes | Dest. |
+|---|---|---|---|---|---|
+| 1 | Guante corte negativo látex 4 mm | 149900 | guantes | Talla 6–11 | ✓ |
+| 2 | Guante corte plano para entrenamiento diario | 89900 | guantes | Talla 6–11 | |
+| 3 | Guante híbrido roll finger con dedo espina para partido de competencia | 189000 | guantes | Talla 6–11 | ✓ |
+| 4 | Guante infantil talla 5 con velcro ancho | 64900 | guantes | — | |
+| 5 | Guante de portero para cancha de arena | 74000 | guantes | Talla 6–11 | |
+| 6 | Buzo de arquero manga larga con coderas | 119000 | indumentaria | Talla S–XL | ✓ |
+| 7 | Pantaloneta acolchada de arquero | 79900 | indumentaria | Talla S–XL | |
+| 8 | Medias de compresión hasta la rodilla | 34900 | indumentaria | Talla S–XL | |
+| 9 | Rodilleras con refuerzo lateral | 72000 | indumentaria | Talla S–XL | |
+| 10 | Bolso portaguantes con malla de secado | **null** | accesorios | — | |
+| 11 | Espuma limpiadora para látex 250 ml | 28000 | accesorios | — | ✓ |
+| 12 | Vendaje elástico para dedos · 2 rollos | 18500 | accesorios | — | |
+
+El #4 no lleva variantes a propósito: la talla ya está en el nombre, y sirve como caso de
+prueba del estado "producto sin variantes". El #10 con `precio: null` es el caso "Consultar
+por WhatsApp". Descripción corta de una o dos frases por producto.
+
+- [ ] **Step 7: Generar los placeholders de imagen**
+
+Las fotos reales las aporta el cliente (Tarea 12), pero **sin archivos las tareas 5 a 11 no se
+pueden ver ni revisar**. Generar con Pillow, que ya está disponible: 12 cuadrados de 800×800 y
+un hero de 1600×900, en el `--superficie-foto` de NR1 (`#202124`), con el nombre del producto
+centrado en gris claro. Guardar en `public/demos/guantes-nr1/<slug>.webp` y `hero.webp`.
+
+Así el layout es revisable desde la primera tarea, y reemplazar por las fotos de Nelson es
+sobrescribir archivos sin tocar código.
+
+- [ ] **Step 8: Exportar desde el barrel**
 
 En `lib/content/index.ts`, agregar al final de la lista de exports:
 
@@ -282,16 +316,16 @@ En `lib/content/index.ts`, agregar al final de la lista de exports:
 export * from "./demos";
 ```
 
-- [ ] **Step 7: Verificar tipos y tests**
+- [ ] **Step 9: Verificar tipos y tests**
 
 Run: `npx tsc --noEmit && npm test`
 Expected: sin errores de tipo; los tests existentes siguen pasando.
 
-- [ ] **Step 8: Commit**
+- [ ] **Step 10: Commit**
 
 ```bash
-git add lib/content/demos.ts lib/content/index.ts lib/demos/format.ts lib/demos/format.test.ts
-git commit -m "feat(demos): modelo de datos de las demos y formato de pesos"
+git add lib/content/demos.ts lib/content/index.ts lib/demos/format.ts lib/demos/format.test.ts public/demos
+git commit -m "feat(demos): modelo de datos, catalogo de nr1 y formato de pesos"
 ```
 
 ---
@@ -1212,26 +1246,16 @@ git commit -m "feat(demos): detalle de producto con talla y cantidad"
 
 ---
 
-## Task 12: Imágenes y verificación final
+## Task 12: Integración y verificación final
 
 **Files:**
-- Create: `public/demos/guantes-nr1/*.webp` (12 productos + hero)
 - Modify: `app/sitemap.ts` (solo un comentario)
 
-- [ ] **Step 1: Generar placeholders para poder ver la demo**
+Los 12 productos y los placeholders de imagen ya entraron en la Tarea 1: sin ellos las tareas
+5 a 11 no tendrían nada que renderizar y `generateStaticParams` del detalle generaría cero
+páginas.
 
-Las fotos reales salen del Instagram del cliente y todavía no están (spec §8). Generar 12
-cuadrados de 800×800 y un hero de 1600×900 en el color `--superficie-foto` de NR1 (`#202124`),
-con el nombre del producto centrado, para que el layout sea revisable y reemplazar las reales
-sea sobrescribir archivos. Script con Pillow, que ya está disponible.
-
-- [ ] **Step 2: Cargar los 12 productos reales en DEMOS**
-
-Completar el array `productos` de `lib/content/demos.ts` con los 12 nombres, precios,
-categorías, descripciones y variantes. **Precio ausente → `null`, nunca inventado.**
-"Bolso portaguantes con malla de secado" va con `precio: null`.
-
-- [ ] **Step 3: Dejar constancia en el sitemap**
+- [ ] **Step 1: Dejar constancia en el sitemap**
 
 En el comentario de cabecera de `app/sitemap.ts`, agregar una línea:
 
@@ -1240,7 +1264,7 @@ En el comentario de cabecera de `app/sitemap.ts`, agregar una línea:
 // van noindex y no deben aparecer en el sitemap.
 ```
 
-- [ ] **Step 4: Verificación completa**
+- [ ] **Step 2: Verificación completa**
 
 ```bash
 npm run lint && npm test && npm run build
@@ -1249,7 +1273,7 @@ npm run lint && npm test && npm run build
 Expected: sin errores. En la lista de rutas: `/demos/[cliente]`,
 `/demos/[cliente]/catalogo` y `/demos/[cliente]/p/[producto]` con sus 12 slugs.
 
-- [ ] **Step 5: Verificar el aislamiento**
+- [ ] **Step 3: Verificar el aislamiento**
 
 ```bash
 grep -o 'name="robots" content="[^"]*"' .next/server/app/demos/guantes-nr1.html
@@ -1260,12 +1284,23 @@ grep -c "xyracode.com/#organization" .next/server/app/demos/guantes-nr1.html
 Expected: `noindex, nofollow` · `0` ocurrencias de demos en el sitemap · el `@graph` de
 XyraCode **todavía aparece** (1 o más) — eso lo resuelve la Tarea 13.
 
-- [ ] **Step 6: Commit**
+- [ ] **Step 4: Commit**
 
 ```bash
-git add public/demos lib/content/demos.ts app/sitemap.ts
-git commit -m "feat(demos): catalogo de guantes nr1 e imagenes de la tienda"
+git add app/sitemap.ts
+git commit -m "feat(demos): deja constancia de que las demos quedan fuera del sitemap"
 ```
+
+### Pendiente de material del cliente (no bloquea el código)
+
+Antes de mandarle el link a Nelson, y **solo** cuando llegue su material:
+
+1. Reemplazar los 14 placeholders de `public/demos/guantes-nr1/` por las fotos reales, mismos
+   nombres de archivo y mismas dimensiones. Cero cambios de código.
+2. Ajustar nombres, precios y descripciones en `DEMOS`. **Precio ausente → `null`**, nunca
+   inventado.
+3. Confirmar los supuestos abiertos del spec §8: nombre comercial (`Guantes NR1` vs el `N1R`
+   del logo), **ciudad y cobertura de envío**, y que `573044962704` es la línea del negocio.
 
 ---
 
