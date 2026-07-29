@@ -68,20 +68,23 @@ export default function ProyectosIndex() {
           aria-labelledby="proyectos-title"
           className="px-6 pt-[72px] pb-14 md:px-16"
         >
-          <Reveal className="mx-auto flex max-w-300 flex-col gap-4">
+          {/* Solo el h1 va centrado sobre la columna; eyebrow y prosa quedan
+              alineados a la izquierda, con la prosa a max-w-205 (más ancha que
+              la columna de /servicios, sin llegar al ancho total del hub). */}
+          <Reveal className="mx-auto flex max-w-265 flex-col gap-4">
             <Eyebrow as="p" className="text-teal-300">
               Proyectos
             </Eyebrow>
             <h1
               id="proyectos-title"
-              className="text-[40px] leading-[1.05] font-extrabold tracking-[-0.03em] md:text-[52px]"
+              className="text-center text-[40px] leading-[1.05] font-extrabold tracking-[-0.03em] md:text-[52px]"
             >
               Trabajo real, en producción
             </h1>
-            <p className="max-w-160 text-[19px] leading-[1.6] text-[rgba(226,247,242,0.72)]">
+            <p className="max-w-265 text-[19px] leading-[1.6] text-[rgba(226,247,242,0.72)]">
               {PROJECTS_SEO.description}
             </p>
-            <div className="mt-2 flex max-w-160 flex-col gap-4">
+            <div className="mt-2 flex max-w-265 flex-col gap-4">
               {PROJECTS_INTRO.paragraphs.map((paragraph) => (
                 <p
                   key={paragraph}
