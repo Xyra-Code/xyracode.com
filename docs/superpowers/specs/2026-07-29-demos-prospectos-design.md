@@ -19,7 +19,7 @@ y cambiando cuatro variables de color.
 
 | Decisión | Razón |
 |---|---|
-| Ruta en el dominio de la agencia (`/demos/[cliente]`), no subdominio | Reusa el repo, el deploy y `lib/`. Un subdominio aparte exigía proyecto Vercel y repo nuevos sin beneficio: la demo va `noindex`, así que el aislamiento por dominio no compra nada. |
+| Ruta en el dominio de la agencia (`/demos/[cliente]`), no subdominio | Reusa el repo, el deploy y `lib/`. Un subdominio aparte exigía un proyecto de hosting y un repo nuevos sin beneficio: la demo va `noindex`, así que el aislamiento por dominio no compra nada. |
 | `SiteChrome` en las 9 páginas del sitio, en vez de route groups | Ver §4. Consigue el mismo aislamiento con 18 líneas en vez de mover 9 carpetas, y sin el riesgo abierto de herencia de metadata files. |
 | Marca del cliente al 100% + franja discreta de crédito | El prospecto tiene que proyectarse como dueño. El crédito visible protege la autoría sin robar protagonismo. |
 | Identidad diseñada de cero, no copiada de su Instagram | La identidad **es** el producto que se vende. Replicar su estética actual le muestra lo que ya tiene. |
@@ -354,6 +354,23 @@ indexable por enlaces externos. Crawl permitido + `noindex` es la combinación c
 agrega una línea al comentario de cabecera dejando constancia de que las demos quedan fuera
 a propósito.
 
+**`robots` no alcanza: hay que cortar también la herencia de metadata.** El layout raíz define
+`title.template`, `description`, `alternates.canonical: "/"`, `openGraph` y `twitter`, y Next
+fusiona la metadata **superficialmente** de la raíz hacia abajo: toda clave que la demo no
+redefina se hereda. Sin esto, cada URL de demo se sirve con el título `| XyraCode`, un
+`canonical` a la home de la agencia y el `og:site_name` de XyraCode. El layout de la demo usa
+`generateMetadata` y declara `robots`, `title` (con `template` propio, para que las páginas
+hijas no caigan en el de la raíz), `description`, `alternates` autorreferencial, `openGraph` y
+`twitter`.
+
+**Superficie rastreable — umbral anotado.** Cada demo agrega 14 páginas y hasta ~126 URLs de
+`/_next/image` (9 variantes de `srcset` por imagen, medidas en el HTML de producción). Con las
+12 URLs indexables actuales eso es irrelevante: el presupuesto de rastreo pesa en sitios de
+decenas de miles de URLs, y estas no están enlazadas ni en el sitemap. **A partir de ~20 demos
+publicadas conviene revisarlo**, y la salida entonces **no** es `Disallow: /demos` en
+`robots.txt` —taparía el `noindex`— sino `X-Robots-Tag: noindex` por cabecera para la rama, que
+permite el rastreo y expresa lo mismo.
+
 ### 5.9 Assets — `public/demos/guantes-nr1/`
 
 | archivo | campo | estado | uso |
@@ -397,6 +414,10 @@ Colocados junto al archivo que prueban, como
 
 Fase 1 no bloquea a la 2: son independientes. Se hace primero solo para que la demo nazca
 limpia desde el primer render local.
+
+**El hosting es Netlify, no Vercel.** Verificado el 2026-07-29 por la cabecera
+`Server: Netlify` en producción. El README del proyecto dice Vercel y está equivocado. Importa
+para dónde se cargan las variables de entorno y dónde se revisa el deploy preview de la rama.
 
 ## 8. Supuestos y decisiones abiertas
 
