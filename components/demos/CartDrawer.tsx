@@ -3,7 +3,7 @@
 import { ShoppingBag, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Demo } from "@/lib/content";
 import { formatCOP } from "@/lib/demos/format";
 import { buildOrderHref } from "@/lib/demos/order";
@@ -127,6 +127,12 @@ export function CartDrawer({ demo }: { demo: Demo }) {
           </div>
         ) : (
           <>
+            {/* Arriba de la lista y no en el pie: alejado de "Ir a pagar", que es
+                el botón grande de acento y el que se toca sin mirar. */}
+            <div className="flex justify-end border-b border-[var(--borde)] px-4 py-2 md:px-6">
+              <VaciarPedido />
+            </div>
+
             <ul className="flex-1 overflow-y-auto">
               {lineas.map((linea) => (
                 <li
@@ -220,6 +226,61 @@ export function CartDrawer({ demo }: { demo: Demo }) {
           </>
         )}
       </div>
+    </div>
+  );
+}
+
+/** Clases comunes de los tres botones: texto chico, mono, con área táctil. */
+const VACIAR_BASE =
+  "min-h-9 rounded-[4px] px-1.5 font-(family-name:--font-mono-demo) text-[12px] transition-colors";
+
+/**
+ * Vaciar el pedido, en dos pasos: es la única acción del panel que no se deshace.
+ * Quitar un ítem se vuelve a agregar de memoria, un pedido de ocho líneas no.
+ *
+ * Vive en su propio componente por el estado de confirmación. CartDrawer devuelve
+ * `null` mientras el panel está cerrado, así que este subárbol se desmonta al
+ * cerrar y el "¿Seguro?" no queda colgado esperando el próximo clic. Resetearlo
+ * desde el componente de arriba pediría un efecto sobre `abierto`, que es
+ * justamente el `set-state-in-effect` que este código evita en todas partes.
+ */
+function VaciarPedido() {
+  const { vaciar } = useCart();
+  const [confirmando, setConfirmando] = useState(false);
+
+  if (!confirmando) {
+    return (
+      <button
+        type="button"
+        onClick={() => setConfirmando(true)}
+        className={`${VACIAR_BASE} text-[var(--atenuado-suave)] hover:text-[var(--texto)]`}
+      >
+        Vaciar el pedido
+      </button>
+    );
+  }
+
+  return (
+    <div className="flex items-center gap-1">
+      <span className="font-(family-name:--font-mono-demo) text-[12px] text-[var(--atenuado)]">
+        ¿Vaciar todo?
+      </span>
+      {/* Confirmar no necesita apagar `confirmando`: con el carrito en cero el
+          panel pasa al estado vacío y este componente se desmonta. */}
+      <button
+        type="button"
+        onClick={vaciar}
+        className={`${VACIAR_BASE} font-medium text-[var(--texto)] underline decoration-[var(--borde-fuerte)] underline-offset-2 hover:decoration-[var(--acento)]`}
+      >
+        Sí, vaciar
+      </button>
+      <button
+        type="button"
+        onClick={() => setConfirmando(false)}
+        className={`${VACIAR_BASE} text-[var(--atenuado-suave)] hover:text-[var(--texto)]`}
+      >
+        Cancelar
+      </button>
     </div>
   );
 }
