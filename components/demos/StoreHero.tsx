@@ -2,6 +2,7 @@ import Image from "next/image";
 import type { Demo } from "@/lib/content";
 import { buildOrderHref } from "@/lib/demos/order";
 import { StoreButton } from "./StoreButton";
+import { WhatsAppMark } from "./WhatsAppMark";
 
 /**
  * Hero de la home: dos columnas en desktop (texto / imagen 16:9) y una sola
@@ -19,13 +20,6 @@ import { StoreButton } from "./StoreButton";
 export function StoreHero({ demo }: { demo: Demo }) {
   const { negocio, hero } = demo;
 
-  /**
-   * El kicker no es un campo del modelo: se deriva de `tagline` + `ciudad`, que
-   * es lo que el handoff muestra ahí (rubro · zona). Agregar `hero.kicker` sería
-   * un campo más que llenar por cliente para repetir datos que ya están.
-   */
-  const kicker = `${negocio.tagline} · ${negocio.ciudad}`;
-
   const whatsapp = buildOrderHref(
     negocio.whatsapp,
     `Hola ${negocio.nombre}, vi su tienda y quiero preguntar por sus productos.`,
@@ -41,8 +35,18 @@ export function StoreHero({ demo }: { demo: Demo }) {
     */
     <section className="mx-auto grid max-w-[1240px] gap-6 px-4 py-9 md:grid-cols-2 md:gap-11 md:px-6 md:py-14">
       <div className="md:col-start-1 md:row-start-1">
+        {/*
+          El kicker es el LEMA, no el tagline: "Rendimiento. Control. Confianza."
+          es lo que encabeza sus nueve piezas de producto, y verlo acá es lo que le
+          hace reconocer la tienda como suya. El tagline ("El inoxidable") es quién
+          es, y vive en el logo y en el <title>. Si un cliente no tiene lema, cae al
+          tagline en vez de dejar el hueco.
+
+          Antes decía `tagline · ciudad` (rubro · zona, como el handoff), pero la
+          ciudad no estaba confirmada con el cliente y salió de la demo.
+        */}
         <p className="font-(family-name:--font-mono-demo) text-[11px] tracking-[0.16em] text-[var(--acento)] uppercase md:text-[12px]">
-          {kicker}
+          {negocio.lema ?? negocio.tagline}
         </p>
 
         {/*
@@ -88,7 +92,8 @@ export function StoreHero({ demo }: { demo: Demo }) {
           external
           className="w-full md:w-auto"
         >
-          Escribir por WhatsApp
+          Escribir por{" "}
+          <WhatsAppMark size={17} />
         </StoreButton>
       </div>
     </section>
