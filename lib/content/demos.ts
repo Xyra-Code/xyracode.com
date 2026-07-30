@@ -75,6 +75,11 @@ export type DemoProduct = {
   descripcion: string;
   /** Ausente = producto sin variantes; el carrito lo muestra como "Única". */
   variantes?: { label: string; opciones: DemoVariante[] };
+  /**
+   * Candidato a "Los que más salen" en la home, que muestra **una sola fila de
+   * 4**: marcar más de cuatro no agrega una segunda fila, la home corta en el
+   * cuarto en el orden de este arreglo.
+   */
   destacado?: boolean;
   /**
    * Distintivo corto sobre la foto, p. ej. "Edición Pro". Sale de las piezas del
@@ -433,7 +438,6 @@ const NR1_PRODUCTOS: DemoProduct[] = [
     descripcion:
       "Manga larga con acolchado en los codos, en tela que respira para entrenar con calor.",
     variantes: tallasRopa(119000),
-    destacado: true,
   },
   {
     slug: "pantaloneta-acolchada-arquero",
@@ -464,12 +468,16 @@ const NR1_PRODUCTOS: DemoProduct[] = [
     variantes: tallasRopa(72000),
   },
   {
-    // `precio: null` explícito → la tarjeta muestra "Consultar por [logo]" y el
-    // CTA va directo al chat. Este producto no entra al carrito, y es el único
-    // caso del catálogo que ejercita ese estado.
+    // Sin variantes: el precio es único y va en `precio`.
+    //
+    // Con este precio publicado, NINGÚN producto del catálogo queda en
+    // `precio: null`, así que el estado "Consultar" ya no se ve con datos
+    // reales. Lo cubre un producto agregado en el test de la grilla
+    // (`conProductoSinPrecio` en `FilterableCatalog.test.tsx`) — si mañana
+    // vuelve a haber una referencia sin precio, ese doble deja de hacer falta.
     slug: "bolso-portaguantes-malla-secado",
     nombre: "Bolso portaguantes con malla de secado",
-    precio: null,
+    precio: 169900,
     categoria: "accesorios",
     imagen: fotoNR1(
       "bolso-portaguantes-malla-secado",
@@ -490,7 +498,6 @@ const NR1_PRODUCTOS: DemoProduct[] = [
     ),
     descripcion:
       "Limpia el látex sin resecarlo. Un pulverizado después de cada partido y el agarre dura más.",
-    destacado: true,
   },
   {
     slug: "vendaje-elastico-dedos-2-rollos",
@@ -568,11 +575,31 @@ export const DEMOS: Demo[] = [
       */
       subtitulo:
         "Nueve colores, tallas 5 a 11, cada par en su estuche con visor. Ideales para entrenamiento y partidos, con envío a todo el país. También indumentaria y accesorios de portero.",
+      /*
+        Foto real que entregó el cliente, 2:1. El slot del hero es 16:9, así que
+        `object-cover` recorta ~6% por lado y el arquero queda centrado igual; no
+        se recorta nada en vertical.
+
+        **1900×950 es un upscale ×2 de los 950×475 que entregó** (lanczos3 +
+        unsharp), y no invento de resolución: en un display 2x el slot pide 1240
+        px de ancho y `object-cover` solo usa 844 de los 950, así que el navegador
+        estiraba ×1.47 con su propio filtro y se veía blanda. Sirviéndole píxeles
+        ya interpolados y enfocados, la reducción la hace Next y el resultado se
+        lee más limpio — verificado comparando ambas a 1240×698.
+
+        Esto es un parche: lo que hace falta es el archivo grande del cliente. Los
+        950 px son una copia web, cualquier celular da 3000+. Cuando lo manden,
+        reemplazar y borrar este párrafo.
+
+        El alt NO dice "guantes NR1": en la foto los guantes son de otra marca
+        —se le lee el logo—, y afirmarlo sería describir algo que la imagen no
+        muestra. Describe lo que se ve y ya.
+      */
       imagen: {
         src: "/demos/guantes-nr1/hero.webp",
-        alt: "Arquero atajando un balón con guantes NR1",
-        width: 1600,
-        height: 900,
+        alt: "Arquero de rodillas asegurando el balón contra el pecho en la cancha",
+        width: 1900,
+        height: 950,
       },
     },
     categorias: [
