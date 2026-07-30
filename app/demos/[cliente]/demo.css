@@ -1,0 +1,98 @@
+/*
+ * Tokens de la demo, en dos capas.
+ *
+ * La capa de identidad son 4 variables (--fondo, --texto, --acento,
+ * --acento-texto) y las escribe el layout desde `demo.tema`. Los 9 tokens de
+ * sistema de acá abajo se DERIVAN de esas cuatro con color-mix(), así agregar un
+ * cliente nuevo es literalmente cuatro valores hex y ningún CSS.
+ *
+ * Los hex de referencia para Guantes NR1 están en el handoff
+ * (handoff/demos/design_handoff_demos_tienda-nr1/README.md, "Capa de sistema").
+ * color-mix en srgb puede diferir ~2/255 por canal de esos valores: se acepta.
+ * Si alguna se ve mal —sobre todo en un cliente de fondo claro— se ajusta el
+ * porcentaje, NUNCA se hardcodea el hex: eso rompería la reusabilidad.
+ */
+.demo-root {
+  --superficie: color-mix(in srgb, var(--texto) 6%, var(--fondo));
+  --superficie-foto: color-mix(in srgb, var(--texto) 9%, var(--fondo));
+  --borde: color-mix(in srgb, var(--texto) 12%, var(--fondo));
+  --borde-fuerte: color-mix(in srgb, var(--texto) 30%, var(--fondo));
+  --cuerpo: color-mix(in srgb, var(--fondo) 25%, var(--texto));
+  --atenuado: color-mix(in srgb, var(--fondo) 58%, var(--texto));
+  --atenuado-suave: color-mix(in srgb, var(--fondo) 72%, var(--texto));
+  --acento-suave: color-mix(in srgb, var(--fondo) 88%, var(--acento));
+
+  /*
+   * Texto secundario SOBRE un relleno de acento (hoy: el numeral y el conteo de la
+   * tarjeta de categoría destacada).
+   *
+   * La base es `--acento-texto` y NO `--texto`, y ahí estaba el bug: `--texto` es
+   * el color de la tienda sobre `--fondo`, así que en un cliente de fondo oscuro
+   * es casi blanco y este token salía MÁS CLARO que el acento que debía oscurecer.
+   * Medido en Guantes NR1: #DAF297 sobre #C6F24E, contraste 1.06:1 — el conteo era
+   * invisible.
+   *
+   * `--acento-texto` es, por definición, el color que se lee sobre el acento (lo
+   * declara cada cliente en `demo.tema`), así que mezclarlo con el acento da un
+   * apagado que funciona igual en paletas claras y oscuras.
+   *
+   * El 65% no es redondo: es el mínimo medido que pasa AA para texto chico. Al
+   * 55% el contraste daba 3.99:1 y el conteo va en mono a 11px, así que necesita
+   * 4.5. Al 65% da 5.5:1, con margen y sin dejar de leerse como secundario —el
+   * texto principal de la tarjeta, `--acento-texto` puro, está en ~15:1.
+   */
+  --acento-profundo: color-mix(in srgb, var(--acento-texto) 65%, var(--acento));
+
+  /* El tema del cliente INVERTIDO. Lo usa lo que le habla al dueño del negocio y
+     no al comprador —hoy la "Nota de XyraCode" del checkout—: al invertirse queda
+     claro sobre una tienda oscura y oscuro sobre una clara, sin un caso especial
+     por cliente. Un bloque de color constante desaparecería en los clientes de
+     fondo oscuro.
+
+     Se llaman `franja` por la barra de demo que los estrenó; ya no está, pero el
+     nombre quedó y los tres siguen en uso. */
+  --franja-fondo: var(--texto);
+  --franja-texto: color-mix(in srgb, var(--texto) 30%, var(--fondo));
+  --franja-borde: color-mix(in srgb, var(--fondo) 22%, var(--texto));
+
+  background: var(--fondo);
+  color: var(--texto);
+
+  /* Compensa el nav pegajoso (h-13 = 52px en móvil) al navegar por anclas, que es
+     justo lo que hacen los enlaces de categoría del nav y del footer. */
+  scroll-padding-top: 52px;
+}
+
+/* El nav crece a `md:h-18` = 72px, así que la compensación tiene que crecer con
+   él: con los 52px de móvil el ancla caía 20px por debajo de la barra. */
+@media (min-width: 48rem) {
+  .demo-root {
+    scroll-padding-top: 72px;
+  }
+}
+
+/* Foco de teclado en toda la demo: nunca el anillo azul por defecto del
+   navegador, que sobre estas paletas se ve como un error de diseño. */
+.demo-root :focus-visible {
+  outline: 2px solid var(--acento);
+  outline-offset: 2px;
+}
+
+/* Entrada del panel del carrito. Solo entrada: el panel se desmonta al cerrar,
+   así que no hay animación de salida que valga la pena orquestar. Se aplican con
+   `motion-safe:` para respetar prefers-reduced-motion. */
+@keyframes demoFade {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes demoEntrar {
+  from {
+    transform: translateX(100%);
+  }
+}
+@keyframes demoSubir {
+  from {
+    transform: translateY(100%);
+  }
+}

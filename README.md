@@ -21,7 +21,7 @@ El form de `#contacto` envía por **Resend** vía Server Action ([app/actions/co
 2. Crear cuenta en <https://resend.com> y una API key en <https://resend.com/api-keys> → `RESEND_API_KEY`.
 3. Verificar el dominio `xyracode.com` en Resend (*Domains → Add domain*): agregar los registros DNS que muestra (SPF + DKIM) en Cloudflare. Una vez verificado, dejar `CONTACT_FROM=XyraCode Web <web@xyracode.com>`.
 
-Sin verificar el dominio se puede probar con `CONTACT_FROM=onboarding@resend.dev` (Resend solo permite enviar al email de registro de la cuenta en ese modo). Sin `RESEND_API_KEY`, el form funciona igual en desarrollo: valida y loguea el lead en la consola del servidor. En producción (Vercel), cargar las mismas variables en *Project Settings → Environment Variables*.
+Sin verificar el dominio se puede probar con `CONTACT_FROM=onboarding@resend.dev` (Resend solo permite enviar al email de registro de la cuenta en ese modo). Sin `RESEND_API_KEY`, el form funciona igual en desarrollo: valida y loguea el lead en la consola del servidor. En producción (**Netlify** — verificado por la cabecera `Server`), cargar las mismas variables en *Site configuration → Environment variables*.
 
 **Agenda**: el botón "Agendar llamada" usa `CONTACT.calLink` de [lib/content.ts](lib/content.ts) — pegar ahí el link de Cal.com cuando exista la cuenta (mientras sea `null` cae al `mailto:`). Las URLs de redes del footer también viven en `SOCIALS` dentro de ese archivo.
 
