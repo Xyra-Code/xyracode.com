@@ -6,7 +6,7 @@ import { ProductGrid } from "@/components/demos/ProductGrid";
 import { StoreFounder } from "@/components/demos/StoreFounder";
 import { StoreHero } from "@/components/demos/StoreHero";
 import { TrustStrip } from "@/components/demos/TrustStrip";
-import { getDemo } from "@/lib/content";
+import { getDemo } from "@/lib/content/demos";
 
 /**
  * Encabezado de sección: título en Archivo, enlace opcional a la derecha y una
@@ -26,14 +26,24 @@ function EncabezadoSeccion({
       {/*
         Caja normal en el JSX y `uppercase` por CSS: en mayúscula sostenida
         algunos lectores de pantalla deletrean letra por letra.
+
+        `min-w-0` porque el enlace de al lado es `shrink-0`: sin él, un título
+        largo en 320px empujaría la fila y desbordaría en lugar de partirse.
       */}
-      <h2 className="font-(family-name:--font-archivo) text-[22px] leading-none font-bold tracking-[-0.02em] text-[var(--texto)] uppercase md:text-[26px]">
+      <h2 className="font-(family-name:--font-archivo) min-w-0 text-[22px] leading-none font-bold tracking-[-0.02em] text-[var(--texto)] uppercase md:text-[26px]">
         {titulo}
       </h2>
       {enlace ? (
+        /*
+          `min-h-11` con `-my-3` que lo compensa: el enlace medía 87×17 y era el
+          objetivo táctil más chico de la home, además de ser el único paso de los
+          destacados al catálogo completo. El margen negativo devuelve al flujo los
+          24px que agrega el alto mínimo, así que el área táctil llega a 44px sin
+          separar el título de su regla ni romper la alineación por línea base.
+        */
         <Link
           href={enlace.href}
-          className="flex shrink-0 items-center gap-1.5 font-(family-name:--font-mono-demo) text-[11px] text-[var(--acento)] underline-offset-4 hover:underline md:text-[12px]"
+          className="-my-3 flex min-h-11 shrink-0 items-center gap-1.5 font-(family-name:--font-mono-demo) text-[11px] text-[var(--acento)] underline-offset-4 hover:underline md:text-[12px]"
         >
           {enlace.label}
           <ArrowRight aria-hidden="true" size={14} strokeWidth={1.75} />
@@ -59,7 +69,12 @@ export default async function DemoHome({
   if (!demo) notFound();
 
   const catalogo = `/demos/${demo.slug}/catalogo`;
-  const destacados = demo.productos.filter((producto) => producto.destacado);
+  // `slice(0, 4)` porque la sección es **una fila y nada más**: la grilla va a 4
+  // columnas arriba de 768px, así que un quinto destacado abriría una segunda
+  // fila con una tarjeta sola y tres huecos. El corte vive acá y no en el modelo
+  // para que marcar un `destacado` de más no rompa la home (prototipo del
+  // handoff, `Demo-Tienda-Palomita.dc.html`: `filter(p => p.dest).slice(0, 4)`).
+  const destacados = demo.productos.filter((producto) => producto.destacado).slice(0, 4);
 
   return (
     <>

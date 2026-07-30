@@ -1,6 +1,6 @@
 import { act, render, screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it } from "vitest";
-import { getDemo, type Demo } from "@/lib/content";
+import { getDemo, type Demo } from "@/lib/content/demos";
 import { resetCartStores } from "@/lib/demos/cart-store";
 import { CartProvider } from "./CartProvider";
 import { FilterableCatalog } from "./FilterableCatalog";
@@ -22,6 +22,32 @@ const demo = getDemo("guantes-nr1") as Demo;
 const conCategoriaVacia: Demo = {
   ...demo,
   categorias: [...demo.categorias, { slug: "promociones", nombre: "Promociones" }],
+};
+
+/**
+ * Desde que el bolso tiene precio publicado, ningún producto del catálogo real
+ * está en `precio: null`, así que el estado "Consultar" tampoco se puede ver con
+ * los datos reales. Mismo criterio que `conCategoriaVacia`: se AGREGA una
+ * referencia sin precio en vez de quitarle el precio a una existente, para que
+ * los conteos del resto del archivo sigan valiendo.
+ */
+const conProductoSinPrecio: Demo = {
+  ...demo,
+  productos: [
+    ...demo.productos,
+    {
+      slug: "protector-cuello-arquero",
+      nombre: "Protector de cuello para arquero",
+      // Sin `variantes` a propósito: con opciones de talla el precio saldría de
+      // ahí y `precioDeTarjeta()` nunca llegaría al caso `null`.
+      precio: null,
+      categoria: "accesorios",
+      // Foto prestada de otra referencia: lo que se ejercita acá es el precio,
+      // no la imagen, y un `src` inventado sería un 404 en el navegador.
+      imagen: demo.productos[0].imagen,
+      descripcion: "Referencia sin precio publicado, para ejercitar 'Consultar'.",
+    },
+  ],
 };
 
 function montar(datos: Demo = demo) {
@@ -193,10 +219,20 @@ describe("FilterableCatalog", () => {
 
     // Una sola cifra, sin rango.
     expect(screen.getByText("$ 119.000")).toBeInTheDocument();
+  });
 
-    // Y el accesorio sin precio publicado dice "Consultar" a secas: la consulta
-    // por WhatsApp se hace en su detalle, no desde la grilla.
+  it("una referencia sin precio publicado dice 'Consultar' y no ofrece agregar", () => {
+    // El catálogo real ya no tiene el caso, así que va con el producto agregado.
+    // "Consultar" a secas y no "Consultar por [logo]": la consulta por WhatsApp
+    // se hace en el detalle, no desde la grilla.
+    montar(conProductoSinPrecio);
+    clic(chip("Accesorios"));
+
     expect(screen.getByText("Consultar")).toBeInTheDocument();
+    // Sin precio no hay nada que agregar: su CTA es el detalle a secas, y los
+    // tres accesorios con precio conservan el suyo.
+    expect(screen.getByRole("link", { name: /ver producto/i })).toBeInTheDocument();
+    expect(screen.getAllByRole("link", { name: /^agregar$/i })).toHaveLength(3);
   });
 
   it("el CTA de un guante lleva a elegir talla; el de un precio único agrega", () => {
@@ -210,10 +246,10 @@ describe("FilterableCatalog", () => {
     expect(elegir[0].getAttribute("href")).toContain("/demos/guantes-nr1/p/");
     expect(screen.queryByRole("link", { name: /^agregar$/i })).not.toBeInTheDocument();
 
-    // En accesorios, con precio único, el agregado directo sigue existiendo: son
-    // dos de los tres (el tercero no tiene precio publicado).
+    // En accesorios el precio es único y no depende de la talla, así que el
+    // agregado directo desde la grilla sigue existiendo: los tres lo tienen.
     clic(chip("Accesorios"));
     expect(screen.queryAllByRole("link", { name: /elegir talla/i })).toHaveLength(0);
-    expect(screen.getAllByRole("link", { name: /^agregar$/i })).toHaveLength(2);
+    expect(screen.getAllByRole("link", { name: /^agregar$/i })).toHaveLength(3);
   });
 });
