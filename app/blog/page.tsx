@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { CARD_ART } from "@/components/content/ArticleArt";
+import { SiteChrome } from "@/components/sections/SiteChrome";
 import { renderInline } from "@/components/content/InlineText";
 import { Footer } from "@/components/sections/Footer";
 import { Navbar } from "@/components/sections/Navbar";
@@ -294,6 +295,7 @@ export default function BlogIndex() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <SiteChrome />
     </>
   );
 }

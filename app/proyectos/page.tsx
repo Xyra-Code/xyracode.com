@@ -7,6 +7,7 @@ import { Navbar } from "@/components/sections/Navbar";
 import { Chip } from "@/components/ui/Chip";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Reveal } from "@/components/ui/Reveal";
+import { SiteChrome } from "@/components/sections/SiteChrome";
 import { PROJECTS, PROJECTS_INTRO, PROJECTS_SEO } from "@/lib/content";
 import { breadcrumbLd } from "@/lib/jsonld";
 import { SEO } from "@/lib/seo";
@@ -221,6 +222,7 @@ export default function ProyectosIndex() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <SiteChrome />
     </>
   );
 }

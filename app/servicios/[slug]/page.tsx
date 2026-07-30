@@ -9,6 +9,7 @@ import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { Button } from "@/components/ui/Button";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Reveal } from "@/components/ui/Reveal";
+import { SiteChrome } from "@/components/sections/SiteChrome";
 import { SERVICE_PAGES, type ServicePage } from "@/lib/content";
 import { breadcrumbLd, faqLd } from "@/lib/jsonld";
 import { SEO } from "@/lib/seo";
@@ -248,6 +249,7 @@ export default async function ServicioPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <SiteChrome />
     </>
   );
 }

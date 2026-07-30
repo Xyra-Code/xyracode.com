@@ -8,6 +8,7 @@ import { Navbar } from "@/components/sections/Navbar";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Reveal } from "@/components/ui/Reveal";
+import { SiteChrome } from "@/components/sections/SiteChrome";
 import { BLOG_POSTS, FOUNDER } from "@/lib/content";
 import { breadcrumbLd, faqLd } from "@/lib/jsonld";
 import { SEO } from "@/lib/seo";
@@ -208,6 +209,7 @@ export default async function ArticuloPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <SiteChrome />
     </>
   );
 }
