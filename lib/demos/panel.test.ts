@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { Demo, DemoProduct } from "@/lib/content";
+import type { Demo, DemoProduct } from "@/lib/content/demos";
 import { agendaDemo, pedidosDemo } from "./panel";
 
 const productos: DemoProduct[] = [

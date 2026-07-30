@@ -4,7 +4,7 @@ import { ArrowLeft, CalendarDays, Package, ShoppingBag } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import type { Demo } from "@/lib/content";
+import type { Demo } from "@/lib/content/demos";
 import { agendaDemo, pedidosDemo } from "@/lib/demos/panel";
 import { PanelAgenda } from "./PanelAgenda";
 import { PanelPedidos } from "./PanelPedidos";
@@ -103,18 +103,15 @@ export function PanelDemo({ demo }: { demo: Demo }) {
         </div>
       </div>
 
-      {/* ---------- Contenido ---------- */}
-      <div className="pt-7 md:pt-9">
-        {vista === "pedidos" && <PanelPedidos pedidos={pedidos} />}
-        {vista === "agenda" && <PanelAgenda sesiones={agenda} />}
-        {vista === "productos" && <PanelProductos demo={demo} />}
-      </div>
-
       {/* ---------- Nota de XyraCode ----------
+          Va ARRIBA del contenido y no al pie: advierte que los pedidos y las
+          sesiones son de muestra, y eso hay que leerlo antes de mirarlos, no
+          después de haberlos tomado por reales.
+
           Misma paleta invertida que la nota del checkout: este bloque le habla al
-          dueño del negocio, no a un comprador, y el color lo separa de la
-          interfaz del panel. */}
-      <section className="mt-10 rounded-[4px] bg-[var(--franja-fondo)] p-5 md:p-6">
+          dueño del negocio, no a un comprador, y el color lo separa de la interfaz
+          del panel. */}
+      <section className="mt-6 rounded-[4px] bg-[var(--franja-fondo)] p-5 md:mt-8 md:p-6">
         <p className="font-(family-name:--font-mono-demo) text-[11px] tracking-[0.18em] text-[var(--franja-texto)] uppercase">
           Nota de XyraCode
         </p>
@@ -124,6 +121,13 @@ export function PanelDemo({ demo }: { demo: Demo }) {
           publicas productos sin escribir una línea de código.
         </p>
       </section>
+
+      {/* ---------- Contenido ---------- */}
+      <div className="mt-7 md:mt-9">
+        {vista === "pedidos" && <PanelPedidos pedidos={pedidos} />}
+        {vista === "agenda" && <PanelAgenda sesiones={agenda} />}
+        {vista === "productos" && <PanelProductos demo={demo} />}
+      </div>
     </div>
   );
 }
