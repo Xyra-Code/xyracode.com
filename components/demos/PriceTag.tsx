@@ -64,12 +64,24 @@ export function PriceTag({
         className={`mt-auto pt-4 font-(family-name:--font-archivo) font-bold tracking-[-0.02em] text-[var(--texto)] ${TAMANOS[size]}`}
       >
         {/*
-          Guion largo con espacios finos alrededor y `whitespace-nowrap` en cada
-          cifra: el rango puede envolver a dos líneas en una tarjeta angosta, pero
-          nunca partiendo un precio por la mitad.
+          El rango puede envolver a dos líneas en una tarjeta angosta —a 320px lo
+          hace siempre— y hay dos cosas que no debe partir.
+
+          Cada cifra va en su `whitespace-nowrap`, para que nunca se corte un precio
+          por la mitad. Y el separador es " — ": espacio normal ANTES del guion
+          y espacio duro DESPUÉS. Así la única oportunidad de corte queda delante
+          del guion, y el segundo renglón empieza en "— $ 159.900". Antes, con
+          espacios normales a los dos lados, el corte caía después y dejaba
+          "$ 129.900 —" colgando al final de la primera línea, que se lee como un
+          precio incompleto.
+
+          El espacio duro va en el texto y no como clase porque tiene que estar
+          entre los dos spans: envolver el guion junto a la cifra dejaría a
+          `formatCOP(max)` sin ser el contenido completo de su elemento, y las
+          pruebas de precio consultan justamente por esa cifra sola.
         */}
         <span className="whitespace-nowrap">{formatCOP(precio.min)}</span>
-        {" — "}
+        {" — "}
         <span className="whitespace-nowrap">{formatCOP(precio.max)}</span>
       </p>
     );
