@@ -7,7 +7,7 @@ import {
   XIcon,
   type BrandIcon,
 } from "@/components/ui/BrandIcons";
-import type { Demo, DemoRed } from "@/lib/content";
+import type { Demo, DemoRed } from "@/lib/content/demos";
 import { buildServiceInquiryHref, buildStoreInquiryHref } from "@/lib/demos/order";
 import { WhatsAppMark } from "./WhatsAppMark";
 import { SEO } from "@/lib/seo";
@@ -29,11 +29,17 @@ const COLUMNA =
   "font-(family-name:--font-mono-demo) text-[10px] tracking-[0.14em] text-[var(--atenuado)] uppercase md:text-[11px]";
 
 /**
- * Enlace de columna. `min-h-9` y no solo texto: en el footer los enlaces quedan
- * apilados a 15px y sin área táctil se tocan de a dos.
+ * Enlace de columna. `min-h-11` y no solo texto: en el footer los enlaces quedan
+ * apilados a 15px y sin área táctil se tocan de a dos. Eran 36px (`min-h-9`), que
+ * ya evitaba el error de dedo pero quedaba por debajo del mínimo de 44; 44 alarga
+ * la columna unos 32px en total y es la altura que corresponde.
+ *
+ * El hover va al acento del cliente —el mismo verde de los íconos de redes— y no a
+ * `--texto`: es un solo gesto de color para todo el pie, y el acento ya es el
+ * color que esta tienda usa para decir "esto responde".
  */
 const ENLACE =
-  "inline-flex min-h-9 items-center text-[15px] text-[var(--atenuado)] transition-colors hover:text-[var(--texto)]";
+  "inline-flex min-h-11 items-center text-[15px] text-[var(--atenuado)] transition-colors hover:text-[var(--acento)]";
 
 /**
  * Footer del cliente, en tres columnas: marca, tienda y atención.
@@ -96,6 +102,9 @@ export function StoreFooter({ demo }: { demo: Demo }) {
               alt={negocio.logo.alt}
               width={negocio.logo.width}
               height={negocio.logo.height}
+              // Alto fijo de 56px en todos los anchos; el asset mide 852px. Sin
+              // `sizes` se descargaba entero para pintar 66px de ancho.
+              sizes="66px"
               className="h-14 w-auto"
             />
           </Link>
@@ -114,13 +123,17 @@ export function StoreFooter({ demo }: { demo: Demo }) {
           )}
 
           {/*
-            El -mx-2.5 saca el padding del área táctil (40px con un ícono de 18)
-            de los dos lados: simétrico, para no correr el eje. Así el primer
-            ícono arranca en el margen del footer en vez de 11px adentro. Por lo
-            mismo el mt es chico: el área táctil ya aporta 11px de aire arriba.
+            El -mx-3 saca el padding del área táctil (44px con un ícono de 18) de
+            los dos lados: simétrico, para no correr el eje. Así el primer ícono
+            arranca en el margen del footer en vez de 13px adentro. Por lo mismo el
+            mt es chico: el área táctil ya aporta 13px de aire arriba.
+
+            `size-11` y no `size-10`: eran 40×40, y son cuatro objetivos pegados
+            entre sí en el borde inferior de la pantalla, que es donde el pulgar
+            menos acierta.
           */}
           {redes.length > 0 && (
-            <ul className="mt-2 -mx-2.5 flex flex-wrap items-center">
+            <ul className="mt-2 -mx-3 flex flex-wrap items-center">
               {redes.map(({ red, href }) => {
                 const { nombre, icon: Icon } = REDES[red];
                 return (
@@ -130,7 +143,7 @@ export function StoreFooter({ demo }: { demo: Demo }) {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={`${negocio.nombre} en ${nombre}`}
-                      className="inline-flex size-10 items-center justify-center rounded-[4px] text-[var(--atenuado-suave)] transition-colors hover:text-[var(--acento)]"
+                      className="inline-flex size-11 items-center justify-center rounded-[4px] text-[var(--atenuado-suave)] transition-colors hover:text-[var(--acento)]"
                     >
                       <Icon size={18} />
                     </a>
@@ -164,7 +177,7 @@ export function StoreFooter({ demo }: { demo: Demo }) {
             href={whatsapp}
             target="_blank"
             rel="noopener noreferrer"
-            className="group mt-1.5 inline-flex min-h-9 w-fit items-center gap-1.5 text-[15px] font-semibold text-[var(--texto)]"
+            className="group mt-1.5 inline-flex min-h-11 w-fit items-center gap-1.5 text-[15px] font-semibold text-[var(--texto)] transition-colors hover:text-[var(--acento)]"
           >
             {/* El subrayado va en las palabras y no en el `<a>`: cruzando el logo
                 se leería como un tachado. El hover sigue siendo del enlace
@@ -191,7 +204,7 @@ export function StoreFooter({ demo }: { demo: Demo }) {
                 )}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group inline-flex min-h-9 max-w-[26ch] items-center gap-1.5 text-[15px] leading-[1.4] text-[var(--atenuado)] transition-colors hover:text-[var(--texto)]"
+                className="group inline-flex min-h-11 max-w-[26ch] items-center gap-1.5 text-[15px] leading-[1.4] text-[var(--atenuado)] transition-colors hover:text-[var(--acento)]"
               >
                 <span>{servicio.titulo}</span>
                 <WhatsAppMark size={15} />
@@ -219,18 +232,35 @@ export function StoreFooter({ demo }: { demo: Demo }) {
             prospecto de su tienda.
           */}
           <p>
-            Desarrollado por{" "}
+            {/*
+              La frase COMPLETA es el enlace, y de ahí sale el área táctil: el
+              `min-h-11` colgaba de "XyraCode" sola, y una caja inline-flex de 44px
+              metida en un renglón de 11px baja su propia baseline ~14px, así que la
+              palabra salía corrida respecto a "Desarrollado por" y el pie legal
+              crecía a lo alto. El `align-middle` no lo arreglaba: movía el
+              desajuste de lugar. Con el `<a>` envolviendo las dos palabras no hay
+              texto suelto contra el que desalinearse y los 44px se cumplen igual.
+
+              El espacio entre las palabras lo pone el `gap-1`: en flex el texto
+              suelto es un ítem anónimo y el navegador le recorta el espacio final.
+              El `{" "}` literal va igual, por el nombre accesible —mismo motivo que
+              en `WhatsAppMark`—: sin él se leería "Desarrollado porXyraCode".
+            */}
             <a
               href={SEO.siteUrl}
               target="_blank"
               rel="noopener noreferrer"
-              // Subrayado a intensidad completa y NO al 40% como en la franja que
-              // se quitó: allá el texto iba sobre el tema invertido, acá ya es el
-              // token más apagado de la paleta y bajarle la opacidad al subrayado
-              // lo borraba.
-              className="underline decoration-[var(--atenuado-suave)] underline-offset-2 transition-colors hover:text-[var(--atenuado)] hover:decoration-[var(--atenuado)]"
+              className="group inline-flex min-h-11 items-center gap-1 transition-colors hover:text-[var(--acento)]"
             >
-              XyraCode
+              Desarrollado por{" "}
+              {/* Subrayado a intensidad completa y NO al 40% como en la franja que
+                  se quitó: allá el texto iba sobre el tema invertido, acá ya es el
+                  token más apagado de la paleta y bajarle la opacidad al subrayado
+                  lo borraba. Va solo en la marca —no en "Desarrollado por"— para
+                  que se lea como firma y no como una frase entera enlazada. */}
+              <span className="underline decoration-[var(--atenuado-suave)] underline-offset-2 transition-colors group-hover:decoration-[var(--acento)]">
+                XyraCode
+              </span>
             </a>
           </p>
         </div>
