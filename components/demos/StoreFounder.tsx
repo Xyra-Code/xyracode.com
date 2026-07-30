@@ -1,5 +1,5 @@
 import Image from "next/image";
-import type { Demo } from "@/lib/content";
+import type { Demo } from "@/lib/content/demos";
 import { buildServiceInquiryHref } from "@/lib/demos/order";
 import { WhatsAppMark } from "./WhatsAppMark";
 
@@ -18,6 +18,13 @@ import { WhatsAppMark } from "./WhatsAppMark";
  *
  * El retrato es 4:5 y va a la izquierda, alternando con el hero —que tiene su
  * imagen a la derecha— para que la home no caiga en una columna repetida.
+ *
+ * **La columna de la foto crece en dos pasos (300px → 380px) y no de una.** Con
+ * los 380px fijos desde 768px, la foto salía más ancha que el relato: medido a
+ * 768px daba foto 380 / texto 292, o sea un retrato de 380×475 al lado de una
+ * biografía de 38 caracteres por línea. La foto le ganaba al argumento que está
+ * ahí para sostener. A 300px el reparto a 768 queda 300/372 y el texto vuelve a
+ * mandar; los 380px del diseño entran a 1024, donde sobra ancho para los dos.
  */
 export function StoreFounder({ demo }: { demo: Demo }) {
   const persona = demo.persona;
@@ -35,16 +42,16 @@ export function StoreFounder({ demo }: { demo: Demo }) {
       aria-labelledby="quien-esta-detras"
       className="border-y border-[var(--borde)] bg-[var(--superficie)]"
     >
-      <div className="mx-auto grid max-w-[1240px] gap-7 px-4 py-10 md:grid-cols-[minmax(0,380px)_1fr] md:items-center md:gap-12 md:px-6 md:py-14">
+      <div className="mx-auto grid max-w-[1240px] gap-7 px-4 py-10 md:grid-cols-[minmax(0,300px)_1fr] md:items-center md:gap-10 md:px-6 md:py-14 lg:grid-cols-[minmax(0,380px)_1fr] lg:gap-12">
         <div className="overflow-hidden rounded-[4px] border border-[var(--borde)] bg-[var(--superficie-foto)]">
           <Image
             src={persona.foto.src}
             alt={persona.foto.alt}
             width={persona.foto.width}
             height={persona.foto.height}
-            // Ancho completo en móvil; arriba de 768px nunca pasa de la columna
-            // de 380px.
-            sizes="(max-width: 767px) 100vw, 380px"
+            // Ancho completo en móvil, la columna de 300px entre 768 y 1023, y
+            // la de 380px desde ahí.
+            sizes="(max-width: 767px) 100vw, (max-width: 1023px) 300px, 380px"
             className="aspect-4/5 w-full object-cover"
           />
         </div>
