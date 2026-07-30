@@ -1,5 +1,5 @@
 import { Search } from "lucide-react";
-import type { Demo, DemoCategory } from "@/lib/content";
+import type { Demo, DemoCategory } from "@/lib/content/demos";
 import { buildProductInquiryHref } from "@/lib/demos/order";
 import { StoreButton } from "./StoreButton";
 import { WhatsAppMark } from "./WhatsAppMark";

@@ -1,6 +1,6 @@
 import { CreditCard, Headset, ShieldCheck, Truck } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import type { Demo } from "@/lib/content";
+import type { Demo } from "@/lib/content/demos";
 
 /**
  * `demo.confianza` es un `string[]`: no trae iconos, y agregárselos obligaría a

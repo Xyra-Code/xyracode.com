@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { DemoProduct } from "@/lib/content";
+import type { DemoProduct } from "@/lib/content/demos";
 import { cartStorageKey, resolveCart } from "./cart";
 
 const productos: DemoProduct[] = [

@@ -1,4 +1,4 @@
-import type { Demo, DemoProduct } from "@/lib/content";
+import type { Demo, DemoProduct } from "@/lib/content/demos";
 import { precioDeTarjeta, rangoDe } from "@/lib/demos/price";
 import { ProductCard } from "./ProductCard";
 import { QuickAddButton } from "./QuickAddButton";

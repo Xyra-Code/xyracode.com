@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { ProductCard } from "./ProductCard";
-import type { Demo, DemoProduct } from "@/lib/content";
+import type { Demo, DemoProduct } from "@/lib/content/demos";
 
 const demo = {
   slug: "guantes-nr1",

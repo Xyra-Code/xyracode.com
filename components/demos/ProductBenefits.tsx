@@ -1,5 +1,5 @@
 import { Award, Hand, Shield, Wind } from "lucide-react";
-import type { Demo } from "@/lib/content";
+import type { Demo } from "@/lib/content/demos";
 
 /**
  * Los cuatro atributos que el cliente pone en **todas** sus piezas de producto.

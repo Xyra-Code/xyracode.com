@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import type { Demo, DemoProduct } from "@/lib/content";
+import type { Demo, DemoProduct } from "@/lib/content/demos";
 import { buildProductInquiryHref } from "@/lib/demos/order";
 import { precioDe, precioDeTarjeta, rangoDe } from "@/lib/demos/price";
 import { useCart } from "./CartProvider";

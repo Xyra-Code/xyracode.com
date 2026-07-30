@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { FilterableCatalog } from "@/components/demos/FilterableCatalog";
-import { getDemo } from "@/lib/content";
+import { getDemo } from "@/lib/content/demos";
 
 /**
  * `title` es un **string simple**, no un `absolute`, y eso importa: el layout de

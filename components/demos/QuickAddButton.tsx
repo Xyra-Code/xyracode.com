@@ -1,6 +1,6 @@
 "use client";
 
-import type { DemoProduct } from "@/lib/content";
+import type { DemoProduct } from "@/lib/content/demos";
 import { useCart } from "./CartProvider";
 import { storeButtonClasses } from "./StoreButton";
 

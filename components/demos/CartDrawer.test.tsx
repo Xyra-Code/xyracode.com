@@ -1,6 +1,6 @@
 import { act, fireEvent, render, screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it } from "vitest";
-import type { Demo, DemoProduct } from "@/lib/content";
+import type { Demo, DemoProduct } from "@/lib/content/demos";
 import { CartDrawer } from "./CartDrawer";
 import { resetCartStores } from "@/lib/demos/cart-store";
 import { CartProvider, useCart } from "./CartProvider";
