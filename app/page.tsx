@@ -7,6 +7,7 @@ import { Navbar } from "@/components/sections/Navbar";
 import { Portfolio } from "@/components/sections/Portfolio";
 import { Process } from "@/components/sections/Process";
 import { Services } from "@/components/sections/Services";
+import { SiteChrome } from "@/components/sections/SiteChrome";
 import { TrustStrip } from "@/components/sections/TrustStrip";
 
 export default function Home() {
@@ -26,6 +27,7 @@ export default function Home() {
         <Cta />
       </main>
       <Footer />
+      <SiteChrome />
     </>
   );
 }

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Cta } from "@/components/sections/Cta";
 import { Footer } from "@/components/sections/Footer";
 import { Navbar } from "@/components/sections/Navbar";
+import { SiteChrome } from "@/components/sections/SiteChrome";
 import { WhatsAppIcon } from "@/components/ui/BrandIcons";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { Eyebrow } from "@/components/ui/Eyebrow";
@@ -152,6 +153,7 @@ export default function ContactoPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <SiteChrome />
     </>
   );
 }

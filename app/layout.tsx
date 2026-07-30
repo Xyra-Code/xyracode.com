@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import { JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
-import { FloatingWhatsApp } from "@/components/sections/FloatingWhatsApp";
 import { CONTACT, SERVICE_PAGES, SOCIALS } from "@/lib/content";
 import { SEO } from "@/lib/seo";
 import "./globals.css";
@@ -57,76 +56,6 @@ export const viewport: Viewport = {
 
 const SITE_URL = SEO.siteUrl;
 
-// @graph con @id enlazados: el WebSite declara a la empresa como su publisher,
-// para que Google entienda "sitio" y "organización" como entidades relacionadas.
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebSite",
-      "@id": `${SITE_URL}/#website`,
-      url: SITE_URL,
-      name: SEO.siteName,
-      alternateName: [...SEO.alternateNames],
-      description: SEO.home.shortDescription,
-      publisher: { "@id": `${SITE_URL}/#organization` },
-      inLanguage: SEO.localeBcp47,
-    },
-    {
-      "@type": "ProfessionalService",
-      "@id": `${SITE_URL}/#organization`,
-      name: SEO.siteName,
-      alternateName: [...SEO.alternateNames],
-      url: SITE_URL,
-      description: SEO.home.orgDescription,
-      image: `${SITE_URL}/opengraph-image`,
-      // Derivados de CONTACT (lib/content.ts) para que el NAP nunca se desincronice.
-      telephone: CONTACT.phone,
-      email: CONTACT.email,
-      priceRange: "$$",
-      address: {
-        "@type": "PostalAddress",
-        addressLocality: SEO.address.locality,
-        addressRegion: SEO.address.region,
-        postalCode: SEO.address.postalCode,
-        addressCountry: SEO.address.countryCode,
-      },
-      geo: {
-        "@type": "GeoCoordinates",
-        latitude: SEO.address.geo.lat,
-        longitude: SEO.address.geo.lng,
-      },
-      areaServed: SEO.areaServed.map((area) => ({
-        "@type": area.type,
-        name: area.name,
-      })),
-      openingHoursSpecification: SEO.openingHours.map((franja) => ({
-        "@type": "OpeningHoursSpecification",
-        dayOfWeek: [...SEO.businessDays],
-        opens: franja.opens,
-        closes: franja.closes,
-      })),
-      knowsAbout: [...SEO.org.knowsAbout],
-      // Cierra el cluster: la empresa declara qué servicios ofrece y en qué
-      // URL vive cada uno, así el hub y sus hijas se leen como una unidad.
-      hasOfferCatalog: {
-        "@type": "OfferCatalog",
-        name: "Servicios de XyraCode",
-        url: `${SITE_URL}/servicios`,
-        itemListElement: SERVICE_PAGES.map((page) => ({
-          "@type": "Offer",
-          itemOffered: {
-            "@type": "Service",
-            "@id": `${SITE_URL}/servicios/${page.slug}#service`,
-            name: page.card.title,
-            url: `${SITE_URL}/servicios/${page.slug}`,
-          },
-        })),
-      },
-      sameAs: SOCIALS.map((social) => social.href),
-    },
-  ],
-};
 
 export default function RootLayout({
   children,
@@ -145,11 +74,6 @@ export default function RootLayout({
           <style>{`.reveal { opacity: 1; transform: none; }`}</style>
         </noscript>
         {children}
-        <FloatingWhatsApp />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
       </body>
     </html>
   );

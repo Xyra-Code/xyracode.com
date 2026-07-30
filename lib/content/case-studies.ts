@@ -15,9 +15,16 @@ export type CaseImage = {
 export type CaseStudy = {
   slug: string;
   seo: { title: string; description: string };
-  /** ISO 8601; editar a mano al cambiar el contenido (alimenta el sitemap y dateModified). */
+  /**
+   * ISO 8601 con hora y offset (-05:00, Colombia no tiene horario de verano);
+   * editar a mano al cambiar el contenido (alimenta el sitemap y dateModified).
+   * Convención: 18:00, cierre de jornada — ver el mismo campo en blog.ts.
+   */
   lastModified: string;
-  /** ISO 8601; fecha de publicación del caso (JSON-LD datePublished). Fija: no se toca al editar. */
+  /**
+   * ISO 8601 con hora y offset; fecha de publicación del caso (JSON-LD
+   * datePublished). Convención: 09:00 -05:00. Fija: no se toca al editar.
+   */
   publishedISO: string;
   hero: { tags: string[]; h1: string; intro: string };
   cover: CaseImage;
@@ -76,8 +83,8 @@ export const CASE_STUDIES: CaseStudy[] = [
       description:
         "Caso real de desarrollo web para agroturismo: plataforma de reservas de experiencias y tienda online para una finca de cacao en el Meta. Cotiza tu proyecto.",
     },
-    lastModified: "2026-07-24",
-    publishedISO: "2026-07-13",
+    lastModified: "2026-07-24T18:00:00-05:00",
+    publishedISO: "2026-07-13T09:00:00-05:00",
     hero: {
       // Reutilizados de PROJECTS (públicos): tags/stack ya verificados.
       tags: ["Next.js 16", "NestJS", "PostgreSQL", "Prisma", "Cloudinary"],

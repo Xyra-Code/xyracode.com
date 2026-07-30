@@ -2,6 +2,7 @@ import { ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import { Fragment, type ReactNode } from "react";
+import { SiteChrome } from "@/components/sections/SiteChrome";
 import { renderInline } from "@/components/content/InlineText";
 import { Footer } from "@/components/sections/Footer";
 import { Navbar } from "@/components/sections/Navbar";
@@ -100,11 +101,6 @@ const jsonLd = {
           }),
         },
       ],
-    },
-    {
-      "@type": "ProfessionalService",
-      "@id": `${SITE_URL}/#organization`,
-      founder: { "@id": `${SITE_URL}/nosotros#person` },
     },
     breadcrumbLd("/nosotros", [{ name: "Nosotros", path: "/nosotros" }]),
   ],
@@ -442,6 +438,7 @@ export default function Nosotros() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <SiteChrome />
     </>
   );
 }

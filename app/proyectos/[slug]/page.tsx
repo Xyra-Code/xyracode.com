@@ -8,6 +8,7 @@ import { Navbar } from "@/components/sections/Navbar";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { Chip } from "@/components/ui/Chip";
 import { Reveal } from "@/components/ui/Reveal";
+import { SiteChrome } from "@/components/sections/SiteChrome";
 import { CASE_STUDIES } from "@/lib/content";
 import { breadcrumbLd } from "@/lib/jsonld";
 import { SEO } from "@/lib/seo";
@@ -229,6 +230,7 @@ export default async function CasoPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <SiteChrome />
     </>
   );
 }
