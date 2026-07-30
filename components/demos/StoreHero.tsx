@@ -1,21 +1,34 @@
 import Image from "next/image";
-import type { Demo } from "@/lib/content";
+import type { Demo } from "@/lib/content/demos";
 import { buildStoreInquiryHref } from "@/lib/demos/order";
 import { StoreButton } from "./StoreButton";
 import { WhatsAppMark } from "./WhatsAppMark";
 
 /**
- * Hero de la home: dos columnas en desktop (texto / imagen 16:9) y una sola
- * columna en móvil (handoff, "Estructura por pantalla" §1).
+ * Hero de la home: dos columnas desde 1024px (texto / imagen 16:9) y una sola
+ * columna debajo (handoff, "Estructura por pantalla" §1).
+ *
+ * **El quiebre es `lg` y no `md`, y hace falta que sea así.** Con dos columnas
+ * desde 768px el texto queda en 338px y "PROFESIONALES" a 56px mide 445px: es
+ * una sola palabra, no puede partirse, y se salía de su columna hasta meterse
+ * debajo de la imagen —que va después en el DOM y tiene fondo propio, así que le
+ * pintaba encima y el titular se leía cortado. Medido en Chrome a 768, 800, 860
+ * y 900px; recién a 1000px la columna alcanzaba. Subiendo el quiebre a 1024 el
+ * titular tiene los 720px del ancho completo y de paso la imagen deja de ser una
+ * miniatura de 338×190 en tablet.
+ *
+ * El escalón intermedio `md:text-[46px]` existe por lo mismo: a 768px en una
+ * columna hay sitio de sobra, pero 38px se veían chicos para el elemento más
+ * grande de la pantalla.
  *
  * La imagen es el LCP de la demo —es lo más grande arriba del pliegue— así que
  * va con `priority`: sin eso Next la carga en diferido y el prospecto ve el
  * hueco durante el primer segundo, que es justo el segundo que decide la venta.
  *
  * Acá sí `object-cover`, al contrario que en la foto de producto: el slot es
- * 16:9 igual que el asset (1600×900), y si un cliente entrega una imagen con
- * otra proporción es mejor recortarla que dejar franjas de fondo a los lados.
- * En la tarjeta de producto el recorte se prohíbe porque cortaría el guante.
+ * 16:9 y las fotos que entregan los clientes casi nunca lo son —la de NR1 es
+ * 2:1—, y es mejor recortar que dejar franjas de fondo a los lados. En la
+ * tarjeta de producto el recorte se prohíbe porque cortaría el guante.
  */
 export function StoreHero({ demo }: { demo: Demo }) {
   const { negocio, hero } = demo;
@@ -32,8 +45,8 @@ export function StoreHero({ demo }: { demo: Demo }) {
       DOM la dejaría al final. Así el orden natural del documento ya es el de
       móvil, y en desktop la imagen ocupa las dos filas de la derecha.
     */
-    <section className="mx-auto grid max-w-[1240px] gap-6 px-4 py-9 md:grid-cols-2 md:gap-11 md:px-6 md:py-14">
-      <div className="md:col-start-1 md:row-start-1">
+    <section className="mx-auto grid max-w-[1240px] gap-6 px-4 py-9 md:gap-8 md:px-6 md:py-14 lg:grid-cols-2 lg:gap-11">
+      <div className="lg:col-start-1 lg:row-start-1">
         {/*
           El kicker es el LEMA, no el tagline: "Rendimiento. Control. Confianza."
           es lo que encabeza sus nueve piezas de producto, y verlo acá es lo que le
@@ -52,7 +65,7 @@ export function StoreHero({ demo }: { demo: Demo }) {
           Caja normal en el JSX y `uppercase` por CSS: en mayúscula sostenida
           algunos lectores de pantalla deletrean letra por letra.
         */}
-        <h1 className="mt-4 font-(family-name:--font-archivo) text-[38px] leading-[0.95] font-bold tracking-[-0.03em] text-[var(--texto)] uppercase md:text-[56px]">
+        <h1 className="mt-4 font-(family-name:--font-archivo) text-[38px] leading-[0.95] font-bold tracking-[-0.03em] text-[var(--texto)] uppercase md:text-[46px] lg:text-[56px]">
           {hero.titulo}
         </h1>
 
@@ -61,7 +74,7 @@ export function StoreHero({ demo }: { demo: Demo }) {
         </p>
       </div>
 
-      <div className="md:col-start-2 md:row-span-2 md:row-start-1">
+      <div className="lg:col-start-2 lg:row-span-2 lg:row-start-1">
         <div className="overflow-hidden rounded-[4px] border border-[var(--borde)] bg-[var(--superficie-foto)]">
           <Image
             src={hero.imagen.src}
@@ -69,19 +82,22 @@ export function StoreHero({ demo }: { demo: Demo }) {
             width={hero.imagen.width}
             height={hero.imagen.height}
             priority
-            // Ancho completo en móvil, media pantalla arriba de 768px, y nunca
-            // más de la mitad del contenedor de 1240px.
-            sizes="(max-width: 767px) 100vw, (max-width: 1240px) 50vw, 620px"
+            // Ancho completo hasta 1023px —una columna, ver la cabecera del
+            // archivo—, media pantalla desde 1024, y nunca más de la mitad del
+            // contenedor de 1240px.
+            sizes="(max-width: 1023px) 100vw, (max-width: 1240px) 50vw, 620px"
             className="aspect-video w-full object-cover"
           />
         </div>
       </div>
 
       {/*
-        Ancho completo apilado en móvil y en fila en desktop. Se usa `w-full
+        Ancho completo apilado en móvil y en fila desde 768px. Se usa `w-full
         md:w-auto` en vez de la prop `full` de StoreButton, que es incondicional.
+        La fila arranca en `md` aunque la grilla siga en una columna hasta `lg`:
+        ahí ya hay 720px y dos botones apilados a lo ancho se ven sueltos.
       */}
-      <div className="flex flex-col gap-3 md:col-start-1 md:row-start-2 md:flex-row md:items-end">
+      <div className="flex flex-col gap-3 md:flex-row md:items-end lg:col-start-1 lg:row-start-2">
         <StoreButton href={`/demos/${demo.slug}/catalogo`} className="w-full md:w-auto">
           Ver catálogo
         </StoreButton>

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Archivo, Manrope, Space_Mono } from "next/font/google";
 import { notFound } from "next/navigation";
-import { DEMOS, getDemo } from "@/lib/content";
+import { DEMOS, getDemo } from "@/lib/content/demos";
 import "./demo.css";
 
 /**
@@ -123,7 +123,11 @@ export default async function DemoLayout({
       // Sin padding arriba: el nav de la tienda es `sticky top-0`, o sea que está
       // en el flujo y reserva su propio alto. NO agregar `pt-*` acá — era para una
       // franja `fixed` que ya no existe, y dejaría una banda vacía.
-      className={`demo-root ${archivo.variable} ${manrope.variable} ${spaceMono.variable} flex min-h-screen flex-col font-(family-name:--font-manrope)`}
+      //
+      // `min-h-dvh` y NO `min-h-screen`: `100vh` en móvil mide el viewport con la
+      // barra del navegador retraída, así que en Safari iOS el footer arranca
+      // fuera de la pantalla y salta al primer scroll. `dvh` sigue la altura real.
+      className={`demo-root ${archivo.variable} ${manrope.variable} ${spaceMono.variable} flex min-h-dvh flex-col font-(family-name:--font-manrope)`}
       style={
         {
           "--fondo": demo.tema.fondo,
