@@ -1,7 +1,8 @@
 import type { Demo, DemoProduct } from "@/lib/content";
-import { buildProductInquiryHref } from "@/lib/demos/order";
+import { precioDeTarjeta, rangoDe } from "@/lib/demos/price";
 import { ProductCard } from "./ProductCard";
 import { QuickAddButton } from "./QuickAddButton";
+import { StoreButton } from "./StoreButton";
 
 /**
  * Grilla de tarjetas de producto.
@@ -27,37 +28,48 @@ export function ProductGrid({
 }) {
   return (
     <ul className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
-      {productos.map((producto) => (
-        // `flex` en el ítem para que la tarjeta ocupe todo el alto de la fila:
-        // de eso depende el `mt-auto` que ancla el precio.
-        <li key={producto.slug} className="flex">
-          {/*
-            El CTA se inyecta acá y no dentro de ProductCard a propósito: así la
-            tarjeta no depende del CartProvider y se puede testear suelta. Los
-            tres usos de la grilla —destacados, catálogo y relacionados— reciben
-            el botón sin repetir el cableado.
+      {productos.map((producto) => {
+        const detalle = `/demos/${demo.slug}/p/${producto.slug}`;
 
-            Los productos sin precio no llevan botón: su CTA es el enlace a
-            WhatsApp que la propia tarjeta ya renderiza.
-          */}
-          <ProductCard
-            producto={producto}
-            demo={demo}
-            cta={
-              producto.precio === null ? undefined : (
-                <QuickAddButton
-                  producto={producto}
-                  fallbackHref={buildProductInquiryHref(
-                    demo.negocio.whatsapp,
-                    demo.negocio.nombre,
-                    producto.nombre,
-                  )}
-                />
-              )
-            }
-          />
-        </li>
-      ))}
+        return (
+          // `flex` en el ítem para que la tarjeta ocupe todo el alto de la fila:
+          // de eso depende el `mt-auto` que ancla el precio.
+          <li key={producto.slug} className="flex">
+            {/*
+              El CTA se inyecta acá y no dentro de ProductCard a propósito: así la
+              tarjeta no depende del CartProvider y se puede testear suelta. Los
+              tres usos de la grilla —destacados, catálogo y relacionados— reciben
+              el botón sin repetir el cableado.
+
+              Tres casos, en este orden:
+
+              1. Sin precio → sin botón. La tarjeta pone "Ver producto" y la
+                 consulta se hace en el detalle, no desde la grilla.
+              2. Precio por talla → enlace al detalle. Desde la grilla no hay
+                 dónde elegir talla, y con el precio dependiendo de ella un
+                 "Agregar" metería al carrito una talla que nadie eligió a un
+                 precio que la tarjeta nunca mostró. La tarjeta muestra el rango;
+                 el precio se resuelve al elegir.
+              3. Precio único → agregado directo, que es el camino más corto.
+            */}
+            <ProductCard
+              producto={producto}
+              demo={demo}
+              cta={
+                precioDeTarjeta(producto) === null ? undefined : rangoDe(producto) ? (
+                  <StoreButton href={detalle} full>
+                    Elegir talla
+                  </StoreButton>
+                ) : (
+                  // El respaldo sin JavaScript es el detalle del producto: la
+                  // única página que, sin carrito, sigue sirviendo para comprar.
+                  <QuickAddButton producto={producto} fallbackHref={detalle} />
+                )
+              }
+            />
+          </li>
+        );
+      })}
     </ul>
   );
 }

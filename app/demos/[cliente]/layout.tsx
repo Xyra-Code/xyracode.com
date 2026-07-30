@@ -4,7 +4,6 @@ import { notFound } from "next/navigation";
 import { CartButton } from "@/components/demos/CartButton";
 import { CartDrawer } from "@/components/demos/CartDrawer";
 import { CartProvider } from "@/components/demos/CartProvider";
-import { DemoBar } from "@/components/demos/DemoBar";
 import { StoreFooter } from "@/components/demos/StoreFooter";
 import { StoreNav } from "@/components/demos/StoreNav";
 import { DEMOS, getDemo } from "@/lib/content";
@@ -121,11 +120,11 @@ export default async function DemoLayout({
 
   return (
     <div
-      // `pt-8 md:pt-10` reserva el alto de la franja, que es `fixed` y por lo
-      // tanto está fuera del flujo. Con eso el nav —que es `sticky top-8`—
-      // arranca justo debajo de ella y se pega ahí al hacer scroll. Son los
-      // únicos dos elementos fijos: 84px en móvil, 112px en desktop.
-      className={`demo-root ${archivo.variable} ${manrope.variable} ${spaceMono.variable} flex min-h-screen flex-col pt-8 font-(family-name:--font-manrope) md:pt-10`}
+      // Sin padding arriba: el nav es el único elemento pegajoso de la tienda y
+      // es `sticky top-0`, así que está en el flujo y se reserva su propio alto.
+      // NO volver a agregar `pt-*` acá — era para una franja `fixed` que ya no
+      // existe, y dejaría una banda vacía por la que se ve pasar el contenido.
+      className={`demo-root ${archivo.variable} ${manrope.variable} ${spaceMono.variable} flex min-h-screen flex-col font-(family-name:--font-manrope)`}
       style={
         {
           "--fondo": demo.tema.fondo,
@@ -135,7 +134,6 @@ export default async function DemoLayout({
         } as React.CSSProperties
       }
     >
-      <DemoBar />
       {/* El provider envuelve al nav, no solo al contenido: el CartButton vive
           dentro del nav y necesita leer el context. */}
       <CartProvider demo={demo}>

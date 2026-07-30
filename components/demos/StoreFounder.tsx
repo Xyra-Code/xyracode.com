@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { Demo } from "@/lib/content";
+import { buildServiceInquiryHref } from "@/lib/demos/order";
 import { WhatsAppMark } from "./WhatsAppMark";
 
 /**
@@ -23,10 +24,10 @@ export function StoreFounder({ demo }: { demo: Demo }) {
   if (!persona) return null;
 
   const servicio = persona.servicio;
+  // El footer enlaza al mismo servicio; el mensaje lo arma la misma función para
+  // que no se digan dos cosas distintas según por dónde le escribieron.
   const consulta = servicio
-    ? `https://wa.me/${demo.negocio.whatsapp}?text=${encodeURIComponent(
-        `Hola ${persona.nombre}, quiero información sobre ${servicio.titulo.toLowerCase()}.`,
-      )}`
+    ? buildServiceInquiryHref(demo.negocio.whatsapp, persona.nombre, servicio.titulo)
     : null;
 
   return (

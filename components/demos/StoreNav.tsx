@@ -4,8 +4,10 @@ import type { Demo } from "@/lib/content";
 import { MobileMenu, type NavLink } from "./MobileMenu";
 
 /**
- * Nav de la tienda del cliente. `sticky` justo debajo de la franja de XyraCode:
- * 32 + 52 = 84px fijos en móvil, 40 + 72 = 112px en desktop. Nada más se fija.
+ * Nav de la tienda del cliente. `sticky top-0` y el único elemento pegajoso de la
+ * tienda: 52px en móvil, 72px en desktop. Ese alto es el que compensa el
+ * `scroll-padding-top` de `demo.css` al navegar por anclas — si cambia el `h-13`
+ * de abajo, hay que cambiarlo allá también.
  *
  * El logo va a **40px de alto**, no a los 24px que asumía el handoff: la marca de
  * NR1 tiene alas y letras solapadas, mucho más densa que un wordmark
@@ -31,7 +33,7 @@ export function StoreNav({ demo, children }: { demo: Demo; children?: React.Reac
   ];
 
   return (
-    <header className="sticky top-8 z-40 border-b border-[var(--borde)] bg-[var(--fondo)] md:top-10">
+    <header className="sticky top-0 z-40 border-b border-[var(--borde)] bg-[var(--fondo)]">
       <div className="relative mx-auto flex h-13 max-w-[1240px] items-center justify-between gap-4 px-4 md:h-18 md:px-6">
         <Link href={base} className="flex shrink-0 items-center" aria-label={demo.negocio.nombre}>
           <Image

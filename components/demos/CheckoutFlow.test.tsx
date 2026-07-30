@@ -9,11 +9,19 @@ const productos: DemoProduct[] = [
   {
     slug: "guante",
     nombre: "Guante corte negativo",
-    precio: 149900,
+    // El precio vive en la talla, no en el producto: el total del checkout tiene
+    // que salir de la talla 8 que carga el Control.
+    precio: null,
     categoria: "guantes",
     descripcion: "",
     imagen: { src: "/a.webp", alt: "A", width: 800, height: 800 },
-    variantes: { label: "Talla", opciones: ["8", "9"] },
+    variantes: {
+      label: "Talla",
+      opciones: [
+        { valor: "8", precio: 149900 },
+        { valor: "9", precio: 154900 },
+      ],
+    },
   },
 ];
 

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import type { Demo } from "@/lib/content";
-import { buildOrderHref } from "@/lib/demos/order";
+import { buildStoreInquiryHref } from "@/lib/demos/order";
 import { StoreButton } from "./StoreButton";
 import { WhatsAppMark } from "./WhatsAppMark";
 
@@ -20,10 +20,9 @@ import { WhatsAppMark } from "./WhatsAppMark";
 export function StoreHero({ demo }: { demo: Demo }) {
   const { negocio, hero } = demo;
 
-  const whatsapp = buildOrderHref(
-    negocio.whatsapp,
-    `Hola ${negocio.nombre}, vi su tienda y quiero preguntar por sus productos.`,
-  );
+  // El mismo mensaje que el enlace del footer: son las dos consultas generales de
+  // la tienda, así que el texto lo arma una sola función.
+  const whatsapp = buildStoreInquiryHref(negocio.whatsapp, negocio.nombre);
 
   return (
     /*

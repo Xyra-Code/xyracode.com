@@ -32,3 +32,39 @@ export function buildProductInquiryHref(
 ): string {
   return buildOrderHref(whatsapp, `Hola ${negocio}, quiero preguntar por: ${nombre}`);
 }
+
+/**
+ * Consulta general a la tienda, sin un producto en la mano. La usan el CTA
+ * secundario del hero y el enlace del footer: son las dos puertas de "quiero
+ * preguntar algo" que no salen de una tarjeta.
+ *
+ * El mensaje vive acá y no escrito en cada componente porque los dos tienen que
+ * decir lo mismo — si uno cambia, el cliente recibe dos primeras frases
+ * distintas según por dónde le escribieron.
+ */
+export function buildStoreInquiryHref(whatsapp: string, negocio: string): string {
+  return buildOrderHref(
+    whatsapp,
+    `Hola ${negocio}, vi su tienda y quiero preguntar por sus productos.`,
+  );
+}
+
+/**
+ * Consulta por la segunda línea de negocio de la persona —hoy los
+ * entrenamientos—. El mensaje va dirigido a ELLA por su nombre y no al negocio:
+ * quien vende una sesión de entrenamiento es la persona, y el chat lo atiende
+ * ella misma.
+ *
+ * Mismo motivo que arriba para vivir acá: lo arman la sección de la home y el
+ * footer, y dos plantillas se desincronizan.
+ */
+export function buildServiceInquiryHref(
+  whatsapp: string,
+  persona: string,
+  servicio: string,
+): string {
+  return buildOrderHref(
+    whatsapp,
+    `Hola ${persona}, quiero información sobre ${servicio.toLowerCase()}.`,
+  );
+}

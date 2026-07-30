@@ -16,24 +16,65 @@ export type DemoImage = {
   height: number;
 };
 
-export type DemoCategory = { slug: string; nombre: string };
+export type DemoCategory = {
+  slug: string;
+  nombre: string;
+  /**
+   * Subcategorías, p. ej. Guantes → Edición Pro / Línea estándar.
+   *
+   * **Un solo nivel de anidación, a propósito.** El catálogo las muestra como una
+   * segunda fila de chips debajo de la categoría abierta; un tercer nivel no
+   * tendría dónde dibujarse sin convertir el filtro en un árbol, y una tienda de
+   * este tamaño no lo necesita.
+   *
+   * Los slugs de subcategoría comparten espacio con los de categoría porque el
+   * filtro del catálogo guarda **un** slug en el hash y lo resuelve contra las
+   * dos listas. Tienen que ser únicos en toda la demo, no solo dentro de su
+   * padre: `guantes/pro` y `ropa/pro` colisionarían.
+   */
+  subcategorias?: DemoCategory[];
+};
+
+/**
+ * Una opción de variante con su propio precio en COP.
+ *
+ * El precio vive acá y no en el producto porque en los guantes **depende de la
+ * talla**: la tarjeta del catálogo muestra el rango y el precio real aparece en
+ * el detalle cuando la persona elige. Un solo número por producto obligaría a
+ * mostrar en la tarjeta un precio que después cambia, que es justo lo que hace
+ * que un comprador abandone el carrito.
+ */
+export type DemoVariante = { valor: string; precio: number };
 
 export type DemoProduct = {
   slug: string;
   nombre: string;
   /**
-   * COP entero, sin decimales. `null` cuando el material del cliente no muestra
-   * el precio: la tarjeta pasa a "Consultar por WhatsApp" y el producto **no
-   * entra al carrito**. Nunca inventar un número — el prospecto lee esto como
-   * una propuesta comercial.
+   * COP entero, sin decimales, para el producto de precio único.
+   *
+   * `null` cuando el material del cliente no muestra el precio: la tarjeta pasa a
+   * "Consultar por [logo]" y el producto **no entra al carrito**. Nunca inventar
+   * un número — el prospecto lee esto como una propuesta comercial.
+   *
+   * **Se omite cuando `variantes` trae precio por opción**: ahí el precio real es
+   * el de la talla elegida y este campo no se lee. Para consultar cualquiera de
+   * los dos casos sin preguntar por la forma del dato están `precioDe()` y
+   * `rangoDe()` en `lib/demos/price.ts`; ningún componente debería tocar este
+   * campo directo.
    */
-  precio: number | null;
-  /** Referencia a DemoCategory.slug. */
+  precio?: number | null;
+  /** Referencia a DemoCategory.slug, siempre de primer nivel. */
   categoria: string;
+  /**
+   * Referencia a una `DemoCategory.slug` de las `subcategorias` de su categoría.
+   * Ausente = el producto vive en la categoría a secas, que es lo que pasa cuando
+   * esa categoría no tiene subdivisiones.
+   */
+  subcategoria?: string;
   imagen: DemoImage;
   descripcion: string;
   /** Ausente = producto sin variantes; el carrito lo muestra como "Única". */
-  variantes?: { label: string; opciones: string[] };
+  variantes?: { label: string; opciones: DemoVariante[] };
   destacado?: boolean;
   /**
    * Distintivo corto sobre la foto, p. ej. "Edición Pro". Sale de las piezas del
@@ -71,9 +112,11 @@ export type DemoPersona = {
   relato: string;
   /**
    * Credenciales cortas para la fila de etiquetas: clubes, títulos, años. Se
-   * escriben **como las escribe el cliente**, sin expandir abreviaturas: "AMÉRICA"
-   * puede ser América de Cali y "BOCA" puede ser más de un club, y adivinar mal un
-   * nombre en la tienda de un profesional es peor que abreviarlo.
+   * escriben **como las escribe el cliente**, sin expandir abreviaturas ni
+   * partirlas: "AMÉRICA" puede ser América de Cali, y un nombre de dos palabras
+   * puede ser un solo club. Adivinar mal —o cortar uno en dos— le inventa una
+   * carrera que no tuvo, y en la tienda de un profesional eso es peor que
+   * quedarse corto.
    */
   credenciales: string[];
   /**
@@ -141,8 +184,63 @@ export type Demo = {
  * el kicker del hero. Si algún día se confirma, vuelve como campo de `negocio`.
  */
 
-const TALLAS_GUANTE = { label: "Talla", opciones: ["6", "7", "8", "9", "10", "11"] };
-const TALLAS_ROPA = { label: "Talla", opciones: ["S", "M", "L", "XL"] };
+/**
+ * Tallas de guante. La 5 entra porque una de las nueve fotos la muestra
+ * etiquetada; el resto del rango sigue SIN VERIFICAR, como todo lo que no sale
+ * de sus piezas.
+ */
+const TALLAS_GUANTE = ["5", "6", "7", "8", "9", "10", "11"];
+const TALLAS_ROPA = ["S", "M", "L", "XL"];
+
+/**
+ * **PRECIOS SIN CONFIRMAR — placeholder hasta que el cliente pase su lista.**
+ *
+ * Ninguno de sus nueve flyers muestra un precio, así que acá no hay dato: hay
+ * una escala inventada, y está construida para que se vea que lo es y para
+ * inventar lo menos posible. Son tres números —dos anclas y un paso— de los que
+ * salen las 63 combinaciones talla × modelo, en vez de 63 cifras escritas a
+ * mano que además nadie podría revisar.
+ *
+ * La única jerarquía que sí sale de su material es el tier: el sello "EDICIÓN
+ * PRO ★★★★★" está estampado en 4 de las 9 piezas y no en las otras 5.
+ *
+ * Al confirmarse la lista real, lo que se edita es esto y nada más.
+ */
+const PRECIO_PRO = 129900;
+const PRECIO_ESTANDAR = 99900;
+/** Lo que sube el precio por cada talla: más látex y más tela por par. */
+const PASO_TALLA = 5000;
+
+/**
+ * Arma el bloque de tallas con un precio por cada una a partir del precio de la
+ * talla más chica. El precio real lo resuelve el detalle cuando la persona
+ * elige; la tarjeta del catálogo muestra el rango (ver `lib/demos/price.ts`).
+ */
+function tallasGuante(precioBase: number) {
+  return {
+    label: "Talla",
+    opciones: TALLAS_GUANTE.map((valor, indice) => ({
+      valor,
+      precio: precioBase + indice * PASO_TALLA,
+    })),
+  };
+}
+
+/**
+ * Tallas de ropa, **todas al mismo precio**: en indumentaria el precio no cambia
+ * con la talla, y por eso una S y una XL valen igual.
+ *
+ * Pasa por el mismo tipo que los guantes —cada opción con su precio— y eso es lo
+ * que hace que no haya un caso especial en ningún componente: con todas las
+ * opciones iguales, `rangoDe()` devuelve `null` y la tarjeta muestra una cifra en
+ * vez de un rango, sola.
+ */
+function tallasRopa(precio: number) {
+  return {
+    label: "Talla",
+    opciones: TALLAS_ROPA.map((valor) => ({ valor, precio })),
+  };
+}
 
 /**
  * Obsequio que acompaña a todos los guantes. Va como constante y no escrito en
@@ -152,125 +250,244 @@ const TALLAS_ROPA = { label: "Talla", opciones: ["S", "M", "L", "XL"] };
 const OBSEQUIO_GUANTES =
   " Incluye de obsequio el shampoo NR1 para lavarlos y cuidar el látex.";
 
-/** Foto de producto: 1:1 800x800, un archivo por slug. */
+/**
+ * Foto de producto: 1:1 1080x1080, un archivo por slug.
+ *
+ * Las nueve son los flyers que el cliente publica, normalizados a cuadrado con
+ * `fit: 'contain'` sobre el fondo de la tienda — no recortados: es su diseño y
+ * un `cover` le comería el borde. Por eso son piezas de marketing completas, con
+ * su título y sus cuatro promesas adentro de la imagen, y no fotos de producto
+ * sobre fondo limpio. Es el material que existe.
+ */
 function fotoNR1(slug: string, alt: string): DemoImage {
-  return { src: `/demos/guantes-nr1/${slug}.webp`, alt, width: 800, height: 800 };
+  return { src: `/demos/guantes-nr1/${slug}.webp`, alt, width: 1080, height: 1080 };
 }
 
+/**
+ * Los nueve guantes que el cliente publica, en el orden de su carrusel (el
+ * contador que quedó quemado en cada captura: 2/10 a 10/10).
+ *
+ * **Los nombres describen el colorway y nada más**, porque es lo único que sus
+ * piezas dicen: ninguna nombra un modelo, ni un corte, ni un material. Los
+ * nombres anteriores —"corte negativo látex 4 mm", "híbrido roll finger con dedo
+ * espina"— eran inventados, y en la tienda de un arquero profesional un dato
+ * técnico falso lo descalifica frente a su propio cliente.
+ *
+ * Tampoco llevan `insignia`: el sello "EDICIÓN PRO" ya viene estampado dentro de
+ * la foto, y el chip de la tarjeta lo mostraría dos veces sobre la misma imagen.
+ * Ese sello es, en cambio, lo que decide la categoría.
+ */
 const NR1_PRODUCTOS: DemoProduct[] = [
   {
-    slug: "guante-corte-negativo-latex-4mm",
-    insignia: "Edición Pro",
-    nombre: "Guante corte negativo látex 4 mm",
-    precio: 149900,
+    slug: "guante-negro-puntos-rojos",
+    nombre: "Guante de arquero negro con puntos rojos",
     categoria: "guantes",
-    imagen: fotoNR1("guante-corte-negativo-latex-4mm", "Guante de arquero corte negativo en látex de 4 mm"),
+    subcategoria: "linea-estandar",
+    imagen: fotoNR1(
+      "guante-negro-puntos-rojos",
+      "Guante de arquero negro con puntos rojos de agarre, en su estuche con visor",
+    ),
     descripcion:
-      "Látex de 4 mm con corte negativo: la costura va por dentro, así el guante queda ajustado a la mano y el agarre se siente más directo." + OBSEQUIO_GUANTES,
-    variantes: TALLAS_GUANTE,
+      "Negro con puntos rojos en relieve sobre la palma y el escudo NR1 al centro. Viene en su estuche con visor." +
+      OBSEQUIO_GUANTES,
+    variantes: tallasGuante(PRECIO_ESTANDAR),
+  },
+  {
+    slug: "guante-blanco-rojo-puntos",
+    nombre: "Guante de arquero blanco y rojo con puntos",
+    categoria: "guantes",
+    subcategoria: "edicion-pro",
+    imagen: fotoNR1(
+      "guante-blanco-rojo-puntos",
+      "Guante de arquero blanco con puntos rojos y dorso rojo, en su estuche con visor",
+    ),
+    descripcion:
+      "Palma blanca con puntos rojos y dorso a franjas rojas. Viene en su estuche con visor." +
+      OBSEQUIO_GUANTES,
+    variantes: tallasGuante(PRECIO_PRO),
     destacado: true,
   },
   {
-    slug: "guante-corte-plano-entrenamiento",
-    nombre: "Guante corte plano para entrenamiento diario",
-    precio: 89900,
+    slug: "guante-negro-dorado",
+    nombre: "Guante de arquero negro y dorado",
     categoria: "guantes",
-    imagen: fotoNR1("guante-corte-plano-entrenamiento", "Guante de arquero corte plano para entrenamiento"),
+    subcategoria: "linea-estandar",
+    imagen: fotoNR1(
+      "guante-negro-dorado",
+      "Guante de arquero negro con franjas doradas, en su estuche con visor",
+    ),
     descripcion:
-      "Corte plano en látex resistente, pensado para entrenar todos los días sin gastar el guante de partido." + OBSEQUIO_GUANTES,
-    variantes: TALLAS_GUANTE,
+      "Negro con franjas en V doradas y el escudo NR1 en dorado sobre el dorso. Viene en su estuche con visor." +
+      OBSEQUIO_GUANTES,
+    variantes: tallasGuante(PRECIO_ESTANDAR),
   },
   {
-    slug: "guante-hibrido-roll-finger-dedo-espina",
-    insignia: "Edición Pro",
-    nombre: "Guante híbrido roll finger con dedo espina para partido de competencia",
-    precio: 189000,
+    slug: "guante-impact-negro-rojo",
+    nombre: "Guante de arquero Impact negro y rojo",
     categoria: "guantes",
-    imagen: fotoNR1("guante-hibrido-roll-finger-dedo-espina", "Guante híbrido roll finger con dedo espina"),
+    subcategoria: "edicion-pro",
+    imagen: fotoNR1(
+      "guante-impact-negro-rojo",
+      "Guante de arquero negro con líneas rojas y el sello Impact, en su estuche con visor",
+    ),
     descripcion:
-      "Roll finger en los laterales y dedo espina con varillas: sujeción de competencia y protección contra la hiperextensión. Ideales para entrenamiento y partidos." + OBSEQUIO_GUANTES,
-    variantes: TALLAS_GUANTE,
+      "Negro con líneas rojas quebradas y el sello IMPACT sobre el puño. Viene en su estuche con visor." +
+      OBSEQUIO_GUANTES,
+    variantes: tallasGuante(PRECIO_PRO),
     destacado: true,
   },
   {
-    // Sin variantes a propósito: la talla ya está en el nombre. Sirve además
-    // como caso de prueba del estado "producto sin variantes".
-    slug: "guante-infantil-talla-5-velcro",
-    nombre: "Guante infantil talla 5 con velcro ancho",
-    precio: 64900,
+    slug: "guante-negro-celeste",
+    nombre: "Guante de arquero negro y celeste",
     categoria: "guantes",
-    imagen: fotoNR1("guante-infantil-talla-5-velcro", "Guante de arquero infantil talla 5 con velcro ancho"),
+    subcategoria: "linea-estandar",
+    imagen: fotoNR1(
+      "guante-negro-celeste",
+      "Guante de arquero negro con el escudo en celeste, en su estuche con visor",
+    ),
     descripcion:
-      "Para arqueros en formación. El velcro ancho lo deja firme sin apretar la muñeca." + OBSEQUIO_GUANTES,
+      "Negro con el escudo en celeste al centro del dorso. Viene en su estuche con visor." +
+      OBSEQUIO_GUANTES,
+    variantes: tallasGuante(PRECIO_ESTANDAR),
   },
   {
-    slug: "guante-portero-cancha-arena",
-    nombre: "Guante de portero para cancha de arena",
-    precio: 74000,
+    slug: "guante-verde-limon-rojo",
+    nombre: "Guante de arquero verde limón y rojo",
     categoria: "guantes",
-    imagen: fotoNR1("guante-portero-cancha-arena", "Guante de portero con palma reforzada para cancha de arena"),
+    subcategoria: "edicion-pro",
+    imagen: fotoNR1(
+      "guante-verde-limon-rojo",
+      "Guante de arquero verde limón con franjas rojas, en su estuche con visor",
+    ),
     descripcion:
-      "Palma reforzada para superficies abrasivas. Aguanta la arena sin pelarse a las dos semanas." + OBSEQUIO_GUANTES,
-    variantes: TALLAS_GUANTE,
+      "Verde limón con franjas en V rojas y puño tejido en el mismo verde. Viene en su estuche con visor." +
+      OBSEQUIO_GUANTES,
+    variantes: tallasGuante(PRECIO_PRO),
+    destacado: true,
   },
+  {
+    slug: "guante-blanco-naranja",
+    nombre: "Guante de arquero blanco y naranja",
+    categoria: "guantes",
+    subcategoria: "linea-estandar",
+    imagen: fotoNR1(
+      "guante-blanco-naranja",
+      "Guante de arquero blanco con franjas naranja, en su estuche con visor",
+    ),
+    descripcion:
+      "Blanco con franjas en V naranja y el escudo en azul sobre el dorso. Viene en su estuche con visor." +
+      OBSEQUIO_GUANTES,
+    variantes: tallasGuante(PRECIO_ESTANDAR),
+  },
+  {
+    slug: "guante-azul-rey",
+    nombre: "Guante de arquero azul rey",
+    categoria: "guantes",
+    subcategoria: "edicion-pro",
+    imagen: fotoNR1(
+      "guante-azul-rey",
+      "Guante de arquero azul rey con el dorso negro en relieve, en su estuche con visor",
+    ),
+    descripcion:
+      "Azul rey con el dorso negro en relieve y el escudo al centro. Viene en su estuche con visor." +
+      OBSEQUIO_GUANTES,
+    variantes: tallasGuante(PRECIO_PRO),
+    destacado: true,
+  },
+  {
+    slug: "guante-amarillo-negro",
+    nombre: "Guante de arquero amarillo y negro",
+    categoria: "guantes",
+    subcategoria: "linea-estandar",
+    imagen: fotoNR1(
+      "guante-amarillo-negro",
+      "Guante de arquero negro con franjas amarillas, en su estuche con visor",
+    ),
+    descripcion:
+      "Negro con franjas en V amarillas y el escudo en blanco sobre el dorso. Viene en su estuche con visor." +
+      OBSEQUIO_GUANTES,
+    variantes: tallasGuante(PRECIO_ESTANDAR),
+  },
+
+  /*
+   * ---------- Indumentaria y accesorios ----------
+   *
+   * SIN MATERIAL DEL CLIENTE. Estos siete no salen de ninguna pieza suya: ni las
+   * fotos —son placeholders grises con el nombre escrito— ni los nombres, ni las
+   * descripciones, ni los precios. Existen para que las categorías Indumentaria y
+   * Accesorios tengan qué mostrar.
+   *
+   * Es la deuda visible de la demo: en cuanto él pase fotos y precios de su
+   * indumentaria, esto se reemplaza igual que se reemplazaron los cinco guantes
+   * inventados que estaban antes. Y si resulta que no vende nada de esto, se
+   * borran los siete y con ellos las dos categorías.
+   */
   {
     slug: "buzo-arquero-manga-larga-coderas",
     nombre: "Buzo de arquero manga larga con coderas",
-    precio: 119000,
     categoria: "indumentaria",
-    imagen: fotoNR1("buzo-arquero-manga-larga-coderas", "Buzo de arquero manga larga con coderas acolchadas"),
+    imagen: fotoNR1(
+      "buzo-arquero-manga-larga-coderas",
+      "Buzo de arquero manga larga con coderas acolchadas",
+    ),
     descripcion:
       "Manga larga con acolchado en los codos, en tela que respira para entrenar con calor.",
-    variantes: TALLAS_ROPA,
+    variantes: tallasRopa(119000),
     destacado: true,
   },
   {
     slug: "pantaloneta-acolchada-arquero",
     nombre: "Pantaloneta acolchada de arquero",
-    precio: 79900,
     categoria: "indumentaria",
     imagen: fotoNR1("pantaloneta-acolchada-arquero", "Pantaloneta acolchada de arquero"),
     descripcion:
       "Acolchado en caderas y muslos para las caídas laterales, sin estorbar en el salto.",
-    variantes: TALLAS_ROPA,
+    variantes: tallasRopa(79900),
   },
   {
     slug: "medias-compresion-rodilla",
     nombre: "Medias de compresión hasta la rodilla",
-    precio: 34900,
     categoria: "indumentaria",
-    imagen: fotoNR1("medias-compresion-rodilla", "Medias de compresión de arquero hasta la rodilla"),
-    descripcion:
-      "Compresión graduada que sostiene la pantorrilla en los partidos largos.",
-    variantes: TALLAS_ROPA,
+    imagen: fotoNR1(
+      "medias-compresion-rodilla",
+      "Medias de compresión de arquero hasta la rodilla",
+    ),
+    descripcion: "Compresión graduada que sostiene la pantorrilla en los partidos largos.",
+    variantes: tallasRopa(34900),
   },
   {
     slug: "rodilleras-refuerzo-lateral",
     nombre: "Rodilleras con refuerzo lateral",
-    precio: 72000,
     categoria: "indumentaria",
     imagen: fotoNR1("rodilleras-refuerzo-lateral", "Rodilleras de arquero con refuerzo lateral"),
-    descripcion:
-      "Refuerzo lateral sobre la rótula, sin restarle movilidad a la flexión.",
-    variantes: TALLAS_ROPA,
+    descripcion: "Refuerzo lateral sobre la rótula, sin restarle movilidad a la flexión.",
+    variantes: tallasRopa(72000),
   },
   {
-    // precio: null → la tarjeta muestra "Consultar por WhatsApp" y el CTA va
-    // directo al chat. Este producto no entra al carrito.
+    // `precio: null` explícito → la tarjeta muestra "Consultar por [logo]" y el
+    // CTA va directo al chat. Este producto no entra al carrito, y es el único
+    // caso del catálogo que ejercita ese estado.
     slug: "bolso-portaguantes-malla-secado",
     nombre: "Bolso portaguantes con malla de secado",
     precio: null,
     categoria: "accesorios",
-    imagen: fotoNR1("bolso-portaguantes-malla-secado", "Bolso portaguantes con compartimento de malla para secado"),
+    imagen: fotoNR1(
+      "bolso-portaguantes-malla-secado",
+      "Bolso portaguantes con compartimento de malla para secado",
+    ),
     descripcion:
       "Compartimento en malla para que el látex se seque después del partido y el bolso no coja olor.",
   },
   {
+    // Sin variantes: el precio es único y va en `precio`.
     slug: "espuma-limpiadora-latex-250ml",
     nombre: "Espuma limpiadora para látex 250 ml",
     precio: 28000,
     categoria: "accesorios",
-    imagen: fotoNR1("espuma-limpiadora-latex-250ml", "Espuma limpiadora para látex de guantes, 250 ml"),
+    imagen: fotoNR1(
+      "espuma-limpiadora-latex-250ml",
+      "Espuma limpiadora para látex de guantes, 250 ml",
+    ),
     descripcion:
       "Limpia el látex sin resecarlo. Un pulverizado después de cada partido y el agarre dura más.",
     destacado: true,
@@ -280,7 +497,10 @@ const NR1_PRODUCTOS: DemoProduct[] = [
     nombre: "Vendaje elástico para dedos · 2 rollos",
     precio: 18500,
     categoria: "accesorios",
-    imagen: fotoNR1("vendaje-elastico-dedos-2-rollos", "Vendaje elástico para dedos de arquero, dos rollos"),
+    imagen: fotoNR1(
+      "vendaje-elastico-dedos-2-rollos",
+      "Vendaje elástico para dedos de arquero, dos rollos",
+    ),
     descripcion: "Dos rollos para asegurar los dedos antes del partido.",
   },
 ];
@@ -338,9 +558,16 @@ export const DEMOS: Demo[] = [
       acentoTexto: "#0E0E10",
     },
     hero: {
-      titulo: "Guantes de arquero que aguantan la temporada",
+      titulo: "Guantes profesionales para arqueros NR1",
+      /*
+        Ya no promete cortes ni materiales: "corte negativo, roll finger e
+        híbridos" era inventado y sus piezas no lo dicen. Lo que sí sale de sus
+        nueve flyers: nueve colores, estuche, entrenamiento y partido, envío
+        nacional. La indumentaria queda nombrada al final porque existe en el
+        catálogo, pero sin describirla — de eso no hay material.
+      */
       subtitulo:
-        "Corte negativo, roll finger e híbridos. Indumentaria de portero y accesorios para entrenar y competir.",
+        "Nueve colores, tallas 5 a 11, cada par en su estuche con visor. Ideales para entrenamiento y partidos, con envío a todo el país. También indumentaria y accesorios de portero.",
       imagen: {
         src: "/demos/guantes-nr1/hero.webp",
         alt: "Arquero atajando un balón con guantes NR1",
@@ -349,20 +576,43 @@ export const DEMOS: Demo[] = [
       },
     },
     categorias: [
-      { slug: "guantes", nombre: "Guantes" },
+      {
+        slug: "guantes",
+        nombre: "Guantes",
+        /*
+          Las dos subcategorías salen del **sello de sus propias piezas**:
+          "EDICIÓN PRO ★★★★★" está estampado en 4 de los 9 flyers y no en los
+          otros 5. Es la única división que su material sostiene.
+
+          Van como subcategorías de Guantes y no como categorías de primer nivel
+          porque no son otro tipo de producto: es el mismo guante en dos gamas.
+        */
+        subcategorias: [
+          { slug: "edicion-pro", nombre: "Edición Pro" },
+          { slug: "linea-estandar", nombre: "Línea estándar" },
+        ],
+      },
       { slug: "indumentaria", nombre: "Indumentaria" },
       { slug: "accesorios", nombre: "Accesorios" },
     ],
     productos: NR1_PRODUCTOS,
     /**
-     * COPY PARA APROBAR CON ÉL. El relato está escrito en su voz a partir de lo
-     * único que sabemos con certeza —su bio: arquero y director técnico, con paso
-     * por esos clubes— pero son palabras nuestras puestas en su boca. Se muestra,
-     * no se publica, hasta que él lo confirme.
+     * COPY PARA APROBAR CON ÉL. El relato ya no lo inventamos: son datos públicos
+     * de su carrera —debut en Pasto, retiro en 2022 con Boca Juniors de Cali a los
+     * 40, 13 goles de los que 7 fueron de tiro libre— contados en primera persona.
+     * Las palabras siguen siendo nuestras, así que se muestra y no se publica hasta
+     * que él lo confirme, pero lo que afirma se puede verificar.
      *
-     * Las credenciales van tal como las escribe en su bio, sin expandir: "AMÉRICA"
-     * y "BOCA" admiten más de un club, y equivocarle el nombre de un equipo donde
-     * jugó es peor que abreviarlo.
+     * Cuenta la trayectoria y nada más: no cierra con un argumento de venta. La
+     * carrera ES el argumento, y explicarla suena a folleto.
+     *
+     * Queda fuera a propósito su récord de gol de tiro libre en tres partidos
+     * consecutivos. Es su dato más llamativo, pero afirmar un récord mundial en la
+     * tienda es de él, no nuestro: si lo confirma, entra.
+     *
+     * Las credenciales van como las escribe en su bio. "BOCA JUNIORS CALI" es UN
+     * club —Boca Juniors de Cali, donde se retiró—, no dos: leerlo como "Boca" y
+     * "Cali" le inventa un paso por Argentina y otro por el América.
      *
      * El número de seguidores NO va acá a propósito. Es un argumento de venta para
      * la agencia, no un elemento de conversión para su comprador: a quien va a
@@ -371,15 +621,15 @@ export const DEMOS: Demo[] = [
      */
     persona: {
       nombre: "Nelson Ramos",
-      rol: "Arquero profesional y director técnico",
+      rol: "Director técnico profesional y arquero",
       foto: {
         src: "/demos/guantes-nr1/nelson-ramos.webp",
-        alt: "Nelson Ramos, arquero profesional, con guantes NR1",
+        alt: "Nelson Ramos, director técnico y arquero, con guantes NR1",
         width: 900,
         height: 1125,
       },
       relato:
-        "Soy arquero y director técnico, y sé qué le pasa a un guante en el minuto ochenta: cuándo el látex deja de agarrar y cuándo la costura empieza a molestar. Por eso hice NR1. No vendo una referencia que no haya probado en cancha.",
+        "Arranqué en el Deportivo Pasto y me retiré en 2022 con Boca Juniors de Cali, a los 40 años. En el medio pasé por Millonarios, América, el Medellín, Bucaramanga y Quito, y metí 13 goles, 7 de tiro libre. Hoy dirijo, entreno arqueros y hago los guantes que me hubiera gustado tener cuando empecé.",
       credenciales: [
         "Dep. Pasto",
         "América",
@@ -388,7 +638,7 @@ export const DEMOS: Demo[] = [
         "Fortaleza",
         "Dep. Quito",
         "Bucaramanga",
-        "Boca",
+        "Boca Juniors de Cali",
       ],
       servicio: {
         titulo: "Entrenamiento personalizado de arqueros",

@@ -89,9 +89,10 @@ export function CartDrawer({ demo }: { demo: Demo }) {
         aria-modal="true"
         aria-label="Tu pedido"
         tabIndex={-1}
-        // En móvil ocupa la pantalla completa bajo la franja; en desktop es un
-        // panel lateral de 420px.
-        className="absolute inset-x-0 top-8 bottom-0 flex flex-col border-l border-[var(--borde)] bg-[var(--fondo)] motion-safe:animate-[demoSubir_180ms_ease-out] md:inset-y-0 md:top-0 md:right-0 md:left-auto md:w-[420px] md:motion-safe:animate-[demoEntrar_180ms_ease-out]"
+        // En móvil ocupa la pantalla completa; en desktop es un panel lateral de
+        // 420px. El `top-8` que tenía reservaba el alto de la franja de demo, que
+        // ya no existe: dejaba 32px de fondo muerto arriba del diálogo.
+        className="absolute inset-0 flex flex-col border-l border-[var(--borde)] bg-[var(--fondo)] motion-safe:animate-[demoSubir_180ms_ease-out] md:inset-y-0 md:right-0 md:left-auto md:w-[420px] md:motion-safe:animate-[demoEntrar_180ms_ease-out]"
       >
         <header className="flex items-center justify-between gap-4 border-b border-[var(--borde)] px-4 py-4 md:px-6">
           <h2 className="flex items-baseline gap-2 font-(family-name:--font-archivo) text-[21px] font-bold tracking-[-0.03em] uppercase">

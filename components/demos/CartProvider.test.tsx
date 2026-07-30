@@ -8,11 +8,19 @@ const productos: DemoProduct[] = [
   {
     slug: "guante",
     nombre: "Guante A",
-    precio: 100000,
+    // Sin precio de producto: el total sale del precio de cada talla, y las dos
+    // valen distinto para que una talla mal resuelta se vea en el total.
+    precio: null,
     categoria: "guantes",
     descripcion: "",
     imagen: { src: "/a.webp", alt: "A", width: 800, height: 800 },
-    variantes: { label: "Talla", opciones: ["8", "9"] },
+    variantes: {
+      label: "Talla",
+      opciones: [
+        { valor: "8", precio: 100000 },
+        { valor: "9", precio: 110000 },
+      ],
+    },
   },
   {
     slug: "espuma",
@@ -90,6 +98,15 @@ describe("CartProvider", () => {
     clic("add guante 9");
     expect(leer("lineas")).toBe("2");
     expect(leer("unidades")).toBe("3");
+  });
+
+  it("cobra cada talla a su propio precio", () => {
+    // 1 × talla 8 (100.000) + 2 × talla 9 (110.000). Si el total resolviera una
+    // sola cifra para todo el producto, acá saldría 300.000 o 330.000.
+    montar();
+    clic("add guante 8");
+    clic("add guante 9");
+    expect(leer("total")).toBe("320000");
   });
 
   it("quita el ítem al bajar la cantidad a cero", () => {

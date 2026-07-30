@@ -7,11 +7,12 @@ import { storeButtonClasses } from "./StoreButton";
 /**
  * CTA "Agregar" de la tarjeta de producto.
  *
- * Se renderiza como **`<a>` a WhatsApp**, no como `<button>`, y eso es
- * deliberado: la tarjeta tiene que conservar siempre una salida a `wa.me` para el
- * caso sin JavaScript, donde el carrito no abre pero el catálogo sigue siendo
- * HTML legible. Con JS el `onClick` intercepta el clic, lo cancela y agrega al
- * carrito; sin JS el navegador sigue el `href` y el comprador termina en el chat.
+ * Se renderiza como **`<a>` al detalle del producto**, no como `<button>`, y eso
+ * es deliberado: la tarjeta tiene que conservar una salida para el caso sin
+ * JavaScript, donde el carrito no abre pero el catálogo sigue siendo HTML
+ * legible. Con JS el `onClick` intercepta el clic, lo cancela y agrega al
+ * carrito; sin JS el navegador sigue el `href` y el comprador llega al detalle,
+ * que es una página de servidor con la ficha completa.
  *
  * La alternativa —renderizar un `<button>` y cambiarlo después de montar— exigía
  * un `useState` + `useEffect` que la regla `react-hooks/set-state-in-effect`
@@ -27,7 +28,7 @@ export function QuickAddButton({
   fallbackHref,
 }: {
   producto: DemoProduct;
-  /** Enlace a WhatsApp con este producto. Es el respaldo sin JavaScript. */
+  /** Enlace al detalle de este producto. Es el respaldo sin JavaScript. */
   fallbackHref: string;
 }) {
   const { add, abrir } = useCart();
@@ -37,7 +38,7 @@ export function QuickAddButton({
       href={fallbackHref}
       onClick={(evento) => {
         evento.preventDefault();
-        add(producto.slug, producto.variantes?.opciones[0], 1);
+        add(producto.slug, producto.variantes?.opciones[0]?.valor, 1);
         abrir();
       }}
       className={storeButtonClasses("primario", true)}

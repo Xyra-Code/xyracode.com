@@ -23,10 +23,14 @@
   --acento-suave: color-mix(in srgb, var(--fondo) 88%, var(--acento));
   --acento-profundo: color-mix(in srgb, var(--texto) 45%, var(--acento));
 
-  /* La franja de XyraCode es el tema invertido. Así queda clara sobre una tienda
-     oscura y oscura sobre una clara, sin necesitar un caso especial por cliente:
-     una franja de color constante desaparecería en los clientes de fondo
-     oscuro. */
+  /* El tema del cliente INVERTIDO. Lo usa lo que le habla al dueño del negocio y
+     no al comprador —hoy la "Nota de XyraCode" del checkout—: al invertirse queda
+     claro sobre una tienda oscura y oscuro sobre una clara, sin un caso especial
+     por cliente. Un bloque de color constante desaparecería en los clientes de
+     fondo oscuro.
+
+     Se llaman `franja` por la barra de demo que los estrenó; ya no está, pero el
+     nombre quedó y los tres siguen en uso. */
   --franja-fondo: var(--texto);
   --franja-texto: color-mix(in srgb, var(--texto) 30%, var(--fondo));
   --franja-borde: color-mix(in srgb, var(--fondo) 22%, var(--texto));
@@ -34,9 +38,9 @@
   background: var(--fondo);
   color: var(--texto);
 
-  /* Compensa los dos elementos fijos (franja 32 + nav 52 en móvil) al navegar
-     por anclas. */
-  scroll-padding-top: 84px;
+  /* Compensa el nav pegajoso (h-13 = 52px en móvil) al navegar por anclas, que es
+     justo lo que hacen los enlaces de categoría del nav y del footer. */
+  scroll-padding-top: 52px;
 }
 
 /* Foco de teclado en toda la demo: nunca el anillo azul por defecto del

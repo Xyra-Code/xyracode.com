@@ -3,6 +3,7 @@
 import { useState } from "react";
 import type { Demo, DemoProduct } from "@/lib/content";
 import { buildProductInquiryHref } from "@/lib/demos/order";
+import { precioDe, precioDeTarjeta, rangoDe } from "@/lib/demos/price";
 import { useCart } from "./CartProvider";
 import { PriceTag } from "./PriceTag";
 import { ProductBenefits } from "./ProductBenefits";
@@ -56,6 +57,20 @@ export function ProductPurchase({
     demo.categorias.find((c) => c.slug === producto.categoria)?.nombre ?? producto.categoria;
 
   /**
+   * El precio de la pantalla, y el orden importa: **rango mientras no haya talla
+   * elegida, cifra exacta en cuanto la hay**. Es la razón de ser del selector —
+   * en los guantes el precio depende de la talla— y por eso el número aparece
+   * recién al elegir, y no antes con una talla que nadie pidió.
+   *
+   * `precioDeTarjeta` cae solo al precio único cuando el producto no tiene
+   * variantes: ahí no hay rango y esto es simplemente el precio.
+   */
+  const precioMostrado = talla ? precioDe(producto, talla) : precioDeTarjeta(producto);
+
+  /** Sin precio publicado en ninguna talla: el producto no entra al carrito. */
+  const sinPrecio = precioDeTarjeta(producto) === null;
+
+  /**
    * Enlace a WhatsApp con lo que la persona ya eligió. Es el CTA cuando el precio
    * es `null` —ese producto no entra al carrito— y el enlace secundario cuando sí
    * hay precio.
@@ -83,7 +98,9 @@ export function ProductPurchase({
       setFaltaTalla(true);
       return;
     }
-    if (producto.precio === null) return;
+    // La talla elegida tiene que resolver a un precio. Sin variantes esto es el
+    // precio único del producto, así que cubre los dos casos con una condición.
+    if (precioDe(producto, talla) === null) return;
 
     add(producto.slug, talla, cantidad);
     abrir();
@@ -99,11 +116,28 @@ export function ProductPurchase({
         {producto.nombre}
       </h1>
 
-      {/* PriceTag resuelve también el caso `null`: barra de acento, etiqueta
-          "Precio" y "Consultar por WhatsApp" en vez de una cifra. */}
+      {/* PriceTag resuelve los tres casos: rango, cifra y `null` —barra de
+          acento, etiqueta "Precio" y "Consultar por [logo]"—. */}
       {/* `lg` en el detalle: acá el precio es el segundo elemento más grande de
-          la pantalla después del título, no un dato de tarjeta. */}
-      <PriceTag precio={producto.precio} size="lg" />
+          la pantalla después del título, no un dato de tarjeta.
+
+          `sinPrecio="whatsapp"` es de esta pantalla y solo de esta: el CTA de
+          abajo es el chat, así que el logo anticipa a dónde lleva el botón. La
+          tarjeta del catálogo usa el valor por defecto, sin logo, porque su CTA
+          es este detalle. */}
+      <PriceTag precio={precioMostrado} size="lg" sinPrecio="whatsapp" />
+
+      {/*
+        Explica el rango en vez de dejar que la persona descubra sola por qué hay
+        dos cifras. Desaparece al elegir talla, que es cuando el rango se
+        convierte en un precio. Solo aparece si de verdad hay rango: un producto
+        de precio único no tiene nada que explicar.
+      */}
+      {!talla && rangoDe(producto) && (
+        <p className="mt-2 text-[13px] text-[var(--atenuado)] md:text-[14px]">
+          El precio depende de la talla. Elige la tuya y lo ves exacto.
+        </p>
+      )}
 
       <p className="mt-5 max-w-[52ch] text-[15px] leading-[1.65] text-[var(--cuerpo)] md:text-[17px]">
         {producto.descripcion}
@@ -118,7 +152,10 @@ export function ProductPurchase({
           <div>
             <SizePicker
               label={producto.variantes.label}
-              opciones={producto.variantes.opciones}
+              // Solo los valores: el selector elige talla, no precio. Que el
+              // precio dependa de ella es asunto del PriceTag de arriba, que se
+              // actualiza al elegir.
+              opciones={producto.variantes.opciones.map((opcion) => opcion.valor)}
               valor={talla}
               onChange={(opcion) => {
                 setTalla(opcion);
@@ -146,7 +183,7 @@ export function ProductPurchase({
       </div>
 
       <div className="mt-7">
-        {producto.precio === null ? (
+        {sinPrecio ? (
           <StoreButton
             href={consultar}
             external
