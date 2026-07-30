@@ -4,7 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ProductPurchase } from "@/components/demos/ProductPurchase";
 import { RelatedProducts } from "@/components/demos/RelatedProducts";
-import { DEMOS, getDemo, getDemoProduct } from "@/lib/content";
+import { DEMOS, getDemo, getDemoProduct } from "@/lib/content/demos";
 
 type Params = { cliente: string; producto: string };
 
@@ -138,8 +138,16 @@ export default async function DemoProductoPage({ params }: { params: Promise<Par
 
           `priority` porque es el elemento más grande sobre el pliegue: es el LCP de
           esta pantalla.
+
+          **`md:sticky` y no una foto quieta.** Con dos columnas la foto es cuadrada
+          y por lo tanto tan alta como ancha: a 768px mide 338×338 mientras la
+          columna de compra necesita unos 1000px, así que debajo quedaban ~660px de
+          vacío (medido). Pegándola arriba acompaña la lectura de talla, cantidad y
+          CTA en vez de irse de pantalla, que además es cuando más se quiere ver el
+          producto. El `top-20` la deja debajo del nav, que es `sticky` y mide 72px
+          en este quiebre.
         */}
-        <div className="aspect-square overflow-hidden rounded-[4px] border border-[var(--borde)] bg-[var(--superficie-foto)]">
+        <div className="aspect-square overflow-hidden rounded-[4px] border border-[var(--borde)] bg-[var(--superficie-foto)] md:sticky md:top-20">
           <Image
             src={producto.imagen.src}
             alt={producto.imagen.alt}
