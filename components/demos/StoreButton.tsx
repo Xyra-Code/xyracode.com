@@ -21,8 +21,30 @@ type Props = {
  * Sin `"use client"` y sin imports server-only: se usa igual desde el árbol
  * servidor y desde dentro de componentes cliente.
  */
+/**
+ * `text-center` importa solo cuando la etiqueta envuelve, y por eso está.
+ * `justify-center` centra el trozo de texto como bloque, pero las líneas de
+ * adentro se alinean con `text-align`, que por defecto es al inicio: a 320px la
+ * tarjeta mide 138px y "ELEGIR TALLA" no entra en una línea ni sin padding, así
+ * que salían dos renglones pegados a la izquierda dentro de un botón centrado.
+ * Con esto las dos líneas quedan centradas y el envolver se lee como decisión.
+ */
 const BASE =
-  "inline-flex items-center justify-center gap-2 rounded-[4px] px-5 font-(family-name:--font-archivo) text-[13px] font-bold tracking-[0.02em] uppercase transition-colors duration-150 min-h-11";
+  "inline-flex items-center justify-center gap-2 rounded-[4px] text-center font-(family-name:--font-archivo) text-[13px] leading-tight font-bold tracking-[0.02em] uppercase transition-colors duration-150 min-h-11";
+
+/**
+ * El padding horizontal depende de `full`, y no es un detalle estético.
+ *
+ * Con `w-full` el ancho ya lo pone el contenedor y el padding no centra nada: solo
+ * le quita sitio al texto. En la tarjeta de producto eso rompía — a 320px la
+ * tarjeta mide 138px, el botón 104, y los 40px de `px-5` dejaban 64 para un
+ * "ELEGIR TALLA" que necesita 86: salía partido en dos renglones dentro de un
+ * botón de 44px de alto. Medido en Chrome a 320 y 360; a 390 entraba justo.
+ *
+ * `px-3` deja 80px de texto a 320 y 100 a 360, así que el CTA vuelve a una línea
+ * en los teléfonos angostos —iPhone SE/mini y Android de 360dp— sin cambiar nada
+ * del botón suelto, que sigue en `px-5` porque ahí el padding SÍ define el ancho.
+ */
 
 const VARIANTES: Record<Variante, string> = {
   primario:
@@ -36,7 +58,7 @@ export function storeButtonClasses(
   full = false,
   extra = "",
 ) {
-  return `${BASE} ${VARIANTES[variant]} ${full ? "w-full" : ""} ${extra}`.trim();
+  return `${BASE} ${VARIANTES[variant]} ${full ? "w-full px-3" : "px-5"} ${extra}`.trim();
 }
 
 /** Versión enlace. Para el `<button>` real usar `storeButtonClasses()`. */

@@ -3,8 +3,11 @@
 import { CreditCard } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import type { Demo } from "@/lib/content";
-import { CONTACT } from "@/lib/content";
+import type { Demo } from "@/lib/content/demos";
+// Del submódulo y no del barrel: este es un componente cliente, y el barrel
+// arrastraría el contenido entero de la agencia (servicios, proyectos, blog) al
+// chunk de la demo. Misma razón que el comentario en `lib/content/index.ts`.
+import { CONTACT } from "@/lib/content/contact";
 import { SEO } from "@/lib/seo";
 import { formatCOP } from "@/lib/demos/format";
 import { useCart } from "./CartProvider";
@@ -82,6 +85,10 @@ export function CheckoutFlow({ demo }: { demo: Demo }) {
                   alt={linea.producto.imagen.alt}
                   width={linea.producto.imagen.width}
                   height={linea.producto.imagen.height}
+                  // El slot es `size-14` y no cambia en ningún ancho. Sin este
+                  // `sizes` la miniatura se sirve al tamaño del asset —1080×1080—
+                  // para pintar 56px.
+                  sizes="56px"
                   className="size-full object-contain"
                 />
               </div>
@@ -166,19 +173,24 @@ export function CheckoutFlow({ demo }: { demo: Demo }) {
           Los botones usan la paleta invertida —oscuros sobre la nota clara— y no
           el verde de la tienda: pertenecen a XyraCode, no al comercio. Eso los
           separa visualmente de todo lo que el comprador puede tocar.
+
+          El padding arranca en `px-4` y sube a `px-6` desde 640px: apilados y a
+          ancho completo, a 320/360px los 48px de `px-6` dejaban al CTA principal
+          sin sitio y "QUIERO MI TIENDA FUNCIONANDO" se partía en dos renglones
+          (medido: 132px de texto en dos líneas a 320 y 360, una sola a 390).
         */}
         <div className="mt-7 flex flex-col gap-3 sm:flex-row">
           <a
             href={quiero}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex min-h-12 items-center justify-center rounded-[4px] bg-[var(--fondo)] px-6 font-(family-name:--font-archivo) text-[14px] font-bold tracking-[0.02em] text-[var(--texto)] uppercase transition-opacity hover:opacity-85"
+            className="inline-flex min-h-12 items-center justify-center rounded-[4px] bg-[var(--fondo)] px-4 py-2.5 text-center font-(family-name:--font-archivo) text-[13px] leading-tight font-bold sm:text-[14px] tracking-[0.02em] text-[var(--texto)] uppercase transition-opacity hover:opacity-85 sm:px-6"
           >
             Quiero mi tienda funcionando
           </a>
           <Link
             href={tienda}
-            className="inline-flex min-h-12 items-center justify-center rounded-[4px] border border-[color-mix(in_srgb,var(--fondo)_30%,var(--franja-fondo))] px-6 font-(family-name:--font-archivo) text-[14px] font-bold tracking-[0.02em] text-[var(--fondo)] uppercase transition-colors hover:bg-[color-mix(in_srgb,var(--fondo)_8%,var(--franja-fondo))]"
+            className="inline-flex min-h-12 items-center justify-center rounded-[4px] border border-[color-mix(in_srgb,var(--fondo)_30%,var(--franja-fondo))] px-4 py-2.5 text-center font-(family-name:--font-archivo) text-[13px] leading-tight font-bold sm:text-[14px] tracking-[0.02em] text-[var(--fondo)] uppercase transition-colors hover:bg-[color-mix(in_srgb,var(--fondo)_8%,var(--franja-fondo))] sm:px-6"
           >
             Volver a la tienda
           </Link>
