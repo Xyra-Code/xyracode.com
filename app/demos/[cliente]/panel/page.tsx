@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PanelDemo } from "@/components/demos/PanelDemo";
-import { getDemo } from "@/lib/content";
+import { getDemo } from "@/lib/content/demos";
 
 /**
  * `title` es un **string simple**: así lo toma el `template` del layout de la demo

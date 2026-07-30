@@ -1,4 +1,4 @@
-import type { DemoProduct } from "@/lib/content";
+import type { DemoProduct } from "@/lib/content/demos";
 
 /**
  * Lectura del precio de un producto de demo.

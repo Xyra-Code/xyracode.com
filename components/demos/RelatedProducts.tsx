@@ -1,4 +1,4 @@
-import type { Demo, DemoProduct } from "@/lib/content";
+import type { Demo, DemoProduct } from "@/lib/content/demos";
 import { ProductGrid } from "./ProductGrid";
 
 /**

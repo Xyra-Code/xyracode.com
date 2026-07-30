@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { Demo, DemoCategory } from "@/lib/content";
+import type { Demo, DemoCategory } from "@/lib/content/demos";
 
 type Props = {
   demo: Demo;

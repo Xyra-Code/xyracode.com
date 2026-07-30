@@ -8,7 +8,7 @@ import {
   useState,
   useSyncExternalStore,
 } from "react";
-import type { Demo } from "@/lib/content";
+import type { Demo } from "@/lib/content/demos";
 import {
   cartStorageKey,
   cartTotal,

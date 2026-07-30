@@ -1,4 +1,4 @@
-import type { DemoProduct } from "@/lib/content";
+import type { DemoProduct } from "@/lib/content/demos";
 import type { OrderLine } from "./order";
 import { precioDe } from "./price";
 

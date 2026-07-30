@@ -4,7 +4,7 @@ import { CartDrawer } from "@/components/demos/CartDrawer";
 import { CartProvider } from "@/components/demos/CartProvider";
 import { StoreFooter } from "@/components/demos/StoreFooter";
 import { StoreNav } from "@/components/demos/StoreNav";
-import { getDemo } from "@/lib/content";
+import { getDemo } from "@/lib/content/demos";
 
 /**
  * Chrome de la **vitrina**: nav, carrito y footer del comercio.
