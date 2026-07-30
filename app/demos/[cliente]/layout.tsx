@@ -1,11 +1,6 @@
 import type { Metadata } from "next";
 import { Archivo, Manrope, Space_Mono } from "next/font/google";
 import { notFound } from "next/navigation";
-import { CartButton } from "@/components/demos/CartButton";
-import { CartDrawer } from "@/components/demos/CartDrawer";
-import { CartProvider } from "@/components/demos/CartProvider";
-import { StoreFooter } from "@/components/demos/StoreFooter";
-import { StoreNav } from "@/components/demos/StoreNav";
 import { DEMOS, getDemo } from "@/lib/content";
 import "./demo.css";
 
@@ -120,10 +115,14 @@ export default async function DemoLayout({
 
   return (
     <div
-      // Sin padding arriba: el nav es el único elemento pegajoso de la tienda y
-      // es `sticky top-0`, así que está en el flujo y se reserva su propio alto.
-      // NO volver a agregar `pt-*` acá — era para una franja `fixed` que ya no
-      // existe, y dejaría una banda vacía por la que se ve pasar el contenido.
+      // Este wrapper es lo único que la vitrina y el panel comparten: el tema
+      // del cliente como custom properties, las fuentes y el alto mínimo. El
+      // chrome del comercio —nav, carrito, footer— vive en `(tienda)/layout.tsx`,
+      // porque el panel no lo lleva.
+      //
+      // Sin padding arriba: el nav de la tienda es `sticky top-0`, o sea que está
+      // en el flujo y reserva su propio alto. NO agregar `pt-*` acá — era para una
+      // franja `fixed` que ya no existe, y dejaría una banda vacía.
       className={`demo-root ${archivo.variable} ${manrope.variable} ${spaceMono.variable} flex min-h-screen flex-col font-(family-name:--font-manrope)`}
       style={
         {
@@ -134,16 +133,7 @@ export default async function DemoLayout({
         } as React.CSSProperties
       }
     >
-      {/* El provider envuelve al nav, no solo al contenido: el CartButton vive
-          dentro del nav y necesita leer el context. */}
-      <CartProvider demo={demo}>
-        <StoreNav demo={demo}>
-          <CartButton />
-        </StoreNav>
-        <main className="flex-1">{children}</main>
-        <CartDrawer demo={demo} />
-      </CartProvider>
-      <StoreFooter demo={demo} />
+      {children}
     </div>
   );
 }
