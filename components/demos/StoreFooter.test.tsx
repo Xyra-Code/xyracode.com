@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { StoreFooter } from "./StoreFooter";
-import type { Demo } from "@/lib/content";
+import type { Demo } from "@/lib/content/demos";
 
 /**
  * Demo mínima. El footer solo lee `negocio`, `categorias` y `persona.servicio`,
@@ -101,6 +101,21 @@ describe("StoreFooter", () => {
   it("muestra el pie con el nombre y el tagline del cliente", () => {
     render(<StoreFooter demo={demo} />);
     expect(screen.getByText(/Guantes NR1 · El inoxidable/)).toBeInTheDocument();
+  });
+
+  it("la firma es un solo enlace con la frase completa", () => {
+    render(<StoreFooter demo={demo} />);
+
+    /*
+      La frase entera es el enlace y no solo "XyraCode": ahí vive el área táctil
+      de 44px. Con la marca sola, el `min-h-11` empujaba su baseline fuera del
+      renglón y la palabra salía corrida respecto a "Desarrollado por". El nombre
+      accesible completo es lo que prueba que sigue siendo un enlace único.
+    */
+    expect(screen.getByRole("link", { name: "Desarrollado por XyraCode" })).toHaveAttribute(
+      "href",
+      "https://xyracode.com",
+    );
   });
 
   it("sin redes, sin lema y sin servicio no deja bloques vacíos", () => {

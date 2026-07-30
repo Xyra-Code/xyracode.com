@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import type { Demo, DemoProduct } from "@/lib/content";
+import type { Demo, DemoProduct } from "@/lib/content/demos";
 import { precioDeTarjeta } from "@/lib/demos/price";
 import { PriceTag } from "./PriceTag";
 import { StoreButton } from "./StoreButton";
@@ -97,7 +97,14 @@ export function ProductCard({ producto, demo, cta }: Props) {
           descuadran entre sí.
         */}
         <h3 className="mt-2 min-h-[2.7em] text-[14px] leading-[1.35] font-medium text-[var(--texto)] md:text-[15px]">
-          <Link href={href} className="transition-colors hover:text-[var(--acento)]">
+          {/* `block py-1` para llegar a 44px de alto de área táctil: el nombre en
+              dos líneas medía 38px, y es el enlace principal de la tarjeta —el de
+              la foto va con `tabIndex={-1}` y `aria-hidden`. El padding no separa
+              nada porque el `min-h` del h3 ya reserva las dos líneas. */}
+          <Link
+            href={href}
+            className="block py-1 transition-colors hover:text-[var(--acento)]"
+          >
             {producto.nombre}
           </Link>
         </h3>

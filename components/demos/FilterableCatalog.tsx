@@ -1,7 +1,7 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
-import type { Demo, DemoCategory } from "@/lib/content";
+import type { Demo, DemoCategory } from "@/lib/content/demos";
 import { CategoryEmpty } from "./CategoryEmpty";
 import { ProductGrid } from "./ProductGrid";
 
@@ -75,16 +75,23 @@ function hashDelServidor() {
 }
 
 const CHIP_BASE =
-  "h-10 shrink-0 rounded-full border px-4 font-medium text-[14px] transition-colors md:text-[15px]";
+  "h-11 shrink-0 rounded-full border px-4 font-medium text-[14px] transition-colors md:text-[15px]";
 
 /**
  * Chip de subcategoría: más bajo y más chico que el de categoría, y cuando está
  * elegido va **contorneado** en acento en vez de relleno. Los dos niveles se
  * distinguen sin leerlos, y el relleno de acento sigue siendo uno solo por
  * pantalla — el de la categoría abierta.
+ *
+ * Mide 40px de alto pero se toca en 44: el `before` es un rectángulo invisible de
+ * 44px centrado en el chip, así el objetivo táctil cumple el mínimo sin igualar la
+ * altura del chip de categoría, que es lo que distingue los dos niveles de un
+ * vistazo. La fila que lo contiene lleva `py-0.5` para absorber los 2px que sobran
+ * arriba y abajo — sin eso, el `overflow-x-auto` del contenedor se vuelve `auto`
+ * también en vertical y aparecería un scroll de 4px.
  */
 const SUBCHIP_BASE =
-  "h-9 shrink-0 rounded-full border px-3.5 text-[13px] font-medium transition-colors md:text-[14px]";
+  "relative h-10 shrink-0 rounded-full border px-3.5 text-[13px] font-medium transition-colors before:absolute before:inset-x-0 before:top-1/2 before:h-11 before:-translate-y-1/2 before:content-[''] md:text-[14px]";
 
 export function FilterableCatalog({ demo }: { demo: Demo }) {
   const hash = useSyncExternalStore(suscribirHash, leerHash, hashDelServidor);
@@ -138,10 +145,18 @@ export function FilterableCatalog({ demo }: { demo: Demo }) {
           `aria-live` porque el filtro no navega: sin esto, quien usa lector de
           pantalla pulsa un chip y no recibe ninguna señal de que la grilla
           cambió. El conteo es justamente el resumen que necesita oír.
+
+          **`sr-only` hasta 768px, visible desde ahí.** En desktop los dos textos
+          están en extremos opuestos de la fila y se leen como título y contador;
+          en móvil el `flex-wrap` los apila y "Mostrando 16 de 16" caía justo
+          debajo de "16 referencias · precios en pesos", o sea dos líneas de
+          metadatos casi idénticas. Se oculta a la vista pero NO se desmonta: el
+          anuncio del filtro tiene que seguir llegando, que es justamente donde
+          más falta hace porque en móvil la grilla queda fuera de pantalla.
         */}
         <p
           aria-live="polite"
-          className="font-(family-name:--font-mono-demo) text-[11px] tracking-[0.1em] text-[var(--atenuado-suave)] md:text-[12px]"
+          className="sr-only font-(family-name:--font-mono-demo) text-[11px] tracking-[0.1em] text-[var(--atenuado-suave)] md:not-sr-only md:text-[12px]"
         >
           Mostrando {visibles.length} de {total}
         </p>
@@ -196,7 +211,11 @@ export function FilterableCatalog({ demo }: { demo: Demo }) {
         <div
           role="group"
           aria-label={`Filtrar dentro de ${activa.nombre}`}
-          className="-mx-4 mt-3 flex gap-2 overflow-x-auto px-4 md:mx-0 md:flex-wrap md:px-0"
+          // `py-0.5` absorbe los 2px que el área táctil de 44px del subchip saca
+          // por arriba y por abajo de sus 40px visibles (ver SUBCHIP_BASE). Sin
+          // esto el `overflow-x-auto` se vuelve `auto` también en vertical y
+          // aparece un scroll de 4px.
+          className="-mx-4 mt-3 flex gap-2 overflow-x-auto px-4 py-0.5 md:mx-0 md:flex-wrap md:px-0"
         >
           {[{ slug: activa.slug, nombre: `Todo en ${activa.nombre}` }, ...activa.subcategorias].map(
             (sub) => {
