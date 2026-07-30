@@ -77,16 +77,48 @@ function hashDelServidor() {
 const CHIP_BASE =
   "h-10 shrink-0 rounded-full border px-4 font-medium text-[14px] transition-colors md:text-[15px]";
 
+/**
+ * Chip de subcategoría: más bajo y más chico que el de categoría, y cuando está
+ * elegido va **contorneado** en acento en vez de relleno. Los dos niveles se
+ * distinguen sin leerlos, y el relleno de acento sigue siendo uno solo por
+ * pantalla — el de la categoría abierta.
+ */
+const SUBCHIP_BASE =
+  "h-9 shrink-0 rounded-full border px-3.5 text-[13px] font-medium transition-colors md:text-[14px]";
+
 export function FilterableCatalog({ demo }: { demo: Demo }) {
   const hash = useSyncExternalStore(suscribirHash, leerHash, hashDelServidor);
 
-  // Un hash que no es ninguna categoría —un ancla vieja, un link mal copiado—
-  // cae en "Todos" en vez de dejar el catálogo en blanco.
-  const activa: DemoCategory | undefined = demo.categorias.find((c) => c.slug === hash);
+  /**
+   * El hash guarda **un** slug, que puede ser de categoría o de subcategoría.
+   *
+   * Guardar los dos —`#guantes/edicion-pro`— obligaría a parsear, a validar que
+   * el par exista y a decidir qué hacer con un padre que no corresponde al hijo.
+   * Con un solo slug, encontrar la subcategoría es encontrar también su padre, y
+   * los enlaces del nav siguen siendo `/catalogo#<slug>` sin saber en qué nivel
+   * está lo que enlazan.
+   */
+  const categoriaDelHash = demo.categorias.find((c) => c.slug === hash);
+  const encontrada = categoriaDelHash
+    ? undefined
+    : demo.categorias
+        .map((padre) => ({ padre, sub: padre.subcategorias?.find((s) => s.slug === hash) }))
+        .find((par) => par.sub !== undefined);
 
-  const visibles = activa
-    ? demo.productos.filter((producto) => producto.categoria === activa.slug)
-    : demo.productos;
+  // Un hash que no es ninguna de las dos —un ancla vieja, un link mal copiado—
+  // cae en "Todos" en vez de dejar el catálogo en blanco.
+  const activa: DemoCategory | undefined = categoriaDelHash ?? encontrada?.padre;
+  const subActiva: DemoCategory | undefined = encontrada?.sub;
+
+  const visibles = !activa
+    ? demo.productos
+    : demo.productos.filter(
+        (producto) =>
+          producto.categoria === activa.slug &&
+          // Sin subcategoría elegida se ven todos los de la categoría, incluidos
+          // los que no tengan subcategoría asignada.
+          (subActiva === undefined || producto.subcategoria === subActiva.slug),
+      );
 
   const total = demo.productos.length;
 
@@ -130,6 +162,8 @@ export function FilterableCatalog({ demo }: { demo: Demo }) {
         className="-mx-4 mt-6 flex gap-2 overflow-x-auto px-4 md:mx-0 md:flex-wrap md:px-0"
       >
         {[{ slug: "", nombre: "Todos" }, ...demo.categorias].map((categoria) => {
+          // Con una subcategoría abierta, su padre sigue marcado: el segundo nivel
+          // acota al primero, no lo reemplaza.
           const seleccionado = categoria.slug === (activa?.slug ?? "");
           return (
             <button
@@ -149,11 +183,51 @@ export function FilterableCatalog({ demo }: { demo: Demo }) {
         })}
       </div>
 
+      {/*
+        Segunda fila: las subcategorías de la categoría abierta. Solo aparece con
+        una categoría que las tenga —Guantes— así que en Indumentaria y Accesorios
+        no hay una fila vacía ni un salto de espaciado.
+
+        El primer chip vuelve a la categoría completa y no a "Todos": desde
+        "Edición Pro" el paso natural es ver todos los guantes, no todo el
+        catálogo, que ya está a un clic en la fila de arriba.
+      */}
+      {activa?.subcategorias && activa.subcategorias.length > 0 && (
+        <div
+          role="group"
+          aria-label={`Filtrar dentro de ${activa.nombre}`}
+          className="-mx-4 mt-3 flex gap-2 overflow-x-auto px-4 md:mx-0 md:flex-wrap md:px-0"
+        >
+          {[{ slug: activa.slug, nombre: `Todo en ${activa.nombre}` }, ...activa.subcategorias].map(
+            (sub) => {
+              const seleccionado = sub.slug === (subActiva?.slug ?? activa.slug);
+              return (
+                <button
+                  key={sub.slug}
+                  type="button"
+                  aria-pressed={seleccionado}
+                  onClick={() => escribirHash(sub.slug)}
+                  className={`${SUBCHIP_BASE} ${
+                    seleccionado
+                      ? "border-[var(--acento)] text-[var(--acento)]"
+                      : "border-[var(--borde)] text-[var(--atenuado)] hover:bg-[var(--superficie)]"
+                  }`}
+                >
+                  {sub.nombre}
+                </button>
+              );
+            },
+          )}
+        </div>
+      )}
+
       <div className="mt-6 md:mt-8">
         {activa && visibles.length === 0 ? (
           <CategoryEmpty
             demo={demo}
-            categoria={activa}
+            // La subcategoría cuando hay una: el copy nombra lo que está vacío, y
+            // lo vacío es "Edición Pro", no "Guantes".
+            categoria={subActiva ?? activa}
             onVerTodos={() => escribirHash("")}
           />
         ) : (

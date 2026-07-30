@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { Demo, DemoProduct } from "@/lib/content";
-import { buildProductInquiryHref } from "@/lib/demos/order";
+import { precioDeTarjeta } from "@/lib/demos/price";
 import { PriceTag } from "./PriceTag";
 import { StoreButton } from "./StoreButton";
 
@@ -9,13 +9,13 @@ type Props = {
   producto: DemoProduct;
   demo: Demo;
   /**
-   * Slot del CTA para el caso con precio. La Tarea 8 mete acá el
+   * Slot del CTA para el caso con precio. La grilla mete acá el
    * `<QuickAddButton />`, que es cliente, sin que esta tarjeta tenga que serlo.
    *
-   * Si el botón que ocupe el slot no es un enlace, tiene que conservar el
-   * `href` de `wa.me` como respaldo (renderizar el `<a>` y recién cambiarlo a
-   * `<button>` después de montar): sin eso la tarjeta pierde su única salida en
-   * un navegador sin JavaScript.
+   * Si el botón que ocupe el slot no es un enlace, tiene que conservar como
+   * `href` de respaldo el detalle del producto (renderizar el `<a>` y recién
+   * interceptar el clic con JavaScript): sin eso la tarjeta pierde su única
+   * salida en un navegador sin JS.
    */
   cta?: React.ReactNode;
 };
@@ -40,18 +40,6 @@ export function ProductCard({ producto, demo, cta }: Props) {
   const categoria =
     demo.categorias.find((c) => c.slug === producto.categoria)?.nombre ??
     producto.categoria;
-
-  /**
-   * Enlace de respaldo, siempre presente en la tarjeta: es el CTA cuando el
-   * precio es `null` (no hay nada que agregar al carrito) y también cuando el
-   * navegador no ejecuta JavaScript, donde el carrito no abre pero el catálogo
-   * sigue siendo HTML legible con un WhatsApp por producto.
-   */
-  const consultar = buildProductInquiryHref(
-    demo.negocio.whatsapp,
-    demo.negocio.nombre,
-    producto.nombre,
-  );
 
   return (
     <article className="flex h-full flex-col overflow-hidden rounded-[4px] border border-[var(--borde)] bg-[var(--superficie)]">
@@ -114,19 +102,29 @@ export function ProductCard({ producto, demo, cta }: Props) {
           </Link>
         </h3>
 
-        <PriceTag precio={producto.precio} />
+        {/* Rango cuando el precio depende de la talla, cifra cuando es único. La
+            talla —y con ella el precio real— se elige en el detalle. */}
+        <PriceTag precio={precioDeTarjeta(producto)} />
 
+        {/*
+          Los dos caminos de la tarjeta terminan en el detalle, nunca en el chat:
+          desde la grilla no hay talla elegida ni pregunta concreta que mandar, y
+          un `wa.me` acá saca a la persona del sitio antes de que haya visto el
+          producto. Quien quiera preguntar tiene el chat en el detalle, en el hero
+          y en el pie.
+
+          Sin precio publicado no hay nada que agregar, así que el CTA es el
+          detalle a secas. Con precio, el respaldo es el mismo enlace: es lo que
+          se ve cuando la grilla usa esta tarjeta sin inyectarle CTA y cuando el
+          navegador no ejecuta JavaScript.
+        */}
         <div className="mt-3">
-          {producto.precio === null ? (
-            <StoreButton href={consultar} external full>
-              Consultar
-            </StoreButton>
+          {cta && precioDeTarjeta(producto) !== null ? (
+            cta
           ) : (
-            (cta ?? (
-              <StoreButton href={consultar} external full>
-                Agregar
-              </StoreButton>
-            ))
+            <StoreButton href={href} full>
+              Ver producto
+            </StoreButton>
           )}
         </div>
       </div>

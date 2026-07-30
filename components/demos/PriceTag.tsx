@@ -1,4 +1,5 @@
 import { formatCOP } from "@/lib/demos/format";
+import type { RangoPrecio } from "@/lib/demos/price";
 import { WhatsAppMark } from "./WhatsAppMark";
 
 /**
@@ -34,10 +35,46 @@ const TAMANOS = {
 export function PriceTag({
   precio,
   size = "md",
+  sinPrecio = "texto",
 }: {
-  precio: number | null;
+  /**
+   * Un número, un rango, o `null` si no hay precio publicado.
+   *
+   * El rango es el caso de la tarjeta del catálogo cuando el precio depende de la
+   * talla: ahí no hay una cifra que sea LA del producto, y mostrar la más baja a
+   * secas sería prometer un precio que en la talla 10 no existe.
+   */
+  precio: number | RangoPrecio | null;
   size?: keyof typeof TAMANOS;
+  /**
+   * Qué ofrece el estado sin precio.
+   *
+   * `"texto"` —el de la tarjeta— dice "Consultar" y nada más: el CTA de al lado
+   * lleva al detalle, y prometer el chat desde la grilla mandaría a la persona
+   * fuera del sitio antes de haber visto el producto.
+   *
+   * `"whatsapp"` es el detalle, donde el CTA de abajo **sí** es el chat: ahí el
+   * logo anticipa a dónde va el botón, en lugar de contradecirlo.
+   */
+  sinPrecio?: "texto" | "whatsapp";
 }) {
+  if (precio !== null && typeof precio !== "number") {
+    return (
+      <p
+        className={`mt-auto pt-4 font-(family-name:--font-archivo) font-bold tracking-[-0.02em] text-[var(--texto)] ${TAMANOS[size]}`}
+      >
+        {/*
+          Guion largo con espacios finos alrededor y `whitespace-nowrap` en cada
+          cifra: el rango puede envolver a dos líneas en una tarjeta angosta, pero
+          nunca partiendo un precio por la mitad.
+        */}
+        <span className="whitespace-nowrap">{formatCOP(precio.min)}</span>
+        {" — "}
+        <span className="whitespace-nowrap">{formatCOP(precio.max)}</span>
+      </p>
+    );
+  }
+
   if (precio === null) {
     return (
       // Barra de acento a la izquierda en vez de un recuadro: marca el bloque sin
@@ -50,8 +87,13 @@ export function PriceTag({
             base quedaría bajo, y así el `gap` sustituye al espacio de la palabra
             que reemplaza. */}
         <p className="flex items-center gap-1.5 font-(family-name:--font-archivo) text-[15px] font-bold text-[var(--acento)] md:text-[16px]">
-          Consultar por{" "}
-          <WhatsAppMark size={16} />
+          {sinPrecio === "whatsapp" ? (
+            <>
+              Consultar por <WhatsAppMark size={16} />
+            </>
+          ) : (
+            "Consultar"
+          )}
         </p>
       </div>
     );

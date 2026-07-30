@@ -8,11 +8,20 @@ import { ProductPurchase } from "./ProductPurchase";
 const conTalla: DemoProduct = {
   slug: "guante",
   nombre: "Guante corte negativo látex 4 mm",
-  precio: 149900,
+  // El precio vive en cada talla, no en el producto.
+  precio: null,
   categoria: "guantes",
   descripcion: "Látex alemán de 4 mm con corte negativo.",
   imagen: { src: "/a.webp", alt: "A", width: 800, height: 800 },
-  variantes: { label: "Talla", opciones: ["7", "8", "9", "10"] },
+  variantes: {
+    label: "Talla",
+    opciones: [
+      { valor: "7", precio: 149900 },
+      { valor: "8", precio: 154900 },
+      { valor: "9", precio: 159900 },
+      { valor: "10", precio: 164900 },
+    ],
+  },
 };
 
 const sinVariantes: DemoProduct = {
@@ -81,10 +90,41 @@ describe("ProductPurchase", () => {
     expect(
       screen.getByRole("heading", { name: "Guante corte negativo látex 4 mm" }),
     ).toBeInTheDocument();
-    // Espacio NORMAL: el normalizador de Testing Library colapsa el U+00A0 del
-    // DOM, pero no el del matcher.
+    // Sin talla elegida, el precio es el RANGO de las cuatro tallas: la más
+    // barata y la más cara. Espacio NORMAL en los matchers: el normalizador de
+    // Testing Library colapsa el U+00A0 del DOM, pero no el del matcher.
     expect(screen.getByText("$ 149.900")).toBeInTheDocument();
+    expect(screen.getByText("$ 164.900")).toBeInTheDocument();
+    expect(screen.getByText(/el precio depende de la talla/i)).toBeInTheDocument();
     expect(screen.getByText(/Látex alemán de 4 mm/)).toBeInTheDocument();
+  });
+
+  it("al elegir la talla el rango se reemplaza por el precio de esa talla", () => {
+    // Es la razón de ser del selector: en los guantes el precio depende de la
+    // talla, así que la cifra exacta no puede existir antes de elegir.
+    montar(conTalla);
+    clicTexto(/^9$/);
+
+    expect(screen.getByText("$ 159.900")).toBeInTheDocument();
+    // Ni la cifra más baja del rango ni la más alta siguen en pantalla.
+    expect(screen.queryByText("$ 149.900")).not.toBeInTheDocument();
+    expect(screen.queryByText("$ 164.900")).not.toBeInTheDocument();
+    expect(screen.queryByText(/el precio depende de la talla/i)).not.toBeInTheDocument();
+  });
+
+  it("cambiar de talla cambia el precio", () => {
+    montar(conTalla);
+    clicTexto(/^7$/);
+    expect(screen.getByText("$ 149.900")).toBeInTheDocument();
+    clicTexto(/^10$/);
+    expect(screen.getByText("$ 164.900")).toBeInTheDocument();
+    expect(screen.queryByText("$ 149.900")).not.toBeInTheDocument();
+  });
+
+  it("sin variantes muestra un precio y no un rango", () => {
+    montar(sinVariantes);
+    expect(screen.getByText("$ 28.000")).toBeInTheDocument();
+    expect(screen.queryByText(/el precio depende de la talla/i)).not.toBeInTheDocument();
   });
 
   it("con variantes renderiza el bloque de talla, sin ninguna preseleccionada", () => {

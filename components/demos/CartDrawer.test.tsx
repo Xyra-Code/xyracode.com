@@ -9,11 +9,20 @@ const productos: DemoProduct[] = [
   {
     slug: "guante",
     nombre: "Guante corte negativo",
-    precio: 149900,
+    // `null` a propósito, con el precio viviendo solo en las tallas: si el panel
+    // leyera `producto.precio` en vez del precio de la talla, la línea se caería
+    // del carrito y estos casos fallarían en vez de pasar por casualidad.
+    precio: null,
     categoria: "guantes",
     descripcion: "",
     imagen: { src: "/a.webp", alt: "A", width: 800, height: 800 },
-    variantes: { label: "Talla", opciones: ["8", "9"] },
+    variantes: {
+      label: "Talla",
+      opciones: [
+        { valor: "8", precio: 149900 },
+        { valor: "9", precio: 154900 },
+      ],
+    },
   },
   {
     slug: "espuma",

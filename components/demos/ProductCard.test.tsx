@@ -38,26 +38,40 @@ describe("ProductCard", () => {
     );
   });
 
-  it("con precio null muestra 'Consultar por WhatsApp' y no un precio", () => {
+  it("con precio null dice 'Consultar', sin el logo de WhatsApp y sin precio", () => {
     render(<ProductCard producto={{ ...base, precio: null }} demo={demo} />);
-    // A la vista es "Consultar por" + el logo de WhatsApp. La palabra sigue en el
-    // DOM dentro de un `sr-only`, así que se mide por textContent: el logo va
-    // `aria-hidden` y sin ella la etiqueta quedaría cortada para un lector.
-    expect(screen.getByText(/Consultar por/)).toHaveTextContent(
-      "Consultar por WhatsApp",
-    );
+    // "Consultar" a secas: la palabra "WhatsApp" que emitía el `sr-only` del logo
+    // no puede aparecer en el textContent del bloque de precio.
+    expect(screen.getByText("Consultar")).toBeInTheDocument();
+    expect(screen.queryByText(/WhatsApp/)).not.toBeInTheDocument();
     expect(screen.queryByText(/^\$/)).not.toBeInTheDocument();
   });
 
-  it("con precio null el CTA va directo a WhatsApp, no al carrito", () => {
+  it("con precio null el CTA lleva al detalle, no al chat", () => {
     render(<ProductCard producto={{ ...base, precio: null }} demo={demo} />);
-    const cta = screen.getByRole("link", { name: /CONSULTAR/i });
-    expect(cta).toHaveAttribute("href", expect.stringContaining("wa.me/573044962704"));
+    const cta = screen.getByRole("link", { name: /ver producto/i });
+    expect(cta).toHaveAttribute("href", "/demos/guantes-nr1/p/guante-corte-negativo");
   });
 
-  it("siempre conserva un enlace wa.me con el producto, para el caso sin JavaScript", () => {
+  it("ninguna tarjeta deja un enlace a wa.me, con precio o sin él", () => {
+    // La consulta por WhatsApp vive en el detalle, en el hero y en el pie. Desde
+    // la grilla no hay talla elegida ni pregunta concreta que mandar, así que un
+    // `wa.me` acá saca a la persona del sitio antes de ver el producto.
+    for (const producto of [base, { ...base, precio: null }]) {
+      const { unmount } = render(<ProductCard producto={producto} demo={demo} />);
+      const hrefs = screen.getAllByRole("link").map((a) => a.getAttribute("href"));
+      expect(hrefs.some((href) => href?.includes("wa.me"))).toBe(false);
+      unmount();
+    }
+  });
+
+  it("sin CTA inyectado el respaldo es el detalle del producto", () => {
+    // Es lo que se ve cuando la tarjeta se usa suelta y cuando el navegador no
+    // ejecuta JavaScript: el carrito no abre, pero la ficha completa sigue ahí.
     render(<ProductCard producto={base} demo={demo} />);
-    const enlaces = screen.getAllByRole("link");
-    expect(enlaces.some((a) => a.getAttribute("href")?.includes("wa.me"))).toBe(true);
+    expect(screen.getByRole("link", { name: /ver producto/i })).toHaveAttribute(
+      "href",
+      "/demos/guantes-nr1/p/guante-corte-negativo",
+    );
   });
 });

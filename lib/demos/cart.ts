@@ -1,5 +1,6 @@
 import type { DemoProduct } from "@/lib/content";
 import type { OrderLine } from "./order";
+import { precioDe } from "./price";
 
 /**
  * Lo único que se persiste del carrito. Nombre, foto y precio NO se guardan: se
@@ -20,18 +21,27 @@ export function cartStorageKey(demoSlug: string): string {
  * Cruza el carrito persistido con el catálogo actual.
  *
  * Guardar solo slug, variante y cantidad hace imposible mostrar un precio viejo,
- * pero obliga a filtrar dos casos que romperían el render:
+ * pero obliga a filtrar tres casos que romperían el render:
  *
  * 1. Un producto que ya no está en el catálogo — el `localStorage` sobrevive a
  *    los despliegues, así que esto pasa de verdad.
- * 2. Un producto con `precio: null`, que nunca debería haber entrado al carrito
+ * 2. Un producto sin precio publicado, que nunca debería haber entrado al carrito
  *    (su tarjeta va directo a WhatsApp). Se filtra igual, como defensa: es lo que
  *    sostiene que `OrderLine.precio` sea `number` y no `number | null`.
+ * 3. Una **talla que ya no existe**, o un ítem guardado sin talla en un producto
+ *    que ahora cobra por talla. Los dos aparecen con el mismo síntoma —`precioDe`
+ *    devuelve `null`— y salen por la misma puerta: sin precio no hay línea. Es el
+ *    caso nuevo desde que el precio vive en la variante y no en el producto.
  */
 export function resolveCart(items: CartItem[], productos: DemoProduct[]): ResolvedLine[] {
   return items.flatMap((item) => {
     const producto = productos.find((candidato) => candidato.slug === item.slug);
-    if (!producto || producto.precio === null) return [];
+    if (!producto) return [];
+
+    // El precio SIEMPRE sale del catálogo y de la talla guardada, nunca del
+    // storage: así una talla que subió de precio se cobra a lo que vale hoy.
+    const precio = precioDe(producto, item.variante);
+    if (precio === null) return [];
 
     return [
       {
@@ -39,7 +49,7 @@ export function resolveCart(items: CartItem[], productos: DemoProduct[]): Resolv
         producto,
         nombre: producto.nombre,
         cantidad: item.cantidad,
-        precio: producto.precio,
+        precio,
         variante: item.variante,
       },
     ];

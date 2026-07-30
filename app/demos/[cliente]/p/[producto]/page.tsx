@@ -24,8 +24,7 @@ type Params = { cliente: string; producto: string };
  * `app/not-found.tsx`), y ese mismo carácter global es lo que impide una 404 por
  * rama. Las únicas salidas serían una ruta comodín que responda 200 —un soft 404
  * deliberado— o apagar el flag. Decisión tomada el 2026-07-29: se deja así. Es
- * una URL a la que el prospecto solo llega escribiendo mal el link, y la franja
- * de crédito ya dice XyraCode de todas formas.
+ * una URL a la que el prospecto solo llega escribiendo mal el link.
  */
 export const dynamicParams = false;
 

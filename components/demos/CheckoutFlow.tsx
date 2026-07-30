@@ -21,9 +21,10 @@ import { storeButtonClasses } from "./StoreButton";
  *
  * Ojo con la audiencia, que acá es doble: el resumen del pedido le habla al
  * comprador, y el bloque de abajo le habla al dueño del negocio. Por eso ese
- * bloque usa la paleta invertida de la franja de crédito —los tokens `--franja-*`,
- * los mismos del "Demo · hecha por XyraCode"— y no la de la tienda: así se lee
- * como una nota de la agencia y no como parte de la interfaz del comercio.
+ * bloque usa la paleta invertida —los tokens `--franja-*`— y no la de la tienda:
+ * así se lee como una nota de la agencia y no como parte de la interfaz del
+ * comercio. Es el único consumidor que les queda desde que se quitó la barra de
+ * demo que los estrenó, así que si este bloque se va, los tokens también.
  */
 export function CheckoutFlow({ demo }: { demo: Demo }) {
   const { lineas, total, unidades } = useCart();

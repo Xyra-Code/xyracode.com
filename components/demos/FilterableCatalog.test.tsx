@@ -7,8 +7,9 @@ import { FilterableCatalog } from "./FilterableCatalog";
 
 /**
  * La demo real y no un fixture inventado: los conteos que afirman estos tests
- * (12 referencias, 5 guantes, 4 de indumentaria) son los del catálogo que se
- * publica, así que si mañana entra o sale un producto el test lo cuenta.
+ * —16 referencias, 9 guantes (4 Edición Pro + 5 línea estándar), 4 de
+ * indumentaria y 3 de accesorios— son los del catálogo que se publica, así que si
+ * mañana entra o sale un producto el test lo cuenta.
  */
 const demo = getDemo("guantes-nr1") as Demo;
 
@@ -49,14 +50,14 @@ describe("FilterableCatalog", () => {
 
   it("arranca en 'Todos' con el catálogo completo", () => {
     montar();
-    expect(tarjetas()).toHaveLength(12);
+    expect(tarjetas()).toHaveLength(16);
     expect(chip("Todos")).toHaveAttribute("aria-pressed", "true");
   });
 
   it("al hacer clic en 'Guantes' deja solo los guantes y activa ese chip", () => {
     montar();
     clic(chip("Guantes"));
-    expect(tarjetas()).toHaveLength(5);
+    expect(tarjetas()).toHaveLength(9);
     expect(chip("Guantes")).toHaveAttribute("aria-pressed", "true");
     expect(chip("Todos")).toHaveAttribute("aria-pressed", "false");
   });
@@ -66,15 +67,68 @@ describe("FilterableCatalog", () => {
     clic(chip("Indumentaria"));
     expect(tarjetas()).toHaveLength(4);
     clic(chip("Todos"));
-    expect(tarjetas()).toHaveLength(12);
+    expect(tarjetas()).toHaveLength(16);
     expect(chip("Indumentaria")).toHaveAttribute("aria-pressed", "false");
   });
 
   it("el encabezado cuenta cuántas referencias se están mostrando", () => {
     montar();
-    expect(screen.getByText("Mostrando 12 de 12")).toBeInTheDocument();
+    expect(screen.getByText("Mostrando 16 de 16")).toBeInTheDocument();
     clic(chip("Guantes"));
-    expect(screen.getByText("Mostrando 5 de 12")).toBeInTheDocument();
+    expect(screen.getByText("Mostrando 9 de 16")).toBeInTheDocument();
+  });
+
+  describe("subcategorías", () => {
+    it("solo la categoría que las tiene despliega la segunda fila", () => {
+      montar();
+      // En "Todos" no hay ninguna categoría abierta, así que no hay qué subdividir.
+      expect(screen.queryByRole("group", { name: /filtrar dentro de/i })).not.toBeInTheDocument();
+
+      clic(chip("Guantes"));
+      expect(
+        screen.getByRole("group", { name: "Filtrar dentro de Guantes" }),
+      ).toBeInTheDocument();
+
+      // Indumentaria no tiene subcategorías: la fila desaparece en vez de quedar
+      // vacía.
+      clic(chip("Indumentaria"));
+      expect(screen.queryByRole("group", { name: /filtrar dentro de/i })).not.toBeInTheDocument();
+    });
+
+    it("acota a la subcategoría sin desmarcar la categoría padre", () => {
+      montar();
+      clic(chip("Guantes"));
+      clic(chip("Edición Pro"));
+
+      expect(tarjetas()).toHaveLength(4);
+      expect(screen.getByText("Mostrando 4 de 16")).toBeInTheDocument();
+      // El segundo nivel acota al primero, no lo reemplaza.
+      expect(chip("Guantes")).toHaveAttribute("aria-pressed", "true");
+      expect(chip("Edición Pro")).toHaveAttribute("aria-pressed", "true");
+      expect(chip("Todos")).toHaveAttribute("aria-pressed", "false");
+    });
+
+    it("'Todo en Guantes' vuelve a la categoría completa, no al catálogo entero", () => {
+      montar();
+      clic(chip("Guantes"));
+      clic(chip("Línea estándar"));
+      expect(tarjetas()).toHaveLength(5);
+
+      clic(chip("Todo en Guantes"));
+      expect(tarjetas()).toHaveLength(9);
+      expect(chip("Guantes")).toHaveAttribute("aria-pressed", "true");
+      expect(chip("Línea estándar")).toHaveAttribute("aria-pressed", "false");
+    });
+
+    it("los 9 guantes se reparten entre las dos subcategorías, sin dejar ninguno afuera", () => {
+      montar();
+      clic(chip("Guantes"));
+      clic(chip("Edición Pro"));
+      const pro = tarjetas().length;
+      clic(chip("Línea estándar"));
+      const estandar = tarjetas().length;
+      expect(pro + estandar).toBe(9);
+    });
   });
 
   it("una categoría sin productos muestra el estado vacío y ninguna tarjeta", () => {
@@ -97,7 +151,7 @@ describe("FilterableCatalog", () => {
     expect(preguntar.getAttribute("href")).toContain("wa.me/573044962704");
 
     clic(screen.getByRole("button", { name: /ver todos los productos/i }));
-    expect(tarjetas()).toHaveLength(12);
+    expect(tarjetas()).toHaveLength(16);
   });
 
   it("activa la categoría del hash al montar: el nav enlaza a /catalogo#<slug>", () => {
@@ -107,22 +161,59 @@ describe("FilterableCatalog", () => {
     expect(chip("Indumentaria")).toHaveAttribute("aria-pressed", "true");
   });
 
+  it("un hash de SUBcategoría también abre su categoría padre", () => {
+    // El hash guarda un solo slug y puede ser de cualquiera de los dos niveles.
+    window.history.replaceState(null, "", "#edicion-pro");
+    montar();
+    expect(tarjetas()).toHaveLength(4);
+    expect(chip("Edición Pro")).toHaveAttribute("aria-pressed", "true");
+    expect(chip("Guantes")).toHaveAttribute("aria-pressed", "true");
+  });
+
   it("ignora un hash que no corresponde a ninguna categoría", () => {
     window.history.replaceState(null, "", "#fantasma");
     montar();
-    expect(tarjetas()).toHaveLength(12);
+    expect(tarjetas()).toHaveLength(16);
     expect(chip("Todos")).toHaveAttribute("aria-pressed", "true");
   });
 
-  it("muestra el precio formateado, y el estado sin precio del producto que no lo tiene", () => {
+  it("los guantes muestran el rango de sus tallas y la indumentaria una cifra", () => {
+    // En los guantes el precio depende de la talla y la talla se elige en el
+    // detalle, así que en la grilla lo honesto es el rango. En indumentaria todas
+    // las tallas valen igual, y ahí un rango sería ruido. Espacio NORMAL en los
+    // matchers: el normalizador de Testing Library colapsa el U+00A0 que emite
+    // formatCOP, pero no toca el string que se le pasa.
     montar();
-    // Espacio NORMAL en el matcher: el normalizador de Testing Library colapsa
-    // el U+00A0 que emite formatCOP, pero no toca el string que se le pasa.
-    expect(screen.getByText("$ 149.900")).toBeInTheDocument();
-    // "Consultar por" a la vista + el logo de WhatsApp; la palabra sigue en el
-    // DOM (`sr-only`), de ahí que se mida por textContent y no por getByText.
-    expect(screen.getByText(/Consultar por/)).toHaveTextContent(
-      "Consultar por WhatsApp",
-    );
+
+    // Piso de la línea estándar (5 referencias) y techo de Edición Pro (4).
+    expect(screen.getAllByText("$ 99.900")).toHaveLength(5);
+    expect(screen.getAllByText("$ 159.900")).toHaveLength(4);
+    // 129.900 es a la vez el techo del estándar y el piso del Pro: sale en los 9.
+    expect(screen.getAllByText("$ 129.900")).toHaveLength(9);
+
+    // Una sola cifra, sin rango.
+    expect(screen.getByText("$ 119.000")).toBeInTheDocument();
+
+    // Y el accesorio sin precio publicado dice "Consultar" a secas: la consulta
+    // por WhatsApp se hace en su detalle, no desde la grilla.
+    expect(screen.getByText("Consultar")).toBeInTheDocument();
+  });
+
+  it("el CTA de un guante lleva a elegir talla; el de un precio único agrega", () => {
+    montar();
+
+    // Agregar un guante desde la grilla metería una talla que nadie eligió, a un
+    // precio que la tarjeta nunca mostró: el rango no es un precio.
+    clic(chip("Guantes"));
+    const elegir = screen.getAllByRole("link", { name: /elegir talla/i });
+    expect(elegir).toHaveLength(9);
+    expect(elegir[0].getAttribute("href")).toContain("/demos/guantes-nr1/p/");
+    expect(screen.queryByRole("link", { name: /^agregar$/i })).not.toBeInTheDocument();
+
+    // En accesorios, con precio único, el agregado directo sigue existiendo: son
+    // dos de los tres (el tercero no tiene precio publicado).
+    clic(chip("Accesorios"));
+    expect(screen.queryAllByRole("link", { name: /elegir talla/i })).toHaveLength(0);
+    expect(screen.getAllByRole("link", { name: /^agregar$/i })).toHaveLength(2);
   });
 });

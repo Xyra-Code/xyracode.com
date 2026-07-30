@@ -19,6 +19,22 @@ const productos: DemoProduct[] = [
     descripcion: "",
     imagen: { src: "/b.webp", alt: "B", width: 800, height: 800 },
   },
+  {
+    // Precio por talla: el caso de los guantes.
+    slug: "por-talla",
+    nombre: "Guante B",
+    precio: null,
+    categoria: "guantes",
+    descripcion: "",
+    imagen: { src: "/c.webp", alt: "C", width: 800, height: 800 },
+    variantes: {
+      label: "Talla",
+      opciones: [
+        { valor: "8", precio: 120000 },
+        { valor: "9", precio: 130000 },
+      ],
+    },
+  },
 ];
 
 describe("resolveCart", () => {
@@ -38,6 +54,24 @@ describe("resolveCart", () => {
 
   it("descarta ítems sin precio: no deberían haber entrado al carrito", () => {
     expect(resolveCart([{ slug: "sin-precio", cantidad: 1 }], productos)).toEqual([]);
+  });
+
+  it("cobra el precio de la talla guardada, no uno del producto", () => {
+    const [linea] = resolveCart([{ slug: "por-talla", cantidad: 1, variante: "9" }], productos);
+    expect(linea.precio).toBe(130000);
+  });
+
+  it("descarta una talla que ya no existe en el catálogo", () => {
+    // El localStorage sobrevive a los despliegues: una talla que el cliente dejó
+    // de vender no resuelve a ningún precio, y sin precio no hay línea.
+    expect(resolveCart([{ slug: "por-talla", cantidad: 1, variante: "13" }], productos)).toEqual(
+      [],
+    );
+  });
+
+  it("descarta un ítem sin talla en un producto que cobra por talla", () => {
+    // Cobrar la talla más barata sería inventarle una elección al comprador.
+    expect(resolveCart([{ slug: "por-talla", cantidad: 1 }], productos)).toEqual([]);
   });
 
   it("conserva el orden en que se agregaron", () => {
