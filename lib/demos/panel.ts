@@ -1,4 +1,4 @@
-import type { Demo, DemoProduct } from "@/lib/content";
+import type { Demo, DemoProduct } from "@/lib/content/demos";
 import { precioDe } from "./price";
 
 /**
@@ -15,7 +15,17 @@ import { precioDe } from "./price";
  * "Producto 1 — $10.000" la convierte en un mockup.
  */
 
-export type EstadoPedido = "nuevo" | "preparando" | "despachado";
+/**
+ * Flujo lineal más una salida. "Despachado" y "enviado" son el mismo momento para
+ * un negocio que entrega a una transportadora, así que van unidos; "entregado" sí
+ * es un estado distinto y es el que cierra el pedido.
+ */
+export type EstadoPedido =
+  | "nuevo"
+  | "confirmado"
+  | "despachado"
+  | "entregado"
+  | "cancelado";
 
 export type PedidoDemo = {
   numero: string;
@@ -37,7 +47,19 @@ const COMPRADORES = [
 ] as const;
 
 const DIAS = ["Hoy", "Hoy", "Ayer", "Ayer", "Hace 3 días"] as const;
-const ESTADOS: EstadoPedido[] = ["nuevo", "nuevo", "preparando", "despachado", "despachado"];
+/**
+ * Estados de partida de los pedidos de muestra: dos sin tocar, para que el
+ * contador de "sin preparar" arranque en 2 y el cambio de estado se note, y el
+ * resto repartido por el flujo. Ninguno arranca cancelado: un panel que abre con
+ * un pedido cancelado se lee como que algo salió mal.
+ */
+const ESTADOS: EstadoPedido[] = [
+  "nuevo",
+  "nuevo",
+  "confirmado",
+  "despachado",
+  "entregado",
+];
 
 /** Toma la talla del medio de las disponibles: la que más se pide. */
 function tallaTipica(producto: DemoProduct): string | undefined {
