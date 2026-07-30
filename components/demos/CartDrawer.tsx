@@ -4,7 +4,7 @@ import { ShoppingBag, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import type { Demo } from "@/lib/content";
+import type { Demo } from "@/lib/content/demos";
 import { formatCOP } from "@/lib/demos/format";
 import { buildOrderHref } from "@/lib/demos/order";
 import { useCart } from "./CartProvider";
@@ -146,6 +146,10 @@ export function CartDrawer({ demo }: { demo: Demo }) {
                       alt={linea.producto.imagen.alt}
                       width={linea.producto.imagen.width}
                       height={linea.producto.imagen.height}
+                      // El slot es 64px (`size-16`) y 72 desde 768px. Sin `sizes`
+                      // Next servía el asset de 1080×1080 por cada línea del
+                      // pedido: con ocho ítems son ocho descargas de más.
+                      sizes="(max-width: 767px) 64px, 72px"
                       className="size-full object-contain"
                     />
                   </div>
@@ -191,7 +195,14 @@ export function CartDrawer({ demo }: { demo: Demo }) {
               ))}
             </ul>
 
-            <footer className="border-t border-[var(--borde)] px-4 py-5 md:px-6">
+            {/*
+              El `pb` suma la safe-area a los 20px de siempre: el panel es
+              `inset-0`, así que en un iPhone con barra de gestos "Ir a pagar"
+              quedaba justo debajo de ella y el primer toque se lo comía el
+              sistema. En un dispositivo sin recorte `env()` vale 0 y no cambia
+              nada.
+            */}
+            <footer className="border-t border-[var(--borde)] px-4 pt-5 pb-[calc(1.25rem+env(safe-area-inset-bottom))] md:px-6">
               <div className="flex items-baseline justify-between gap-4">
                 <p className="font-(family-name:--font-mono-demo) text-[12px] tracking-[0.14em] text-[var(--atenuado)] uppercase">
                   Subtotal
