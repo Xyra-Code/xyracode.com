@@ -21,7 +21,27 @@
   --atenuado: color-mix(in srgb, var(--fondo) 58%, var(--texto));
   --atenuado-suave: color-mix(in srgb, var(--fondo) 72%, var(--texto));
   --acento-suave: color-mix(in srgb, var(--fondo) 88%, var(--acento));
-  --acento-profundo: color-mix(in srgb, var(--texto) 45%, var(--acento));
+
+  /*
+   * Texto secundario SOBRE un relleno de acento (hoy: el numeral y el conteo de la
+   * tarjeta de categoría destacada).
+   *
+   * La base es `--acento-texto` y NO `--texto`, y ahí estaba el bug: `--texto` es
+   * el color de la tienda sobre `--fondo`, así que en un cliente de fondo oscuro
+   * es casi blanco y este token salía MÁS CLARO que el acento que debía oscurecer.
+   * Medido en Guantes NR1: #DAF297 sobre #C6F24E, contraste 1.06:1 — el conteo era
+   * invisible.
+   *
+   * `--acento-texto` es, por definición, el color que se lee sobre el acento (lo
+   * declara cada cliente en `demo.tema`), así que mezclarlo con el acento da un
+   * apagado que funciona igual en paletas claras y oscuras.
+   *
+   * El 65% no es redondo: es el mínimo medido que pasa AA para texto chico. Al
+   * 55% el contraste daba 3.99:1 y el conteo va en mono a 11px, así que necesita
+   * 4.5. Al 65% da 5.5:1, con margen y sin dejar de leerse como secundario —el
+   * texto principal de la tarjeta, `--acento-texto` puro, está en ~15:1.
+   */
+  --acento-profundo: color-mix(in srgb, var(--acento-texto) 65%, var(--acento));
 
   /* El tema del cliente INVERTIDO. Lo usa lo que le habla al dueño del negocio y
      no al comprador —hoy la "Nota de XyraCode" del checkout—: al invertirse queda
@@ -41,6 +61,14 @@
   /* Compensa el nav pegajoso (h-13 = 52px en móvil) al navegar por anclas, que es
      justo lo que hacen los enlaces de categoría del nav y del footer. */
   scroll-padding-top: 52px;
+}
+
+/* El nav crece a `md:h-18` = 72px, así que la compensación tiene que crecer con
+   él: con los 52px de móvil el ancla caía 20px por debajo de la barra. */
+@media (min-width: 48rem) {
+  .demo-root {
+    scroll-padding-top: 72px;
+  }
 }
 
 /* Foco de teclado en toda la demo: nunca el anillo azul por defecto del
