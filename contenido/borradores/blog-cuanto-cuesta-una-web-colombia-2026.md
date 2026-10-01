@@ -51,7 +51,7 @@ Este es el bloque que casi nunca se menciona en la reunión de venta y que despu
 - **Dominio (tunombre.com).** Entre $60.000 y $150.000 al año según la extensión; un .com.co suele costar más que un .com. Es el ítem más barato de toda la lista y el más importante de todos: es tu dirección, y si la pierdes, pierdes todo lo demás.
 - **Hosting o infraestructura.** Desde $0 hasta cientos de miles al mes. Un sitio corporativo moderno puede correr sobre servicios con capa gratuita generosa; un e-commerce con tráfico real, imágenes y base de datos, no. Pregunta siempre en qué se va a hospedar el tuyo y cuánto cuesta cuando crezca.
 - **Correo corporativo.** Alrededor de $25.000 a $35.000 mensuales por cada buzón (tunombre@tuempresa.com). Se cobra por usuario, así que escala con tu equipo. No viene incluido con el dominio, aunque mucha gente lo da por hecho.
-- **Licencias, temas y plugins.** Si tu sitio se construye sobre una plataforma con extensiones, cada una tiene su licencia anual. Un sitio en WordPress acumula con facilidad cinco o seis suscripciones que se renuevan solas. Pide la lista completa antes de firmar.
+- **Servicios de terceros.** Algunas funciones dependen de servicios externos que se pagan aparte: el envío de correos automáticos, los mapas, la facturación electrónica, el CRM o el sistema de reservas al que se conecta tu sitio. Muchos arrancan con una capa gratuita que alcanza al inicio y pasan a un plan pago cuando creces. Pide la lista completa, con lo que cuesta cada uno, antes de firmar.
 - **Comisión de la pasarela de pagos.** En Colombia se mueve alrededor del 3% al 4% más un fijo por transacción, más IVA. No es un costo mensual sino un porcentaje de cada venta, y por eso es el que más pesa justo cuando el negocio empieza a funcionar.
 - **Mantenimiento y respaldos.** Actualizaciones de seguridad, copias de respaldo, monitoreo y arreglos. Puede ser un plan mensual o una bolsa de horas que consumes cuando la necesitas. Es opcional en el mismo sentido en que es opcional cambiarle el aceite al carro.
 - **Contenido y SEO continuo.** Artículos, actualizaciones, seguimiento de posiciones. Pertenece al bloque de crecimiento: no lo necesitas para lanzar, lo necesitas para que el sitio te traiga clientes solo.
@@ -75,7 +75,7 @@ Guarda esta tabla: es la que te sirve para leer cualquier cotización que te lle
 | Hosting o infraestructura | Mensual o anual | Cliente | Cliente |
 | Correo corporativo | Mensual por usuario | Cliente | Cliente |
 | Certificado HTTPS | Incluido | — | — |
-| Licencias, temas y plugins | Anual | Cliente | Cliente |
+| Servicios de terceros | Mensual o anual | Cliente | Cliente |
 | Pasarela de pagos | % por transacción | Cliente | Cliente |
 | Mantenimiento y respaldos | Mensual o bolsa de horas | Cliente | — |
 | Contenido y SEO continuo | Mensual | Cliente | Cliente |

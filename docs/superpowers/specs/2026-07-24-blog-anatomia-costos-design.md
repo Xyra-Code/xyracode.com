@@ -88,7 +88,7 @@ La cuarta columna es la que convierte: es donde el lector descubre que su provee
 | Hosting o infraestructura | Mensual o anual | Cliente | Cliente |
 | Correo corporativo | Mensual por usuario | Cliente | Cliente |
 | Certificado HTTPS | Incluido | — | — |
-| Licencias, temas y plugins | Anual | Cliente | Cliente |
+| Servicios de terceros | Mensual o anual | Cliente | Cliente |
 | Pasarela de pagos | % por transacción | Cliente | Cliente |
 | Mantenimiento y respaldos | Mensual o bolsa de horas | Cliente | — |
 | Contenido y SEO continuo | Mensual | Cliente | Cliente |
