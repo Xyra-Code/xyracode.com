@@ -26,7 +26,7 @@ export type Project = {
 
 export const PROJECTS: Project[] = [
   {
-    title: "Vuelo Carmesí",
+    title: "Finca Agroturística Vuelo Carmesí",
     type: "Web App · Reservas · E-commerce",
     description:
       "Plataforma de reservas y tienda online para una finca de agroturismo de cacao",

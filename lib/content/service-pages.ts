@@ -656,11 +656,11 @@ export const SERVICE_PAGES: ServicePage[] = [
         kind: "p",
         text: "Hablas siempre con quien construye tu tienda. Y si en el camino veo una forma de que vendas más o gastes menos, te lo digo.",
       },
-      { kind: "h2", text: "Un caso real: Vuelo Carmesí" },
+      { kind: "h2", text: "Un caso real: Finca Agroturística Vuelo Carmesí" },
       {
         kind: "p",
         text: [
-          "Vuelo Carmesí es una finca de agroturismo de cacao en Cubarral, Meta, que vendía sus productos por WhatsApp y coordinaba visitas a mano. Le construimos una tienda virtual con catálogo, carrito y checkout, más un panel donde ve pedidos, reservas, ingresos y stock bajo en la misma pantalla. Puedes ver el detalle en ",
+          "La Finca Agroturística Vuelo Carmesí, en Cubarral (Meta), vendía sus productos por WhatsApp y coordinaba visitas a mano. Le construimos una tienda virtual con catálogo, carrito y checkout, más un panel donde ve pedidos, reservas, ingresos y stock bajo en la misma pantalla. Puedes ver el detalle en ",
           { text: "el caso de estudio completo", href: CASO_VUELO_CARMESI },
           ".",
         ],
@@ -668,10 +668,10 @@ export const SERVICE_PAGES: ServicePage[] = [
       {
         kind: "image",
         src: "/assets/projects/vuelo-carmesi/3.png",
-        alt: "Carrito de compras de la tienda virtual de Vuelo Carmesí, con el resumen del pedido y el botón de checkout",
+        alt: "Carrito de compras de la tienda virtual de la Finca Agroturística Vuelo Carmesí, con el resumen del pedido y el botón de checkout",
         width: 1898,
         height: 868,
-        caption: "Carrito y resumen de pedido de la tienda de Vuelo Carmesí, en producción.",
+        caption: "Carrito y resumen de pedido de la tienda de la Finca Agroturística Vuelo Carmesí, en producción.",
       },
       { kind: "h2", text: "Tecnologías que usamos" },
       {
