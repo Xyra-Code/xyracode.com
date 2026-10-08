@@ -3,11 +3,11 @@
 export const CONTACT = {
   email: "contacto@xyracode.com",
   /** Solo dígitos con indicativo de país, formato wa.me. */
-  whatsapp: "573106790518",
+  whatsapp: "573103909056",
   /** E.164 para los enlaces tel: y el telephone del JSON-LD. */
-  phone: "+573106790518",
+  phone: "+573103909056",
   /** Misma línea, formateada para mostrarse en la interfaz. */
-  phoneDisplay: "+57 310 679 0518",
+  phoneDisplay: "+57 310 390 9056",
   /** Mensaje precargado al abrir el chat de WhatsApp. */
   whatsappMessage:
     "¡Hola XyraCode! Me gustaría contarles sobre un proyecto y pedir una cotización.",
