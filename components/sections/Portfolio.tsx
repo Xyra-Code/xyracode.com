@@ -9,9 +9,9 @@ export function Portfolio() {
     <section
       id="portfolio"
       aria-labelledby="portfolio-title"
-      className="bg-night px-5 py-22 text-white sm:px-10"
+      className="bg-night py-22 text-white"
     >
-      <div className="mx-auto max-w-300">
+      <div className="mx-auto max-w-300 px-5 sm:px-10">
         <Reveal>
           <div className="mb-11">
             <Eyebrow as="p" className="mb-3.5 text-teal-300">

@@ -11,13 +11,13 @@ export function Cta() {
     <section
       id="contacto"
       aria-labelledby="contacto-title"
-      className="relative overflow-hidden bg-[linear-gradient(150deg,#0F766E_0%,#0d5f56_100%)] px-5 py-22 text-white sm:px-10"
+      className="relative overflow-hidden bg-[linear-gradient(150deg,#0F766E_0%,#0d5f56_100%)] py-22 text-white"
     >
       <div
         aria-hidden
         className="absolute -top-25 right-[10%] h-85 w-85 rounded-full bg-emerald-400 opacity-25 blur-[100px]"
       />
-      <Reveal className="relative mx-auto grid max-w-300 items-start gap-12 md:grid-cols-2 md:gap-16">
+      <Reveal className="relative mx-auto grid max-w-300 items-start px-5 sm:px-10 gap-12 md:grid-cols-2 md:gap-16">
         {/* Columna izquierda: mensaje + canales directos */}
         <div>
           <Eyebrow as="p" className="mb-4.5 text-teal-100">

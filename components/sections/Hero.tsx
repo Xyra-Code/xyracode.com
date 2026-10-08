@@ -17,7 +17,7 @@ export function Hero() {
   return (
     <section
       aria-labelledby="hero-title"
-      className="relative overflow-hidden bg-[linear-gradient(155deg,#08110F_0%,#0d2b26_58%,#0F3D34_100%)] px-5 pt-20 pb-24 text-white sm:px-10"
+      className="relative overflow-hidden bg-[linear-gradient(155deg,#08110F_0%,#0d2b26_58%,#0F3D34_100%)] pt-20 pb-24 text-white"
     >
       {/* Blobs difusos de fondo */}
       <div
@@ -29,7 +29,7 @@ export function Hero() {
         className="absolute -bottom-40 -left-25 h-105 w-105 rounded-full bg-teal-500 opacity-[0.14] blur-[120px]"
       />
 
-      <div className="relative mx-auto grid max-w-300 items-center gap-13 md:grid-cols-[1.08fr_0.92fr]">
+      <div className="relative mx-auto grid max-w-300 items-center px-5 sm:px-10 gap-13 md:grid-cols-[1.08fr_0.92fr]">
         <Reveal>
           <Eyebrow as="p" className="mb-5 text-teal-300">
             {UI.hero.eyebrow}

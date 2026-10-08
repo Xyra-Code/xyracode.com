@@ -5,9 +5,9 @@ export function TrustStrip() {
   return (
     <section
       aria-label={UI.trust.aria}
-      className="border-t border-white/5 bg-night px-5 py-5.5 sm:px-10"
+      className="border-t border-white/5 bg-night py-5.5"
     >
-      <ul className="mx-auto flex max-w-300 flex-wrap items-center justify-center gap-x-10 gap-y-3">
+      <ul className="mx-auto flex max-w-300 flex-wrap px-5 sm:px-10 items-center justify-center gap-x-10 gap-y-3">
         <li>
           <Eyebrow size="sm" className="text-white/35">
             {UI.trust.label}
