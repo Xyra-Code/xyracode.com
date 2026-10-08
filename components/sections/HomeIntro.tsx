@@ -12,25 +12,28 @@ import { HOME_INTRO } from "@/lib/content";
 export function HomeIntro() {
   return (
     <section id="quienes-somos" aria-labelledby="quienes-somos-title">
-      <div className="mx-auto max-w-190 px-5 pt-22 pb-4 sm:px-10">
+      <div className="mx-auto max-w-300 px-5 pt-22 pb-4 sm:px-10">
         <Reveal>
           <SectionHeading
             id="quienes-somos-title"
-            eyebrow={HOME_INTRO.eyebrow}
             title={HOME_INTRO.title}
-            align="left"
-            className="mb-8"
+            className="mb-8 lg:mb-10"
           />
         </Reveal>
-        <div className="flex flex-col gap-5">
+        {/* En escritorio la prosa corre en dos columnas tipo periódico: con
+            tres párrafos de largo distinto, una rejilla dejaría las columnas
+            desparejas y columns-2 las equilibra solo. Un único Reveal para el
+            bloque, porque un párrafo partido entre columnas no anima bien. */}
+        <Reveal className="min-w-0 lg:columns-2 lg:gap-16">
           {HOME_INTRO.paragraphs.map((paragraph, i) => (
-            <Reveal key={i} delay={i * 60}>
-              <p className="text-[16.5px] leading-[1.75] text-slate-600 [&_a]:font-semibold [&_a]:text-brand-primary [&_a]:underline [&_a]:underline-offset-4 [&_a:hover]:text-teal-600">
-                {renderInline(paragraph)}
-              </p>
-            </Reveal>
+            <p
+              key={i}
+              className="mb-5 text-[16.5px] leading-[1.75] text-slate-600 last:mb-0 [&_a]:font-semibold [&_a]:text-brand-primary [&_a]:underline [&_a]:underline-offset-4 [&_a:hover]:text-teal-600"
+            >
+              {renderInline(paragraph)}
+            </p>
           ))}
-        </div>
+        </Reveal>
       </div>
     </section>
   );

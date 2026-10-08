@@ -31,8 +31,7 @@ export const STACK = [
  * enlaces contextuales hacia las páginas de servicio y la página local.
  */
 export const HOME_INTRO = {
-  eyebrow: "Por qué nos buscan",
-  title: "Software que se adapta a tu operación, no al revés",
+  title: "Software que se adapta a tu operación",
   paragraphs: [
     [
       "Casi siempre nos escriben por uno de dos problemas: una web que ya no acompaña lo que el negocio vende, o una operación que se quedó grande para las hojas de cálculo. XyraCode es una agencia colombiana de desarrollo web y software a medida: trabajamos desde ",
@@ -66,8 +65,7 @@ export const HOME_INTRO = {
 export type Faq = { q: string; a: string | Inline[] };
 
 export const HOME_FAQ = {
-  eyebrow: "Antes de escribir",
-  title: "Preguntas que nos hacen siempre",
+  title: "Preguntas Frecuentes",
   items: [
     {
       q: "¿Cuánto cuesta una página web?",
