@@ -88,18 +88,18 @@ export const CASE_STUDIES: CaseStudy[] = [
     hero: {
       // Reutilizados de PROJECTS (públicos): tags/stack ya verificados.
       tags: ["Next.js 16", "NestJS", "PostgreSQL", "Prisma", "Cloudinary"],
-      h1: "Desarrollo web para agroturismo: la plataforma de reservas y tienda de Vuelo Carmesí",
+      h1: "Desarrollo web para agroturismo: la plataforma de reservas y tienda de la Finca Agroturística Vuelo Carmesí",
       intro:
-        "El turismo rural se vende en dos frentes: experiencias que hay que reservar y productos que hay que despachar. Vuelo Carmesí es una finca de cacao agroecológico en Cubarral (Meta) que ofrece experiencias vivenciales —taller de chocolate artesanal, cata de cacao y avistamiento de aves— además de vender su cacao. Necesitaba recibir reservas y vender en línea desde una sola plataforma; XyraCode la diseñó y construyó full-stack, de punta a punta.",
+        "El turismo rural se vende en dos frentes: experiencias que hay que reservar y productos que hay que despachar. La Finca Agroturística Vuelo Carmesí cultiva cacao agroecológico en Cubarral (Meta) y ofrece experiencias vivenciales —taller de chocolate artesanal, cata de cacao y avistamiento de aves— además de vender su cacao. Necesitaba recibir reservas y vender en línea desde una sola plataforma; XyraCode la diseñó y construyó full-stack, de punta a punta.",
     },
     cover: {
       src: "/assets/projects/vuelo-carmesi/4.png",
-      alt: "Página principal de la plataforma de reservas y tienda de Vuelo Carmesí, finca de agroturismo en el Meta",
+      alt: "Página principal de la plataforma de reservas y tienda de la Finca Agroturística Vuelo Carmesí, en el Meta",
       width: 1897,
       height: 863,
     },
     meta: {
-      cliente: "Vuelo Carmesí — Cubarral, Meta",
+      cliente: "Finca Agroturística Vuelo Carmesí — Cubarral, Meta",
       año: "2026 · En producción",
       stack: ["Next.js 16", "NestJS", "PostgreSQL", "Prisma", "Cloudinary"],
       siteHref: "https://vuelocarmesi.com",
@@ -108,7 +108,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       { kind: "h2", text: "El reto" },
       {
         kind: "p",
-        text: "El interés por Vuelo Carmesí nació en redes sociales: al compartir en Instagram la vida de la finca y la relación entre las aves y el cacao, empezaron a llegar solicitudes de visita. Gestionar esas reservas de forma manual —por mensajes directos y WhatsApp— y ofrecer sus productos sin una tienda propia limitaba el alcance y consumía tiempo.",
+        text: "El interés por la Finca Agroturística Vuelo Carmesí nació en redes sociales: al compartir en Instagram la vida de la finca y la relación entre las aves y el cacao, empezaron a llegar solicitudes de visita. Gestionar esas reservas de forma manual —por mensajes directos y WhatsApp— y ofrecer sus productos sin una tienda propia limitaba el alcance y consumía tiempo.",
       },
       {
         kind: "p",
@@ -158,7 +158,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       },
       {
         kind: "p",
-        text: "El resultado es una plataforma en producción (vuelocarmesi.com) que unifica reservas, tienda y administración: Vuelo Carmesí puede recibir solicitudes y vender en línea sin depender de mensajes manuales, con la experiencia de la finca reflejada en la web.",
+        text: "El resultado es una plataforma en producción (vuelocarmesi.com) que unifica reservas, tienda y administración: la Finca Agroturística Vuelo Carmesí puede recibir solicitudes y vender en línea sin depender de mensajes manuales, con la experiencia de la finca reflejada en la web.",
       },
     ],
     // ILUSTRATIVO — reflejan el alcance real de la plataforma, no cifras de negocio
@@ -171,13 +171,13 @@ export const CASE_STUDIES: CaseStudy[] = [
     gallery: [
       {
         src: "/assets/projects/vuelo-carmesi/2.png",
-        alt: "Pantalla de reservas de experiencias de agroturismo en la plataforma de Vuelo Carmesí",
+        alt: "Pantalla de reservas de experiencias de agroturismo en la plataforma de la Finca Agroturística Vuelo Carmesí",
         width: 1898,
         height: 865,
       },
       {
         src: "/assets/projects/vuelo-carmesi/3.png",
-        alt: "Tienda en línea de Vuelo Carmesí para la venta del cacao de la finca",
+        alt: "Tienda en línea de la Finca Agroturística Vuelo Carmesí para la venta de su cacao",
         width: 1898,
         height: 868,
       },

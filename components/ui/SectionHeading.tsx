@@ -3,7 +3,8 @@ import { Eyebrow } from "./Eyebrow";
 type SectionHeadingProps = {
   /** id del H2, para `aria-labelledby` en la sección. */
   id: string;
-  eyebrow: string;
+  /** Opcional: sin él, la sección abre directo con el H2. */
+  eyebrow?: string;
   title: string;
   subtitle?: string;
   align?: "center" | "left";
@@ -24,12 +25,14 @@ export function SectionHeading({
 }: SectionHeadingProps) {
   return (
     <div className={`${align === "center" ? "text-center" : ""} ${className}`}>
-      <Eyebrow
-        as="p"
-        className={`mb-3.5 ${tone === "dark" ? "text-teal-300" : "text-brand-primary"}`}
-      >
-        {eyebrow}
-      </Eyebrow>
+      {eyebrow && (
+        <Eyebrow
+          as="p"
+          className={`mb-3.5 ${tone === "dark" ? "text-teal-300" : "text-brand-primary"}`}
+        >
+          {eyebrow}
+        </Eyebrow>
+      )}
       <h2
         id={id}
         className="text-[32px] font-extrabold tracking-[-0.03em] md:text-[40px]"

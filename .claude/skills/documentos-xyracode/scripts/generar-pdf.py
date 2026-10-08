@@ -4,6 +4,13 @@ Genera un PDF A4 autonomo a partir de un documento HTML de XyraCode.
 
 Uso:
     python generar-pdf.py <documento.html> [salida.pdf]
+    python generar-pdf.py <documento.html> --solo-html   # inyecta, no imprime
+
+Con --solo-html hace solo las inyecciones y NO genera el PDF: deja el HTML
+listo para abrir en el navegador y revisar. Es el paso previo obligatorio,
+porque el PDF solo se genera despues de que el usuario aprueba el contenido
+(ver "Flujo" en SKILL.md). Al aprobar, se corre el mismo comando sin el flag:
+las inyecciones ya hechas se saltan y va directo a imprimir.
 
 Hace dos inyecciones para que el HTML/PDF sea autonomo (sin dependencias externas):
   1. /* __BASE_CSS__ */  -> contenido de ../base.css (design-system de marca).
@@ -94,17 +101,23 @@ def to_pdf(html_path: Path, pdf_path: Path) -> None:
 
 
 def main() -> None:
-    if len(sys.argv) < 2:
+    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    solo_html = "--solo-html" in sys.argv
+
+    if not args:
         sys.exit(__doc__)
-    html_path = Path(sys.argv[1]).resolve()
+    html_path = Path(args[0]).resolve()
     if not html_path.is_file():
         sys.exit(f"No existe el HTML: {html_path}")
-    pdf_path = (
-        Path(sys.argv[2]).resolve()
-        if len(sys.argv) > 2
-        else html_path.with_suffix(".pdf")
-    )
+
     inject(html_path)
+
+    if solo_html:
+        print(f"HTML listo para revisar: {html_path}")
+        print("PDF no generado (--solo-html). Corre el script sin el flag al aprobar.")
+        return
+
+    pdf_path = Path(args[1]).resolve() if len(args) > 1 else html_path.with_suffix(".pdf")
     to_pdf(html_path, pdf_path)
 
 

@@ -1,8 +1,13 @@
 /* ============================================================
-   XyraCode · Base de documentos (design-system compartido)
-   Se inyecta en cada plantilla reemplazando el marcador
-   /* __BASE_CSS__ */ al generar el PDF. Editar aqui = editar
-   la marca de TODOS los documentos.
+   XyraCode - Base de documentos (design-system compartido)
+   Se inyecta en cada plantilla reemplazando su marcador de base
+   al generar el PDF. Editar aqui = editar la marca de TODOS los
+   documentos.
+
+   NO escribir aqui el marcador literal (BASE + CSS entre guiones
+   bajos y comentario): romperia la idempotencia de la inyeccion,
+   porque el script volveria a encontrarlo en este archivo ya
+   inyectado y duplicaria toda la hoja en cada corrida.
    ============================================================ */
 
 /* ===== Fuentes (con degradación elegante si no hay internet al imprimir) ===== */

@@ -4,8 +4,8 @@ import { FOOTER_COLUMNS, SOCIALS, UI } from "@/lib/content";
 
 export function Footer() {
   return (
-    <footer className="bg-night-footer px-5 pt-13 pb-8.5 text-white/60 sm:px-10">
-      <div className="mx-auto max-w-300">
+    <footer className="bg-night-footer pt-13 pb-8.5 text-white/60">
+      <div className="mx-auto max-w-300 px-5 sm:px-10">
         <div className="flex flex-wrap justify-between gap-8 border-b border-white/8 pb-8.5">
           <div className="max-w-70">
             <Image

@@ -97,7 +97,7 @@ describe("CheckoutFlow", () => {
     const cta = screen.getByRole("link", { name: /quiero mi tienda funcionando/i });
     const href = cta.getAttribute("href") ?? "";
     // El de la AGENCIA, no el del cliente: este botón es un lead para XyraCode.
-    expect(href).toContain("wa.me/573106790518");
+    expect(href).toContain("wa.me/573103909056");
     expect(href).not.toContain("573044962704");
     // Con varias demos circulando, el mensaje tiene que decir de cuál viene.
     expect(decodeURIComponent(href)).toContain("Guantes NR1");

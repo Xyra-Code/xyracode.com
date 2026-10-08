@@ -11,19 +11,24 @@ import { HOME_FAQ } from "@/lib/content";
 export function HomeFaq() {
   return (
     <section id="preguntas" aria-labelledby="preguntas-title">
-      <div className="mx-auto max-w-190 px-5 pt-20 pb-6 sm:px-10">
+      <div className="mx-auto max-w-300 px-5 pt-20 pb-6 sm:px-10">
         <Reveal>
           <SectionHeading
             id="preguntas-title"
-            eyebrow={HOME_FAQ.eyebrow}
             title={HOME_FAQ.title}
-            align="left"
-            className="mb-8"
+            className="mb-8 lg:mb-10"
           />
         </Reveal>
-        <dl className="flex flex-col gap-7">
+        {/* Dos columnas tipo periódico en escritorio: con cinco preguntas de
+            largo distinto, columns-2 equilibra la altura y break-inside-avoid
+            impide que una respuesta quede partida entre columnas. */}
+        <dl className="min-w-0 lg:columns-2 lg:gap-16">
           {HOME_FAQ.items.map((item, i) => (
-            <Reveal key={item.q} delay={i * 50}>
+            <Reveal
+              key={item.q}
+              delay={i * 50}
+              className="mb-7 break-inside-avoid"
+            >
               <dt className="mb-2 text-[17px] font-bold text-slate-900">
                 {item.q}
               </dt>
