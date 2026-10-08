@@ -149,25 +149,24 @@ export default function BlogIndex() {
       <main className="bg-night text-white">
         <section
           aria-labelledby="blog-title"
-          className="px-6 pt-[72px] pb-14 md:px-16"
+          className="mx-auto max-w-300 px-5 pt-[72px] pb-14 sm:px-10"
         >
-          {/* Solo el h1 va centrado sobre la columna; eyebrow y prosa quedan
-              alineados a la izquierda, con la prosa a max-w-205 (más ancha que
-              la columna de /servicios, sin llegar al ancho total del hub). */}
-          <Reveal className="mx-auto flex max-w-265 flex-col gap-4">
+          {/* Solo el h1 va centrado; eyebrow y prosa quedan alineados a la
+              izquierda, sobre el mismo ancho y borde que el navbar. */}
+          <Reveal className="flex flex-col gap-4">
             <Eyebrow as="p" className="text-teal-300">
               Blog
             </Eyebrow>
             <h1
               id="blog-title"
-              className="text-center text-[40px] leading-[1.05] font-extrabold tracking-[-0.03em] md:text-[52px]"
+              className="text-center max-w-300 text-[40px] leading-[1.05] font-extrabold tracking-[-0.03em] md:text-[52px]"
             >
               Guías para decidir mejor
             </h1>
-            <p className="max-w-265 text-[19px] leading-[1.6] text-[rgba(226,247,242,0.72)]">
+            <p className="max-w-300 text-[19px] leading-[1.6] text-[rgba(226,247,242,0.72)]">
               {BLOG_SEO.description}
             </p>
-            <div className="mt-2 flex max-w-265 flex-col gap-4">
+            <div className="mt-2 flex max-w-300 flex-col gap-4">
               {BLOG_INTRO.paragraphs.map((paragraph, i) => (
                 <p
                   key={i}
@@ -182,8 +181,8 @@ export default function BlogIndex() {
 
         {/* Destacado */}
         {featured && (
-          <section aria-label="Artículo destacado" className="px-6 pb-14 md:px-16">
-            <Reveal className="mx-auto max-w-300">
+          <section aria-label="Artículo destacado" className="mx-auto max-w-300 px-5 pb-14 sm:px-10">
+            <Reveal>
               <Link
                 href={`/blog/${featured.slug}`}
                 className="group grid overflow-hidden rounded-[20px] border border-[rgba(94,234,212,0.15)] bg-white/3 transition-colors hover:border-[rgba(94,234,212,0.4)] md:grid-cols-2"
@@ -216,8 +215,8 @@ export default function BlogIndex() {
         )}
 
         {/* Grid + slots */}
-        <section aria-label="Más artículos" className="px-6 pb-24 md:px-16">
-          <div className="mx-auto grid max-w-300 gap-6 md:grid-cols-3">
+        <section aria-label="Más artículos" className="mx-auto max-w-300 px-5 pb-24 sm:px-10">
+          <div className="grid gap-6 md:grid-cols-3">
             {rest.map((post, i) => (
               <Reveal key={post.slug} delay={i * 80} className="h-full">
                 <Link

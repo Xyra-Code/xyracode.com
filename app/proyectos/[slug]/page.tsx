@@ -85,13 +85,13 @@ export default async function CasoPage({
         {/* Hero */}
         <section
           aria-labelledby="caso-title"
-          className="relative overflow-hidden px-6 pt-18 pb-12 md:px-16"
+          className="relative overflow-hidden pt-18 pb-12"
         >
           <div
             aria-hidden
             className="absolute -top-40 right-[8%] h-130 w-130 rounded-full bg-brand-primary opacity-25 blur-[130px]"
           />
-          <Reveal className="relative mx-auto flex max-w-265 flex-col gap-6">
+          <Reveal className="relative mx-auto flex max-w-300 flex-col gap-6 px-5 sm:px-10">
             <Breadcrumb
               items={[
                 { label: "Inicio", href: "/" },
@@ -119,8 +119,8 @@ export default async function CasoPage({
         </section>
 
         {/* Ficha lateral sticky + cuerpo */}
-        <section aria-label="Detalle del caso" className="px-6 pb-20 md:px-16">
-          <div className="mx-auto grid max-w-265 gap-10 md:grid-cols-[260px_1fr]">
+        <section aria-label="Detalle del caso" className="mx-auto max-w-300 px-5 pb-20 sm:px-10">
+          <div className="grid gap-10 md:grid-cols-[260px_1fr]">
             <aside className="md:sticky md:top-24 md:self-start">
               <dl className="flex flex-col gap-5 rounded-2xl border border-[rgba(94,234,212,0.15)] bg-white/3 p-6 font-mono text-[13px]">
                 <div>
@@ -153,7 +153,7 @@ export default async function CasoPage({
                 )}
               </dl>
             </aside>
-            <Reveal>
+            <Reveal className="min-w-0">
               <ArticleBody blocks={study.body} className="max-w-none" />
             </Reveal>
           </div>
@@ -163,9 +163,9 @@ export default async function CasoPage({
         {study.results.length > 0 && (
           <section
             aria-labelledby="caso-resultado-title"
-            className="bg-brand-ink px-6 py-20 md:px-16"
+            className="bg-brand-ink py-20"
           >
-            <div className="mx-auto max-w-265">
+            <div className="mx-auto max-w-300 px-5 sm:px-10">
               <h2
                 id="caso-resultado-title"
                 className="mb-10 text-[28px] font-extrabold tracking-[-0.03em] md:text-[36px]"
@@ -174,8 +174,11 @@ export default async function CasoPage({
               </h2>
               <dl className="grid gap-8 sm:grid-cols-3">
                 {study.results.map((result) => (
-                  <div key={result.label} className="flex flex-col gap-2">
-                    <dt className="order-2 text-[15px] leading-normal text-[rgba(226,247,242,0.6)]">
+                  <div
+                    key={result.label}
+                    className="flex min-w-0 flex-col items-center gap-2 text-center"
+                  >
+                    <dt className="order-2 max-w-70 text-[15px] leading-normal text-[rgba(226,247,242,0.6)]">
                       {result.label}
                     </dt>
                     <dd className="order-1 text-[44px] font-extrabold tracking-[-0.03em] text-teal-300 md:text-[52px]">
@@ -190,8 +193,8 @@ export default async function CasoPage({
 
         {/* Galería */}
         {galleryImages.length > 0 && (
-          <section aria-label="Galería del proyecto" className="px-6 py-20 md:px-16">
-            <div className="mx-auto grid max-w-300 gap-6 md:grid-cols-2">
+          <section aria-label="Galería del proyecto" className="mx-auto max-w-300 px-5 py-20 sm:px-10">
+            <div className="grid gap-6 md:grid-cols-2">
               {galleryImages.map((img, i) => {
                 // Si la galería tiene un número impar de fotos, la última queda sola
                 // en su fila: la centramos con el mismo ancho que las demás.

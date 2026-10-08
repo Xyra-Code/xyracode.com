@@ -67,12 +67,11 @@ export default function ProyectosIndex() {
       <main className="bg-night text-white">
         <section
           aria-labelledby="proyectos-title"
-          className="px-6 pt-[72px] pb-14 md:px-16"
+          className="mx-auto max-w-300 px-5 pt-[72px] pb-14 sm:px-10"
         >
-          {/* Solo el h1 va centrado sobre la columna; eyebrow y prosa quedan
-              alineados a la izquierda, con la prosa a max-w-205 (más ancha que
-              la columna de /servicios, sin llegar al ancho total del hub). */}
-          <Reveal className="mx-auto flex max-w-265 flex-col gap-4">
+          {/* Solo el h1 va centrado; eyebrow y prosa quedan alineados a la
+              izquierda, sobre el mismo ancho y borde que el navbar. */}
+          <Reveal className="flex flex-col gap-4">
             <Eyebrow as="p" className="text-teal-300">
               Proyectos
             </Eyebrow>
@@ -82,10 +81,10 @@ export default function ProyectosIndex() {
             >
               Trabajo real, en producción
             </h1>
-            <p className="max-w-265 text-[19px] leading-[1.6] text-[rgba(226,247,242,0.72)]">
+            <p className="max-w-300 text-[19px] leading-[1.6] text-[rgba(226,247,242,0.72)]">
               {PROJECTS_SEO.description}
             </p>
-            <div className="mt-2 flex max-w-265 flex-col gap-4">
+            <div className="mt-2 flex max-w-300 flex-col gap-4">
               {PROJECTS_INTRO.paragraphs.map((paragraph) => (
                 <p
                   key={paragraph}
@@ -100,8 +99,8 @@ export default function ProyectosIndex() {
 
         {/* Destacado */}
         {featured && (
-          <section aria-label="Proyecto destacado" className="px-6 pb-14 md:px-16">
-            <Reveal className="mx-auto max-w-300">
+          <section aria-label="Proyecto destacado" className="mx-auto max-w-300 px-5 pb-14 sm:px-10">
+            <Reveal>
               <article className="overflow-hidden rounded-[20px] border border-[rgba(94,234,212,0.15)] bg-white/3 md:grid md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
                 <div className="flex items-center md:order-2">
                   {featured.images?.[0] && (
@@ -146,8 +145,8 @@ export default function ProyectosIndex() {
         )}
 
         {/* Grid + slots de crecimiento */}
-        <section aria-label="Más proyectos" className="px-6 pb-24 md:px-16">
-          <div className="mx-auto grid max-w-300 gap-6 md:grid-cols-3">
+        <section aria-label="Más proyectos" className="mx-auto max-w-300 px-5 pb-24 sm:px-10">
+          <div className="grid gap-6 md:grid-cols-3">
             {rest.map((project, i) => {
               const href = project.caseStudyHref ?? project.href;
               const card = (
