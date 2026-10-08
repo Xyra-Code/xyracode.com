@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Informe técnico · XyraCode</title>
+<style>
+/* __BASE_CSS__ */
+
+/* ===== Informe técnico · componentes propios =====
+   Documento denso, de lectura técnica: tablas compactas, matrices de estado,
+   máquinas de estado y bloques de preguntas. Tipografía menor que la de una
+   propuesta comercial porque la densidad es el punto. ===== */
+
+/* Figuras clave */
+.figs { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:12px; overflow:hidden; margin-top:14px; }
+.fig { background:#fff; padding:13px 14px; }
+.fig .lbl { font-family:'JetBrains Mono',monospace; font-size:8.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:5px; }
+.fig .val { font-size:21px; font-weight:800; letter-spacing:-.02em; color:var(--teal-700); line-height:1.05; display:block; }
+.fig .nt { font-size:9.5px; color:var(--muted); margin:5px 0 0; line-height:1.35; }
+
+/* Tabla compacta genérica */
+.tbl { margin-top:12px; border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+.tbl table { width:100%; border-collapse:collapse; }
+.tbl th { text-align:left; background:var(--cream); color:var(--teal-700); font-size:8.5px; letter-spacing:.14em; text-transform:uppercase; padding:9px 12px; font-weight:700; border-bottom:1px solid var(--line); }
+.tbl th.r, .tbl td.r { text-align:right; }
+.tbl td { padding:7px 12px; font-size:11.5px; line-height:1.45; border-top:1px solid var(--line); color:#33413d; vertical-align:top; }
+.tbl tr:first-child td { border-top:none; }
+.tbl td.k { color:var(--ink); font-weight:600; }
+.tbl td.r { font-family:'JetBrains Mono',monospace; font-size:11px; white-space:nowrap; }
+.tbl tr.tot td { background:var(--cream); border-top:2px solid var(--teal); font-weight:700; color:var(--ink); }
+
+/* Matriz densa (muchas filas cortas) */
+.matrix { margin-top:12px; border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+.matrix table { width:100%; border-collapse:collapse; }
+.matrix th { text-align:left; background:var(--night-mid); color:var(--mint); font-size:8.5px; letter-spacing:.14em; text-transform:uppercase; padding:9px 11px; font-weight:600; }
+.matrix td { padding:6px 11px; font-size:10.5px; line-height:1.4; border-top:1px solid var(--line); color:#33413d; vertical-align:top; }
+.matrix td.n { font-family:'JetBrains Mono',monospace; font-size:9.5px; color:var(--muted); text-align:right; width:20px; }
+.matrix td.k { color:var(--ink); font-weight:600; width:132px; }
+.matrix td.c { width:66px; }
+
+/* Estados / severidades */
+.st { display:inline-block; font-family:'JetBrains Mono',monospace; font-size:8.5px; font-weight:600; letter-spacing:.04em; text-transform:uppercase; padding:2px 7px; border-radius:999px; white-space:nowrap; }
+.st-full { background:rgba(16,185,129,.15); color:#0f766e; }
+.st-part { background:rgba(217,119,6,.14); color:#b45309; }
+.st-min  { background:rgba(94,234,212,.28); color:#0f766e; }
+.st-out  { background:#eef3f2; color:var(--muted); }
+.st-alto { background:rgba(163,49,39,.11); color:#a33127; }
+
+.leg { display:flex; flex-wrap:wrap; gap:7px 16px; margin-top:11px; font-size:10.5px; color:var(--muted); }
+.leg .i { display:flex; align-items:center; gap:6px; }
+
+/* Árbol de modelo de datos */
+.tree { border:1px solid var(--line); border-radius:12px; padding:14px 16px; margin-top:13px; background:linear-gradient(180deg,#fff,var(--cream)); }
+.nd { border-left:2px solid var(--line); padding-left:14px; margin-left:3px; }
+.nd.root { border-left:none; padding-left:0; margin-left:0; }
+.nd .h { display:flex; flex-wrap:wrap; gap:8px; align-items:baseline; }
+.nd .nm { font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:600; color:var(--teal-700); }
+.nd .es { font-size:10.5px; color:var(--muted); }
+.nd .ds { font-size:11px; color:#33413d; margin:3px 0 8px; line-height:1.5; }
+.nd .fl { font-family:'JetBrains Mono',monospace; font-size:9.5px; color:var(--muted); line-height:1.75; margin:0 0 10px; }
+.nd .fl b { color:var(--teal-700); font-weight:600; }
+
+/* Máquinas de estado */
+.mach { display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin-top:9px; }
+.stt { font-family:'JetBrains Mono',monospace; font-size:10px; padding:4px 9px; border:1px solid var(--line); border-radius:6px; background:#fff; color:var(--ink); white-space:nowrap; }
+.stt.fire { border-color:var(--emerald); background:rgba(16,185,129,.10); color:var(--teal-700); font-weight:600; }
+.stt.alt { border-style:dashed; color:var(--muted); }
+.arw { color:var(--muted); font-size:11px; }
+.mcap { font-size:11px; color:var(--muted); margin:7px 0 0; line-height:1.5; }
+.mttl { font-size:11px; font-weight:700; color:var(--teal-700); text-transform:uppercase; letter-spacing:.08em; margin:14px 0 0; }
+
+/* Bloque de código */
+pre.code { margin:12px 0 0; background:var(--night); color:#d7f5ec; border-radius:10px; padding:13px 15px; font-family:'JetBrains Mono',monospace; font-size:10px; line-height:1.7; overflow:hidden; white-space:pre-wrap; }
+pre.code .cm { color:var(--mint); }
+
+/* Preguntas numeradas */
+.qs { list-style:none; margin:12px 0 0; padding:0; counter-reset:q; }
+.qs li { counter-increment:q; position:relative; border:1px solid var(--line); border-radius:10px; padding:10px 13px 10px 40px; margin-bottom:6px; background:#fff; }
+.qs li::before { content:"Q" counter(q); position:absolute; left:12px; top:11px; font-family:'JetBrains Mono',monospace; font-size:9.5px; font-weight:600; color:var(--emerald); }
+.qs .q { display:block; font-size:11.5px; font-weight:700; color:var(--ink); margin-bottom:3px; line-height:1.4; }
+.qs .c { display:block; font-size:10.5px; color:var(--muted); line-height:1.45; }
+
+/* Ajustes de densidad para este tipo de documento */
+.section { margin-top:18px; }
+.lead { font-size:12.5px; line-height:1.6; }
+ul.plain li { font-size:11.5px; margin:5px 0; }
+ul.checks li { font-size:11.5px; }
+.callout { font-size:11.5px; margin-top:12px; }
+
+/* Compactado puntual: marca la hoja como <section class="page tight"> cuando
+   desborde su A4 por unos pocos px, en vez de tocar la densidad global. */
+.page.tight .page-pad { padding:21mm 18mm 15mm; }
+.page.tight .section { margin-top:14px; }
+.page.tight p { margin-bottom:8px; }
+.page.tight .tree { padding:12px 14px; margin-top:11px; }
+.page.tight .nd .ds { margin:2px 0 6px; }
+.page.tight .nd .fl { line-height:1.65; margin-bottom:8px; }
+.page.tight pre.code { font-size:9.5px; padding:11px 13px; line-height:1.6; }
+.page.tight ul.plain li { margin:4px 0; }
+.page.tight .qs li { padding:9px 12px 9px 38px; margin-bottom:5px; }
+.page.tight .callout { margin-top:10px; }
+</style>
+</head>
+<body>
+
+<button class="no-print" onclick="window.print()">Imprimir / Guardar PDF</button>
+
+<!-- ====== PORTADA ====== -->
+<section class="page cover">
+  <div class="cover-top">
+    <img class="cover-logo" src="__LOGO_DATA__" alt="XyraCode" />
+    <span class="cover-tag">Informe técnico</span>
+  </div>
+  <div class="cover-mid">
+    <div class="cover-kicker">[Categoría · Año]</div>
+    <h1 class="cover-title">[Título<br><span>del informe]</span></h1>
+    <p class="cover-sub">[Qué cubre el informe y para quién está escrito, en una o dos líneas.]</p>
+    <div class="cover-rule"></div>
+  </div>
+  <div>
+    <div class="cover-meta">
+      <div><div class="lbl">Proyecto</div><div class="val">[Nombre]</div></div>
+      <div><div class="lbl">Fecha</div><div class="val">[Mes de AAAA]</div></div>
+      <div><div class="lbl">Elaborado por</div><div class="val">XyraCode</div></div>
+    </div>
+    <div class="cover-contact">
+      <span><b>Email</b>&nbsp; contacto@xyracode.com</span>
+      <span><b>WhatsApp</b>&nbsp; +57 310 390 9056</span>
+    </div>
+  </div>
+</section>
+
+<!-- ====== HOJA INTERIOR · duplica esta <section> por cada hoja ====== -->
+<section class="page">
+  <div class="runhead"><img src="__LOGO_DATA__" alt="XyraCode" /><span>[Informe]</span></div>
+  <div class="page-pad">
+
+    <!-- Sección con figuras clave -->
+    <div class="section avoid-break">
+      <div class="sec-head"><span class="sec-num">01</span><h2 class="sec-title">[Resumen]</h2></div>
+      <p class="lead">[Párrafo de apertura.]</p>
+      <div class="figs">
+        <div class="fig"><span class="lbl">[Métrica]</span><span class="val">[000]</span><p class="nt">[Aclaración]</p></div>
+        <div class="fig"><span class="lbl">[Métrica]</span><span class="val">[000]</span><p class="nt">[Aclaración]</p></div>
+        <div class="fig"><span class="lbl">[Métrica]</span><span class="val">[000]</span><p class="nt">[Aclaración]</p></div>
+        <div class="fig"><span class="lbl">[Métrica]</span><span class="val">[000]</span><p class="nt">[Aclaración]</p></div>
+      </div>
+    </div>
+
+    <!-- Matriz de cobertura -->
+    <div class="section">
+      <div class="sec-head"><span class="sec-num">02</span><h2 class="sec-title">[Matriz]</h2></div>
+      <div class="leg">
+        <span class="i"><span class="st st-full">Completo</span> [significado]</span>
+        <span class="i"><span class="st st-part">Parcial</span> [significado]</span>
+        <span class="i"><span class="st st-min">Mínimo</span> [significado]</span>
+        <span class="i"><span class="st st-out">Fuera</span> [significado]</span>
+      </div>
+      <div class="matrix">
+        <table>
+          <thead><tr><th>#</th><th>[Ítem]</th><th>Estado</th><th>[Detalle]</th></tr></thead>
+          <tbody>
+            <tr><td class="n">1</td><td class="k">[Ítem]</td><td class="c"><span class="st st-part">Parcial</span></td><td>[Qué entra]</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Máquina de estados -->
+    <div class="section avoid-break">
+      <div class="sec-head"><span class="sec-num">03</span><h2 class="sec-title">[Flujo]</h2></div>
+      <p class="mttl">[Nombre del flujo]</p>
+      <div class="mach">
+        <span class="stt">[estado]</span><span class="arw">&rarr;</span>
+        <span class="stt fire">[estado que notifica]</span><span class="arw">&rarr;</span>
+        <span class="stt alt">[estado opcional]</span>
+      </div>
+      <p class="mcap">[Qué dispara cada transición.]</p>
+    </div>
+
+    <!-- Tabla compacta -->
+    <div class="section avoid-break">
+      <div class="tbl">
+        <table>
+          <thead><tr><th>[Columna]</th><th class="r">[Valor]</th></tr></thead>
+          <tbody>
+            <tr><td class="k">[Fila]</td><td class="r">[000]</td></tr>
+            <tr class="tot"><td>[Total]</td><td class="r">[000]</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Preguntas al revisor -->
+    <div class="section">
+      <div class="sec-head"><span class="sec-num">04</span><h2 class="sec-title">[Preguntas]</h2></div>
+      <ol class="qs">
+        <li><span class="q">[Pregunta concreta]</span><span class="c">[Contexto que el revisor necesita para responder.]</span></li>
+      </ol>
+    </div>
+
+  </div>
+  <div class="runfoot"><span>XyraCode · [Informe]</span><span class="mono"><span class="dot">●</span> 02</span></div>
+</section>
+
+</body>
+</html>
